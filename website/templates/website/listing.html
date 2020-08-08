@@ -1,0 +1,77 @@
+{% extends 'website/layout.html' %}
+{% block css %}
+<style>
+  .container-top{
+  margin-top:150px;
+  width:
+  }
+</style>
+{% endblock %}
+{% block body %}
+{% load static %}
+
+<div class="container container-top">
+    <!--    alert-->
+
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+  <strong>Message!</strong> {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    </div>
+    {% endfor %}
+<!--    alert-->
+  <div class="col my-4">
+        <h3>
+List your business for FREE with India's leading search engine</h3>
+    <p>Enter your details below:</p>
+        <form action="/website/freelisting/" method="post">{% csrf_token %}
+            <input type="hidden" name="itemsJson" id="itemsJson">
+            <input type="hidden" name="amount" id="amount">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="companyname" name="companyname" placeholder="Business Name">
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="location" name="location" placeholder="Location">
+                </div>
+            </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name">
+            </div>
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Last Name">
+            </div>
+          </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" name="city" id="city" placeholder="City">
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" class="form-control" name="state" id="state" placeholder="State">
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" class="form-control" name="zip_code" id="zip" placeholder="Zip code">
+                </div>
+            </div>
+              <div class="form-row">
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control" id="mobilenumber" name="mobile" placeholder="Mobile Number">
+                            </div>
+
+                <div class="form-group col-md-4">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                </div>
+
+          </div>
+
+            <button type="submit" class="search-btn">Submit</button>
+        </form>
+    </div>
+
+
+</div>
+
+{% endblock %}

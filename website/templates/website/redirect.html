@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Show Payment Page</title>
+   </head>
+   <body>
+      <center>
+            Redirecting you to payment page ...
+         <strong>Please do not refresh this page!</strong>
+      </center>
+      <form method="post"  action="https://securegw-stage.paytm.in/order/process" name="paytm">
+         <table border="1">
+            <tbody>
+                {% for key, value in detail_dict.items%}
+               <input type="" name="{{ key }}" value="{{ value }}">
+                {% endfor %}
+            </tbody>
+         </table>
+         <script type="text/javascript"> document.paytm.submit(); </script>
+      </form>
+   </body>
+</html>
