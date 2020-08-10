@@ -12,6 +12,7 @@ urlpatterns = [
     path("upload_resume/", views.upload_resume, name='upload_resume'),
     path("shop/", views.shop, name='shop'),
     path("download/", views.download, name='shop'),
+    path("categories/<str:slug>", views.categories, name='categories'),
     ]
 
 if settings.DEBUG:

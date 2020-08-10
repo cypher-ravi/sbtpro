@@ -82,13 +82,29 @@ class Job(models.Model):
 
 class Upload_resume(models.Model):
     resume_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50,default='')
+    name = models.CharField(max_length=50, default='')
 
     # filling_date = models.DateField(blank=True, null=True)
     Resume = models.FileField(blank=True, null=True,
-                              validators=[FileExtensionValidator(allowed_extensions=['pdf','doc','docx','word'])])
+                              validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'word'])])
 
     def __str__(self):
         return self.name
 
 
+class Categories(models.Model):
+    category_id = models.AutoField(primary_key=True)
+    category_name = models.CharField(max_length=50, default='')
+    sub_category_name1 = models.CharField(max_length=50, default='')
+    sub_category_name2 = models.CharField(max_length=50, default='')
+    sub_category_name3 = models.CharField(max_length=50, default='')
+    sub_category_name4 = models.CharField(max_length=50, default='')
+    sub_category_name5 = models.CharField(max_length=50, default='')
+    sub_category_name6 = models.CharField(max_length=50, default='')
+    sub_category_name7 = models.CharField(max_length=50, default='')
+    sub_category_name8 = models.CharField(max_length=50, default='')
+    sub_category_name9 = models.CharField(max_length=50, default='')
+    sub_category_name10 = models.CharField(max_length=50, default='')
+
+    def __str__(self):
+        return self.category_name

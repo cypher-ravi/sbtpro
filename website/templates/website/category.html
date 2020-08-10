@@ -1,0 +1,58 @@
+{% extends 'website/layout.html' %}
+{% block css %}
+<style>
+  .container-top{
+  margin-top:-150px;
+  width:60%
+  margin: auto;
+  padding: 300px;
+  }
+ .list-group-item.active {
+    z-index: 2;
+      background-color: hsl(14, 100%, 53%);
+      border-color: blanchedalmond;
+      font-size: 20px;
+
+  }
+   .list-group-item.active:hover {
+         background-color: white;
+         color:black;
+
+  }
+  .list-group-item {
+      position: relative;
+      display: block;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: -1px;
+      background-color: #fff;
+      border-color: blanchedalmond;
+  }
+  .list-group-item:hover{
+  color:black;
+  }
+  </style>
+  {% endblock %}
+  {% block body %}
+  {% load static %}
+  {% for cat in categories %}
+  <div class="container-top">
+  <div class="list-group">
+
+    <a href="/website/categories" class="list-group-item list-group-item-action active">
+      {{ cat.category_name }}
+    </a>
+    <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name1 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name2 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name3 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name4 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name5 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name6 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name7 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name8 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name9 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name10 }}</a>
+</div>
+</div>
+
+{% endfor %}
+{% endblock %}

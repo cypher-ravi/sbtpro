@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FreeListing, Plans, Order, Service, Job, Upload_resume
+from .models import FreeListing, Plans, Order, Service, Job, Upload_resume,Categories
 # from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
@@ -14,8 +14,10 @@ from django.core.files.storage import FileSystemStorage
 def index(request):
     services = Service.objects.all()
 
+    category = Categories.objects.all()
+
     plans = Plans.objects.all()
-    return render(request, 'website/index.html', {'plans': plans}, {'services': services})
+    return render(request, 'website/index.html', {'plans': plans,'category':category}, {'services': services})
 
 
 # Function to take input from form and send it through email
@@ -70,7 +72,7 @@ def jobs(request):
         print(experience)
 
         # checks on values of form and using django.contrib import message for alert messages
-        resume = Job(name=name,mobile=mobile, education=education, experience=experience)
+        resume = Job(name=name, mobile=mobile, education=education, experience=experience)
         resume.save()
         messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24 '
                                   '24 hours.')
@@ -97,7 +99,8 @@ def upload_resume(request):
             resume.save()
             fs = FileSystemStorage()
             fs.save(uploaded_resume.name, uploaded_resume)
-            messages.success(request, 'Resume submission successful. SBT Professional team Contact You within 24 hours.')
+            messages.success(request,
+                             'Resume submission successful. SBT Professional team Contact You within 24 hours.')
             try:
                 file = settings.MEDIA_URL[1:] + str(uploaded_resume)
                 from django.core.mail import EmailMessage
@@ -127,3 +130,9 @@ def handle_uploaded_file(f):
         for chunk in f.chunks():
             destination.write(chunk)
             return f.name
+
+
+def categories(request, slug):
+    category = Categories.objects.filter(category_name=slug)
+
+    return render(request, 'website/category.html', {'categories': category})
