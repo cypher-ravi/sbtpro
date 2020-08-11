@@ -1,13 +1,22 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories
+# FOR PAYTM---------------------
 from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
+# FOR PAYTM End---------------------
+
 from django.contrib import messages
 import random
 from django.core.files.storage import FileSystemStorage
+# To import for login sign up stuff--------
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate
+from django.http import JsonResponse
 
+# to test login logout sessions include html files i attached
+# LIKE templates/AP/<files you have.html>
 # Create your views here.
 # ! NEVER SHOW MERCHANT ID AND KEY !
 MID = "VdMxPH61970223458566"  # MERCHANT ID
@@ -66,7 +75,7 @@ def top(request):
 def customer_membership(request):
     plans = Plans.objects.all()
 
-    return render(request,'website/membership.html',{'plans': plans})
+    return render(request, 'website/membership.html', {'plans': plans})
 
 
 def jobs(request):
@@ -143,40 +152,47 @@ def categories(request, slug):
     return render(request, 'website/category.html', {'categories': category})
 
 
+# A's here  ------------------
+
 def purchase(request, slug):
     # assuming coming from purchase form but for instance taking from purchase button from index.html
     # about paytm implimentation will here
     try:
-        if request.method == "POST":
-            plan = Plans.objects.get(plan_name=slug)
-            name = request.POST.get('name', "")
-            amount = plan.plan_amount
-            email_id = request.POST.get('email', '')
-            address = request.POST.get('address1', '') + " " + request.POST.get('address2', '')
-            city = request.POST.get('city', '')
-            state = request.POST.get('state', '')
-            zip_code = request.POST.get('zip_code', '')
-            phone = request.POST.get('phone', '')
-            order_id = str(int(random.randint(1, 9999)))  # you can use any random id (must be unique!)
-            order = Order(name=name, email_id=email_id, address=address, city=city,
-                          state=state, zip_code=zip_code, phone=phone, amount=amount, order_id=order_id, plan_id=plan)
-            order.save()
+        if request.user.is_authenticated:
+            if request.method == "POST":
+                plan = Plans.objects.get(plan_name=slug)
+                order_id = random.randint(1, 9999)  # you can use any random id (must be unique!)
+                email_id = request.POST.get('email', '')
+                name = request.POST.get('name', '')
+                phone = request.POST.get('phone', '')
+                address = request.POST.get('address1', '') + " " + request.POST.get('address2', '')
+                state = request.POST.get('state', '')
+                city = request.POST.get('city', '')
+                zip_code = request.POST.get('zip_code', '')
+                amount = plan.plan_amount
+                plan_id = plan.plan_id
+                order = Order(name=name, email_id=email_id, address=address, city=city, state=state, zip_code=zip_code,
+                              phone=phone, amount=amount, order_id=order_id, plan_id=plan_id)
+                order.save()
 
-            detail_dict = {
-                "MID": MID,
-                "WEBSITE": "WEBSTAGING",
-                "INDUSTRY_TYPE_ID": "Retail",
-                "CUST_ID": str(email_id),
-                "CHANNEL_ID": "WEB",
-                "ORDER_ID": order_id,
-                "TXN_AMOUNT": str(amount),
-                "CALLBACK_URL": "http://127.0.0.1:8000/sbtapp/req_handler",
-            }
-            param_dict = detail_dict
-            CheckSum.generateSignature
-            param_dict['CHECKSUMHASH'] = CheckSum.generateSignature(detail_dict, MKEY)
-            # print('.................', param_dict)
-            return render(request, 'website/redirect.html', {'detail_dict': param_dict})
+                # sending details to paytm gateway in form of dict
+                detail_dict = {
+                    "MID": MID,
+                    "WEBSITE": "WEBSTAGING",
+                    "INDUSTRY_TYPE_ID": "Retail",
+                    "CUST_ID": str(email_id),
+                    "CHANNEL_ID": "WEB",
+                    "ORDER_ID": str(order_id),
+                    "TXN_AMOUNT": str(amount),
+                    "CALLBACK_URL": "http://127.0.0.1:8000/sbtapp/req_handler",
+                }
+
+                param_dict = detail_dict
+                CheckSum.generateSignature
+                param_dict['CHECKSUMHASH'] = CheckSum.generateSignature(detail_dict, MKEY)
+                print('.................', param_dict)
+                return render(request, 'SbtApp/redirect.html', {'detail_dict': param_dict})
+
             plan = Plans.objects.get(plan_name=slug)
             dict_for_review = {
                 'name': plan.plan_name,
@@ -185,10 +201,84 @@ def purchase(request, slug):
                 'description_2': plan.description_2,
                 'description_3': plan.description_3,
                 'description_4': plan.description_4,
-
             }
-        return render(request, 'websiteApp/purchase_form.html', {'plan_review': dict_for_review})
-    except AttributeError as er:
-        return print(er)
+
+            return render(request, 'website/purchase_form.html', {'plan_review': dict_for_review})
+
+        else:
+            return HttpResponse("please sign in before purchase")
+
+    except Exception as e:
+        print("An Exception occur \n", e)
+        return HttpResponse("Invalid Request !")
 
 
+@csrf_exempt
+def req_handler(request):
+    if request.method == 'POST':
+        response_dict = dict()
+        dict(response_dict)
+        print(type(response_dict))
+        form = request.POST  # FOR ALL VALUES
+        for i in form.keys():
+            response_dict[i] = form[i]
+            print(i, form[i])
+
+            if i == "CHECKSUMHASH":
+                response_check_sum = form[i]
+        verify = CheckSum.verifySignature(response_dict, MKEY, response_check_sum)
+        print(verify)
+        print("..................", verify)
+        if verify:
+            return HttpResponse("payment successfull")
+    return HttpResponse("Not successfull")
+
+
+# --------------------------payment end ------------------------
+
+
+# user login logout and checks
+def sign_up(request):
+    # have exception of geting same user name
+    if request.method == "POST":
+        mobile_number = request.POST.get('mobile_number')
+        password = request.POST['create_password']
+        usr = User.objects.create_user(mobile_number=mobile_number, password=password)
+        usr.save()
+        return redirect(log_in)
+    return render(request, 'website/register.html')
+
+
+def log_in(request):
+    if request.method == "POST":
+        mobile_number = request.POST.get('mobile_number')
+        password = request.POST.get('password')
+        user = authenticate(request, mobile_number=mobile_number, password=password)  # checks if user is there in db
+        print(user)
+        if user is not None:  # if he is in db than create a seesion using login function
+            login(request, user)
+            return messages.success("loged in successfully")
+        else:
+            return messages.error("Please put valid credentials")
+
+    return redirect(customer_membership)
+
+
+def logout_view(request):
+    logout(request)
+    # messages.success("loged out successfully")
+    return redirect(index)
+
+
+def username_validator(request):
+    if request.method == 'POST':
+        usr = request.POST.get('user_name')
+        data = {
+            'is_taken': User.objects.filter(username__iexact=usr).exists()
+        }
+        if data['is_taken']:
+            data['error_message'] = 'A user with this username already exists.'
+        print(data)
+    return JsonResponse(data)
+
+# A done here -------------------------------------

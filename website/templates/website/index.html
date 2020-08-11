@@ -1,5 +1,5 @@
 {% extends 'website/layout.html' %}
-{% block title %}Home-SBT Professionals{% endblock %}
+{% block title %}SBT Professionals{% endblock %}
 {% block body %}
 {% load static %}
     <!-- end header area -->
@@ -90,14 +90,10 @@
                         We provide <span class="underline-large">Services</span>
                       </h1>
                       <div class="btn-section">
-                        <a href="services.html" class="color-two btn-custom"
-                          >Get Experts <i class="fas fa-arrow-right"></i
-                        ></a>
+                        <a href="services.html" class="color-two btn-custom">Get Experts <i class="fas fa-arrow-right"></i></a>
                         <div class="video-relative">
-                          <a
-                            href="https://www.youtube.com/watch?v=TKnufs85hXk"
-                            class="video-btn popup-video"
-                          >
+                          <a href="https://www.youtube.com/watch?v=TKnufs85hXk"
+                            class="video-btn popup-video">
                             <i class="fas fa-play"></i>
                             <span class="ripple orangebg"></span>
                             <span class="ripple orangebg"></span>
@@ -559,7 +555,7 @@
                     </div>
                 </div>
             </div>
-            <!-- .tbl-pricing -->
+        <!-- .tbl-pricing -->
             <div class="tbl-pricing">
                 <div class="row">
 
@@ -570,8 +566,8 @@
                             <div class="tbl-prc-heading">
                                 <h4>{{ plan.plan_name }}</h4>
                                 <div class="tbl-prc-price">
-                                    <span class="price">&#8377;{{ plan.plan_amount}}</span>
-                                    <span class="month">/ percent</span>
+                                    <span class="price">${{ plan.plan_amount}}</span>
+                                    <span class="month">/ 1month</span>
                                 </div>
                             </div>
                             <ul class="tbl-prc-list">
@@ -581,7 +577,7 @@
                                 <li>{{ plan.description_4 }}</li>
                             </ul>
                             <div class="tbl-prc-footer">
-                                <a href=" purchase/{{ plan.plan_name }}" class="color-two btn-custom">Purchase</a>
+                                <a href="purchase/{{ plan.plan_name }}" class="color-two btn-custom">Purchase</a>
                             </div>
                         </div><!-- end single price plan -->
                     </div>
@@ -851,7 +847,7 @@
                             </p>
                           </div>
                         </div>
-                        <img src="images/content/students/1.svg" alt="Avatar" />
+                        <img src="{%static 'website/images/content/students/1.svg' %}" alt="Avatar" />
                       </div>
                       <!-- end single testimonial item -->
                     </div>
@@ -872,7 +868,7 @@
                             </p>
                           </div>
                         </div>
-                        <img src="images/content/students/2.svg" alt="Avatar" />
+                        <img src="{%static 'website/images/content/students/2.svg' %}" alt="Avatar" />
                       </div>
                       <!-- end single testimonial item -->
                     </div>
@@ -893,7 +889,7 @@
                             </p>
                           </div>
                         </div>
-                        <img src="images/content/students/3.svg" alt="Avatar" />
+                        <img src="{%static 'website/images/content/students/3.svg'%}" alt="Avatar" />
                       </div>
                       <!-- end single testimonial item -->
                     </div>
@@ -932,7 +928,7 @@
                   <!-- single blog articles -->
                   <div class="blog-photo">
                     <a href="blog-detail.html"
-                      ><img src="images/content/blog/blog-1.jpg" alt="Blog"
+                      ><img src="{%static 'website/images/content/blog/blog-1.jpg' %}" alt="Blog"
                     /></a>
                   </div>
                   <div class="blog-content">
@@ -962,7 +958,7 @@
                   <!-- single blog articles -->
                   <div class="blog-photo">
                     <a href="blog-detail.html"
-                      ><img src="images/content/blog/blog-2.jpg" alt="Blog"
+                      ><img src="{%static 'website/images/content/blog/blog-2.jpg' %}" alt="Blog"
                     /></a>
                   </div>
                   <div class="blog-content">
@@ -992,7 +988,7 @@
                   <!-- single blog articles -->
                   <div class="blog-photo">
                     <a href="blog-detail.html"
-                      ><img src="images/content/blog/blog-3.jpg" alt="Blog"
+                      ><img src="{%static 'website/images/content/blog/blog-3.jpg' %}" alt="Blog"
                     /></a>
                   </div>
                   <div class="blog-content">

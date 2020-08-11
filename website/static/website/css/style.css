@@ -162,7 +162,7 @@ border-radius: 50px 0px 0px 50px;
 .icon-bar a i {
 margin-right: 20px;
 background-color: white;
-height: 40px;
+height: 40px
 width: 40px;
 color:black;
 text-align: center;
@@ -299,7 +299,9 @@ background-size: 25px auto;
     background-color: #fefefe;
     margin: 4% auto 15% auto;
     border: 1px solid #888;
-    width: 38%; 
+    width: 38%;
+    z-index:-1;
+    margin-top:130px;
     padding-bottom: 30px;
 }
 

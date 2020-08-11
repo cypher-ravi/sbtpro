@@ -147,3 +147,5 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 
 }
+
+# LOGIN_REDIRECT_URL = 'index'
