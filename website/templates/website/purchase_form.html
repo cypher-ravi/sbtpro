@@ -1,4 +1,4 @@
-{% extends 'SbtApp/layout.html' %}
+{% extends 'website/layout.html' %}
 {% block title%} Checkout - SBT Professionals{% endblock %}
 {% block css %}
 <style>
@@ -40,7 +40,7 @@
   </ol>
 </nav>
             <h4>Step 2 - Enter Address & Other Details:</h4>
-        <form action="/sbtapp/purchase/{{ plan_review.name }}" method="post">{% csrf_token %}
+        <form action="/website/purchase/{{ plan_review.name }}" method="post">{% csrf_token %}
 <!--            <input type="hidden" name="itemsJson" id="itemsJson">-->
             <input type="hidden" name="amount" value="{{ plan_review.amount }}">
             <div class="form-row">

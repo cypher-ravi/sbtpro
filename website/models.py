@@ -46,9 +46,9 @@ class Order(models.Model):
     payment_status = models.CharField(max_length=8)
     amount = models.IntegerField(null=False)
     plan_id = models.ForeignKey(Plans, on_delete=models.CASCADE)
-    amount_status = models.CharField(max_length=25)
-    response_code = models.IntegerField()
-    response_msg = models.CharField(max_length=111)
+    # amount_status = models.CharField(max_length=25)
+    # response_code = models.IntegerField()
+    # response_msg = models.CharField(max_length=111)
 
     def __str__(self):
         return self.email_id

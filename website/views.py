@@ -172,7 +172,7 @@ def purchase(request, slug):
                 amount = plan.plan_amount
                 plan_id = plan.plan_id
                 order = Order(name=name, email_id=email_id, address=address, city=city, state=state, zip_code=zip_code,
-                              phone=phone, amount=amount, order_id=order_id, plan_id=plan_id)
+                              phone=phone, amount=amount, order_id=order_id, plan_id=plan)
                 order.save()
 
                 # sending details to paytm gateway in form of dict
@@ -191,7 +191,7 @@ def purchase(request, slug):
                 CheckSum.generateSignature
                 param_dict['CHECKSUMHASH'] = CheckSum.generateSignature(detail_dict, MKEY)
                 print('.................', param_dict)
-                return render(request, 'SbtApp/redirect.html', {'detail_dict': param_dict})
+                return render(request, 'website/redirect.html', {'detail_dict': param_dict})
 
             plan = Plans.objects.get(plan_name=slug)
             dict_for_review = {
@@ -206,11 +206,11 @@ def purchase(request, slug):
             return render(request, 'website/purchase_form.html', {'plan_review': dict_for_review})
 
         else:
-            return HttpResponse("please sign in before purchase")
+            return render(request, 'website/login.html')
 
     except Exception as e:
         print("An Exception occur \n", e)
-        return HttpResponse("Invalid Request !")
+        return HttpResponse(e)
 
 
 @csrf_exempt
@@ -236,32 +236,38 @@ def req_handler(request):
 
 # --------------------------payment end ------------------------
 
-
+@csrf_exempt
 # user login logout and checks
 def sign_up(request):
     # have exception of geting same user name
     if request.method == "POST":
-        mobile_number = request.POST.get('mobile_number')
-        password = request.POST['create_password']
-        usr = User.objects.create_user(mobile_number=mobile_number, password=password)
+        username = request.POST.get('username')
+        password = request.POST.get('create_password')
+        print(username, password)
+        usr = User.objects.create_user(username=username, password=password)
         usr.save()
         return redirect(log_in)
-    return render(request, 'website/register.html')
+    else:
+        return render(request, 'website/register.html')
 
 
+# @csrf_exempt
 def log_in(request):
     if request.method == "POST":
-        mobile_number = request.POST.get('mobile_number')
+        username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, mobile_number=mobile_number, password=password)  # checks if user is there in db
+        user = authenticate(request, username=username, password=password)  # checks if user is there in db
         print(user)
         if user is not None:  # if he is in db than create a seesion using login function
             login(request, user)
-            return messages.success("loged in successfully")
+            messages.success(request,'Login successful')
+            return redirect(index)
         else:
-            return messages.error("Please put valid credentials")
+            messages.error(request,'Enter valid credentials')
+            return render(request, 'website/login.html')
+    return redirect(index)
 
-    return redirect(customer_membership)
+# return redirect(index)
 
 
 def logout_view(request):
