@@ -1,14 +1,17 @@
 from django.shortcuts import render, HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FreeListing, Plans, Order, Service, Job, Upload_resume,Categories
-# from .PayTm import CheckSum
+from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories
+from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
+import random
 from django.core.files.storage import FileSystemStorage
 
-
 # Create your views here.
+# ! NEVER SHOW MERCHANT ID AND KEY !
+MID = "VdMxPH61970223458566"  # MERCHANT ID
+MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 
 
 def index(request):
@@ -17,7 +20,8 @@ def index(request):
     category = Categories.objects.all()
 
     plans = Plans.objects.all()
-    return render(request, 'website/index.html', {'plans': plans,'category':category}, {'services': services})
+    print(plans)
+    return render(request, 'website/index.html', {'plans': plans, 'category': category}, {'services': services})
 
 
 # Function to take input from form and send it through email
@@ -60,7 +64,9 @@ def top(request):
 
 
 def customer_membership(request):
-    return HttpResponse('hey buddy!')
+    plans = Plans.objects.all()
+
+    return render(request,'website/membership.html',{'plans': plans})
 
 
 def jobs(request):
@@ -134,5 +140,55 @@ def handle_uploaded_file(f):
 
 def categories(request, slug):
     category = Categories.objects.filter(category_name=slug)
-
     return render(request, 'website/category.html', {'categories': category})
+
+
+def purchase(request, slug):
+    # assuming coming from purchase form but for instance taking from purchase button from index.html
+    # about paytm implimentation will here
+    try:
+        if request.method == "POST":
+            plan = Plans.objects.get(plan_name=slug)
+            name = request.POST.get('name', "")
+            amount = plan.plan_amount
+            email_id = request.POST.get('email', '')
+            address = request.POST.get('address1', '') + " " + request.POST.get('address2', '')
+            city = request.POST.get('city', '')
+            state = request.POST.get('state', '')
+            zip_code = request.POST.get('zip_code', '')
+            phone = request.POST.get('phone', '')
+            order_id = str(int(random.randint(1, 9999)))  # you can use any random id (must be unique!)
+            order = Order(name=name, email_id=email_id, address=address, city=city,
+                          state=state, zip_code=zip_code, phone=phone, amount=amount, order_id=order_id, plan_id=plan)
+            order.save()
+
+            detail_dict = {
+                "MID": MID,
+                "WEBSITE": "WEBSTAGING",
+                "INDUSTRY_TYPE_ID": "Retail",
+                "CUST_ID": str(email_id),
+                "CHANNEL_ID": "WEB",
+                "ORDER_ID": order_id,
+                "TXN_AMOUNT": str(amount),
+                "CALLBACK_URL": "http://127.0.0.1:8000/sbtapp/req_handler",
+            }
+            param_dict = detail_dict
+            CheckSum.generateSignature
+            param_dict['CHECKSUMHASH'] = CheckSum.generateSignature(detail_dict, MKEY)
+            # print('.................', param_dict)
+            return render(request, 'website/redirect.html', {'detail_dict': param_dict})
+            plan = Plans.objects.get(plan_name=slug)
+            dict_for_review = {
+                'name': plan.plan_name,
+                'amount': plan.plan_amount,
+                'description_1': plan.description_1,
+                'description_2': plan.description_2,
+                'description_3': plan.description_3,
+                'description_4': plan.description_4,
+
+            }
+        return render(request, 'websiteApp/purchase_form.html', {'plan_review': dict_for_review})
+    except AttributeError as er:
+        return print(er)
+
+

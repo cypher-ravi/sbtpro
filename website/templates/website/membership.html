@@ -1,6 +1,76 @@
-{% extends 'SbtApp/layout.html' %}
+{% extends 'website/layout.html' %}
+    {% block title %}Customer membership-SBT Professionals {% endblock %}
+
+{% block css %}
+<style>
+    .wrap-top{
+        margin-top: 130px;
+
+    }
+
+
+    </style>
+
+{% endblock %}
 {% block body %}
 {% load static %}
+
+  <div class="container wrap-top">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <div class="section-title with-p">
+                        <h2>Business Plan Made For You</h2>
+                        <div class="bar"></div>
+                        <p>Choose the Best One for Your Business.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- .tbl-pricing -->
+            <div class="tbl-pricing">
+                <div class="row">
+
+                {% for plan in plans|slice:3 %}
+                    <div class="col-xs-12 col-sm-12 col-md-4 tbl-prc-col">
+                        <!-- 1 -->
+                        <div class="tbl-prc-wrap"><!-- single price plan -->
+                            <div class="tbl-prc-heading">
+                                <h4>{{ plan.plan_name }}</h4>
+                                <div class="tbl-prc-price">
+                                    <span class="price">&#8377;{{ plan.plan_amount}}</span>
+                                    <span class="month">/ percent</span>
+                                </div>
+                            </div>
+                            <ul class="tbl-prc-list">
+                                <li>{{ plan.description_1 }}</li>
+                                <li>{{ plan.description_2 }}</li>
+                                <li>{{ plan.description_3 }}</li>
+                                <li>{{ plan.description_4 }}</li>
+                            </ul>
+                            <div class="tbl-prc-footer">
+                                <a href=" purchase/{{ plan.plan_name }}" class="color-two btn-custom">Purchase</a>
+                            </div>
+                        </div><!-- end single price plan -->
+                    </div>
+
+                    {% if forloop.counter|divisibleby:3 %}
+                          <div id="pricing" class="wrap-bg wrap-bg-light">
+
+                    <div class="container"></div>
+                      <div class="tbl-pricing">
+                        <div class="row">
+
+                    {% endif %}
+
+                    {% endfor %}
+
+                </div>
+            </div>
+            <!-- .tbl-pricing end -->
+        </div>
+        <!-- .container end -->
+    </div>
+
 
 
 {% endblock %}

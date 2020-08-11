@@ -41,6 +41,7 @@
     <a href="/website/categories" class="list-group-item list-group-item-action active">
       {{ cat.category_name }}
     </a>
+    {% if not cat.sub_category %}
     <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name1 }}</a>
   <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name2 }}</a>
   <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name3 }}</a>
@@ -51,6 +52,9 @@
   <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name8 }}</a>
   <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name9 }}</a>
   <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name10 }}</a>
+    {% else %}
+    <p><em>No entries for{{ cat.category_name }}</em></p>26
+    {% endif %}
 </div>
 </div>
 

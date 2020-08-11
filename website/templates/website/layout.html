@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+  <title>{% block title %}{% endblock %}</title>
+
   <head>
       {% load static %}
     <!-- Metas Basic -->
@@ -17,7 +19,6 @@
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <!-- Title -->
-    <title>Home-SBT-Professionals</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="{%static 'website/images/favicon.png' %}" type="image/x-icon" />
     <!-- Bootstrap  -->
@@ -40,8 +41,10 @@
     <link rel="stylesheet" href="{%static 'website/css/magnific-popup.css' %}" />
     <!-- services carousel CSS file -->
     <link rel="stylesheet" href="{%static 'website/css/carousel.css' %}" />
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//code.tidio.co/gyhr5seonxa1rztvv9ecbuotblqsbwcj.js" async></script>
     <!-- <link rel="stylesheet" href="css/bootstrap2.min.css"> -->
     <link
       rel="stylesheet"
@@ -221,7 +224,7 @@
               </li>
 
 
-              <li><a href="website/purchase/">Customer Membership</a></li>
+              <li><a href="/website/membership">Customer Membership</a></li>
               <li><a href="/website/jobs">Jobs</a></li>
 
   <li class="subnav">
