@@ -549,7 +549,7 @@ border-radius:30px;
     position: absolute;
     bottom: -20px;
     right: -20px;
-    z-index: 1;
+    /* z-index: 1; */
 }
 .dreidbgleft:after {
     content: "";
@@ -559,7 +559,7 @@ border-radius:30px;
     position: absolute;
     bottom: -20px;
     left: -20px;
-    z-index: -1;
+    /* z-index: -1; */
 }
 
 .themeioan_services .blog-content,
@@ -2912,44 +2912,44 @@ border-radius:100%;
 /* 3.12. ========================= WHY US ========================= */
 
 #why-us .why-us-left-bg {
-    background-image: url("../images/content/landing/about.jpg");
+    background-image: url(../images/content/landing/about.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 #why-us .whyus-style-two.why-us-left-bg {
-    background-image: url("../images/content/breadcrumb/home2-about.jpg");
+    background-image: url(../images/content/breadcrumb/home2-about.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 #why-us .why-us-left-bg2 {
-    background-image: url("../images/content/landing/about2.jpg");
+    background-image: url(../images/content/landing/about2.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 #why-us .why-us-left-bg3,
 #why-us-two .why-us-left-bg3 {
-    background-image: url("../images/content/landing/about3.jpg");
+    background-image: url(../images/content/landing/about3.jpg);
     background-position: left;
     background-repeat: no-repeat;
     background-size: cover;
 }
 #why-us .why-us-left-bg4 {
-    background-image: url("../images/content/landing/slider3.jpg");
+    background-image: url(../images/content/landing/slider3.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 #why-us-white .why-us-left-bg5 {
-    background-image: url("../images/content/landing/man.jpg");
+    background-image: url(../images/content/landing/man.jpg);
     background-position: right;
     background-repeat: no-repeat;
     background-size: cover;
 }
 #why-us .why-us-left-bg6 {
-    background-image: url("../images/content/landing/index4-about.jpg");
+    background-image: url(../images/content/landing/index4-about.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

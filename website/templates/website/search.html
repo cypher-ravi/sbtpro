@@ -1,0 +1,81 @@
+{% extends 'website/layout.html' %}
+{% block title %}Search-SBT Professionals{% endblock %}
+
+{% block css %}
+<style>
+  .container-top{
+    margin-top: -150px;
+    width: 80%;
+     /* margin: auto; */
+    padding-top: 320px;
+    text-align: left;
+    margin-left: 80px;
+}
+  }
+ .list-group-item.active {
+    z-index: 2;
+      background-color: hsl(14, 100%, 53%);
+      border-color: blanchedalmond;
+      font-size: 20px;
+
+  }
+   .list-group-item.active:hover {
+         background-color: white;
+         color:black;
+
+  }
+  .list-group-item {
+      position: relative;
+      display: block;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: -1px;
+      background-color: #fff;
+      border-color: blanchedalmond;
+  }
+  .list-group-item:hover{
+  color:black;
+  }
+  .list-group{
+    /* padding:70px; */
+    margin-left: 80px;
+    margin-top: -150px;
+    
+  }
+  </style>
+  {% endblock %}
+  {% block body %}
+  {% load static %}
+  <h2 class="container-top" style="text-transform: lowercase;" >Search results:</h2>
+  {% if categories|length < 1 %}
+  <p style="margin-left: 80px;">
+  Your search query: <b>{{ query }}</b> did not match any categories.<br>
+
+<b>Suggestions:</b><br>
+    Try different keywords.<br></p>
+  {% endif %}
+  {% for cat in categories %}
+  <div class="container-top">
+  <div class="list-group">
+
+    <a href="/website/categories" class="list-group-item list-group-item-action active">
+      {{ cat.category_name }}
+    </a>
+    {% if not cat.sub_category %}
+    <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name1 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name2 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name3 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name4 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name5 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name6 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name7 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name8 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name9 }}</a>
+  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name10 }}</a>
+    {% else %}
+    <p><em>No entries for{{ cat.category_name }}</em></p>26
+    {% endif %}
+</div>
+</div>
+
+{% endfor %}
+{% endblock %}

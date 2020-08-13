@@ -59,6 +59,7 @@ class Service(models.Model):
     service_id = models.AutoField
     service_name = models.CharField(max_length=50)
     category = models.CharField(max_length=50, default="")
+    category_title = models.CharField(max_length=150, default="")
     Subcategory = models.CharField(max_length=50, default="")
     price = models.IntegerField(default=0)
     service_desc = models.CharField(max_length=120,)
@@ -131,4 +132,15 @@ class TOP(models.Model):
 
     
 
+
+class ServiceContact(models.Model):
+    registrant_id = models.AutoField(primary_key=True)
+    registrant_name =  models.CharField(max_length=50,default='')
+    registrant_mobile_no = PhoneNumberField()
+    registrant_interest = models.CharField(max_length=50,default='')
+    registrant_query = models.CharField(max_length=500,default='')
+
+
+    def __str__(self):
+        return self.registrant_name
 

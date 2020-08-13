@@ -49,8 +49,9 @@
 
 
 .business_search{
-    width: 300px;
+    width: 400px;
     margin-bottom: 4px;
+    text-indent: 12px;
 }
 
 .location_search{
@@ -75,14 +76,14 @@
   max-height: 65px;
 }
 
-.ginput_container input {
+/* .ginput_container input {
     padding-left:30px;
     background-image: url("https://img.icons8.com/cotton/64/000000/worldwide-location--v2.png");
     background-size: 16px 16px;
     background-repeat: no-repeat;
     background-position: 10px 1rem;
   }
-  
+   */
  .form-box{
      background-color: rgba(0,0,0,0.5);
      padding: 30px;

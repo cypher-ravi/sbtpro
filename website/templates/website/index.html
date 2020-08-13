@@ -30,24 +30,17 @@
                       <span id="typed" class="underline-large"></span>
                     </h1>
                     <div class="header">
-                      <form action="">
+                      <form action="/website/search" method="GET">
                         <!-- <h1>Find Everything Near You</h1> -->
                         <div class="form-box input-icons">
-                          <i
-                            class="fa fa-location-arrow icon"
-                            aria-hidden="true"
-                          ></i>
-                          <input
-                            type="text"
-                            class="search-field location_search"
-                            placeholder="Location"
-                          />
-
+                         <i style="margin-left: 4px;" class="fas fa-globe icon"></i>
                           <!-- <label> -->
                           <input
                             type="text"
                             class="search-field business_search"
                             placeholder="Business,sevices..."
+                            name="query"
+                            id="query"
                           />
                           <!-- </label> -->
                           <!-- <div class="svg"> -->
@@ -64,7 +57,7 @@
                           <!-- </div>        -->
                           <!-- <i class="fa fa-check-circle icon" aria-hidden="true"></i>  -->
 
-                          <button type="button">GET PROFESSIONALS</button>
+                          <button type="submit">GET PROFESSIONALS</button>
                         </div>
                       </form>
                     </div>
@@ -239,7 +232,7 @@
                         <p class="card-text">
                           {{ services.0.service_desc }}
                         </p>
-                        <a href="#" class="color-two btn-custom"
+                        <a href="/website/services/{{ services.0.service_name }}" class="color-two btn-custom"
                           >Get Services</a
                         >
                       </div>
@@ -260,7 +253,7 @@
                           {{ i.service_desc }}
 
                         </p>
-                        <a href="#" class="color-two btn-custom"
+                        <a href="/website/services/{{ i.service_name }}" class="color-two btn-custom"
                           >Get Services</a
                         >
                       </div>
@@ -735,7 +728,7 @@
                   <!-- single blog articles -->
                   <div class="blog-photo">
                     <a href="blog-detail.html"
-                      ><img src="https://source.unsplash.com/user/jackie/likes/1600x900" alt="Blog"
+                      ><img src="{%static 'website/images/content/blog/blog-1.jpg' %}" alt="Blog"
                     /></a>
                   </div>
                   <div class="blog-content">
