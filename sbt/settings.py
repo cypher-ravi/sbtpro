@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'website',
     'blog',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [

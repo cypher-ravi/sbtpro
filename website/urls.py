@@ -13,12 +13,13 @@ urlpatterns = [
     path("upload_resume/", views.upload_resume, name='upload_resume'),
     path("shop/", views.shop, name='shop'),
     path("download/", views.download, name='download'),
+    path("single_vendor/<str:slug>", views.single_vendor, name='download'),
     path("categories/<str:slug>", views.categories, name='categories'),
     path("purchase/<str:slug>", views.purchase, name="plan-purchase"),
     path('req_handler', views.req_handler, name='Request Handler'),
-    path('sign_up/', views.sign_up, name='SignUp'),
-    path('log_in/', views.log_in, name='Login'),
-    path('logout_view/', views.logout_view, name='Logout'),
+    path('signup/', views.sign_up, name='SignUp'),
+    path('login/', views.log_in, name='Login'),
+    path('logout/', views.logout_view, name='Logout'),
     path('username_validator', views.username_validator, name="uv")]
 
 if settings.DEBUG:

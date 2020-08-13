@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 # Create your models here.
@@ -60,7 +61,7 @@ class Service(models.Model):
     category = models.CharField(max_length=50, default="")
     Subcategory = models.CharField(max_length=50, default="")
     price = models.IntegerField(default=0)
-    service_desc = models.CharField(max_length=300)
+    service_desc = models.CharField(max_length=120,)
     publish_date = models.DateField()
     Image = models.ImageField(upload_to="website/images", default="")
 
@@ -108,3 +109,26 @@ class Categories(models.Model):
 
     def __str__(self):
         return self.category_name
+
+
+
+
+class TOP(models.Model):
+    vendor_id = models.AutoField(primary_key=True)
+    vendor_name = models.CharField(max_length=50,default='')
+    vendor_work_desc = models.CharField(max_length=1000,default='')
+    address = models.CharField(max_length=100,default='')
+    state = models.CharField(max_length=100,default='')
+    city = models.CharField(max_length=100,default='')
+    vendor_mobile_no = PhoneNumberField()
+    vendor_email = models.EmailField(null=True,blank=True)
+    Image = models.ImageField(upload_to="website/images/TOPvendors", default="")
+
+    
+
+    def __str__(self):
+        return self.vendor_name
+
+    
+
+

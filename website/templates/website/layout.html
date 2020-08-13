@@ -43,16 +43,15 @@
     <!-- services carousel CSS file -->
     <link rel="stylesheet" href="{%static 'website/css/carousel.css'%}" >
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
-<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
-      <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
 
-<!--    manually added-->
+
 
 <!--    manually added-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="//code.tidio.co/vpvr7tadxashhxcqmqxiyqx2ji8vhru6.js" async></script>
-    <!-- <link rel="stylesheet" href="css/bootstrap2.min.css"> -->
+  
 
       {% block css %}
 
@@ -69,6 +68,22 @@
     <header id="header" class="transparent-header">
       <div class="topheader top_header_light hidemobile">
         <div class="container">
+          {% for message in messages %}
+        <div
+          class="alert alert-{{ message.tags }} alert-dismissible fade show"
+          role="alert"
+        >
+          <strong>Message!</strong> {{ message }}
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
           <div class="row">
             <div class="col-lg-7">
               <div class="address-icon">
@@ -80,18 +95,18 @@
               <div class="custom-page-top">
 
               {% if user.is_authenticated %}
-                <a href="/website/logout_view">Logout</a>
+                <a href="/website/logout">Logout</a>
 
               {% else %}
                 <a
                   class="cursor-on-pointer"
-                  href="/website/log_in"
+                  href="/website/login"
                 >
                   Login
                 </a>
                 <a
                   class="cursor-on-pointer"
-                  href="/website/sign_up"
+                  href="/website/signup"
                 >
                   Register
                 </a>
@@ -151,15 +166,15 @@
               <li><a href="/website/jobs">Jobs</a></li>
 
   <li class="subnav">
-                <a href="about.html">TOP</a>
+                <a href="/website/single_vendor">TOP</a>
 
                 <ul class="sub-menu">
-                  <li><a href="about.html">MRT-Medical Rescue Team</a></li>
+                  <li><a href="/website/single_vendor/{{ vendor.1.vendor_name }}">MRT-Medical Rescue Team</a></li>
                   <li>
-                    <a href="team.html" class="nav-link">Stack Softwares</a>
+                    <a href="/website/single_vendor/{{ vendor.0.vendor_name }}" class="nav-link">Stack Softwares</a>
                   </li>
                   <li>
-                    <a href="team-single.html" class="nav-link"
+                    <a href="/website/single_vendor/{{ vendor.2.vendor_name }}" class="nav-link"
                       >KWP (komalpreet planner)</a
                     >
                   </li>

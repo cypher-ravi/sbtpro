@@ -3,6 +3,7 @@
 {% block body %}
 {% load static %}
     <!-- end header area -->
+  
     <main>
       <!-- Slider Start -->
       <div class="relative">
@@ -229,247 +230,53 @@
                   <div class="col-xs-3 col-sm-3 col-md-3">
                     <div class="card" style="width: 18rem;">
                       <img
-                        src="https://source.unsplash.com/random/500x500"
+                        src="/media/{{ services.0.Image }}"
                         class="card-img-top"
                         alt="..."
                       />
                       <div class="card-body">
                         <h5 class="card-title">{{ services.0.service_name }}</h5>
                         <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
+                          {{ services.0.service_desc }}
                         </p>
                         <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
+                          >Get Services</a
                         >
                       </div>
                     </div>
                   </div>
+                  {% for i in services|slice:"1:"  %}
 
                   <div class="col-xs-3 col-sm-3 col-md-3">
                     <div class="card" style="width: 18rem;">
                       <img
-                        src="https://source.unsplash.com/500x500/?nature,water"
+                        src="/media/{{ i.Image }}"
                         class="card-img-top"
                         alt="..."
                       />
                       <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
+                        <h5 class="card-title">{{ i.service_name}}</h5>
                         <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
-                        >
-                      </div>
-                    </div>
-                  </div>
+                          {{ i.service_desc }}
 
-                  <div class="col-xs-3 col-sm-3 col-md-3">
-                    <div class="card" style="width: 18rem;">
-                      <img
-                        src="https://source.unsplash.com/500x500/?food"
-                        class="card-img-top"
-                        alt="..."
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
                         </p>
                         <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
+                          >Get Services</a
                         >
                       </div>
                     </div>
                   </div>
+                  {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
+                  </div><div class="carousel-item">
+                  {% endif %}
+                  {% endfor %}
+                  </div> 
 
-                  <div class="col-xs-3 col-sm-3 col-md-3">
-                    <div class="card" style="width: 18rem;">
-                      <img
-                        src="https://source.unsplash.com/500x500/?computer"
-                        class="card-img-top"
-                        alt="..."
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               
+              
+                  
 
-                <div class="carousel-item">
-                  <div class="col-xs-3 col-sm-3 col-md-3">
-                    <div class="card" style="width: 18rem;">
-                      <img
-                        src="https://source.unsplash.com/500x500/?cloth"
-                        class="card-img-top"
-                        alt="..."
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-3 col-sm-3 col-md-3">
-                    <div class="card" style="width: 18rem;">
-                      <img
-                        src="https://source.unsplash.com/500x500/?electronic"
-                        class="card-img-top"
-                        alt="..."
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-3 col-sm-3 col-md-3">
-                    <div class="card" style="width: 18rem;">
-                      <img
-                        src="https://source.unsplash.com/500x500/?business"
-                        class="card-img-top"
-                        alt="..."
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-3 col-sm-3 col-md-3">
-                    <div class="card" style="width: 18rem;">
-                      <img
-                        src="https://source.unsplash.com/random/500x500"
-                        class="card-img-top"
-                        alt="..."
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="carousel-item">
-                  <div class="col-xs-3 col-sm-3 col-md-3">
-                    <div class="card" style="width: 18rem;">
-                      <img
-                        src="https://source.unsplash.com/random/500x500"
-                        class="card-img-top"
-                        alt="..."
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-3 col-sm-3 col-md-3">
-                    <div class="card" style="width: 18rem;">
-                      <img
-                        src="https://source.unsplash.com/random/500x500"
-                        class="card-img-top"
-                        alt="..."
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-3 col-sm-3 col-md-3">
-                    <div class="card" style="width: 18rem;">
-                      <img
-                        src="https://source.unsplash.com/random/500x500"
-                        class="card-img-top"
-                        alt="..."
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-3 col-sm-3 col-md-3">
-                    <div class="card" style="width: 18rem;">
-                      <img
-                        src="https://source.unsplash.com/random/500x500"
-                        class="card-img-top"
-                        alt="..."
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="color-two btn-custom"
-                          >Go somewhere</a
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              
               </div>
             </div>
             <!-- left and right controls for the slide -->
@@ -528,7 +335,7 @@
                       Online
                     </li>
                   </ul>
-                  <div class="mt-25 mb-50">
+                  <div class="mt-25 mb-50"> 
                     <a href="services.html" class="color-two btn-custom"
                       >View All Services <i class="fas fa-arrow-right"></i
                     ></a>
@@ -928,7 +735,7 @@
                   <!-- single blog articles -->
                   <div class="blog-photo">
                     <a href="blog-detail.html"
-                      ><img src="{%static 'website/images/content/blog/blog-1.jpg' %}" alt="Blog"
+                      ><img src="https://source.unsplash.com/user/jackie/likes/1600x900" alt="Blog"
                     /></a>
                   </div>
                   <div class="blog-content">

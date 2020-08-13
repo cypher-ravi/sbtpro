@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories
+from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories,TOP
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
@@ -14,6 +14,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.http import JsonResponse
+from math import ceil
 
 # to test login logout sessions include html files i attached
 # LIKE templates/AP/<files you have.html>
@@ -24,13 +25,17 @@ MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 
 
 def index(request):
-    services = Service.objects.all()
 
     category = Categories.objects.all()
+    #Logic for services
+    services = Service.objects.all()
+ 
+    #Another section started
+    vendor = TOP.objects.all()
+   
 
     plans = Plans.objects.all()
-    print(plans)
-    return render(request, 'website/index.html', {'plans': plans, 'category': category}, {'services': services})
+    return render(request, 'website/index.html', {'plans': plans, 'category': category,'services': services,'vendor':vendor})
 
 
 # Function to take input from form and send it through email
@@ -236,45 +241,68 @@ def req_handler(request):
 
 # --------------------------payment end ------------------------
 
-@csrf_exempt
 # user login logout and checks
 def sign_up(request):
     # have exception of geting same user name
     if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('create_password')
-        print(username, password)
-        usr = User.objects.create_user(username=username, password=password)
-        usr.save()
-        return redirect(log_in)
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['create_password']
+        confirm_password = request.POST['confirm_password']
+        #checks for on inputs
+        #username should under 10 character
+        if len(username) > 15:
+            messages.error(request,'Username must be unique!!')
+            return redirect(sign_up)
+        #password and confirm password should be match
+        if password != confirm_password:
+            messages.error(request,'Password do not match')
+            return redirect(sign_up)
+        #username should contain numbers and letters    
+        if not username.isalnum():
+            messages.error(request,'Username should contain letters and numbers!!')
+            return redirect(sign_up)
+
+
+
+        #create the user
+        newuser = User.objects.create_user(username=username,email=email, password=password)
+        newuser.save()
+        messages.success(request,"Your SBT Professionals account has been successfully created")
+        return redirect(index)
     else:
         return render(request, 'website/register.html')
 
 
-# @csrf_exempt
+
 def log_in(request):
     if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)  # checks if user is there in db
-        print(user)
-        if user is not None:  # if he is in db than create a seesion using login function
+        loginusername = request.POST['loginusername']
+        loginpass = request.POST['loginpass']
+        user = authenticate(request,username=loginusername , password=loginpass)  # checks if user is exist
+    
+        if user is not None:  # if user exist than create a seesion using login function
             login(request, user)
-            messages.success(request,'Login successful')
-            return redirect(index)
+            messages.success(request,'Login Successful!')
+            return redirect('Sbthome')
         else:
-            messages.error(request,'Enter valid credentials')
-            return render(request, 'website/login.html')
-    return redirect(index)
+            messages.error(request,'Invalid credentials,Please Try Again!')
+            return redirect('Sbthome')
+    return render(request,'website/login.html')
 
 # return redirect(index)
 
 
 def logout_view(request):
     logout(request)
-    # messages.success("loged out successfully")
-    return redirect(index)
+    messages.success(request,'Logged Out Successfully!')
+    return redirect('Sbthome')
 
+        
+   
+        
+        
+    
 
 def username_validator(request):
     if request.method == 'POST':
@@ -288,3 +316,8 @@ def username_validator(request):
     return JsonResponse(data)
 
 # A done here -------------------------------------
+
+#For displaying Single TOP Info 
+def single_vendor(request,slug):
+    vendor = TOP.objects.filter(vendor_name=slug)
+    return render(request,'website/team-single.html',{'vendors':vendor})
