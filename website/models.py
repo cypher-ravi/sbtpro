@@ -98,15 +98,15 @@ class Categories(models.Model):
     category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=50, default='')
     sub_category_name1 = models.CharField(max_length=50,null=True, default='')
-    sub_category_name2 = models.CharField(max_length=50, default='',null=True)
-    sub_category_name3 = models.CharField(max_length=50, default='',null=True)
-    sub_category_name4 = models.CharField(max_length=50, default='',null=True)
-    sub_category_name5 = models.CharField(max_length=50, default='',null=True)
-    sub_category_name6 = models.CharField(max_length=50, default='',null=True)
-    sub_category_name7 = models.CharField(max_length=50, default='',null=True)
-    sub_category_name8 = models.CharField(max_length=50, default='',null=True)
-    sub_category_name9 = models.CharField(max_length=50, default='',null=True)
-    sub_category_name10 = models.CharField(max_length=50, default='',null=True)
+    sub_category_name2 = models.CharField(max_length=50, default='',null=True,blank=True)
+    sub_category_name3 = models.CharField(max_length=50, default='',null=True,blank=True)
+    sub_category_name4 = models.CharField(max_length=50, default='',null=True,blank=True)
+    sub_category_name5 = models.CharField(max_length=50, default='',null=True,blank=True)
+    sub_category_name6 = models.CharField(max_length=50, default='',null=True,blank=True)
+    sub_category_name7 = models.CharField(max_length=50, default='',null=True,blank=True)
+    sub_category_name8 = models.CharField(max_length=50, default='',null=True,blank=True)
+    sub_category_name9 = models.CharField(max_length=50, default='',null=True,blank=True)
+    sub_category_name10 = models.CharField(max_length=50, default='',null=True,blank=True)
 
     def __str__(self):
         return self.category_name
@@ -144,3 +144,89 @@ class ServiceContact(models.Model):
     def __str__(self):
         return self.registrant_name
 
+
+
+STATUS_CHOICES = ( 
+    ("1", "Please Select"), 
+    ("2", "New"), 
+    ("3", "Verified"), 
+   
+) 
+
+VALID_STATE_CHOICES = (
+    ("1","Please Select"),
+    ("2","Andra Pradesh"),
+    ("3","Arunachal Pradesh"),
+    ("4","Assam"),
+    ("5","Bihar"),
+    ("6","Chhattisgarh"),
+    ("7","Chandigarh"),
+    ("8","Dadar and Nagar Haveli"),
+    ("9","Daman and Diu"),
+    ("10","Delhi"),
+    ("11","Goa"),
+    ("12","Gujarat"),
+    ("13","Haryana"),
+    ("14","Himachal Pradesh"),
+    ("15","Jammu and Kashmir"),
+    ("16","Jharkhand"),
+    ("17","Karnataka"),
+    ("18","Kerala"),
+    ("19","Lakshadeep"),
+    ("20","Madya Pradesh"),
+    ("21","Maharashtra"),
+    ("22","Manipur"),
+    ("23","Meghalaya"),
+    ("24","Mizoram"),
+    ("25","Nagaland"),
+    ("26","Orissa"),
+    ("27","Punjab"),
+    ("28","Pondicherry"),
+    ("29","Rajasthan"),
+    ("30","Sikkim"),
+    ("31","Tamil Nadu"),
+    ("32","Telagana"),
+    ("33","Tripura"),
+    ("34","Uttaranchal"),
+    ("35","Uttar Pradesh"),
+    ("36","West Bengal"),
+    ("37","Andaman and Nicobar Island"),
+   
+)
+
+
+
+class Vendors(models.Model):
+     vendor_id = models.AutoField(primary_key=True)
+     Name = models.CharField(max_length=50,default='')
+     Company_Name = models.CharField(max_length=100,default='')
+    #  Busniess_Type = models.CharField(max_length=1000,choices=Business_TYPES,default='Please Select')
+     Busniess_Type = models.ForeignKey(Categories,on_delete=models.CASCADE)
+     Service_decsription = models.CharField(max_length=1000,default='')
+     Mobile_No = PhoneNumberField()
+     Mobile_No_2 = PhoneNumberField()
+     Address1 = models.CharField(max_length=100,default='')
+     Address2 = models.CharField(max_length=100,blank=True,null=True,default='')
+     city = models.CharField(max_length=100,default='')
+     state = models.CharField(max_length=100,choices=VALID_STATE_CHOICES,default='Please Select')
+     PinCode = models.IntegerField
+     Contact_Person = models.CharField(max_length=100,default='',blank=True,null=True)
+     EmailID = models.EmailField(null=True,blank=True)       
+     Landline = PhoneNumberField(null=True)
+     GST_No = models.IntegerField(null=True,blank=True)
+     Pan_No = models.IntegerField(null=True,blank=True)
+     TIN_No = models.IntegerField(null=True,blank=True)
+     Registered_Trade_Name = models.CharField(max_length=100,blank=True,null=True,default='')
+     Facebook_URL = models.URLField(max_length=200,blank=True,null=True)
+     Twitter_URL = models.URLField(max_length=200,blank=True,null=True)
+     website_URL = models.URLField(max_length=200,blank=True,null=True)
+     Status = models.CharField(max_length=20,choices=STATUS_CHOICES,default='New')
+     Other_Info = models.CharField(max_length=200,blank=True,null=True)
+     Discount_Percentage = models.IntegerField(null=True)
+     Longitude = models.FloatField(null=True,blank=True)
+     Latitude = models.FloatField(null=True,blank=True)
+     Image = models.ImageField(upload_to="website/images/vendors", default="")
+
+
+     def __str__(self):
+        return self.Name

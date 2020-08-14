@@ -33,9 +33,19 @@
                       <form action="/website/search" method="GET">
                         <!-- <h1>Find Everything Near You</h1> -->
                         <div class="form-box input-icons">
-                         <i style="margin-left: 4px;" class="fas fa-globe icon"></i>
+                         <i style="margin-left: 4px;" class="fas fa-street-view icon"></i>
+                         <input
+                         type="text"
+                         class="search-field location_search"
+                         placeholder="Your Location"
+                         name="location"
+                         onfocus="geolocate()"
+
+                         id="autocomplete"
+                       />
                           <!-- <label> -->
-                          <input
+                            <i style="margin-left: 4px;" class="fas fa-globe icon"></i>
+                            <input
                             type="text"
                             class="search-field business_search"
                             placeholder="Business,sevices..."
@@ -56,7 +66,7 @@
                                                   </select> -->
                           <!-- </div>        -->
                           <!-- <i class="fa fa-check-circle icon" aria-hidden="true"></i>  -->
-
+                          <i class="fas fa-hand-point-left icon"></i>
                           <button type="submit">GET PROFESSIONALS</button>
                         </div>
                       </form>
@@ -821,5 +831,12 @@
 
 {% endblock %}
 {% block js %} 
+<script src="{%static 'website/js/autocomplete.js' %}"></script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAPet_hfjCwnUfu95DCKw-6P_9jowptdQ&callback=initMap"
+type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> -->
+<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
 
 {% endblock %}

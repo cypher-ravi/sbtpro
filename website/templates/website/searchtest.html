@@ -1,0 +1,96 @@
+{% extends 'website/layout.html' %} {% block title %}Search-SBT Professionals{%endblock %}
+ {% block css %}
+<style>
+    .container-top{
+      margin-top: -150px;
+      width: 80%;
+       /* margin: auto; */
+      padding-top: 320px;
+      text-align: left;
+      margin-left: 80px;
+  }
+  .container-media{
+      margin-top: -300px;
+      width: 80%;
+       /* margin: auto; */
+      padding-top: 320px;
+      text-align: left;
+      margin-left: 80px;
+      margin-bottom: 50px;
+
+  }
+    
+   .list-group-item.active {
+      z-index: 2;
+        background-color: hsl(14, 100%, 53%);
+        border-color: blanchedalmond;
+        font-size: 20px;
+
+    }
+     .list-group-item.active:hover {
+           background-color: white;
+           color:black;
+
+    }
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: -1px;
+        background-color: #fff;
+        border-color: blanchedalmond;
+    }
+    .list-group-item:hover{
+    color:black;
+    }
+    .list-group{
+      /* padding:70px; */
+      margin-left: 80px;
+      margin-top: -150px;
+
+    }
+</style>
+{% endblock %} {% block body %} {% load static %}
+<h2 style="text-transform: lowercase; margin-top: 150px; text-align: left ;margin-bottom: -300px; margin-left: 80px; font-size: large;" >
+ Results near you :
+</h2>
+{% if categories|length < 1 %}
+<p style="margin-left: 80px;">
+  Your search query: <b>{{ query }}</b> did not match any categories.<br />
+
+  <b>Suggestions:</b><br />
+  Try different keywords.<br />
+</p>
+
+{% endif %}
+
+{% for loc in vendor_location %}
+  {% if loc.Address1 or loc.Address2  or loc.city  or loc.state == location %}
+  <div class="list-group container-top ">
+    <a href="#" class="list-group-item list-group-item-action active">
+    Your search for: {{ location }} 
+    </a>
+  </div>
+
+
+  <div class="media container-media">
+    <img src="/media/{{ loc.Image }}" class="align-self-center mr-3" alt="...">
+    <div class="media-body">
+      <h5 class="mt-0">{{ loc.Company_Name }}</h5>
+      <p>{{ loc.Service_decsription }}</p>
+      <ul>
+        <li><b>Address:</b> {{ loc.Address1 }} {{ loc.Address2 }} {{ loc.city }} {{ loc.state }}  </li>
+        <li><b>Contact:</b> {{ loc.Mobile_No }} </li>
+    </ul>
+    </div>
+  </div>
+  {% else %}
+  <p><em>No entries in{{ location }}</em></p>
+  {% endif %}
+
+
+{% endfor %}
+
+
+
+{% endblock %}

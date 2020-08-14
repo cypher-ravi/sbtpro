@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories, TOP, ServiceContact
+from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories, TOP, ServiceContact,Vendors
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
@@ -358,10 +358,15 @@ def service_detail(request, slug):
 
 def search(request):
     query = request.GET['query']
-    if len(query) > 80:
+    location = request.GET['location']
+    if len(query) > 80 and len(location) > 20:
         categories = Categories.objects.none()  
     else:
         categories_names = Categories.objects.filter(category_name__icontains=query)
+       
+        vendor_address_location1 = Vendors.objects.filter(Address1__icontains=location)
+        vendor_address_location2 = Vendors.objects.filter(Address2__icontains=location)
+        vendor_work_description = Vendors.objects.filter(Service_decsription__icontains=query)
         subcategories1 = Categories.objects.filter(sub_category_name1__icontains=query)
         subcategories2 = Categories.objects.filter(sub_category_name2__icontains=query)
         subcategories3 = Categories.objects.filter(sub_category_name3__icontains=query)
@@ -373,8 +378,7 @@ def search(request):
         subcategories9 = Categories.objects.filter(sub_category_name9__icontains=query)
         subcategories10 = Categories.objects.filter(sub_category_name10__icontains=query)
         categories = categories_names.union(subcategories1,subcategories2,subcategories3,subcategories4,subcategories5,subcategories6,subcategories7,subcategories8,subcategories9,subcategories10)
-
-    # if Categories.count == 0:
-    #     messages.warning(request,"No search results found.Please refine your query.")
-    params =  {'categories':categories,'query':query}
-    return render(request,'website/search.html',params)
+        vendor_location = vendor_address_location1.union(vendor_address_location2,vendor_work_description)
+        print(location)
+    params =  {'categories':categories,'query':query,'vendor_location':vendor_location,'location':location}
+    return render(request,'website/searchtest.html',params)
