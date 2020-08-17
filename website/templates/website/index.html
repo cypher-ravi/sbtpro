@@ -1,5 +1,6 @@
 {% extends 'website/layout.html' %}
 {% block title %}SBT Professionals{% endblock %}
+
 {% block body %}
 {% load static %}
     <!-- end header area -->
@@ -94,7 +95,7 @@
                         We provide <span class="underline-large">Services</span>
                       </h1>
                       <div class="btn-section">
-                        <a href="services.html" class="color-two btn-custom">Get Experts <i class="fas fa-arrow-right"></i></a>
+                        <a href="" class="color-two btn-custom">Get Experts <i class="fas fa-arrow-right"></i></a>
                         <div class="video-relative">
                           <a href="https://www.youtube.com/watch?v=TKnufs85hXk"
                             class="video-btn popup-video">
@@ -123,92 +124,85 @@
           </div>
 
             <div class="carousel-slider sponsor-slider">
-            <div class="item">
+            <div class="item category-a">
               <a href="/website/categories/{{ category.0.category_name }}"
                 ><img
                   class="img-class"
                   src="{%static 'website/images/content/students/1.svg' %}"
                   alt="Logo"
                 />
-                <button class="search-btn">{{ category.0.category_name }} Services</button></a>
+              <strong> <a href="/website/categories/{{ category.0.category_name }}" class="cursor-on-pointer" >{{ category.0.category_name }} Services</a></strong></a>
 
             </div>
 
-            <div class="item">
+            <div class="item category-a" style="margin-left: 20px;">
               <a href="/website/categories/{{ category.1.category_name }}"
                 ><img
                   class="img-class"
                   src="{%static 'website/images/content/students/2.svg' %}"
                   alt="Logo"
                 />
-                <button class="search-btn">{{ category.1.category_name }}</button></a
-              >
+                <strong><a href="/website/categories/{{ category.1.category_name }}" class="cursor-on-pointer ">{{ category.1.category_name }}</a></strong></a>
             </div>
 
-            <div class="item">
+            <div class="item category-a">
               <a href="/website/categories/{{ category.2.category_name }}"
                 ><img
                   class="img-class"
                   src="{%static 'website/images/content/students/3.svg' %}"
                   alt="Logo"
                 />
-                <button class="search-btn">{{ category.2.category_name }}</button></a
-              >
+                <strong> <a href="/website/categories/{{ category.2.category_name }}" class="cursor-on-pointer" >{{ category.2.category_name }}</a></strong></a>
             </div>
 
-            <div class="item">
+            <div class="item category-a">
               <a href="/website/categories/{{ category.3.category_name }}"
                 ><img
                   class="img-class"
                   src="{%static 'website/images/content/students/4.svg' %}"
                   alt="Logo"
                 />
-                <button class="search-btn">{{ category.3.category_name }}</button></a
-              >
+                <strong>   <a href="/website/categories/{{ category.3.category_name }}" class="cursor-on-pointer">{{ category.3.category_name }}</a></strong></a>
             </div>
 
-            <div class="item">
+            <div class="item category-a">
               <a href="/website/categories/{{ category.4.category_name }}"
                 ><img
                   class="img-class"
                   src="{%static 'website/images/content/students/5.svg' %}"
                   alt="Logo"
                 />
-                <button class="search-btn">{{ category.4.category_name }}</button></a
-              >
+                <strong> <a href="/website/categories/{{ category.4.category_name }}" class="cursor-on-pointer ">{{ category.4.category_name }}</a></strong></a>
             </div>
 
-            <div class="item">
+            <div class="item category-a">
               <a href="/website/categories/{{ category.5.category_name }}"
                 ><img
                   class="img-class"
                   src="{%static 'website/images/content/students/6.svg' %}"
                   alt="Logo"
                 />
-                <button class="search-btn">{{ category.5.category_name }}</button></a
-              >
+                <strong> <a href="/website/categories/{{ category.5.category_name }}" class="cursor-on-pointer">{{ category.5.category_name }}</a></strong></a>
             </div>
 
-            <div class="item">
+            <div class="item category-a">
               <a href="/website/categories/{{ category.6.category_name }}"
                 ><img
                   class="img-class"
                   src="{%static 'website/images/content/students/7.svg' %}"
                   alt="Logo"
                 />
-                <button class="search-btn">{{ category.6.category_name }}</button></a
-              >
+                <strong><a href="/website/categories/{{ category.6.category_name }}" class="cursor-on-pointer category-a">{{ category.6.category_name }}</a></strong></a>
             </div>
 
-            <div class="item">
+            <div class="item category-a">
               <a href="/website/categories/{{ category.7.category_name }}"
                 ><img
                   class="img-class"
                   src="{%static 'website/images/content/students/8.svg' %}"
                   alt="Logo"
                 />
-                <button class="search-btn">{{ category.7.category_name }}</button></a
-              >
+                <strong><a href="/website/categories/{{ category.7.category_name }}" class="cursor-on-pointer">{{ category.7.category_name }}</a></strong></a>
             </div>
 
           </div>
@@ -218,7 +212,7 @@
         <!-- services carousel start -->
       <div class="container">
         <div class="row">
-          <h2>Trending <b class="underline-small"> Services</b></h2>
+          <h2 id="trendingservice">Trending <b class="underline-small"> Services</b></h2>
 
           <div
             id="myCarousel"
@@ -309,24 +303,21 @@
                   <div  class="section-title">
                     <div>
                       <h3>
-                        We Can Help You In Different Situations buy this HTML
+                        We Can Help You To Promote Your Business
                       </h3>
                       <div class="bar"></div>
                     </div>
                   </div>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                    Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
-                    natoque penatibus et magnis dis parturient montes, nascetur
-                    ridiculus mus. Donec quam felis
+                    Are you starting a business on a shoestring or need ways to stretch your small business marketing budget? Marketing a business doesn't have to cost a lot. .we have low-cost, high-impact methods to advertise and promote your business
                   </p>
                   <ul class="themeioan_ul_icon">
                     <li>
-                      <i class="fas fa-check-circle"></i> Coaching Courses for
-                      Life
+                      <i class="fas fa-check-circle"></i> High Impact methods for Promote
+                      Business
                     </li>
                     <li>
-                      <i class="fas fa-check-circle"></i> Every Video included
+                      <i class="fas fa-check-circle"></i> Every method included
                       in package
                     </li>
                     <li>
@@ -339,8 +330,8 @@
                     </li>
                   </ul>
                   <div class="mt-25 mb-50"> 
-                    <a href="services.html" class="color-two btn-custom"
-                      >View All Services <i class="fas fa-arrow-right"></i
+                    <a href="#trendingservice" class="color-two btn-custom"
+                      >View Services <i class="fas fa-arrow-right"></i
                     ></a>
                   </div>
                 </div>
@@ -432,7 +423,7 @@
                   Let’s Create Something new and awesome Togeather.
                 </p>
                 <div class="call-to-action-btn">
-                  <a href="#">Start Today<i class="fas fa-arrow-right"></i></a>
+                  <a href="/website/freelisting">Start Today<i class="fas fa-arrow-right"></i></a>
                 </div>
               </div>
             </div>
@@ -467,9 +458,7 @@
                 <article>
                   <!-- single services -->
                   <div class="blog-content">
-                    <div class="icon-space">
-                      <div class="glyph-icon flaticon-030-test"></div>
-                    </div>
+                    
                     <h5 class="title">
                       <a href="services-detail.html">Test Your Brain</a>
                     </h5>
@@ -495,9 +484,7 @@
                 <article>
                   <!-- single services -->
                   <div class="blog-content">
-                    <div class="icon-space">
-                      <div class="glyph-icon flaticon-009-skills"></div>
-                    </div>
+                  
                     <h5 class="title">
                       <a href="services-detail.html">Training Mentor</a>
                     </h5>
@@ -523,9 +510,7 @@
                 <article>
                   <!-- single services -->
                   <div class="blog-content">
-                    <div class="icon-space">
-                      <div class="glyph-icon flaticon-028-thinking"></div>
-                    </div>
+                    
                     <h5 class="title">
                       <a href="services-detail.html">Thinking Creative</a>
                     </h5>
@@ -547,8 +532,8 @@
 
           <div class="content-button btn-section">
             <!-- button call to action -->
-            <a href="services.html" class="color-two btn-custom"
-              >View All Services <i class="fas fa-arrow-right"></i
+            <a href="#trendingservice" class="color-two btn-custom"
+              >View Services <i class="fas fa-arrow-right"></i
             ></a>
           </div>
 
@@ -588,7 +573,7 @@
                     <div class="themeioan_counter text-center">
                       <!-- single counter item -->
                       <i
-                        class="secondary-color fas fa-chalkboard-teacher fa-3x"
+                        class="secondary-color fas fa-user fa-3x"
                       ></i>
                       <h4>387</h4>
                       <p>Happy Clients</p>
@@ -613,7 +598,7 @@
                     <!-- 3 -->
                     <div class="themeioan_counter text-center">
                       <!-- single counter item -->
-                      <i class="secondary-color fas fa-user-cog fa-3x"></i>
+                      <i class="secondary-color  fa fa-check-circle fa-3x   "></i>
                       <h4>324</h4>
                       <p>Expert Team</p>
                     </div>
@@ -649,15 +634,15 @@
                         </div>
                         <div class="testimonail-content">
                           <div class="testimonial-text text-center">
-                            <p>
+                            <p><em>
                               "I always thought that people used to pay much for
                               quality. But these guys changed my opinion. The
                               quality exceeds the price many times. I recommend
                               it to everybody and buy this template."
-                            </p>
+                            </p></em>
                           </div>
-                        </div>
-                        <img src="{%static 'website/images/content/students/1.svg' %}" alt="Avatar" />
+                        </div><br>
+                        <h4><i class="fa fa-user"></i> Ronnil oreo</h4>
                       </div>
                       <!-- end single testimonial item -->
                     </div>
@@ -670,15 +655,15 @@
                         </div>
                         <div class="testimonail-content">
                           <div class="testimonial-text text-center">
-                            <p>
+                            <p><em>
                               "I always thought that people used to pay much for
                               quality. But these guys changed my opinion. The
                               quality exceeds the price many times. I recommend
                               it to everybody and buy this template."
-                            </p>
+                            </p></em>
                           </div>
-                        </div>
-                        <img src="{%static 'website/images/content/students/2.svg' %}" alt="Avatar" />
+                        </div><br>
+                        <h4><i class="fa fa-user"></i> Ronnil oreo</h4>
                       </div>
                       <!-- end single testimonial item -->
                     </div>
@@ -691,15 +676,15 @@
                         </div>
                         <div class="testimonail-content">
                           <div class="testimonial-text text-center">
-                            <p>
+                            <p><em>
                               "I always thought that people used to pay much for
                               quality. But these guys changed my opinion. The
                               quality exceeds the price many times. I recommend
                               it to everybody and buy this template."
-                            </p>
+                            </p></em>
                           </div>
-                        </div>
-                        <img src="{%static 'website/images/content/students/3.svg'%}" alt="Avatar" />
+                        </div><br>
+                        <h4><i class="fa fa-user"></i> Ronnil oreo</h4>
                       </div>
                       <!-- end single testimonial item -->
                     </div>
@@ -712,120 +697,7 @@
       </div>
       <!-- testimonials area end -->
 
-      <!-- blog area start -->
-      <div id="blog" class="wrap-bg wrap-bg-light">
-        <div class="container">
-          <div class="row justify-content-center text-center">
-            <div class="col-lg-8">
-              <div class="section-title with-p">
-                <h2>See what’s happing in our blog</h2>
-                <div class="bar"></div>
-                <p>
-                  Check out our latest blog posts, news and articles. We have
-                  articles on a range of topics such as the leaving certificate
-                  and career guidance.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- .row -->
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 blog-single">
-              <!-- 1 -->
-              <div class="themeioan_blog">
-                <article>
-                  <!-- single blog articles -->
-                  <div class="blog-photo">
-                    <a href="blog-detail.html"
-                      ><img src="{%static 'website/images/content/blog/blog-1.jpg' %}" alt="Blog"
-                    /></a>
-                  </div>
-                  <div class="blog-content">
-                    <div class="course-viewer">
-                      <ul>
-                        <li><i class="fas fa-user"></i>7 Feb, 2020</li>
-                        <li><i class="fas fa-comment-dots"></i> 26</li>
-                      </ul>
-                    </div>
-                    <h5 class="title">
-                      <a href="blog-detail.html"
-                        >Coaching today easy with the digital teacher</a
-                      >
-                    </h5>
-                    <p>
-                      You can buy this Template today and make amazing website..
-                    </p>
-                  </div>
-                </article>
-                <!-- end single blog articles -->
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 blog-single">
-              <!-- 2 -->
-              <div class="themeioan_blog">
-                <article>
-                  <!-- single blog articles -->
-                  <div class="blog-photo">
-                    <a href="blog-detail.html"
-                      ><img src="{%static 'website/images/content/blog/blog-2.jpg' %}" alt="Blog"
-                    /></a>
-                  </div>
-                  <div class="blog-content">
-                    <div class="course-viewer">
-                      <ul>
-                        <li><i class="fas fa-user"></i>7 Feb, 2020</li>
-                        <li><i class="fas fa-comment-dots"></i> 39</li>
-                      </ul>
-                    </div>
-                    <h5 class="title">
-                      <a href="blog-detail.html"
-                        >We Welcome every single Beginner and Expert</a
-                      >
-                    </h5>
-                    <p>
-                      You can buy this Template today and make amazing website..
-                    </p>
-                  </div>
-                </article>
-                <!-- end single blog articles -->
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 blog-single">
-              <!-- 3 -->
-              <div class="themeioan_blog">
-                <article>
-                  <!-- single blog articles -->
-                  <div class="blog-photo">
-                    <a href="blog-detail.html"
-                      ><img src="{%static 'website/images/content/blog/blog-3.jpg' %}" alt="Blog"
-                    /></a>
-                  </div>
-                  <div class="blog-content">
-                    <div class="course-viewer">
-                      <ul>
-                        <li><i class="fas fa-user"></i>7 Feb, 2020</li>
-                        <li><i class="fas fa-comment-dots"></i> 59</li>
-                      </ul>
-                    </div>
-                    <h5 class="title">
-                      <a href="blog-detail.html"
-                        >Education today much easy with our products</a
-                      >
-                    </h5>
-                    <p>
-                      You can buy this Template today and make amazing website..
-                    </p>
-                  </div>
-                </article>
-                <!-- end single blog articles -->
-              </div>
-            </div>
-          </div>
-          <!-- .row end -->
-        </div>
-      </div>
-      <!-- blog area end -->
+      
     </main>
 
 
@@ -833,7 +705,7 @@
 {% block js %} 
 <script src="{%static 'website/js/autocomplete.js' %}"></script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAPet_hfjCwnUfu95DCKw-6P_9jowptdQ&callback=initMap"
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmd00x9I5t_lJ-P-C2yAa5hnkIyKRhVow&callback=initMap"
 type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> -->

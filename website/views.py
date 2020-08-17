@@ -37,6 +37,7 @@ def index(request):
 
 # Function to take input from form and send it through email
 def freelisting(request):
+    vendor = TOP.objects.all()
     if request.method == 'POST':
         Company_name = request.POST.get('companyname', '')
         location = request.POST.get('location', '')
@@ -67,7 +68,7 @@ def freelisting(request):
             listing.save()
             messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24'
                                       'hours.')
-    return render(request, 'website/listing.html')
+    return render(request, 'website/listing.html',{'vendor':vendor})
 
 
 def top(request):
@@ -76,11 +77,13 @@ def top(request):
 
 def customer_membership(request):
     plans = Plans.objects.all()
+    vendor = TOP.objects.all()
 
-    return render(request, 'website/membership.html', {'plans': plans})
+    return render(request, 'website/membership.html', {'plans': plans,'vendor':vendor})
 
 
 def jobs(request):
+    vendor = TOP.objects.all()
     if request.method == "POST":
         name = request.POST.get('contactName', '')
         mobile = request.POST.get('contactmobile', '')
@@ -103,9 +106,9 @@ def jobs(request):
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
         )
-        return render(request, 'website/form.html')
+        return render(request, 'website/form.html',{'vendor':vendor})
 
-    return render(request, 'website/form.html')
+    return render(request, 'website/form.html',{'vendor':vendor})
 
 
 def upload_resume(request):
@@ -139,7 +142,8 @@ def shop(request):
 
 
 def download(request):
-    return render(request, 'website/downloadapp.html')
+    vendor = TOP.objects.all()
+    return render(request, 'website/downloadapp.html',{'vendor':vendor})
 
 
 # for handle resume files
@@ -382,3 +386,17 @@ def search(request):
         print(location)
     params =  {'categories':categories,'query':query,'vendor_location':vendor_location,'location':location}
     return render(request,'website/searchtest.html',params)
+
+
+#function for define process of organisation
+def process(request):
+    vendor = TOP.objects.all()
+
+    return render(request,'website/process.html',{'vendor':vendor})
+
+#for list all team of professionals 
+def top(request):
+    vendor = Vendors.objects.all()
+    return render(request,'website/top.html',{'vendors':vendor})
+
+

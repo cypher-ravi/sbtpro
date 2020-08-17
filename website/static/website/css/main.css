@@ -67,7 +67,7 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700&display=swap');
 
 /* Icons */
-@import url('../fonts/flaticon/flaticon.css');
+@import url(../fonts/flaticon/flaticon.css);
 
 /* 1. ========================= Site Styles ========================= */
 
@@ -190,7 +190,7 @@ a i {
 
 img {
     max-width: 100%;
-    height: 150px;
+    height: 460px;
 }
 
 ol {
@@ -554,12 +554,12 @@ border-radius:30px;
 .dreidbgleft:after {
     content: "";
     background-color: #fe4c1c;
-    height: 90%;
+    height: 100%;
     width: 90%;
     position: absolute;
     bottom: -20px;
     left: -20px;
-    /* z-index: -1; */
+    z-index: -1;
 }
 
 .themeioan_services .blog-content,

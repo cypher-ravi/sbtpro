@@ -109,14 +109,7 @@ h3 span {
             </div>
              <!--    alert-->
 
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-  <strong>Message!</strong> {{ message }}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-    </div>
-    {% endfor %}
+  
 <!--    alert-->
             <div class="row">
                 <div class="col-md-12 col-lg-6">
@@ -131,7 +124,7 @@ h3 span {
                          <div class="form-row">
 
                         <div class="upload-btn-wrapper col-md-5">
-                            <button>Upload Resume</button>
+                            <button>Select Resume</button>
                           <input type="file" name="myfile" accept=".doc,.docx,.pdf,.word"/>
                           <p>doc,docx,pdf(max-2mb),word</p>
                         </div>
