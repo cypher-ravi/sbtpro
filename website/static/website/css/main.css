@@ -504,7 +504,7 @@ border-radius:30px;
 }
 
 .bg-cta {
-    background: url(../images/content/breadcrumb/blog-detail.jpg);
+    background: url(../images/content/breadcrumb/about2.jpg);
     background-position:center;
     background-size:cover;
     position:relative;
@@ -2116,6 +2116,7 @@ border-radius:100%;
 #members-two img {
     margin: 0 auto;
     width:100%;
+    height: 235px;
 }
 
 
@@ -4123,7 +4124,7 @@ width:100%;
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .2)), url(../images/content/breadcrumb/events.jpg);
 }
 .bg-events-detail {
-    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .2)), url(../images/content/breadcrumb/event-detail.jpg);
+    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .2)), url(../images/content/breadcrumb/faq.png);
     background-position:bottom center!important;
 }
 .bg-services {
@@ -4148,7 +4149,9 @@ width:100%;
 }
 
 .bg-contact {
-    background: linear-gradient(rgba(0, 0, 0, .3), rgba(0, 0, 0, .1)), url(../images/content/breadcrumb/contact.jpg);
+    background: linear-gradient(rgba(0, 0, 0, .3), rgba(0, 0, 0, .1)), url(../images/content/breadcrumb/faq2.png);
+    background-position: top center!important;
+
 }
 .bg-contact2 {
     background: url(../images/content/breadcrumb/contact2.jpg);
@@ -4166,7 +4169,7 @@ width:100%;
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .2)), url(../images/content/landing/blog-detail2.jpg);
 }
 .bg-about {
-    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .2)), url(../images/content/breadcrumb/about.jpg);
+    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .2)), url(../images/content/breadcrumb/about2.jpg);
 }
 
 #contact input,

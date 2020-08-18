@@ -1,0 +1,64 @@
+{% extends 'website/layout.html' %}
+{% block title %}SBT Professionals{% endblock %}
+{% block css %}
+<style>
+    
+</style>
+{% endblock css %}
+
+
+{% block body %}
+{% load static %}
+<main>
+<div class="container">
+<div class="jumbotron" style="margin-top: 140px; padding: 60px;">
+  <h1 class="display-4">We Connect Buyers and sellers</h1>
+  <p>SBT Professionals is going to become India's No.1 Customer service providing Pvt. Lmt company.</p>
+  <hr class="my-4">
+  <p>We are here for online/offline B2B market place ,Connecting Buyers with Suppliers.</p>
+  <div>
+  <a class="search-field btn-custom" href="#need" role="button">Tell Us What You Need</a><br>
+  <p style="margin-top: 20px;">Or</p>
+  <a href="#">Call Us - +91 8295 393035<i class="fa fa-phone" style="margin-left: 5px;"></i></a>
+</div>
+</div>
+    <h2 id="need" style="margin-top: 10px;">SBT Trading</h2>
+<form  action="/website/trading/" method="post" style="margin-bottom: 10px;">{% csrf_token %}
+    <input type="hidden" name="itemsJson" id="itemsJson">
+    <input type="hidden" name="amount" id="amount">
+    <div  class="form-row">
+        <div class="form-group col-md-6">
+            <input type="text" class="form-control" id="name" name="name" required minlength="5" placeholder="Name">
+        </div>
+        <div class="form-group col-md-6">
+            <input type="text" class="form-control" id="product_name" name="product_name" required minlength="3" placeholder="Product/Service name">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <input type="text" class="form-control" name="address_from" id="address_from" required minlength="3" placeholder="Address (From)">
+        </div>
+        <div class="form-group col-md-6">
+            <input type="text" class="form-control" name="address_to" id="address_to"  required minlength="3" placeholder="Address (To)">
+        </div>
+       
+    </div>
+      <div class="form-row">
+    <div class="form-group col-md-4">
+        <input type="text" class="form-control" id="mobilenumber" minlength="10" name="mobile" required placeholder="Mobile Number">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <input type="text" class="form-control" name="zip_code" id="zip" required minlength="4" placeholder="Zip code">
+                    </div>
+
+  </div>
+
+    <button type="submit" class="search-btn">Submit</button>
+</form>
+</div>
+
+<!-- modal form for call-info -->
+
+</main>
+
+{% endblock %}

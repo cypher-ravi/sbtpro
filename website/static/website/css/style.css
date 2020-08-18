@@ -359,3 +359,34 @@ background-size: 25px auto;
 .my-float {
     margin-top: 10px;
 }
+/* loading css/\ */
+#loading {
+    position: fixed;
+    z-index: 1800;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff url(../images/762.gif) no-repeat center;
+    -webkit-animation: spin 300s linear infinite;
+    /* Safari */
+    animation: spin 500s linear infinite;
+}
+
+
+.feedback {
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    position: fixed;
+    top: 40%;
+    border-radius: 8px;
+    left: -25px;
+    background: #ccc;
+    padding: 10px;
+    z-index: 100;
+  }

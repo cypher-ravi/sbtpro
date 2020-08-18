@@ -57,7 +57,8 @@
 
       {% endblock %}
   </head>
-  <body>
+  <body onload="myFunction()">
+    <div id="loading"></div>
 <!--    <div class="icon-bar">-->
 <!--      <a href="#" class="whatsapp"><i class="fab fa-whatsapp"></i>WhatsApp</a>-->
 <!--      <a href="#" class="facebook"><i class="fab fa-facebook-f"></i>Facebook</a>-->
@@ -65,7 +66,7 @@
 <!--    </div>-->
 
     <!-- header area start -->
-    <header id="header" class="transparent-header">
+    <header id="header" class="transparent-header sticky">
       <div class="topheader top_header_light hidemobile">
         <div class="container">
           {% for message in messages %}
@@ -150,13 +151,13 @@
                 <a href="/website/freelisting">Free Listing</a>
               </li>
                     <li class="subnav">
-                <a href="portfolio.html">SBT Trading</a>
+                <a href="/website/trading">SBT Trading</a>
                 <ul class="sub-menu">
                   <li>
                     <a href="/website/process" class="nav-link">Our Process</a>
                   </li>
                   <li>
-                    <a href="portfolio-detail.html" class="nav-link">FAQs?</a>
+                    <a href="/website/FAQ" class="nav-link">FAQs?</a>
                   </li>
                 </ul>
               </li>
@@ -221,6 +222,9 @@
       </nav>
       <!-- #navigation end -->
     </header>
+    <div class="feedback">
+     <a href="">Feedback</a> </div>
+
   <a  class="whats-app" href="https://wa.me/ +918295393035" target="_blank">
    <i class="fab fa-whatsapp my-float" aria-hidden="true"></i>
 </a>
@@ -433,6 +437,15 @@
       integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
       crossorigin="anonymous"
     ></script>
+    <!-- loading bar -->
+    <script>
+      var preloader = document.getElementById("loading");
+      function myFunction(){
+        preloader.style.display = 'none';
+      };
+    </script>
+  
+
     <!-- for whaysapp --><!-- Start of Async Callbell Code -->
 {% comment %} <!-- Start of Async Callbell Code -->
 <script>

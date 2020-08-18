@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories, TOP, ServiceContact,Vendors
+from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories, TOP, ServiceContact,Vendors,Trading,Faq,QueryContacts
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
@@ -71,10 +71,6 @@ def freelisting(request):
     return render(request, 'website/listing.html',{'vendor':vendor})
 
 
-def top(request):
-    return HttpResponse('hey buddy!')
-
-
 def customer_membership(request):
     plans = Plans.objects.all()
     vendor = TOP.objects.all()
@@ -112,46 +108,37 @@ def jobs(request):
 
 
 def upload_resume(request):
-    if request.method == "POST":
-        name = request.POST.get('contactName', '')
-        uploaded_resume = request.FILES['myfile']
-        if name:
-            resume = Upload_resume(name=name, Resume=uploaded_resume)
-            resume.save()
-            fs = FileSystemStorage()
-            fs.save(uploaded_resume.name, uploaded_resume)
-            messages.success(request,
-                             'Resume submission successful. SBT Professional team Contact You within 24 hours.')
-            try:
-                file = settings.MEDIA_URL[1:] + str(uploaded_resume)
-                from django.core.mail import EmailMessage
-                msg = EmailMessage('New job Seeker on your website', 'name =' + name, 'rk7305758@gmail.com',
-                                   ['ronniloreo@gmail.com'])
-                msg.attach_file(file)
-                msg.send()
-            except Exception as e:
-                print(e)
-        else:
-            messages.error(request, 'Before submit resume Enter your name')
+    try:
+        if request.method == "POST":
+            name = request.POST.get('contactName', '')
+            uploaded_resume = request.FILES['myfile']
+            if name:
+                resume = Upload_resume(name=name, Resume=uploaded_resume)
+                resume.save()
+                fs = FileSystemStorage()
+                fs.save(uploaded_resume.name, uploaded_resume)
+                messages.success(request,
+                                'Resume submission successful. SBT Professional team Contact You within 24 hours.')
+                try:
+                    file = settings.MEDIA_URL[1:] + str(uploaded_resume)
+                    from django.core.mail import EmailMessage
+                    msg = EmailMessage('New job Seeker on your website', 'name =' + name, 'rk7305758@gmail.com',
+                                    ['ronniloreo@gmail.com'])
+                    msg.attach_file(file)
+                    msg.send()
+                except Exception as e:
+                    print(e)
+            else:
+                messages.error(request, 'Before submit resume Enter your name')
 
-    return render(request, 'website/form.html')
-
-
-def shop(request):
-    return HttpResponse('hey buddy!')
+        return render(request, 'website/form.html')
+    except:
+        return render(request,'website/404.html')
 
 
 def download(request):
     vendor = TOP.objects.all()
     return render(request, 'website/downloadapp.html',{'vendor':vendor})
-
-
-# for handle resume files
-def handle_uploaded_file(f):
-    with open('website/static/upload/' + f.name, 'rb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-            return f.name
 
 
 def categories(request, slug):
@@ -396,7 +383,67 @@ def process(request):
 
 #for list all team of professionals 
 def top(request):
-    vendor = Vendors.objects.all()
-    return render(request,'website/top.html',{'vendors':vendor})
+    vendor = TOP.objects.all()
+    team = TOP.objects.all()
+    return render(request,'website/top.html',{'vendor':vendor,'team':team})
+
+
+def trading(request):
+    vendor = TOP.objects.all()
+    if request.method == 'POST':
+        customer_name = request.POST.get('name', '')
+        product_name = request.POST.get('product_name', '')
+        address_from = request.POST.get('address_from', '')
+        address_to = request.POST.get('address_to', '')
+        mobile = request.POST.get('mobile', '')
+        zip_code = request.POST.get('zip_code', '')
+        customer = Trading(customer_name=customer_name,product_name=product_name,address_from=address_from,address_to=address_to,mobile=mobile,zip_code=zip_code)
+        customer.save()
+        if product_name:
+            send_mail(
+                    subject='New Customer registered for service',
+                    message=f"Customer Name = {customer_name}\nProduct Name = {product_name}\nAddress From = {address_from}\nAddress To = {address_to}\nMobile No. ={mobile}\nZip code = {zip_code}",
+                    from_email='rk7305758@gmail.com',
+                    recipient_list=['ronniloreo@gmail.com'],
+                    fail_silently=False)
+                # contact@sbtprofessionals.com
+                # teamofprofessionals2015@gmail.com
+            messages.success(request,
+                                'Order successful.')
+            return render(request, 'website/trading-info.html',{'vendor':vendor})
+        else:
+            messages.error(request,'Failed to Order Try Again!')
+            return render(request,'website/trading-info.html',{'vendor':vendor})
+    return render(request,'website/trading-info.html',{'vendor':vendor})
+
+
+
+def faq(request):
+    faq_query = Faq.objects.all()
+    vendor = TOP.objects.all()
+    if request.method == 'POST':
+        customer_name = request.POST.get('customer_name', '')
+        mobile = request.POST.get('mobile', '')
+        message = request.POST.get('message', '')
+        query = QueryContacts(customer_name=customer_name,mobile=mobile,message=message)
+        query.save()
+        if message:
+            send_mail(
+                    subject='New Query from customer',
+                    message=f"Customer Name = {customer_name}\nMobile No. ={mobile}\nQueryMessage = {message}",
+                    from_email='rk7305758@gmail.com',
+                    recipient_list=['ronniloreo@gmail.com'],
+                    fail_silently=False)
+                # contact@sbtprofessionals.com
+                # teamofprofessionals2015@gmail.com
+            messages.success(request,
+                                'Query Submittion successful.')
+            return render(request, 'website/faq.html',{'faqs':faq_query,'vendor':vendor})
+        else:
+            messages.error(request,'Failed to submit Try Again!')
+            return render(request,'website/faq.html',{'faqs':faq_query,'vendor':vendor})
+    return render(request,'website/faq.html',{'faqs':faq_query,'vendor':vendor})
+
+
 
 

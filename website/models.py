@@ -84,7 +84,8 @@ class Job(models.Model):
 
 class Upload_resume(models.Model):
     resume_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50, default='')
+    name = models.CharField(max_length=50, default='',blank=True,null=True)
+    # copy_resume = models.CharField(max_length=5000, default='',blank=True,null=True)
 
     # filling_date = models.DateField(blank=True, null=True)
     Resume = models.FileField(blank=True, null=True,
@@ -117,6 +118,7 @@ class Categories(models.Model):
 class TOP(models.Model):
     vendor_id = models.AutoField(primary_key=True)
     vendor_name = models.CharField(max_length=50,default='')
+    Busniess_Type = models.CharField(max_length=100,default='')
     vendor_work_desc = models.CharField(max_length=1000,default='')
     address = models.CharField(max_length=100,default='')
     state = models.CharField(max_length=100,default='')
@@ -231,3 +233,36 @@ class Vendors(models.Model):
      def __str__(self):
         return self.Name
 
+# for sbt trading form
+class Trading(models.Model):
+    customer_id = models.AutoField(primary_key=True)
+    customer_name = models.CharField(max_length=50)
+    product_name = models.CharField(max_length=50)
+    address_from = models.CharField(max_length=50)
+    address_to = models.CharField(max_length=50)
+    zip_code = models.IntegerField(default='')
+    mobile = PhoneNumberField()
+
+    def __str__(self):
+        return self.customer_name
+
+class Faq(models.Model):
+    question_id = models.AutoField(primary_key=True)
+    question_category = models.CharField(max_length=100,default='')
+    market_executive_name = models.CharField(max_length=50,default='') 
+    question = models.CharField(max_length=500)
+    answer = models.CharField(max_length=500)
+  
+
+    def __str__(self):
+        return self.question_category
+
+
+class QueryContacts(models.Model):
+    query_id = models.AutoField(primary_key=True)
+    customer_name = models.CharField(max_length=50)
+    mobile = PhoneNumberField()
+    message = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.customer_name
