@@ -447,3 +447,8 @@ def faq(request):
 
 
 
+def newsletter(request):
+    return render(request,'website/coming-soon.html')
+
+def tac(request):
+    return render(request,'website/Terms_and_condition.html')

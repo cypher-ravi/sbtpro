@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -25,7 +25,10 @@ urlpatterns = [
     path('signup/', views.sign_up, name='SignUp'),
     path('login/', views.log_in, name='Login'),
     path('logout/', views.logout_view, name='Logout'),
-    path('username_validator', views.username_validator, name="uv")]
+    path('newsletter/', views.newsletter, name='newsletter'),
+    path('TermsCondition/', views.tac, name='Terms_and_condition'),
+    path('username_validator', views.username_validator, name="uv")
+    ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

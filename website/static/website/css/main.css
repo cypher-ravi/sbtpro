@@ -155,7 +155,12 @@ h5,
 h6 {
 font-family: 'Quicksand', sans-serif;
 }
-
+@media(max-width:700px)
+{
+    .p .pull-right{
+    float:none !important;
+    }
+}
 p {
     font-size: 16px;
     line-height: 1.875;
@@ -368,7 +373,7 @@ video {
 }
 
 .center-column {
-    margin: 0px auto 0px auto;
+    margin: 0px auto -50px auto;
 }
 
 .content-button {
