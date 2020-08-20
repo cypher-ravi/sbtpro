@@ -36,27 +36,25 @@
   {% endblock %}
   {% block body %}
   {% load static %}
-  {% for cat in categories %}
+  {% for category in filtered_categories %}
   <div class="container-top">
   <div class="list-group">
 
     <a href="/website/categories" class="list-group-item list-group-item-action active">
-      {{ cat.category_name }}
+      {{ category.category_name }}
     </a>
-    {% if not cat.sub_category %}
-    <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name1 }}</a>
-  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name2 }}</a>
-  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name3 }}</a>
-  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name4 }}</a>
-  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name5 }}</a>
-  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name6 }}</a>
-  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name7 }}</a>
-  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name8 }}</a>
-  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name9 }}</a>
-  <a href="#" class="list-group-item list-group-item-action">{{ cat.sub_category_name10 }}</a>
-    {% else %}
-    <p><em>No entries for{{ cat.category_name }}</em></p>26
+    {% if sub_category %}
+    {% for i in sub_category|slice:"0:"  %}
+        <a href="#" class="list-group-item list-group-item-action">{{ i.sub_category_name }} </a>
+    {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
+    
+      <a href=""></a>              
     {% endif %}
+    {% endfor %}
+
+    {% else %}
+    <p style="text-align: center;margin-top:20px ;"><em>No entries for {{ category.category_name }}</em></p>
+    {% endif %} 
 </div>
 </div>
 

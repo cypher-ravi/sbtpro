@@ -55,19 +55,7 @@ class Order(models.Model):
         return self.email_id
 
 
-class Service(models.Model):
-    service_id = models.AutoField
-    service_name = models.CharField(max_length=50)
-    category = models.CharField(max_length=50, default="")
-    category_title = models.CharField(max_length=150, default="")
-    Subcategory = models.CharField(max_length=50, default="")
-    price = models.IntegerField(default=0)
-    service_desc = models.CharField(max_length=120,)
-    publish_date = models.DateField()
-    Image = models.ImageField(upload_to="website/images", default="")
 
-    def __str__(self):
-        return self.service_name
 
 
 class Job(models.Model):
@@ -95,22 +83,42 @@ class Upload_resume(models.Model):
         return self.name
 
 
+
+
+
+
 class Categories(models.Model):
     category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=50, default='')
-    sub_category_name1 = models.CharField(max_length=50,null=True, default='')
-    sub_category_name2 = models.CharField(max_length=50, default='',null=True,blank=True)
-    sub_category_name3 = models.CharField(max_length=50, default='',null=True,blank=True)
-    sub_category_name4 = models.CharField(max_length=50, default='',null=True,blank=True)
-    sub_category_name5 = models.CharField(max_length=50, default='',null=True,blank=True)
-    sub_category_name6 = models.CharField(max_length=50, default='',null=True,blank=True)
-    sub_category_name7 = models.CharField(max_length=50, default='',null=True,blank=True)
-    sub_category_name8 = models.CharField(max_length=50, default='',null=True,blank=True)
-    sub_category_name9 = models.CharField(max_length=50, default='',null=True,blank=True)
-    sub_category_name10 = models.CharField(max_length=50, default='',null=True,blank=True)
-
+   
     def __str__(self):
         return self.category_name
+
+class Subcategory(models.Model):
+    subcategory_id = models.AutoField(primary_key=True)
+    sub_category_name = models.CharField(max_length=50,null=False, default='')
+    category_name = models.ForeignKey(to=Categories,related_name='sub_category',null=True,blank=True,on_delete=models.CASCADE)
+   
+    def __str__(self):
+        return self.sub_category_name
+
+
+
+
+
+class Service(models.Model):
+    service_id = models.AutoField
+    service_name = models.CharField(max_length=50)
+    category = models.CharField(max_length=150, default="")
+    category_title = models.CharField(max_length=150, default="")
+    subcategory = models.CharField(max_length=150, default="")
+    price = models.IntegerField(default=0)
+    service_desc = models.CharField(max_length=120,)
+    publish_date = models.DateField()
+    Image = models.ImageField(upload_to="website/images", default="")
+
+    def __str__(self):
+        return self.service_name
 
 
 
@@ -203,7 +211,7 @@ class Vendors(models.Model):
      Name = models.CharField(max_length=50,default='')
      Company_Name = models.CharField(max_length=100,default='')
     #  Busniess_Type = models.CharField(max_length=1000,choices=Business_TYPES,default='Please Select')
-     Busniess_Type = models.ForeignKey(Categories,on_delete=models.CASCADE)
+     Busniess_Type = models.ForeignKey(Categories,on_delete=models.CASCADE,related_name='category')
      Service_decsription = models.CharField(max_length=1000,default='')
      Mobile_No = PhoneNumberField()
      Mobile_No_2 = PhoneNumberField()
@@ -266,3 +274,5 @@ class QueryContacts(models.Model):
 
     def __str__(self):
         return self.customer_name
+
+

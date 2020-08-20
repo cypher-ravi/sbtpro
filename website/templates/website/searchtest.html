@@ -49,6 +49,11 @@
       margin-top: -150px;
 
     }
+       .top-img{
+        height: 200px;
+        width: 250px;
+
+     }
 </style>
 {% endblock %} {% block body %} {% load static %}
 <h2 style="text-transform: lowercase; margin-top: 150px; text-align: left ;margin-bottom: -300px; margin-left: 80px; font-size: large;" >
@@ -63,6 +68,7 @@
 </p>
 
 {% endif %}
+<div class="row mt-4">
 
 {% for loc in vendor_location %}
   {% if loc.Address1 or loc.Address2  or loc.city  or loc.state == location %}
@@ -73,8 +79,11 @@
   </div>
 
 
-  <div class="media container-media">
-    <img src="/media/{{ loc.Image }}" class="align-self-center mr-3" alt="...">
+ <div class="col-md-4 mt-5">
+    <img src="/media/{{ loc.Image }}" class="img-fluid top-img" alt="...">
+    </div>
+     <div class="col-md-8">
+        <div class="media mt-4">
     <div class="media-body">
       <h5 class="mt-0">{{ loc.Company_Name }}</h5>
       <p>{{ loc.Service_decsription }}</p>
@@ -83,6 +92,11 @@
         <li><b>Contact:</b> {{ loc.Mobile_No }} </li>
     </ul>
     </div>
+     {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
+            <div class="media"> </div>
+            {% endif %}
+            </div>
+  </div>
   </div>
   {% else %}
   <p><em>No entries in{{ location }}</em></p>

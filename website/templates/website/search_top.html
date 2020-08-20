@@ -38,38 +38,30 @@ sty
     <!-- members area start -->
     <section class="container" style="margin-top: 100px;margin-bottom: 100px;">
        
+<div class="row mt-4">
 
-    <div class="media">
-  <img src="/media/{{ team.0.Image }}" class="align-self-center mr-3 top-img" alt="...">
-  <div class="media-body">
-    <h5 class="mt-0">{{ team.0.vendor_name }}</h5>
-    <h6 class="mt-0">- {{ team.0.Busniess_Type }}</h6>
-    <p class="mb-0"> {{ team.0.vendor_work_desc|slice:"200"  }}</p>
-    <ul>
-        <li><b>Address:</b> {{ team.0.address }}  {{ team.0.city }} {{ team.0.state }}  </li>
-        <li><b>Contact:</b> {{ team.0.vendor_mobile_no }} </li>
-    </ul>
-    
-  </div>
-</div>
-{% for i in team|slice:"1:"  %}
+{% for i in filtered_top_vendors|slice:"0:"  %}
 
-
-<div class="media mt-4">
-    <img src="/media/{{ i.Image }}" class="align-self-center mr-3 top-img" alt="...">
-    <div class="media-body">
-      <h5 class="mt-0">{{ i.vendor_name }}</h5>
-      <h6 class="mt-0">- {{ i.Busniess_Type  }}</h6>
-      <p class="mb-0"> {{ i.vendor_work_desc|slice:"350"  }}</p>
-      <ul>
-        <li><b>Address:</b> {{ i.address }} {{ i.city }} {{ i.state }}  </li>
-        <li><b>Contact:</b> {{ i.vendor_mobile_no }} </li>
-    </ul>
+ <div class="col-md-3 mt-4">
+        <img src="/media/{{ i.Image }}" class="img-fluid top-img" alt="...">
     </div>
-  </div>
-  {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
-  <div class="media"> </div>
-  {% endif %}
+    <div class="col-md-9">
+        <div class="media mt-4">
+            <div class="media-body">
+              <h5 class="mt-0">{{ i.vendor_name }}</h5>
+              <h6 class="mt-0">- {{ i.Busniess_Type  }}</h6>
+              <p class="mb-0"> {{ i.vendor_work_desc|slice:"350"  }}</p>
+              <ul>
+                <li><b>Address:</b> {{ i.address }} {{ i.city }} {{ i.state }}  </li>
+                <li><b>Contact:</b> {{ i.vendor_mobile_no }} </li>
+            </ul>
+            </div>
+            
+            {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
+            <div class="media"> </div>
+            {% endif %}
+        </div>
+    </div>
   {% endfor %}
 </section>
 

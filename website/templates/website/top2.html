@@ -1,0 +1,107 @@
+{% extends 'website/layout.html' %}
+{% block title %}SBT Professionals{% endblock %}
+{% block css %}
+<style>
+    .top-img{
+        height: 200px;
+        width: 250px;
+
+     }
+     .search-container {
+     display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+</style>
+{% endblock css %}
+sty
+
+{% block body %}
+{% load static %}
+<main>
+    <!-- breadcrumb banner content area start -->
+    <div class="lernen_banner large bg-about">
+        <div class="container">
+            <div class="row">
+                <div class="lernen_banner_title">
+                    <h1>Our Team of Professionals</h1>
+                    <div class="lernen_breadcrumb">
+                        <div class="breadcrumbs">
+									<span class="first-item">
+									<a href="/website/">Homepage</a></span>
+                            <span class="separator">&gt;</span>
+                            <span class="last-item">Our Team of Professionals</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end breadcrumb banner content area start -->
+
+    <!-- members area start -->
+     <div class="search-container">
+            <form  action="/website/search_top" method="GET">
+              <input type="text" class="input-search" placeholder="Search for vendors" name="query">
+              <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+          </div>
+    <section class="container" style="margin-top: 100px;margin-bottom: 100px;">
+       
+        <div class="row">
+            <!-- <div class="media"> -->
+            <div class="col-md-3 mt-2 ">
+                <img src="/media/{{ team.0.Image }}" class="align-self-center mr-3 top-img" alt="...">
+
+            </div>
+            <div class="col-md-9">
+
+                <div class="media-body">
+                  <h5 class="mt-0">{{ team.0.vendor_name }}</h5>
+                  <h6 class="mt-0">- {{ team.0.Busniess_Type }}</h6>
+                  <p class="mb-0"> {{ team.0.vendor_work_desc|slice:"200"  }}</p>
+                  <ul>
+                      <li><b>Address:</b> {{ team.0.address }}  {{ team.0.city }} {{ team.0.state }}  </li>
+                      <li><b>Contact:</b> {{ team.0.vendor_mobile_no }} </li>
+                  </ul>
+                  
+                </div>
+            </div>
+        <!-- </div> -->
+
+</div>
+<div class="row mt-4">
+{% for i in team|slice:"1:"  %}
+
+
+    <div class="col-md-3 mt-4">
+        <img src="/media/{{ i.Image }}" class="img-fluid top-img" alt="...">
+    </div>
+    <div class="col-md-9">
+        <div class="media mt-4">
+            <div class="media-body">
+              <h5 class="mt-0">{{ i.vendor_name }}</h5>
+              <h6 class="mt-0">- {{ i.Busniess_Type  }}</h6>
+              <p class="mb-0"> {{ i.vendor_work_desc|slice:"350"  }}</p>
+              <ul>
+                <li><b>Address:</b> {{ i.address }} {{ i.city }} {{ i.state }}  </li>
+                <li><b>Contact:</b> {{ i.vendor_mobile_no }} </li>
+            </ul>
+            </div>
+            
+            {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
+            <div class="media"> </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</section>
+
+
+
+</main>
+
+{% endblock %}

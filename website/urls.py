@@ -17,6 +17,7 @@ urlpatterns = [
     path("process/", views.process, name='process'),
     path("FAQ/", views.faq, name='faq'),
     path("top/", views.top, name='top'),
+    path("search_top/", views.search_top, name='search_top'),
     path("single_vendor/<str:slug>", views.single_vendor, name='download'),
     path("categories/<str:slug>", views.categories, name='categories'),
     path("services/<str:slug>", views.service_detail, name='service_detail'),

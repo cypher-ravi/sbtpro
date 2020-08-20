@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories, TOP, ServiceContact,Vendors,Trading,Faq,QueryContacts
+from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories, TOP, ServiceContact, Vendors,Subcategory,Trading, Faq, QueryContacts
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
@@ -23,7 +23,6 @@ MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 
 
 def index(request):
-
     category = Categories.objects.all()
     # Logic for services
     services = Service.objects.all()
@@ -32,7 +31,8 @@ def index(request):
     vendor = TOP.objects.all()
 
     plans = Plans.objects.all()
-    return render(request, 'website/index.html', {'plans': plans, 'category': category, 'services': services, 'vendor': vendor})
+    return render(request, 'website/index.html',
+                  {'plans': plans, 'category': category, 'services': services, 'vendor': vendor})
 
 
 # Function to take input from form and send it through email
@@ -68,14 +68,14 @@ def freelisting(request):
             listing.save()
             messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24'
                                       'hours.')
-    return render(request, 'website/listing.html',{'vendor':vendor})
+    return render(request, 'website/listing.html', {'vendor': vendor})
 
 
 def customer_membership(request):
     plans = Plans.objects.all()
     vendor = TOP.objects.all()
 
-    return render(request, 'website/membership.html', {'plans': plans,'vendor':vendor})
+    return render(request, 'website/membership.html', {'plans': plans, 'vendor': vendor})
 
 
 def jobs(request):
@@ -102,9 +102,9 @@ def jobs(request):
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
         )
-        return render(request, 'website/form.html',{'vendor':vendor})
+        return render(request, 'website/form.html', {'vendor': vendor})
 
-    return render(request, 'website/form.html',{'vendor':vendor})
+    return render(request, 'website/form.html', {'vendor': vendor})
 
 
 def upload_resume(request):
@@ -118,12 +118,12 @@ def upload_resume(request):
                 fs = FileSystemStorage()
                 fs.save(uploaded_resume.name, uploaded_resume)
                 messages.success(request,
-                                'Resume submission successful. SBT Professional team Contact You within 24 hours.')
+                                 'Resume submission successful. SBT Professional team Contact You within 24 hours.')
                 try:
                     file = settings.MEDIA_URL[1:] + str(uploaded_resume)
                     from django.core.mail import EmailMessage
                     msg = EmailMessage('New job Seeker on your website', 'name =' + name, 'rk7305758@gmail.com',
-                                    ['ronniloreo@gmail.com'])
+                                       ['ronniloreo@gmail.com'])
                     msg.attach_file(file)
                     msg.send()
                 except Exception as e:
@@ -133,17 +133,20 @@ def upload_resume(request):
 
         return render(request, 'website/form.html')
     except:
-        return render(request,'website/404.html')
+        return render(request, 'website/404.html')
 
 
 def download(request):
     vendor = TOP.objects.all()
-    return render(request, 'website/downloadapp.html',{'vendor':vendor})
+    return render(request, 'website/downloadapp.html', {'vendor': vendor})
 
 
 def categories(request, slug):
-    category = Categories.objects.filter(category_name=slug)
-    return render(request, 'website/category.html', {'categories': category})
+    filtered_categories = Categories.objects.filter(category_name=slug)
+    related_sub_category = Subcategory.objects.all().filter(category_name__in=filtered_categories)
+    print(filtered_categories)
+    print(related_sub_category) 
+    return render(request, 'website/category.html', {'filtered_categories': filtered_categories,'sub_category':related_sub_category})
 
 
 # A's here  ------------------
@@ -284,6 +287,7 @@ def log_in(request):
             return redirect('Sbthome')
     return render(request, 'website/login.html')
 
+
 # return redirect(index)
 
 
@@ -303,6 +307,7 @@ def username_validator(request):
             data['error_message'] = 'A user with this username already exists.'
         print(data)
     return JsonResponse(data)
+
 
 # A done here -------------------------------------
 
@@ -340,52 +345,64 @@ def service_detail(request, slug):
             return render(request, 'website/services-detail.html', {'services': services})
         else:
             messages.error(request, 'Form Not Submitted Try Again!!', {
-                           'services': services})
+                'services': services})
             return redirect(request, 'website/services-detail.html', {'services': services})
 
     return render(request, 'website/services-detail.html', {'services': services})
 
 
-
 def search(request):
-    query = request.GET['query']
-    location = request.GET['location']
-    if len(query) > 80 and len(location) > 20:
-        categories = Categories.objects.none()  
-    else:
-        categories_names = Categories.objects.filter(category_name__icontains=query)
-       
-        vendor_address_location1 = Vendors.objects.filter(Address1__icontains=location)
-        vendor_address_location2 = Vendors.objects.filter(Address2__icontains=location)
-        vendor_work_description = Vendors.objects.filter(Service_decsription__icontains=query)
-        subcategories1 = Categories.objects.filter(sub_category_name1__icontains=query)
-        subcategories2 = Categories.objects.filter(sub_category_name2__icontains=query)
-        subcategories3 = Categories.objects.filter(sub_category_name3__icontains=query)
-        subcategories4 = Categories.objects.filter(sub_category_name4__icontains=query)
-        subcategories5 = Categories.objects.filter(sub_category_name5__icontains=query)
-        subcategories6 = Categories.objects.filter(sub_category_name6__icontains=query)
-        subcategories7 = Categories.objects.filter(sub_category_name7__icontains=query)
-        subcategories8 = Categories.objects.filter(sub_category_name8__icontains=query)
-        subcategories9 = Categories.objects.filter(sub_category_name9__icontains=query)
-        subcategories10 = Categories.objects.filter(sub_category_name10__icontains=query)
-        categories = categories_names.union(subcategories1,subcategories2,subcategories3,subcategories4,subcategories5,subcategories6,subcategories7,subcategories8,subcategories9,subcategories10)
-        vendor_location = vendor_address_location1.union(vendor_address_location2,vendor_work_description)
-        print(location)
-    params =  {'categories':categories,'query':query,'vendor_location':vendor_location,'location':location}
-    return render(request,'website/searchtest.html',params)
+    try:
+        query = request.GET['query']
+        location = request.GET['location']
+        if len(query) > 80 and len(location) > 20:
+            categories = Categories.objects.none()
+        else:
+            categories_names = Categories.objects.filter(category_name__icontains=query)
+            vendor_address_location1 = Vendors.objects.filter(Address1__icontains=location)
+            vendor_address_location2 = Vendors.objects.filter(Address2__icontains=location)
+            vendor_work_description = Vendors.objects.filter(Service_decsription__icontains=query)
+
+            
+            vendor_location = vendor_address_location1.union(vendor_address_location2, vendor_work_description)
+            categories = categories_names
+            print(location)
+            print(categories)
+
+        params = {'categories': categories, 'query': query, 'vendor_location': vendor_location, 'location': location}
+        return render(request, 'website/searchtest.html', params)
+    except:
+        return render(request,'website/coming-soon.html')
+        
 
 
-#function for define process of organisation
+# function for define process of organisation
 def process(request):
     vendor = TOP.objects.all()
 
-    return render(request,'website/process.html',{'vendor':vendor})
+    return render(request, 'website/process.html', {'vendor': vendor})
 
-#for list all team of professionals 
+
+# for list all team of professionals
 def top(request):
     vendor = TOP.objects.all()
     team = TOP.objects.all()
-    return render(request,'website/top.html',{'vendor':vendor,'team':team})
+    return render(request, 'website/top2.html', {'vendor': vendor, 'team': team})
+
+def search_top(request):
+    team = TOP.objects.all()
+    query = request.GET['query']
+    if len(query) > 80:
+        filtered_top_vendors = TOP.objects.none()
+    else:
+        top_vendors = TOP.objects.filter(vendor_name__icontains=query)
+        top_vendors_business_type = TOP.objects.filter(Busniess_Type__icontains=query)
+        top_vendors_work = TOP.objects.filter(vendor_work_desc__icontains=query)
+        filtered_top_vendors = top_vendors.union(top_vendors_business_type,top_vendors_work)
+        print(filtered_top_vendors)
+    return render(request,'website/search_top.html',{'filtered_top_vendors':filtered_top_vendors})
+
+
 
 
 def trading(request):
@@ -397,25 +414,25 @@ def trading(request):
         address_to = request.POST.get('address_to', '')
         mobile = request.POST.get('mobile', '')
         zip_code = request.POST.get('zip_code', '')
-        customer = Trading(customer_name=customer_name,product_name=product_name,address_from=address_from,address_to=address_to,mobile=mobile,zip_code=zip_code)
+        customer = Trading(customer_name=customer_name, product_name=product_name, address_from=address_from,
+                           address_to=address_to, mobile=mobile, zip_code=zip_code)
         customer.save()
         if product_name:
             send_mail(
-                    subject='New Customer registered for service',
-                    message=f"Customer Name = {customer_name}\nProduct Name = {product_name}\nAddress From = {address_from}\nAddress To = {address_to}\nMobile No. ={mobile}\nZip code = {zip_code}",
-                    from_email='rk7305758@gmail.com',
-                    recipient_list=['ronniloreo@gmail.com'],
-                    fail_silently=False)
-                # contact@sbtprofessionals.com
-                # teamofprofessionals2015@gmail.com
+                subject='New Customer registered for service',
+                message=f"Customer Name = {customer_name}\nProduct Name = {product_name}\nAddress From = {address_from}\nAddress To = {address_to}\nMobile No. ={mobile}\nZip code = {zip_code}",
+                from_email='rk7305758@gmail.com',
+                recipient_list=['ronniloreo@gmail.com'],
+                fail_silently=False)
+            # contact@sbtprofessionals.com
+            # teamofprofessionals2015@gmail.com
             messages.success(request,
-                                'Order successful.')
-            return render(request, 'website/trading-info.html',{'vendor':vendor})
+                             'Order successful.')
+            return render(request, 'website/trading-info.html', {'vendor': vendor})
         else:
-            messages.error(request,'Failed to Order Try Again!')
-            return render(request,'website/trading-info.html',{'vendor':vendor})
-    return render(request,'website/trading-info.html',{'vendor':vendor})
-
+            messages.error(request, 'Failed to Order Try Again!')
+            return render(request, 'website/trading-info.html', {'vendor': vendor})
+    return render(request, 'website/trading-info.html', {'vendor': vendor})
 
 
 def faq(request):
@@ -425,30 +442,31 @@ def faq(request):
         customer_name = request.POST.get('customer_name', '')
         mobile = request.POST.get('mobile', '')
         message = request.POST.get('message', '')
-        query = QueryContacts(customer_name=customer_name,mobile=mobile,message=message)
+        query = QueryContacts(customer_name=customer_name, mobile=mobile, message=message)
         query.save()
         if message:
             send_mail(
-                    subject='New Query from customer',
-                    message=f"Customer Name = {customer_name}\nMobile No. ={mobile}\nQueryMessage = {message}",
-                    from_email='rk7305758@gmail.com',
-                    recipient_list=['ronniloreo@gmail.com'],
-                    fail_silently=False)
-                # contact@sbtprofessionals.com
-                # teamofprofessionals2015@gmail.com
+                subject='New Query from customer',
+                message=f"Customer Name = {customer_name}\nMobile No. ={mobile}\nQueryMessage = {message}",
+                from_email='rk7305758@gmail.com',
+                recipient_list=['ronniloreo@gmail.com'],
+                fail_silently=False)
+            # contact@sbtprofessionals.com
+            # teamofprofessionals2015@gmail.com
             messages.success(request,
-                                'Query Submittion successful.')
-            return render(request, 'website/faq.html',{'faqs':faq_query,'vendor':vendor})
+                             'Query Submittion successful.')
+            return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor})
         else:
-            messages.error(request,'Failed to submit Try Again!')
-            return render(request,'website/faq.html',{'faqs':faq_query,'vendor':vendor})
-    return render(request,'website/faq.html',{'faqs':faq_query,'vendor':vendor})
-
-
+            messages.error(request, 'Failed to submit Try Again!')
+            return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor})
+    return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor})
 
 
 def newsletter(request):
-    return render(request,'website/coming-soon.html')
+    return render(request, 'website/coming-soon.html')
+
 
 def tac(request):
-    return render(request,'website/Terms_and_condition.html')
+    return render(request, 'website/Terms_and_condition.html')
+
+

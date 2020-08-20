@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
    <head>
+      {% load static %}
+
       <title>Show Payment Page</title>
+      <link rel="stylesheet" href="{%static 'website/css/style.css' %}" >
    </head>
-   <body>
-      <center>
+   <body onload="myFunction()">
+
+      <div id="loading"></div>    
+        <center>
             Redirecting you to payment page ...
          <strong>Please do not refresh this page!</strong>
       </center>
@@ -18,5 +23,12 @@
          </table>
          <script type="text/javascript"> document.paytm.submit(); </script>
       </form>
+      <script>
+         var preloader = document.getElementById("loading");
+         function myFunction(){
+           preloader.style.display = 'none';
+         };
+       </script>
+     
    </body>
 </html>
