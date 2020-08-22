@@ -103,8 +103,14 @@ class Subcategory(models.Model):
         return self.sub_category_name
 
 
+class Sub_sub_category(models.Model):
+    subcategory_id = models.AutoField(primary_key=True)
+    sub_sub_category_name = models.CharField(max_length=50,null=False, default='')
+    sub_category_name = models.ForeignKey(to=Subcategory,related_name='sub_category',null=True,blank=True,on_delete=models.CASCADE)
+   
 
-
+    def __str__(self):
+        return self.sub_sub_category_name
 
 class Service(models.Model):
     service_id = models.AutoField
@@ -127,7 +133,7 @@ class TOP(models.Model):
     vendor_id = models.AutoField(primary_key=True)
     vendor_name = models.CharField(max_length=50,default='')
     Busniess_Type = models.CharField(max_length=100,default='')
-    vendor_work_desc = models.CharField(max_length=1000,default='')
+    vendor_work_desc = models.TextField(max_length=1000,default='')
     address = models.CharField(max_length=100,default='')
     state = models.CharField(max_length=100,default='')
     city = models.CharField(max_length=100,default='')
@@ -148,7 +154,7 @@ class ServiceContact(models.Model):
     registrant_name =  models.CharField(max_length=50,default='')
     registrant_mobile_no = PhoneNumberField()
     registrant_interest = models.CharField(max_length=50,default='')
-    registrant_query = models.CharField(max_length=500,default='')
+    registrant_query = models.TextField()
 
 
     def __str__(self):
@@ -258,8 +264,8 @@ class Faq(models.Model):
     question_id = models.AutoField(primary_key=True)
     question_category = models.CharField(max_length=100,default='')
     market_executive_name = models.CharField(max_length=50,default='') 
-    question = models.CharField(max_length=500)
-    answer = models.CharField(max_length=500)
+    question = models.TextField()
+    answer = models.TextField()
   
 
     def __str__(self):
@@ -276,3 +282,25 @@ class QueryContacts(models.Model):
         return self.customer_name
 
 
+class Feedback(models.Model):
+    customer_id = models.AutoField(primary_key=True)
+    feed_back = models.CharField(max_length=50,default=False)
+    Comments = models.TextField()
+    customer_name = models.CharField(max_length=50,default='')
+    email = models.EmailField()
+
+
+    def __str__(self):
+        return self.customer_name
+      
+class Contactviacategory(models.Model):
+    registrant_id = models.AutoField(primary_key=True)
+    registrant_name =  models.CharField(max_length=50,default='')
+    registrant_mobile_no = PhoneNumberField()
+    calling_time = models.CharField(max_length=50,default='')
+    category = models.CharField(max_length=50,default='')
+
+
+    def __str__(self):
+        return self.registrant_name
+    

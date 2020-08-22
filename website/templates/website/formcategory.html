@@ -1,0 +1,54 @@
+{% extends 'website/layout.html' %}
+{% block title %}Contact-SBT Professionals{% endblock %}
+{% block css %}
+<style>
+
+.form-contact{
+    margin: 140px 0px 20px 380px;
+    width: 500px;
+
+
+}
+</style>
+{% endblock css %}
+
+{% block body %}
+{% load static %}
+
+<form method="POST" action="/contact/{{related_sub_sub_category.sub_sub_category_name }}">{% csrf_token %}
+<div class="container form-contact">
+    <h3>Share Your Details:</h3>
+    <div class="form-group ">
+      <label for="exampleFormControlInput1">Mobile no.</label>
+      <input type="number" class="form-control" name="mobile" id="mobile" placeholder="mobile no.">
+    </div>
+    <div class="form-group ">
+        <label for="exampleFormControlInput1">Name</label>
+        <input type="text" class="form-control"  name="name" id="name" placeholder="Your name">
+      </div>
+        <div class="col-sm-12 form-group">
+            <label>I would like to recieve calls from experts!</label>
+            <p>
+                <label class="radio-inline">
+                <input type="radio" name="time" id="radio_experience" value="Average" >
+                Any Time
+                </label>
+
+                <label class="radio-inline ml-4">
+                <input type="radio" name="time" id="radio_experience" value="Good" >
+                3PM - 6PM
+                </label>
+
+                <label class="radio-inline ml-4">
+                <input type="radio" name="time" id="radio_experience" value="Very Good" >
+                6PM - 9PM
+                </label>
+            </p>
+            </div>
+    <div class="form-group">
+      <p>By Submitting request you accepted our <a href="/website/TermsCondition" style="color: blue;">Terms and Conditions.</a></p>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+{% endblock %}

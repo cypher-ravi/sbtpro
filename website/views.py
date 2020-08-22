@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories, TOP, ServiceContact, Vendors,Subcategory,Trading, Faq, QueryContacts
+from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories,Sub_sub_category, TOP, ServiceContact, Vendors,Subcategory,Trading, Faq, QueryContacts,Feedback,Contactviacategory
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
@@ -144,10 +144,12 @@ def download(request):
 def categories(request, slug):
     filtered_categories = Categories.objects.filter(category_name=slug)
     related_sub_category = Subcategory.objects.all().filter(category_name__in=filtered_categories)
-    print(filtered_categories)
-    print(related_sub_category) 
     return render(request, 'website/category.html', {'filtered_categories': filtered_categories,'sub_category':related_sub_category})
 
+def sub_to_sub_category(request, slug):
+    related_sub_category = Subcategory.objects.all().filter(sub_category_name=slug)
+    related_sub_sub_category = Sub_sub_category.objects.all().filter(sub_category_name__in=related_sub_category)
+    return render(request, 'website/subcategory.html', {'sub_category':related_sub_category,'related_sub_sub_category':related_sub_sub_category})
 
 # A's here  ------------------
 
@@ -391,6 +393,7 @@ def top(request):
 
 def search_top(request):
     team = TOP.objects.all()
+    vendor = TOP.objects.all()
     query = request.GET['query']
     if len(query) > 80:
         filtered_top_vendors = TOP.objects.none()
@@ -400,7 +403,7 @@ def search_top(request):
         top_vendors_work = TOP.objects.filter(vendor_work_desc__icontains=query)
         filtered_top_vendors = top_vendors.union(top_vendors_business_type,top_vendors_work)
         print(filtered_top_vendors)
-    return render(request,'website/search_top.html',{'filtered_top_vendors':filtered_top_vendors})
+    return render(request,'website/search_top.html',{'filtered_top_vendors':filtered_top_vendors,'vendor': vendor})
 
 
 
@@ -463,10 +466,32 @@ def faq(request):
 
 
 def newsletter(request):
-    return render(request, 'website/coming-soon.html')
+    vendor = TOP.objects.all()
+    return render(request, 'website/coming-soon.html',{ 'vendor': vendor})
 
 
 def tac(request):
-    return render(request, 'website/Terms_and_condition.html')
+    vendor = TOP.objects.all()
+    return render(request, 'website/Terms_and_condition.html',{ 'vendor': vendor})
+
+
+def feedback(request):
+    vendor = TOP.objects.all()
+    if request.method == 'POST':
+        feed_back = request.POST['experience']
+        Comments = request.POST.get('comments')
+        customer_name = request.POST.get('name')
+        email = request.POST.get('email')
+        if feed_back:
+            customer_feedback = Feedback(feed_back=feed_back,Comments=Comments,customer_name=customer_name,email=email)
+            customer_feedback.save()
+            messages.success(request,'Form Submitted Successfully!')
+            return render(request,'website/feedback.html',{ 'vendor': vendor})
+        else:
+            messages.error(request,'Form not submitted! TRY AGAIN')
+            return render(request,'website/feedback.html',{ 'vendor': vendor})
+
+    return render(request,'website/feedback.html',{ 'vendor': vendor})
+
 
 

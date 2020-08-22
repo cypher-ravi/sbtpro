@@ -1,5 +1,5 @@
 {% extends 'website/layout.html' %}
-{% block title %}Categorires-SBT Professionals{% endblock %}
+{% block title %}SubCategorires-SBT Professionals{% endblock %}
 
 {% block css %}
 <style>
@@ -36,24 +36,24 @@
   {% endblock %}
   {% block body %}
   {% load static %}
-  {% for category in filtered_categories %}
+  {% for subcat in sub_category %}
   <div class="container-top">
   <div class="list-group">
-    
+
     <a href="/website/categories" class="list-group-item list-group-item-action active">
-      {{ category.category_name }}
+      {{ subcat.sub_category_name }}
     </a>
-    {% if sub_category %}
-    {% for i in sub_category|slice:"0:"  %}
-        <a href="/website/subcategories/{{ i.sub_category_name }}" class="list-group-item list-group-item-action">{{ i.sub_category_name }} </a>
+    {% if related_sub_sub_category %}
+    {% for i in related_sub_sub_category|slice:"0:"  %}
+        <a href="" class="list-group-item list-group-item-action">{{ i.sub_sub_category_name }} </a>
     {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
     
-      <a href="/website/subcategories/{{ i.sub_category_name }}"></a>              
+      <a href=""></a>              
     {% endif %}
     {% endfor %}
 
     {% else %}
-    <p style="text-align: center;margin-top:20px ;"><em>No entries for {{ category.category_name }}</em></p>
+    <p style="text-align: center;margin-top:20px ;"><em>No entries for {{  subcat.sub_category_name }}</em></p>
     {% endif %} 
 </div>
 </div>
