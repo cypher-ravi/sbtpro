@@ -3,9 +3,12 @@
   <title>{% block title %}{% endblock %}</title>
 
   <head>
-      {% load static %}
+    {% load static %}
     <!-- Metas Basic -->
-    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+    <meta
+      name="google-signin-client_id"
+      content="YOUR_CLIENT_ID.apps.googleusercontent.com"
+    />
 
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta
@@ -20,49 +23,72 @@
     />
     <!-- Title -->
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{%static 'website/images/favicon.png' %}" type="image/x-icon" >
+    <link
+      rel="shortcut icon"
+      href="{%static 'website/images/favicon.png' %}"
+      type="image/x-icon"
+    />
     <!-- Bootstrap  -->
-    <link rel="stylesheet" href="{%static 'website/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{%static 'website/css/bootstrap.min.css' %}" />
     <!-- owl carousel theme default CSS file -->
-    <link rel="stylesheet" href="{%static 'website/css/owl.theme.default.min.css' %}" >
+    <link
+      rel="stylesheet"
+      href="{%static 'website/css/owl.theme.default.min.css' %}"
+    />
     <!-- owl carousel CSS file -->
-    <link rel="stylesheet" href="{%static 'website/css/owl.carousel.min.css' %}" >
+    <link
+      rel="stylesheet"
+      href="{%static 'website/css/owl.carousel.min.css' %}"
+    />
     <!-- Main Custom CSS -->
-    <link rel="stylesheet" href="{%static 'website/css/main.css' %}" >
+    <link rel="stylesheet" href="{%static 'website/css/main.css' %}" />
     <!-- Slick  -->
-    <link rel="stylesheet" href="{%static 'website/css/slick.css' %} " >
+    <link rel="stylesheet" href="{%static 'website/css/slick.css' %} " />
     <!-- Font Awesome  -->
-    <link rel="stylesheet" href="{%static 'website/css/fontawesome.min.css' %}">
+    <link
+      rel="stylesheet"
+      href="{%static 'website/css/fontawesome.min.css' %}"
+    />
     <!-- jQuery Fancybox  -->
-    <link rel="stylesheet" href="{%static 'website/css/jquery.fancybox.css' %}">
+    <link
+      rel="stylesheet"
+      href="{%static 'website/css/jquery.fancybox.css' %}"
+    />
     <!-- jQuery Fancybox  -->
-    <link rel="stylesheet" href="{%static 'website/css/style.css' %}" >
+    <link rel="stylesheet" href="{%static 'website/css/style.css' %}" />
     <!-- Magnific Popup core CSS file -->
-    <link rel="stylesheet" href="{%static 'website/css/magnific-popup.css'%}" >
-    <link rel="stylesheet" href="{%static 'website/fonts/flaticon/flaticon.css'%}" >
+    <link rel="stylesheet" href="{%static 'website/css/magnific-popup.css'%}" />
+    <link
+      rel="stylesheet"
+      href="{%static 'website/fonts/flaticon/flaticon.css'%}"
+    />
     <!-- services carousel CSS file -->
-    <link rel="stylesheet" href="{%static 'website/css/carousel.css'%}" >
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
-    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'website/css/carousel.css'%}" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans"
+    />
+    <link
+      href="https://use.fontawesome.com/releases/v5.0.1/css/all.css"
+      rel="stylesheet"
+    />
 
-
-
-<!--    manually added-->
+    <!--    manually added-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="//code.tidio.co/dsqvii9sqr9iyv4pbcn4c8tekzndgyr9.js" async></script>
+    <script
+      src="//code.tidio.co/dsqvii9sqr9iyv4pbcn4c8tekzndgyr9.js"
+      async
+    ></script>
     <style>
       @media only screen and (min-width: 993px) {
-      .hide-on-desktop-only {
-      display: none !important;
+        .hide-on-desktop-only {
+          display: none !important;
+        }
       }
-      }
-      
-      </style>
+    </style>
 
-      {% block css %}
-
-      {% endblock %}
+    {% block css %} {% endblock %}
   </head>
   <body onload="myFunction()">
     <div id="loading"></div>
@@ -71,37 +97,37 @@
       <div class="topheader top_header_light">
         <div class="container">
           {% for message in messages %}
-        <div
-          class="alert alert-{{ message.tags }} alert-dismissible fade show"
-          role="alert"
-        >
-          <strong>Message!</strong> {{ message }}
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close"
+          <div
+            class="alert alert-{{ message.tags }} alert-dismissible fade show"
+            role="alert"
           >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        {% endfor %}
+            <strong>Message!</strong> {{ message }}
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
           <div class="row">
             <div class="col-lg-7">
               <div class="address-icon">
-
-                Register Your Business At SBT Professionals Platform,FREE FREE FREE! Call us today<a href="tel:+91 8295 393035">+91 8295 393035</a>
+                Register Your Business At SBT Professionals Platform,FREE FREE
+                FREE! Call us today<a href="tel:+91 8295 393035"
+                  >+91 8295 393035</a
+                >
               </div>
             </div>
             <div class="col-lg-5 text-right">
               <div class="custom-page-top">
-              <a href="/website/download" class="search-ico-btn ico-btn  "
-                >Download App</a
-              >
-            
-
+                <a href="/website/download" class="search-ico-btn ico-btn"
+                  >Download App</a
+                >
               </div>
-<!--
+              <!--
               <div class="social_top_header">
 
               </div> -->
@@ -120,7 +146,9 @@
           <!-- Logo and Menu -->
           <div class="navbar-header">
             <div class="navbar-brand">
-              <a href="/website/"><img src="{%static 'website/images/logo.png' %}" alt="Logo" /></a>
+              <a href="/website/"
+                ><img src="{%static 'website/images/logo.png' %}" alt="Logo"
+              /></a>
             </div>
             <!-- site logo -->
           </div>
@@ -132,42 +160,40 @@
           </div>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="nav navbar-nav ml-auto">
-
               <div class="hide-on-desktop-only">
-                
                 {% if user.is_authenticated %}
-                <div class="btn-group">
-                  <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="dropdown">
+                  <button type="button" class="dropdown-toggle" data-toggle="dropdown">
                     {{user}}
                   </button>
                   <div class="dropdown-menu">
-                    <a href="/website/logout"  data-toggle="dropdown">Logout</a>
-                   
-          
-    </div>
-  </div>
+                    <a class="dropdown-item" href="/website/logout/">Logout</a>
+                  </div>
+                </div> 
+                {% else %}
+                <a
+                  class="cursor-on-pointer"
+                  style="margin-left: 30px;"
+                  href="/website/login"
+                  role="button"
+                >
+                  Login |
+                </a>
+                <a
+                  class="cursor-on-pointer"
+                  href="/website/signup"
+                  role="button"
+                >
+                  Register
+                </a>
 
-{% else %}
-  <a
-    class="cursor-on-pointer " style="margin-left: 30px;"
-    href="/website/login" role="button"
-  >
-    Login |
-  </a>
-  <a
-    class="cursor-on-pointer"
-    href="/website/signup" role="button"
-  >
-    Register
-  </a>
-
-{% endif %}
-  </div>
+                {% endif %}
+              </div>
               <!-- Menu Link -->
               <li>
                 <a href="/website/freelisting">Free Listing</a>
               </li>
-                    <li class="subnav">
+              <li class="subnav">
                 <a href="/website/trading">SBT Trading</a>
                 <ul class="sub-menu">
                   <li>
@@ -179,82 +205,114 @@
                 </ul>
               </li>
 
-
               <li><a href="/website/membership">Customer Membership</a></li>
               <li><a href="/website/jobs">Jobs</a></li>
 
-  <li class="subnav">
+              <li class="subnav">
                 <a href="/website/top">TOP</a>
 
                 <ul class="sub-menu">
-                  <li><a href="/website/Topvendor/{{ vendor.1.vendor_name }}">MRT-Medical Rescue Team</a></li>
                   <li>
-                    <a href="/website/Topvendor/{{ vendor.0.vendor_name }}" class="nav-link">Stack Softwares</a>
+                    <a href="/website/Topvendor/{{ vendor.1.vendor_name }}"
+                      >MRT-Medical Rescue Team</a
+                    >
                   </li>
                   <li>
-                    <a href="/website/Topvendor/{{ vendor.2.vendor_name }}" class="nav-link"
+                    <a
+                      href="/website/Topvendor/{{ vendor.0.vendor_name }}"
+                      class="nav-link"
+                      >Stack Softwares</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="/website/Topvendor/{{ vendor.2.vendor_name }}"
+                      class="nav-link"
                       >KWP (komalpreet wedding planner)</a
                     >
                   </li>
                   <li>
-                    <a href="/website/Topvendor/{{ vendor.3.vendor_name }}" class="nav-link">Fight Web Portal</a>
+                    <a
+                      href="/website/Topvendor/{{ vendor.3.vendor_name }}"
+                      class="nav-link"
+                      >Fight Web Portal</a
+                    >
                   </li>
                   <li>
-                    <a href="/website/Topvendor/{{ vendor.4.vendor_name }}" class="nav-link">Electric Gure </a>
+                    <a
+                      href="/website/Topvendor/{{ vendor.4.vendor_name }}"
+                      class="nav-link"
+                      >Electric Gure
+                    </a>
                   </li>
                   <li>
-                    <a href="/website/Topvendor/{{ vendor.5.vendor_name }}" class="nav-link"
+                    <a
+                      href="/website/Topvendor/{{ vendor.5.vendor_name }}"
+                      class="nav-link"
                       >The carpenter & Plumber
                     </a>
                   </li>
                   <li>
-                    <a href="/website/Topvendor/{{ vendor.6.vendor_name }}" class="nav-link"
+                    <a
+                      href="/website/Topvendor/{{ vendor.6.vendor_name }}"
+                      class="nav-link"
                       >Vegitabel farm HUB</a
                     >
                   </li>
                   <li>
-                    <a href="/website/Topvendor/{{ vendor.7.vendor_name }}" class="nav-link">Value 49</a>
+                    <a
+                      href="/website/Topvendor/{{ vendor.7.vendor_name }}"
+                      class="nav-link"
+                      >Value 49</a
+                    >
                   </li>
                   <li>
-                    <a href="/website/Topvendor/{{ vendor.8.vendor_name }}" class="nav-link">Nanke de Bande</a>
+                    <a
+                      href="/website/Topvendor/{{ vendor.8.vendor_name }}"
+                      class="nav-link"
+                      >Nanke de Bande</a
+                    >
                   </li>
-                  <li><a href="/website/Topvendor/{{ vendor.9.vendor_name }}" class="nav-link">Karnal Aajtak</a></li>
-                 
+                  <li>
+                    <a
+                      href="/website/Topvendor/{{ vendor.9.vendor_name }}"
+                      class="nav-link"
+                      >Karnal Aajtak</a
+                    >
+                  </li>
                 </ul>
               </li>
-
             </ul>
             <div>
-              <div class="custom-btn">
-    
+              <div class="custom-btn ml-4">
                 {% if user.is_authenticated %}
-                <div class="btn-group ml-4">
-                  <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="dropdown">
+                  <button type="button" class="dropdown-toggle" data-toggle="dropdown">
                     {{user}}
                   </button>
-                  <div class="dropdown-menu"> 
-                    <a href="/website/logout" role="button"  data-toggle="dropdown"  style="margin-left: 30px;">Logout</a>
-                    <!-- <div class="dropdown-divider"></div> -->
-    </div>
-  </div>
-            
-                
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/website/logout/">Logout</a>
+                  </div>
+                </div> 
 
-              {% else %}
+                {% else %}
                 <a
-                  class="cursor-on-pointer " style="margin-left: 30px;"
-                  href="/website/login" role="button"
+                  class="cursor-on-pointer"
+                  style="margin-left: 30px;"
+                  href="/website/login"
+                  role="button"
                 >
                   Login |
                 </a>
                 <a
                   class="cursor-on-pointer"
-                  href="/website/signup" role="button"
+                  href="/website/signup"
+                  role="button"
                 >
                   Register
                 </a>
-            
-              {% endif %}
+
+                {% endif %}
               </div>
             </div>
           </div>
@@ -265,15 +323,15 @@
       <!-- #navigation end -->
     </header>
     <div class="feedback">
-     <a href="/website/feedback/">Feedback</a> </div>
+      <a href="/website/feedback/">Feedback</a>
+    </div>
 
-  <a  class="whats-app" href="https://wa.me/ +918295393035" target="_blank">
-   <i class="fab fa-whatsapp my-float" aria-hidden="true"></i>
-</a>
-  {% block body %} {% endblock %}
+    <a class="whats-app" href="https://wa.me/ +918295393035" target="_blank">
+      <i class="fab fa-whatsapp my-float" aria-hidden="true"></i>
+    </a>
+    {% block body %} {% endblock %}
 
-
-   <!-- #footer area start -->
+    <!-- #footer area start -->
     <footer id="footer">
       <div class="footer-top">
         <!-- .container -->
@@ -300,8 +358,10 @@
                 <div class="address-icon">
                   <i class="fas fa-headphones"></i>
                 </div>
-                <p>+918295393035 <br>
-                  +91-184-7960088 (office)</p>
+                <p>
+                  +918295393035 <br />
+                  +91-184-7960088 (office)
+                </p>
               </div>
             </div>
             <!-- footer widget -->
@@ -348,7 +408,10 @@
               <div class="footer-newsletter sigle-address subscribe-form-pt">
                 <p>Subscribe to our newsletter! Stay always in touch!</p>
                 <!-- Begin Newsletter Signup Form -->
-                <form class="themeioan-form-newsletter form" action="/website/newsletter">
+                <form
+                  class="themeioan-form-newsletter form"
+                  action="/website/newsletter"
+                >
                   <div class="newslleter-call">
                     <input
                       class="input-text required-field"
@@ -384,7 +447,10 @@
             <div class="copyright">
               <p>
                 ©2020 SBT Professionals. All Rights Reserved. Designed By
-                <a href="http://www.sbtprofessionals.com" title="SBT Professionals" target="_blank"
+                <a
+                  href="http://www.sbtprofessionals.com"
+                  title="SBT Professionals"
+                  target="_blank"
                   >SBT Professionals</a
                 >
               </p>
@@ -392,16 +458,36 @@
           </div>
           <div class="col-sm-6">
             <div class="text-right icon-round-white footer-social mt-25 mb-25">
-              <a href="https://www.facebook.com/SBTProfessionals/" title="Facebook" target="blank"><i class="fab fa-facebook"></i></a>
-              <a href="https://www.twitter.com/SBTProfessiona2/" title="Twitter" target="blank"><i class="fab fa-twitter"></i></a>
-              <a href="https://www.instagram.com/sbtprofessionals/"  target="blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-              <a href="#" title="Google+" target="blank"><i class="fab fa-google-plus" ></i></a>
-              <a href="https://www.youtube.com/channel/UCflqm65LJjNPQvdUKYSRO9g" target="blank" title="Youtube"><i class="fab fa-youtube"></i></a>
+              <a
+                href="https://www.facebook.com/SBTProfessionals/"
+                title="Facebook"
+                target="blank"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a
+                href="https://www.twitter.com/SBTProfessiona2/"
+                title="Twitter"
+                target="blank"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                href="https://www.instagram.com/sbtprofessionals/"
+                target="blank"
+                title="Instagram"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" title="Google+" target="blank"
+                ><i class="fab fa-google-plus"></i
+              ></a>
+              <a
+                href="https://www.youtube.com/channel/UCflqm65LJjNPQvdUKYSRO9g"
+                target="blank"
+                title="Youtube"
+                ><i class="fab fa-youtube"></i
+              ></a>
             </div>
           </div>
         </div>
-
-       
       </div>
       <!-- #footer bottom end -->
     </footer>
@@ -428,8 +514,6 @@
       });
     </script>
 
-  
-
     <!-- JavaScript File -->
     <!-- jQuery -->
     <script src="{%static 'website/js/jquery-3.4.1.min.js' %} "></script>
@@ -451,9 +535,8 @@
     <script src="{%static 'website/js/owl.carousel.min.js' %}"></script>
     <!-- Typed Animation Library -->
     <script src="{%static 'website/js/typed.min.js' %}"></script>
-  
 
-<!-- manually added -->
+    <!-- manually added -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -467,14 +550,11 @@
     <!-- loading bar -->
     <script>
       var preloader = document.getElementById("loading");
-      function myFunction(){
-        preloader.style.display = 'none';
-      };
+      function myFunction() {
+        preloader.style.display = "none";
+      }
     </script>
-  
 
-  
-
-  {% block js %} {% endblock %}
+    {% block js %} {% endblock %}
   </body>
 </html>

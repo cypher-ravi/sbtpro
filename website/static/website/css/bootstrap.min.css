@@ -4889,6 +4889,14 @@ a.badge-dark:focus {
   -ms-flex: 1;
   flex: 1;
 }
+@media screen and (max-width: 600px ) {
+  .list-group {
+    
+    margin-right: 100px;
+    
+  }
+
+}
 .list-group {
   display: -ms-flexbox;
   display: flex;
