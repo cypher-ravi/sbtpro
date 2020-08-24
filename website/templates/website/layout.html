@@ -84,6 +84,13 @@
       @media only screen and (min-width: 993px) {
         .hide-on-desktop-only {
           display: none !important;
+          margin-top: 5px;
+        }
+      }
+      @media only screen and (max-width: 993px) {
+        .show-on-desktop-only {
+          display: none !important;
+          margin-bottom: 0px;
         }
       }
     </style>
@@ -107,6 +114,7 @@
               class="close"
               data-dismiss="alert"
               aria-label="Close"
+              aria-expanded="false"
             >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -158,7 +166,7 @@
             <div class="bar2"></div>
             <div class="bar3"></div>
           </div>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="collapse navbar-collapse" id="navbarCollapse"> 
             <ul class="nav navbar-nav ml-auto">
               <div class="hide-on-desktop-only">
                 {% if user.is_authenticated %}
@@ -188,13 +196,46 @@
                 </a>
 
                 {% endif %}
+
+
               </div>
               <!-- Menu Link -->
               <li>
                 <a href="/website/freelisting">Free Listing</a>
               </li>
+
+              <!-- categories on mobile -->
+              <!-- <div class="hide-on-desktop-only"> -->
+              <li class="subnav hide-on-desktop-only">
+                <a href="#">Categories</a>
+                <ul class="sub-menu">
+                  <li>
+                  <a href="/website/categories/{{ category.1.category_name }}" class="cursor-on-pointer ">{{ category.1.category_name }}</a>
+                    <li>
+                     <a href="/website/categories/{{ category.2.category_name }}" class="cursor-on-pointer" >{{ category.2.category_name }}</a>
+                    </li>
+                  <li>
+                      <a href="/website/categories/{{ category.3.category_name }}" class="cursor-on-pointer">{{ category.3.category_name }}</a>
+                  </li>
+                  <li>
+                   <a href="/website/categories/{{ category.4.category_name }}" class="cursor-on-pointer ">{{ category.4.category_name }}</a>
+                  </li>
+                  <li>
+                   <a href="/website/categories/{{ category.5.category_name }}" class="cursor-on-pointer">{{ category.5.category_name }}</a>
+                  </li>
+                  <li>
+                  <a href="/website/categories/{{ category.6.category_name }}" class="cursor-on-pointer category-a">{{ category.6.category_name }}</a>
+                  </li>
+                  <li>
+                  <a href="/website/categories/{{ category.7.category_name }}" class="cursor-on-pointer">{{ category.7.category_name }}</a>
+                  </li>
+                </ul>
+              </li>
+            <!-- </div> -->
+              <!-- categories on mobile -->
+
               <li class="subnav">
-                <a href="/website/trading">SBT Trading</a>
+                <a href=http://127.0.0.1:8000/website/subcategories/Software%20development"/website/trading">SBT Trading</a>
                 <ul class="sub-menu">
                   <li>
                     <a href="/website/process" class="nav-link">Our Process</a>
@@ -284,7 +325,7 @@
               </li>
             </ul>
             <div>
-              <div class="custom-btn ml-4">
+              <div class="custom-btn ml-4 show-on-desktop-only">
                 {% if user.is_authenticated %}
                 <div class="dropdown">
                   <button type="button" class="dropdown-toggle" data-toggle="dropdown">

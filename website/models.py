@@ -298,7 +298,7 @@ class Contactviacategory(models.Model):
     registrant_name =  models.CharField(max_length=50,default='')
     registrant_mobile_no = PhoneNumberField()
     calling_time = models.CharField(max_length=50,default='')
-    service_name = models.ForeignKey(to= Subcategory, on_delete=models.CASCADE,default='')
+    service_name = models.ForeignKey(to= Subcategory, on_delete=models.CASCADE,default='',blank=True,null=True)
     sub_service_name = models.ForeignKey(to= Sub_sub_category, on_delete=models.CASCADE,default='',blank=True,null=True)
 
 

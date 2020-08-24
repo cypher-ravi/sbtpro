@@ -9,6 +9,13 @@
 
 
 }
+@media screen and (max-width:600px){
+  .form-contact{
+    margin: 180px  20px 20px;
+    width: 270px;
+    
+  }
+}
 </style>
 {% endblock css %}
 
@@ -20,27 +27,27 @@
     <h3>Share Your Details:</h3>
     <div class="form-group ">
       <label for="exampleFormControlInput1">Mobile no.</label>
-      <input type="number" class="form-control" name="mobile" id="mobile" placeholder="mobile no.">
+      <input type="number" class="form-control" name="mobile" id="mobile" placeholder="mobile no." required>
     </div>
     <div class="form-group ">
         <label for="exampleFormControlInput1">Name</label>
-        <input type="text" class="form-control"  name="name" id="name" placeholder="Your name">
+        <input type="text" class="form-control"  name="name" id="name" placeholder="Your name" required>
       </div>
         <div class="col-sm-12 form-group">
             <label>I would like to recieve calls from experts!</label>
             <p>
                 <label class="radio-inline">
-                <input type="radio" name="time" id="radio_experience" value="Any Time" >
+                <input type="radio" name="time" id="radio_experience" value="Any Time" required>
                 Any Time
                 </label>
 
                 <label class="radio-inline ml-4">
-                <input type="radio" name="time" id="radio_experience" value="3PM - 6PM" >
+                <input type="radio" name="time" id="radio_experience" value="3PM - 6PM" required >
                 3PM - 6PM
                 </label>
 
                 <label class="radio-inline ml-4">
-                <input type="radio" name="time" id="radio_experience" value="6PM - 9PM" >
+                <input type="radio" name="time" id="radio_experience" value="6PM - 9PM" required>
                 6PM - 9PM
                 </label>
             </p>

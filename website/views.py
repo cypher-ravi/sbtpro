@@ -2,7 +2,6 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories,Sub_sub_category, TOP, ServiceContact, Vendors,Subcategory,Trading, Faq, QueryContacts,Feedback,Contactviacategory
-# Contactviacategory
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
@@ -288,7 +287,7 @@ def sign_up(request):
         # create the user
         newuser = User.objects.create_user(username=username, email=email, password=password)
         newuser.save()
-        messages.success(request, "Your SBT Professionals account has been successfully created! Please Login")
+        messages.success(request, "Your SBT Professionals account has been successfully created")
         return redirect(log_in)
     else:
         return render(request, 'website/register.html')
@@ -526,21 +525,24 @@ def feedback(request):
 
 #contact through category for service handler view
 def contact_via_service(request, slug):
-       
+    flag = False
     if request.method == 'POST':
-        s_category = Subcategory.objects.get(sub_category_name__exact = slug)
-        ss_category = Sub_sub_category.objects.get(sub_sub_category_name__exact = slug)
-        if s_category or ss_category:
-            name =  request.POST.get('name')
-            mobile = request.POST.get('mobile')
-            time = request.POST.get('time')
-            obj = Contactviacategory(registrant_name = name, registrant_mobile_no = mobile, calling_time = time,service_name=s_category, sub_service_name = ss_category)
-            obj.save()
-            messages.success(request,
-                            'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
-            return render(request, 'website/formcategory.html',{'slug': slug})
+        try:
+            s_category = Subcategory.objects.get(sub_category_name__exact = slug)
+            ss_category = None
+        except: 
+            flag = True
+
+        if flag:
+            ss_category = Sub_sub_category.objects.get(sub_sub_category_name__exact = slug)
+            s_category = ss_category.sub_category_name
+        name =  request.POST.get('name')
+        mobile = request.POST.get('mobile')
+        time = request.POST.get('time')
+        obj = Contactviacategory(registrant_name = name, registrant_mobile_no = mobile, calling_time = time,service_name=s_category, sub_service_name = ss_category)
+        obj.save()
+        messages.success(request,
+                        'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
+        return render(request, 'website/formcategory.html',{'slug': slug})
+
     return render(request, 'website/formcategory.html' ,{'slug': slug})
-
-
-
-
