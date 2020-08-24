@@ -21,6 +21,7 @@ urlpatterns = [
     path("Topvendor/<str:slug>", views.single_vendor, name='single_vendor'),
     path("categories/<str:slug>", views.categories, name='categories'),
     path("subcategories/<str:slug>", views.sub_to_sub_category, name='sub_to_sub_category'),
+    path("contactservice/<str:slug>", views.contact_via_service, name="contactservice"),
     path("services/<str:slug>", views.service_detail, name='service_detail'),
     path("purchase/<str:slug>", views.purchase, name="plan-purchase"),
     path('req_handler', views.req_handler, name='Request Handler'),

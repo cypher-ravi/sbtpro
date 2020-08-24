@@ -40,12 +40,12 @@
   <div class="container-top">
   <div class="list-group">
 
-    <a href="/website/categories" class="list-group-item list-group-item-action active">
+    <a href="{% url 'contactservice' subcat.sub_category_name %}" class="list-group-item list-group-item-action active">
       {{ subcat.sub_category_name }}
     </a>
     {% if related_sub_sub_category %}
     {% for i in related_sub_sub_category|slice:"0:"  %}
-        <a href="" class="list-group-item list-group-item-action">{{ i.sub_sub_category_name }} </a>
+        <a href="/website/contactservice/{{ i.sub_sub_category_name }}  " class="list-group-item list-group-item-action">{{ i.sub_sub_category_name }} </a>
     {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
     
       <a href=""></a>              

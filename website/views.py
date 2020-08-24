@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories,Sub_sub_category, TOP, ServiceContact, Vendors,Subcategory,Trading, Faq, QueryContacts,Feedback,Contactviacategory
+# Contactviacategory
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
@@ -13,6 +14,9 @@ from django.core.files.storage import FileSystemStorage
 # To import for login,Signup
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+#validations
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from math import ceil
 
@@ -149,7 +153,11 @@ def categories(request, slug):
 def sub_to_sub_category(request, slug):
     related_sub_category = Subcategory.objects.all().filter(sub_category_name=slug)
     related_sub_sub_category = Sub_sub_category.objects.all().filter(sub_category_name__in=related_sub_category)
-    return render(request, 'website/subcategory.html', {'sub_category':related_sub_category,'related_sub_sub_category':related_sub_sub_category})
+    params = {'slug':slug}
+    if related_sub_sub_category.exists():
+        return render(request, 'website/subcategory.html', {'sub_category':related_sub_category,'related_sub_sub_category':related_sub_sub_category})
+    else:
+        return render(request, 'website/formcategory.html' ,{'slug': slug})
 
 # A's here  ------------------
 
@@ -239,7 +247,6 @@ def req_handler(request):
 
 # --------------------------payment end ------------------------
 
-# user login logout and checks
 def sign_up(request):
     # have exception of geting same user name
     if request.method == "POST":
@@ -247,46 +254,68 @@ def sign_up(request):
         email = request.POST['email']
         password = request.POST['create_password']
         confirm_password = request.POST['confirm_password']
-        # checks for on inputs
-        # username should under 10 character
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists Please Consider Login')
+            return redirect(sign_up)
+        
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'Email already exists Please consider Login')
+            return redirect(sign_up)
+        
+        # username validation stuff ----------------
         if len(username) > 15:
             messages.error(request, 'Username must be unique!!')
             return redirect(sign_up)
-        # password and confirm password should be match
-        if password != confirm_password:
-            messages.error(request, 'Password do not match')
-            return redirect(sign_up)
-        # username should contain numbers and letters
+
         if not username.isalnum():
             messages.error(
                 request, 'Username should contain letters and numbers!!')
             return redirect(sign_up)
 
+        # Email Validation
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, 'Email is not valid')
+            return redirect(sign_up)
+        # Password valdation
+        if password != confirm_password:
+            messages.error(request, 'Password do not match')
+            return redirect(sign_up)
+        # username should contain numbers and letters
+
         # create the user
-        newuser = User.objects.create_user(
-            username=username, email=email, password=password)
+        newuser = User.objects.create_user(username=username, email=email, password=password)
         newuser.save()
-        messages.success(
-            request, "Your SBT Professionals account has been successfully created")
-        return redirect(index)
+        messages.success(request, "Your SBT Professionals account has been successfully created! Please Login")
+        return redirect(log_in)
     else:
         return render(request, 'website/register.html')
 
 
+
+
 def log_in(request):
+    
     if request.method == "POST":
         loginusername = request.POST['loginusername']
         loginpass = request.POST['loginpass']
+    
+        if User.objects.filter(email = loginusername).exists():
+            usr_by_email = User.objects.get(email = loginusername)
+            loginusername = usr_by_email.username
+
         user = authenticate(request, username=loginusername,
                             password=loginpass)  # checks if user is exist
-
-        if user is not None:  # if user exist than create a seesion using login function
+        if user is not None:  # if user exist than create a session using login function
             login(request, user)
             messages.success(request, 'Login Successful!')
-            return redirect('Sbthome')
+            return redirect(index)
         else:
+            print('....................user->',user)
             messages.error(request, 'Invalid credentials,Please Try Again!')
-            return redirect('Sbthome')
+            return redirect(log_in)
     return render(request, 'website/login.html')
 
 
@@ -492,6 +521,26 @@ def feedback(request):
             return render(request,'website/feedback.html',{ 'vendor': vendor})
 
     return render(request,'website/feedback.html',{ 'vendor': vendor})
+
+
+
+#contact through category for service handler view
+def contact_via_service(request, slug):
+       
+    if request.method == 'POST':
+        s_category = Subcategory.objects.get(sub_category_name__exact = slug)
+        ss_category = Sub_sub_category.objects.get(sub_sub_category_name__exact = slug)
+        if s_category or ss_category:
+            name =  request.POST.get('name')
+            mobile = request.POST.get('mobile')
+            time = request.POST.get('time')
+            obj = Contactviacategory(registrant_name = name, registrant_mobile_no = mobile, calling_time = time,service_name=s_category, sub_service_name = ss_category)
+            obj.save()
+            messages.success(request,
+                            'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
+            return render(request, 'website/formcategory.html',{'slug': slug})
+    return render(request, 'website/formcategory.html' ,{'slug': slug})
+
 
 
 

@@ -15,7 +15,7 @@
 {% block body %}
 {% load static %}
 
-<form method="POST" action="/contact/{{related_sub_sub_category.sub_sub_category_name }}">{% csrf_token %}
+<form method="POST" action="{% url 'contactservice' slug %}">{% csrf_token %}
 <div class="container form-contact">
     <h3>Share Your Details:</h3>
     <div class="form-group ">
@@ -30,17 +30,17 @@
             <label>I would like to recieve calls from experts!</label>
             <p>
                 <label class="radio-inline">
-                <input type="radio" name="time" id="radio_experience" value="Average" >
+                <input type="radio" name="time" id="radio_experience" value="Any Time" >
                 Any Time
                 </label>
 
                 <label class="radio-inline ml-4">
-                <input type="radio" name="time" id="radio_experience" value="Good" >
+                <input type="radio" name="time" id="radio_experience" value="3PM - 6PM" >
                 3PM - 6PM
                 </label>
 
                 <label class="radio-inline ml-4">
-                <input type="radio" name="time" id="radio_experience" value="Very Good" >
+                <input type="radio" name="time" id="radio_experience" value="6PM - 9PM" >
                 6PM - 9PM
                 </label>
             </p>

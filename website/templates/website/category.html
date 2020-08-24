@@ -3,14 +3,11 @@
 
 {% block css %}
 <style>
-
-
-  
   .container-top{
   margin-top:-150px;
-  width:60%;
+  width:70%;
   margin: auto;
-  padding: 300px;
+  padding: 150px;
   }
  .list-group-item.active {
     z-index: 2;
@@ -42,7 +39,7 @@
   {% for category in filtered_categories %}
   <div class="container-top">
   <div class="list-group">
-    
+
     <a href="/website/categories" class="list-group-item list-group-item-action active">
       {{ category.category_name }}
     </a>
@@ -51,7 +48,7 @@
         <a href="/website/subcategories/{{ i.sub_category_name }}" class="list-group-item list-group-item-action">{{ i.sub_category_name }} </a>
     {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
     
-      <a href="/website/subcategories/{{ i.sub_category_name }}"></a>              
+      <a href="/website/subcategories/{{ i.sub_sub_category_name }}"></a>              
     {% endif %}
     {% endfor %}
 
