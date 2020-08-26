@@ -113,7 +113,7 @@ class Sub_sub_category(models.Model):
         return self.sub_sub_category_name
 
 class Service(models.Model):
-    service_id = models.AutoField
+    service_id = models.AutoField(primary_key=True)
     service_name = models.CharField(max_length=50)
     category = models.CharField(max_length=150, default="")
     category_title = models.CharField(max_length=150, default="")
@@ -305,3 +305,17 @@ class Contactviacategory(models.Model):
     def __str__(self):
         return self.registrant_name
     
+
+class FrenchiseContacts(models.Model):
+    customer_id = models.AutoField(primary_key=True)
+    customer_name = models.CharField(max_length=50,default='')
+    email = models.EmailField()
+    mobile_no = PhoneNumberField()
+    address = models.CharField(max_length=200,default='')
+    frenchise_option = models.CharField(max_length=50,default='')
+    submit_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.customer_name
+
+

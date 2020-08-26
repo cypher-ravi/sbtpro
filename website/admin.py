@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import FreeListing, Plans, Order, Service, Job,Upload_resume,Categories,Subcategory,Sub_sub_category,TOP,ServiceContact,Vendors,Trading,Faq,QueryContacts, Feedback,Contactviacategory
+from .models import FreeListing, Plans, Order, Service, Job,Upload_resume,Categories,Subcategory,Sub_sub_category,TOP,ServiceContact,Vendors,Trading,Faq,QueryContacts, Feedback,Contactviacategory,FrenchiseContacts
 
 # Register your models here.
 admin.site.register(FreeListing)
@@ -19,3 +19,4 @@ admin.site.register(Faq)
 admin.site.register(QueryContacts)
 admin.site.register(Feedback)
 admin.site.register(Contactviacategory)
+admin.site.register(FrenchiseContacts)

@@ -18,6 +18,7 @@ urlpatterns = [
     path("FAQ/", views.faq, name='faq'),
     path("top/", views.top, name='top'),
     path("search_top/", views.search_top, name='search_top'),
+    path("frenchise/", views.frenchise, name='frenchise'),
     path("Topvendor/<str:slug>", views.single_vendor, name='single_vendor'),
     path("categories/<str:slug>", views.categories, name='categories'),
     path("subcategories/<str:slug>", views.sub_to_sub_category, name='sub_to_sub_category'),
