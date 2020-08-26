@@ -2,11 +2,11 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FreeListing, Plans, Order, Service, Job, Upload_resume, Categories,Sub_sub_category, TOP, ServiceContact, Vendors,Subcategory,Trading, Faq, QueryContacts,Feedback,Contactviacategory,FrenchiseContacts
+from .models import FreeListing, Plan, Order, Service, Job, Upload_resume, Categories,Sub_sub_category, TOP, ServiceContact, Vendor,Subcategory,Trading, Faq, QueryContact,Feedback,Contactviacategory,FrenchiseContact
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
-# FOR PAYTM End---------------------
+# FOR PAYTM End-------------------------------------
 
 from django.contrib import messages
 import random
@@ -35,7 +35,7 @@ def index(request):
     # Another section started
     vendor = TOP.objects.all()
 
-    plans = Plans.objects.all()
+    plans = Plan.objects.all()
     return render(request, 'website/index.html',
                   {'plans': plans, 'category': category, 'services': services, 'vendor': vendor})
 
@@ -80,7 +80,7 @@ def freelisting(request):
 def customer_membership(request):
     category = Categories.objects.all()
 
-    plans = Plans.objects.all()
+    plans = Plan.objects.all()
     vendor = TOP.objects.all()
 
     return render(request, 'website/membership.html', {'plans': plans, 'vendor': vendor,'category': category})
@@ -177,7 +177,7 @@ def purchase(request, slug):
     try:
         if request.user.is_authenticated:
             if request.method == "POST":
-                plan = Plans.objects.get(plan_name=slug)
+                plan = Plan.objects.get(plan_name=slug)
                 # you can use any random id (must be unique!)
                 order_id = random.randint(1, 9999)
                 email_id = request.POST.get('email', '')
@@ -213,7 +213,7 @@ def purchase(request, slug):
                 # print('.................', param_dict)
                 return render(request, 'website/redirect.html', {'detail_dict': param_dict})
 
-            plan = Plans.objects.get(plan_name=slug)
+            plan = Plan.objects.get(plan_name=slug)
             dict_for_review = {
                 'name': plan.plan_name,
                 'amount': plan.plan_amount,
@@ -297,7 +297,12 @@ def sign_up(request):
 
         # create the user
         newuser = User.objects.create_user(username=username, email=email, password=password)
+        if newuser.is_staff:
+            print('yes')
+        else:
+            print('no')
         newuser.save()
+
         messages.success(request, "Your SBT Professionals account has been successfully created")
         return redirect(log_in)
     else:
@@ -403,9 +408,9 @@ def search(request):
             categories = Categories.objects.none()
         else:
             categories_names = Categories.objects.filter(category_name__icontains=query)
-            vendor_address_location1 = Vendors.objects.filter(Address1__icontains=location)
-            vendor_address_location2 = Vendors.objects.filter(Address2__icontains=location)
-            vendor_work_description = Vendors.objects.filter(Service_decsription__icontains=query)
+            vendor_address_location1 = Vendor.objects.filter(Address1__icontains=location)
+            vendor_address_location2 = Vendor.objects.filter(Address2__icontains=location)
+            vendor_work_description = Vendor.objects.filter(Service_decsription__icontains=query)
 
             
             vendor_location = vendor_address_location1.union(vendor_address_location2, vendor_work_description)
@@ -492,7 +497,7 @@ def faq(request):
         customer_name = request.POST.get('customer_name', '')
         mobile = request.POST.get('mobile', '')
         message = request.POST.get('message', '')
-        query = QueryContacts(customer_name=customer_name, mobile=mobile, message=message)
+        query = QueryContact(customer_name=customer_name, mobile=mobile, message=message)
         query.save()
         if message:
             send_mail(
@@ -571,7 +576,7 @@ def contact_via_service(request, slug):
     return render(request, 'website/formcategory.html' ,{'slug': slug,'category': category})
 
 
-#open Frenchise
+#open Frenchise contact form
 def frenchise(request):
     category = Categories.objects.all()
     if request.method == "POST":
@@ -581,8 +586,15 @@ def frenchise(request):
         address = request.POST.get('address')
         frenchise_option = request.POST['Interest']
         if frenchise_option:
-            obj = FrenchiseContacts(customer_name=customer_name,email=email,mobile_no=mobile_no,address=address,frenchise_option=frenchise_option)
+            obj = FrenchiseContact(customer_name=customer_name,email=email,mobile_no=mobile_no,address=address,frenchise_option=frenchise_option)
             obj.save()
+            send_mail(
+                subject='New Frenchise customer',
+                message=f"Customer Name = {customer_name}\nMobile No. ={mobile_no}\nAddress = {address}\nInterested in ={frenchise_option}",
+                from_email='rk7305758@gmail.com',
+                recipient_list=['ronniloreo@gmail.com'],
+                fail_silently=False
+            )
             messages.success(request,'Form Submitted Successfully SBT Professionals Team Contacts You Within 24 hours!')
             return HttpResponseRedirect('/website/frenchise')
         else:

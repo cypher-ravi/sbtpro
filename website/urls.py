@@ -1,8 +1,16 @@
 from django.urls import path,include
 from . import views
+from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 # from django.contrib.auth import views as auth_views
+
+#Django Admin Header customization
+admin.site.site_header = "SBT Professionals"
+admin.site.site_title = "Dashboard- SBT Professionals"
+admin.site.index_title = "Welcome To SBT Professionals"
+
+
 
 urlpatterns = [
     path("", views.index, name='Sbthome'),
