@@ -24,3 +24,6 @@ urlpatterns = [
     path('',views.index,name='home' ),
     path('website/', include('website.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+handler404 = 'website.views.error_404_view'

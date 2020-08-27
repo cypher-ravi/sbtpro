@@ -607,3 +607,8 @@ def frenchise(request):
             return render(request, 'website/frenchise.html', {'category': category})
 
     return render(request, 'website/frenchise.html', {'category': category})
+
+
+#error handling view
+def error_404_view(request,exception):
+    return render(request,'website/error404.html')
