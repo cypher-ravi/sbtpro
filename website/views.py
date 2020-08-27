@@ -2,7 +2,8 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FreeListing, Plan, Order, Service, Job, Upload_resume, Categories,Sub_sub_category, TOP, ServiceContact, Vendor,Subcategory,Trading, Faq, QueryContact,Feedback,Contactviacategory,FrenchiseContact
+from .models import FreeListing, Plan, Order, Service, Job, Upload_resume, Categories, Sub_sub_category, TOP, \
+    ServiceContact, Vendor, Subcategory, Trading, Faq, QueryContact, Feedback, Contactviacategory, FrenchiseContact
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
@@ -14,12 +15,11 @@ from django.core.files.storage import FileSystemStorage
 # To import for login,Signup
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-#validations
+# validations
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
-from math import ceil
-import time
+
 
 # Create your views here.
 # ! NEVER SHOW MERCHANT ID AND KEY !
@@ -74,7 +74,7 @@ def freelisting(request):
             listing.save()
             messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24'
                                       'hours.')
-    return render(request, 'website/listing.html', {'vendor': vendor,'category': category})
+    return render(request, 'website/listing.html', {'vendor': vendor, 'category': category})
 
 
 def customer_membership(request):
@@ -83,7 +83,7 @@ def customer_membership(request):
     plans = Plan.objects.all()
     vendor = TOP.objects.all()
 
-    return render(request, 'website/membership.html', {'plans': plans, 'vendor': vendor,'category': category})
+    return render(request, 'website/membership.html', {'plans': plans, 'vendor': vendor, 'category': category})
 
 
 def jobs(request):
@@ -111,9 +111,9 @@ def jobs(request):
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
         )
-        return render(request, 'website/form.html', {'vendor': vendor,'category': category})
+        return render(request, 'website/form.html', {'vendor': vendor, 'category': category})
 
-    return render(request, 'website/form.html', {'vendor': vendor,'category': category})
+    return render(request, 'website/form.html', {'vendor': vendor, 'category': category})
 
 
 def upload_resume(request):
@@ -141,7 +141,7 @@ def upload_resume(request):
             else:
                 messages.error(request, 'Before submit resume Enter your name')
 
-        return render(request, 'website/form.html',{'category': category})
+        return render(request, 'website/form.html', {'category': category})
     except:
         return render(request, 'website/404.html')
 
@@ -149,24 +149,30 @@ def upload_resume(request):
 def download(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
-    return render(request, 'website/downloadapp.html', {'vendor': vendor,'category': category})
+    return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
 
 
 def categories(request, slug):
     category = Categories.objects.all()
     filtered_categories = Categories.objects.filter(category_name=slug)
     related_sub_category = Subcategory.objects.all().filter(category_name__in=filtered_categories)
-    return render(request, 'website/category.html', {'filtered_categories': filtered_categories,'sub_category':related_sub_category,'category': category})
+    return render(request, 'website/category.html',
+                  {'filtered_categories': filtered_categories, 'sub_category': related_sub_category,
+                   'category': category})
+
 
 def sub_to_sub_category(request, slug):
     category = Categories.objects.all()
     related_sub_category = Subcategory.objects.all().filter(sub_category_name=slug)
     related_sub_sub_category = Sub_sub_category.objects.all().filter(sub_category_name__in=related_sub_category)
-    params = {'slug':slug}
+    params = {'slug': slug}
     if related_sub_sub_category.exists():
-        return render(request, 'website/subcategory.html', {'sub_category':related_sub_category,'related_sub_sub_category':related_sub_sub_category,'category': category})
+        return render(request, 'website/subcategory.html',
+                      {'sub_category': related_sub_category, 'related_sub_sub_category': related_sub_sub_category,
+                       'category': category})
     else:
-        return render(request, 'website/formcategory.html' ,{'slug': slug,'category': category})
+        return render(request, 'website/formcategory.html', {'slug': slug, 'category': category})
+
 
 # A's here  ------------------
 
@@ -223,7 +229,7 @@ def purchase(request, slug):
                 'description_4': plan.description_4,
             }
 
-            return render(request, 'website/purchase_form.html', {'plan_review': dict_for_review,'category': category})
+            return render(request, 'website/purchase_form.html', {'plan_review': dict_for_review, 'category': category})
 
         else:
             return render(request, 'website/login.html')
@@ -268,11 +274,11 @@ def sign_up(request):
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Username already exists Please Consider Login')
             return redirect(sign_up)
-        
+
         if User.objects.filter(email=email).exists():
             messages.error(request, 'Email already exists Please consider Login')
             return redirect(sign_up)
-        
+
         # username validation stuff ----------------
         if len(username) > 15:
             messages.error(request, 'Username must be unique!!')
@@ -309,16 +315,13 @@ def sign_up(request):
         return render(request, 'website/register.html')
 
 
-
-
 def log_in(request):
-    
     if request.method == "POST":
         loginusername = request.POST['loginusername']
         loginpass = request.POST['loginpass']
-    
-        if User.objects.filter(email = loginusername).exists():
-            usr_by_email = User.objects.get(email = loginusername)
+
+        if User.objects.filter(email=loginusername).exists():
+            usr_by_email = User.objects.get(email=loginusername)
             loginusername = usr_by_email.username
 
         user = authenticate(request, username=loginusername,
@@ -328,7 +331,7 @@ def log_in(request):
             messages.success(request, 'Login Successful!')
             return redirect(index)
         else:
-            print('....................user->',user)
+            print('....................user->', user)
             messages.error(request, 'Invalid credentials,Please Try Again!')
             return redirect(log_in)
     return render(request, 'website/login.html')
@@ -363,7 +366,7 @@ def username_validator(request):
 def single_vendor(request, slug):
     category = Categories.objects.all()
     vendor = TOP.objects.filter(vendor_name=slug)
-    return render(request, 'website/team-single.html', {'vendors': vendor,'category': category})
+    return render(request, 'website/team-single.html', {'vendors': vendor, 'category': category})
 
 
 def service_detail(request, slug):
@@ -390,13 +393,13 @@ def service_detail(request, slug):
             # teamofprofessionals2015@gmail.com
             messages.success(request,
                              'Form submission successful. SBT Professional team Contact You within 24 hours')
-            return render(request, 'website/services-detail.html', {'services': services,'category': category})
+            return render(request, 'website/services-detail.html', {'services': services, 'category': category})
         else:
             messages.error(request, 'Form Not Submitted Try Again!!', {
                 'services': services})
-            return redirect(request, 'website/services-detail.html', {'services': services,'category': category})
+            return redirect(request, 'website/services-detail.html', {'services': services, 'category': category})
 
-    return render(request, 'website/services-detail.html', {'services': services,'category': category})
+    return render(request, 'website/services-detail.html', {'services': services, 'category': category})
 
 
 def search(request):
@@ -412,17 +415,16 @@ def search(request):
             vendor_address_location2 = Vendor.objects.filter(Address2__icontains=location)
             vendor_work_description = Vendor.objects.filter(Service_decsription__icontains=query)
 
-            
             vendor_location = vendor_address_location1.union(vendor_address_location2, vendor_work_description)
             categories = categories_names
             print(location)
             print(categories)
 
-        params = {'categories': categories, 'query': query, 'vendor_location': vendor_location, 'location': location,'category': category}
+        params = {'categories': categories, 'query': query, 'vendor_location': vendor_location, 'location': location,
+                  'category': category}
         return render(request, 'website/searchtest.html', params)
-    except:
-        return render(request,'website/coming-soon.html',{'category': category})
-        
+    except :
+        return render(request, 'website/coming-soon.html', {'category': category})
 
 
 # function for define process of organisation
@@ -430,7 +432,7 @@ def process(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
 
-    return render(request, 'website/process.html', {'vendor': vendor,'category': category})
+    return render(request, 'website/process.html', {'vendor': vendor, 'category': category})
 
 
 # for list all team of professionals
@@ -438,7 +440,8 @@ def top(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
     team = TOP.objects.all()
-    return render(request, 'website/top2.html', {'vendor': vendor, 'team': team,'category': category})
+    return render(request, 'website/top2.html', {'vendor': vendor, 'team': team, 'category': category})
+
 
 def search_top(request):
     category = Categories.objects.all()
@@ -451,11 +454,10 @@ def search_top(request):
         top_vendors = TOP.objects.filter(vendor_name__icontains=query)
         top_vendors_business_type = TOP.objects.filter(Busniess_Type__icontains=query)
         top_vendors_work = TOP.objects.filter(vendor_work_desc__icontains=query)
-        filtered_top_vendors = top_vendors.union(top_vendors_business_type,top_vendors_work)
+        filtered_top_vendors = top_vendors.union(top_vendors_business_type, top_vendors_work)
         print(filtered_top_vendors)
-    return render(request,'website/search_top.html',{'filtered_top_vendors':filtered_top_vendors,'vendor': vendor,'category': category})
-
-
+    return render(request, 'website/search_top.html',
+                  {'filtered_top_vendors': filtered_top_vendors, 'vendor': vendor, 'category': category})
 
 
 def trading(request):
@@ -482,11 +484,11 @@ def trading(request):
             # teamofprofessionals2015@gmail.com
             messages.success(request,
                              'Order successful.')
-            return render(request, 'website/trading-info.html', {'vendor': vendor,'category': category})
+            return render(request, 'website/trading-info.html', {'vendor': vendor, 'category': category})
         else:
             messages.error(request, 'Failed to Order Try Again!')
-            return render(request, 'website/trading-info.html', {'vendor': vendor,'category': category})
-    return render(request, 'website/trading-info.html', {'vendor': vendor,'category': category})
+            return render(request, 'website/trading-info.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/trading-info.html', {'vendor': vendor, 'category': category})
 
 
 def faq(request):
@@ -510,23 +512,23 @@ def faq(request):
             # teamofprofessionals2015@gmail.com
             messages.success(request,
                              'Query Submittion successful.')
-            return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor,'category': category})
+            return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
         else:
             messages.error(request, 'Failed to submit Try Again!')
-            return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor,'category': category})
-    return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor,'category': category})
+            return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
+    return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
 
 
 def newsletter(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
-    return render(request, 'website/coming-soon.html',{ 'vendor': vendor,'category': category})
+    return render(request, 'website/coming-soon.html', {'vendor': vendor, 'category': category})
 
 
 def tac(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
-    return render(request, 'website/Terms_and_condition.html',{ 'vendor': vendor,'category': category})
+    return render(request, 'website/Terms_and_condition.html', {'vendor': vendor, 'category': category})
 
 
 def feedback(request):
@@ -538,55 +540,57 @@ def feedback(request):
         customer_name = request.POST.get('name')
         email = request.POST.get('email')
         if feed_back:
-            customer_feedback = Feedback(feed_back=feed_back,Comments=Comments,customer_name=customer_name,email=email)
+            customer_feedback = Feedback(feed_back=feed_back, Comments=Comments, customer_name=customer_name,
+                                         email=email)
             customer_feedback.save()
-            messages.success(request,'Form Submitted Successfully!')
-            return render(request,'website/feedback.html',{ 'vendor': vendor,'category': category})
+            messages.success(request, 'Form Submitted Successfully!')
+            return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
         else:
-            messages.error(request,'Form not submitted! TRY AGAIN')
-            return render(request,'website/feedback.html',{ 'vendor': vendor,'category': category})
+            messages.error(request, 'Form not submitted! TRY AGAIN')
+            return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
 
-    return render(request,'website/feedback.html',{ 'vendor': vendor,'category': category})
+    return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
 
 
-
-#contact through category for service handler view
+# contact through category for service handler view
 def contact_via_service(request, slug):
     category = Categories.objects.all()
     flag = False
     if request.method == 'POST':
         try:
-            s_category = Subcategory.objects.get(sub_category_name__exact = slug)
+            s_category = Subcategory.objects.get(sub_category_name__exact=slug)
             ss_category = None
-        except: 
+        except:
             flag = True
 
         if flag:
-            ss_category = Sub_sub_category.objects.get(sub_sub_category_name__exact = slug)
+            ss_category = Sub_sub_category.objects.get(sub_sub_category_name__exact=slug)
             s_category = ss_category.sub_category_name
-        name =  request.POST.get('name')
+        name = request.POST.get('name')
         mobile = request.POST.get('mobile')
         time = request.POST.get('time')
-        obj = Contactviacategory(registrant_name = name, registrant_mobile_no = mobile, calling_time = time,service_name=s_category, sub_service_name = ss_category)
+        obj = Contactviacategory(registrant_name=name, registrant_mobile_no=mobile, calling_time=time,
+                                 service_name=s_category, sub_service_name=ss_category)
         obj.save()
         messages.success(request,
-                        'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
-        return render(request, 'website/formcategory.html',{'slug': slug,'category': category})
+                         'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
+        return render(request, 'website/formcategory.html', {'slug': slug, 'category': category})
 
-    return render(request, 'website/formcategory.html' ,{'slug': slug,'category': category})
+    return render(request, 'website/formcategory.html', {'slug': slug, 'category': category})
 
 
-#open Frenchise contact form
+# open Frenchise contact form
 def frenchise(request):
     category = Categories.objects.all()
     if request.method == "POST":
-        customer_name =  request.POST.get('name')
+        customer_name = request.POST.get('name')
         email = request.POST.get('email')
         mobile_no = request.POST.get('mobile')
         address = request.POST.get('address')
         frenchise_option = request.POST['Interest']
         if frenchise_option:
-            obj = FrenchiseContact(customer_name=customer_name,email=email,mobile_no=mobile_no,address=address,frenchise_option=frenchise_option)
+            obj = FrenchiseContact(customer_name=customer_name, email=email, mobile_no=mobile_no, address=address,
+                                   frenchise_option=frenchise_option)
             obj.save()
             send_mail(
                 subject='New Frenchise customer',
@@ -595,10 +599,11 @@ def frenchise(request):
                 recipient_list=['ronniloreo@gmail.com'],
                 fail_silently=False
             )
-            messages.success(request,'Form Submitted Successfully SBT Professionals Team Contacts You Within 24 hours!')
+            messages.success(request,
+                             'Form Submitted Successfully SBT Professionals Team Contacts You Within 24 hours!')
             return HttpResponseRedirect('/website/frenchise')
         else:
-            messages.error(request,'Form submittion Failed! TRY AGAIN')
-            return render(request,'website/frenchise.html',{'category': category})
+            messages.error(request, 'Form submittion Failed! TRY AGAIN')
+            return render(request, 'website/frenchise.html', {'category': category})
 
-    return render(request,'website/frenchise.html',{'category': category})
+    return render(request, 'website/frenchise.html', {'category': category})

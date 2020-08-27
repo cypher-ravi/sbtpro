@@ -3,7 +3,7 @@ from . import views
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-# from django.contrib.auth import views as auth_views
+from django.contrib.auth import views as auth_views
 
 #Django Admin Header customization
 admin.site.site_header = "SBT Professionals"
@@ -40,7 +40,24 @@ urlpatterns = [
     path('newsletter/', views.newsletter, name='newsletter'),
     path('feedback/', views.feedback, name='feedback'),
     path('TermsCondition/', views.tac, name='Terms_and_condition'),
-    path('username_validator', views.username_validator, name="uv")
+    path('username_validator', views.username_validator, name="uv"),
+
+    path('reset_password/',
+         auth_views.PasswordResetView.as_view
+         (template_name='website/password_reset.html'),
+         name='password_reset'),
+    path('reset_password_sent/',
+         auth_views.PasswordResetDoneView.as_view
+         (template_name='website/password_reset_Sent.html'),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>',
+         auth_views.PasswordResetConfirmView.as_view
+         (template_name='website/password_reset_form.html'),
+         name='password_reset_confirm'),
+    path('reset_password_complete/',
+         auth_views.PasswordResetCompleteView.as_view
+         (template_name='website/password_reset_done.html'),
+         name='password_reset_complete'),
     ]
 
 if settings.DEBUG:

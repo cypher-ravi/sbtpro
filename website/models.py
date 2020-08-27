@@ -231,7 +231,6 @@ class Vendor(models.Model):
     vendor_id = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=50, default='')
     Company_Name = models.CharField(max_length=100, default='')
-    #  Busniess_Type = models.CharField(max_length=1000,choices=Business_TYPES,default='Please Select')
     Busniess_Type = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='category')
     Service_decsription = models.CharField(max_length=1000, default='')
     Mobile_No = PhoneNumberField()
