@@ -171,7 +171,7 @@ def sub_to_sub_category(request, slug):
                       {'sub_category': related_sub_category, 'related_sub_sub_category': related_sub_sub_category,
                        'category': category})
     else:
-        return render(request, 'website/formcategory.html', {'slug': slug, 'category': category})
+        return render(request, 'website/form_category.html', {'slug': slug, 'category': category})
 
 
 # A's here  ------------------
@@ -574,9 +574,9 @@ def contact_via_service(request, slug):
         obj.save()
         messages.success(request,
                          'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
-        return render(request, 'website/formcategory.html', {'slug': slug, 'category': category})
+        return render(request, 'website/form_category.html', {'slug': slug, 'category': category})
 
-    return render(request, 'website/formcategory.html', {'slug': slug, 'category': category})
+    return render(request, 'website/form_category.html', {'slug': slug, 'category': category})
 
 
 # open Frenchise contact form
