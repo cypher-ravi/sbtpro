@@ -283,7 +283,7 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ services.0.service_name }}</h5>
                         <p class="card-text">
-                          {{ services.0.service_desc }}
+                          {{ services.0.service_desc|safe }}
                         </p>
                         <a href="/website/services/{{ services.0.service_name }}" class="color-two btn-custom"
                           >Get Services</a
@@ -304,7 +304,7 @@
                       <div class="card-body">
                         <h5 class="card-title">{{ i.service_name}}</h5>
                         <p class="card-text">
-                          {{ i.service_desc }}
+                          {{ i.service_desc|safe }}
 
                         </p>
                         <a href="/website/services/{{ i.service_name }}" class="color-two btn-custom"

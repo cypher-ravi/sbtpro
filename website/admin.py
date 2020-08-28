@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import FreeListing, Plan, Order, Service, Job, Upload_resume, Categories, Subcategory, Sub_sub_category, \
     TOP, ServiceContact, Vendor, Trading, Faq, QueryContact, Feedback, Contactviacategory, FrenchiseContact, Profile
 
+
 # from django.conf import settings
 # from django.db.models.signals import post_save
 # from django.contrib.auth.models import User
@@ -76,29 +77,47 @@ class VendorAdmin(admin.ModelAdmin):
     list_display = ('vendor_id', 'Name', 'Company_Name', 'Busniess_Type', 'Mobile_No', 'Status')
     search_fields = ['Company_Name', 'Name']
     list_per_page = 50
-    fields = (('Name', 'Company_Name'), ('Busniess_Type', 'Service_decsription'),
+    fields = (('Name', 'Company_Name'), ('Busniess_Type', 'Image'),
               ('Mobile_No', 'Mobile_No_2'), ('Address1', 'Address2'), ('city', 'state'),
               ('PinCode', 'Status'), ('EmailID', 'Landline'), ('GST_No', 'Pan_No'),
               ('TIN_No', 'Discount_Percentage'), ('Facebook_URL', 'Twitter_URL'), ('website_URL', 'Contact_Person'),
               ('Other_Info', 'Registered_Trade_Name'), ('Longitude', 'Latitude'),
-              'Image')
+              'Service_decsription')
+
+    class Media:
+        js = ('website/js/tinyinject.js',)
+
+
+class ServiceAdmin(admin.ModelAdmin):
+    class Media:
+        js = ('website/js/tinyinject.js',)
+
+
+class TopAdmin(admin.ModelAdmin):
+    class Media:
+        js = ('website/js/tinyinject.js',)
+
+
+class FaqAdmin(admin.ModelAdmin):
+    class Media:
+        js = ('website/js/tinyinject.js',)
 
 
 # Register your models here.
 admin.site.register(FreeListing, FreelistingAdmin)
 admin.site.register(Plan)
 admin.site.register(Order)
-admin.site.register(Service)
+admin.site.register(Service, ServiceAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Upload_resume, UploadresumeAdmin)
 admin.site.register(Categories)
 admin.site.register(Subcategory)
 admin.site.register(Sub_sub_category)
-admin.site.register(TOP)
+admin.site.register(TOP, TopAdmin)
 admin.site.register(ServiceContact, ServiceContactAdmin)
 admin.site.register(Vendor, VendorAdmin)
 admin.site.register(Trading)
-admin.site.register(Faq)
+admin.site.register(Faq, FaqAdmin)
 admin.site.register(QueryContact, QueryContactAdmin)
 admin.site.register(Feedback, FeedbacksAdmin)
 admin.site.register(Contactviacategory, ContactviacategoryAdmin)

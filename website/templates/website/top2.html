@@ -62,7 +62,7 @@ sty
                 <div class="media-body">
                   <h5 class="mt-0">{{ team.0.vendor_name }}</h5>
                   <h6 class="mt-0">- {{ team.0.Busniess_Type }}</h6>
-                  <p class="mb-0"> {{ team.0.vendor_work_desc|slice:"200"  }}</p>
+                  <p class="mb-0"> {{ team.0.vendor_work_desc|slice:"200"|safe  }}</p>
                   <ul>
                       <li><b>Address:</b> {{ team.0.address }}  {{ team.0.city }} {{ team.0.state }}  </li>
                       <li><b>Contact:</b> {{ team.0.vendor_mobile_no }} </li>
@@ -85,7 +85,7 @@ sty
             <div class="media-body">
               <h5 class="mt-0">{{ i.vendor_name }}</h5>
               <h6 class="mt-0">- {{ i.Busniess_Type  }}</h6>
-              <p class="mb-0"> {{ i.vendor_work_desc|slice:"350"  }}</p>
+              <p class="mb-0"> {{ i.vendor_work_desc|slice:"350"|safe  }}</p>
               <ul>
                 <li><b>Address:</b> {{ i.address }} {{ i.city }} {{ i.state }}  </li>
                 <li><b>Contact:</b> {{ i.vendor_mobile_no }} </li>

@@ -60,7 +60,7 @@
 
                             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                 <div class="card-body">
-                                  {{ faqs.0.answer}}
+                                  {{ faqs.0.answer|safe}}
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                                 <div class="card-body">
-                                  {{ i.answer }}
+                                  {{ i.answer|safe }}
                                 </div>
                         </div>
                     {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last%}

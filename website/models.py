@@ -187,11 +187,12 @@ class Sub_sub_category(models.Model):
 class Service(models.Model):
     service_id = models.AutoField(primary_key=True)
     service_name = models.CharField(max_length=50)
-    category = models.CharField(max_length=150, default="")
+    category = models.ForeignKey(to=Categories, on_delete=models.CASCADE)
     category_title = models.CharField(max_length=150, default="")
-    subcategory = models.CharField(max_length=150, default="")
+    subcategory = models.ForeignKey(to=Subcategory, null=True, blank=True,
+                                          on_delete=models.CASCADE)
     price = models.IntegerField(default=0)
-    service_desc = models.CharField(max_length=120, )
+    service_desc = models.TextField(max_length=200, default='')
     publish_date = models.DateField()
     Image = models.ImageField(upload_to="website/images", default="")
 
@@ -202,7 +203,7 @@ class Service(models.Model):
 class TOP(models.Model):
     vendor_id = models.AutoField(primary_key=True)
     vendor_name = models.CharField(max_length=50, default='')
-    Busniess_Type = models.CharField(max_length=100, default='')
+    Busniess_Type = models.ForeignKey(to=Categories, on_delete=models.CASCADE)
     vendor_work_desc = models.TextField(max_length=1000, default='')
     address = models.CharField(max_length=100, default='')
     state = models.CharField(max_length=100, default='')
@@ -232,7 +233,7 @@ class Vendor(models.Model):
     Name = models.CharField(max_length=50, default='')
     Company_Name = models.CharField(max_length=100, default='')
     Busniess_Type = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='category')
-    Service_decsription = models.CharField(max_length=1000, default='')
+    Service_decsription = models.TextField(max_length=1000, default='')
     Mobile_No = PhoneNumberField()
     Mobile_No_2 = PhoneNumberField()
     Address1 = models.CharField(max_length=100, default='')
