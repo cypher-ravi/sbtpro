@@ -203,7 +203,7 @@ class Service(models.Model):
 class TOP(models.Model):
     vendor_id = models.AutoField(primary_key=True)
     vendor_name = models.CharField(max_length=50, default='')
-    Busniess_Type = models.ForeignKey(to=Categories, on_delete=models.CASCADE)
+    Busniess_Type = models.ForeignKey(Categories, on_delete=models.CASCADE)
     vendor_work_desc = models.TextField(max_length=1000, default='')
     address = models.CharField(max_length=100, default='')
     state = models.CharField(max_length=100, default='')
