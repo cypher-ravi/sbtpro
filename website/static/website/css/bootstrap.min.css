@@ -492,7 +492,7 @@ pre code {
 .container {
   width: 100%;
   padding-right: 15px;
-  padding-left: 0px;
+  padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -5784,7 +5784,7 @@ a.close.disabled {
 .carousel-control-next,
 .carousel-control-prev {
   position: absolute;
-  top: 45px;
+  top: -30px;
   bottom: 0px;
   z-index: 1;
   display: -ms-flexbox;
@@ -5826,7 +5826,7 @@ a.close.disabled {
   width: 30px;
   height: 30px;
   background: no-repeat 50%/100% 100%;
-  margin-left: 20%;
+  margin-left: 18%;
 }
 .carousel-control-prev-icon {
   background-image: url("https://img.icons8.com/flat_round/64/000000/back--v1.png");
@@ -7276,7 +7276,7 @@ button.bg-dark:hover {
 }
 .mt-2,
 .my-2 {
-  margin-top: 0.5rem !important;
+  margin-top: 1.5rem !important;
 }
 .mr-2,
 .mx-2 {

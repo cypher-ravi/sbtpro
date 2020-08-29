@@ -74,9 +74,21 @@
     />
 
     <!--    manually added-->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+     <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
     <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>    <script
       src="//code.tidio.co/dsqvii9sqr9iyv4pbcn4c8tekzndgyr9.js"
       async
     ></script>
@@ -84,7 +96,7 @@
       @media only screen and (min-width: 993px) {
         .hide-on-desktop-only {
           display: none !important;
-          margin-top: 5px;
+          margin-top: 10px;
         }
       }
       @media only screen and (max-width: 993px) {
@@ -100,31 +112,15 @@
   <body onload="myFunction()">
     <div id="loading"></div>
     <!-- header area start -->
-    <header id="header" class="transparent-header sticky">
-      <div class="topheader top_header_light">
+    <header id="header" class="transparent-header ">
+      <div class="topheader top_header_light show-on-desktop-only">
         <div class="container">
-          {% for message in messages %}
-          <div
-            class="alert alert-{{ message.tags }} alert-dismissible fade show"
-            role="alert"
-          >
-            <strong>Message!</strong> {{ message }}
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-              aria-expanded="false"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          {% endfor %}
+
           <div class="row">
             <div class="col-lg-7">
               <div class="address-icon">
                 Register Your Business At SBT Professionals Platform,FREE FREE
-                FREE! Call us today<a href="tel:+91 8295 393035"
+                FREE! Call us today<a href="#"
                   >+91 8295 393035</a
                 >
               </div>
@@ -144,15 +140,34 @@
         </div>
       </div>
       <!-- #navigation start -->
+      {% for message in messages %}
+          <div
+            class="alert alert-{{ message.tags }} alert-dismissible fade show"
+            role="alert"
+          >
+            <strong>Message!</strong> {{ message }}
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+              aria-expanded="false"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %}
+
       <nav
-        class="navbar navbar-default navbar-expand-md navbar-light"
+        class="navbar navbar-default navbar-expand-md navbar-light "
         id="navigation"
         data-offset-top="1"
       >
+
         <!-- .container -->
-        <div class="container">
+        <div class="container  ">
           <!-- Logo and Menu -->
-          <div class="navbar-header">
+          <div class="navbar-header ">
             <div class="navbar-brand">
               <a href="/website/"
                 ><img src="{%static 'website/images/logo.png' %}" alt="Logo"
@@ -161,7 +176,7 @@
             <!-- site logo -->
           </div>
           <!-- Menu Toogle -->
-          <div class="burger-icon">
+          <div class="burger-icon" >
             <div class="bar1"></div>
             <div class="bar2"></div>
             <div class="bar3"></div>
@@ -171,7 +186,7 @@
               <div class="hide-on-desktop-only">
                 {% if user.is_authenticated %}
                 <div class="dropdown">
-                  <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+                  <button type="button" class="dropdown-toggle mt-2" data-toggle="dropdown">
                     {{user}}
                   </button>
                   <div class="dropdown-menu">
@@ -200,13 +215,17 @@
 
               </div>
               <!-- Menu Link -->
-              <li>
-                <a href="/website/freelisting">Free Listing</a>
-              </li>
+<!--              <li>-->
+<!--                <a href="/website/freelisting">Free Listing</a>-->
+<!--              </li>-->
 
               <!-- categories on mobile -->
-              <!-- <div class="hide-on-desktop-only"> -->
-              <li class="subnav hide-on-desktop-only">
+                            <li>
+                    <a href="/website/download" class="hide-on-desktop-only  search-ico-btn ico-btn">Download Our App</a>
+                            </li>
+
+
+              <li class="subnav ">
                 <a href="#">Categories</a>
                 <ul class="sub-menu">
                   <li>
@@ -255,70 +274,70 @@
                 <ul class="sub-menu">
                   <li>
                     <a href="/website/Topvendor/{{ vendor.0.vendor_name }}"
-                      >MRT-Medical Rescue Team</a
+                      >{{ vendor.0.vendor_name }}</a
                     >
                   </li>
                   <li>
                     <a
                       href="/website/Topvendor/{{ vendor.1.vendor_name }}"
                       class="nav-link"
-                      >Stack Softwares</a
+                      >{{ vendor.1.vendor_name }}</a
                     >
                   </li>
                   <li>
                     <a
                       href="/website/Topvendor/{{ vendor.2.vendor_name }}"
                       class="nav-link"
-                      >KWP (komalpreet wedding planner)</a
+                      >{{ vendor.2.vendor_name }}</a
                     >
                   </li>
                   <li>
                     <a
                       href="/website/Topvendor/{{ vendor.3.vendor_name }}"
                       class="nav-link"
-                      >Fight Web Portal</a
+                      >{{ vendor.3.vendor_name }}</a
                     >
                   </li>
                   <li>
                     <a
                       href="/website/Topvendor/{{ vendor.4.vendor_name }}"
                       class="nav-link"
-                      >Electric Gure
+                      >{{ vendor.4.vendor_name }}
                     </a>
                   </li>
                   <li>
                     <a
                       href="/website/Topvendor/{{ vendor.5.vendor_name }}"
                       class="nav-link"
-                      >The carpenter & Plumber
+                      >{{ vendor.5.vendor_name }}
                     </a>
                   </li>
                   <li>
                     <a
                       href="/website/Topvendor/{{ vendor.6.vendor_name }}"
                       class="nav-link"
-                      >Vegitabel farm HUB</a
+                      >{{ vendor.6.vendor_name }}</a
                     >
                   </li>
                   <li>
                     <a
                       href="/website/Topvendor/{{ vendor.7.vendor_name }}"
                       class="nav-link"
-                      >Value 49</a
+                      >{{ vendor.7.vendor_name }}</a
                     >
                   </li>
                   <li>
                     <a
                       href="/website/Topvendor/{{ vendor.8.vendor_name }}"
                       class="nav-link"
-                      >Nanke de Bande</a
+                      >{{ vendor.8.vendor_name }}</a
                     >
                   </li>
                   <li>
                     <a
                       href="/website/Topvendor/{{ vendor.9.vendor_name }}"
                       class="nav-link"
-                      >Karnal Aajtak</a
+                      >{{ vendor.9.vendor_name }}</a
                     >
                   </li>
                 </ul>
@@ -476,7 +495,7 @@
             <!-- footer widget -->
           </div>
           <!-- to top -->
-          <div class="cd-top"><i class="fas fa-level-up-alt"></i></div>
+<!--          <div class="cd-top"><i class="fas fa-level-up-alt"></i></div>-->
         </div>
       </div>
       <!-- .container end -->
@@ -578,16 +597,7 @@
     <script src="{%static 'website/js/typed.min.js' %}"></script>
 
     <!-- manually added -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-      crossorigin="anonymous"
-    ></script>
+
     <!-- loading bar -->
     <script>
       var preloader = document.getElementById("loading");

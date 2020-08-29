@@ -262,7 +262,7 @@ window.jQuery(document).ready(function($){
 
 
 	// Navigation Burger animation //
-	$('.burger-icon').on('click touchstart', function(e) {
+	$('.burger-icon').on('click', function(e) {
 		$(this).toggleClass('change');
 		$("#navbarCollapse").slideToggle();
 		e.preventDefault();

@@ -18,9 +18,9 @@
 {% load static %}
 <body>
     <div class="imagebg"></div>
-<div class="row set_centre_feedback_form" style="margin-top: 200px" >
-    <div class="col-md-5 col-md-offset-3 form-container mt-5 ml-2 mr-3">
-        <h2>Feedback</h2>
+<div class="row set_centre_feedback_form" style="margin-top: 40px" >
+    <div class="col-md-5 col-md-offset-3 form-container my-5 ml-2 mr-3">
+        <h2 class="mt-5">Feedback</h2>
         <p>
             Please provide your feedback below:
         </p>
@@ -30,36 +30,36 @@
                 <label>How do you rate your overall experience?</label>
                 <p>
                     <label class="radio-inline">
-                    <input type="radio" name="experience" id="radio_experience" value="Average" >
+                    <input type="radio" name="experience"  value="Average" >
                     Average
                     </label>
 
                     <label class="radio-inline">
-                    <input type="radio" name="experience" id="radio_experience" value="Good" >
+                    <input type="radio" name="experience" value="Good" >
                     Good
                     </label>
 
                     <label class="radio-inline">
-                    <input type="radio" name="experience" id="radio_experience" value="Very Good" >
+                    <input type="radio" name="experience"  value="Very Good" >
                     Very Good
                     </label>
                 </p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 form-group">
+                <div class="col-sm-10 form-group pr-5">
                     <label for="comments">
                         Comments:</label>
-                    <textarea class="form-control" type="textarea" name="comments" id="comments" placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
+                    <textarea class="form-control " type="textarea" name="comments" id="comments" placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-6 form-group">
+            <div class="row ">
+                <div class="col-sm-6 form-group pr-5">
                     <label for="name">
                         Your Name:</label>
                     <input type="text" class="form-control" id="name" name="name" required>
                 </div>
-                <div class="col-sm-6 form-group">
+                <div class="col-sm-6 form-group pr-5">
                     <label for="email">
                         Email:</label>
                     <input type="email" class="form-control" id="email" name="email" required>
@@ -67,7 +67,7 @@
             </div>
 
                         <div class="row">
-                <div class="col-sm-12 form-group">
+                <div class="col-sm-12 form-group pr-5">
                     <button type="submit" class="btn btn-lg btn-warning btn-block" >Post </button>
                 </div>
             </div>

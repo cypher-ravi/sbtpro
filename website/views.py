@@ -79,11 +79,12 @@ def freelisting(request):
 
 def customer_membership(request):
     category = Categories.objects.all()
+    redirect1 = '/website/purchase'
 
     plans = Plan.objects.all()
     vendor = TOP.objects.all()
 
-    return render(request, 'website/membership.html', {'plans': plans, 'vendor': vendor, 'category': category})
+    return render(request, 'website/membership.html', {'plans': plans, 'vendor': vendor, 'category': category,'redirect':redirect1})
 
 
 def jobs(request):

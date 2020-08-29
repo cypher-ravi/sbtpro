@@ -5,7 +5,7 @@
     .margin-h3{
 
     color: #000;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 600;
     text-align: left;
     text-transform: uppercase;
@@ -43,7 +43,7 @@
             <h4>Step 2 - Enter Address & Other Details:</h4>
         <form action="/website/purchase/{{ plan_review.name }}" method="post">{% csrf_token %}
 <!--            <input type="hidden" name="itemsJson" id="itemsJson">-->
-            <input type="hidden" name="amount" value="{{ plan_review.amount }}">
+            <input type="hidden" name="amount" value="{{ plan_review.amount }}/percent">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="name">Name</label>
