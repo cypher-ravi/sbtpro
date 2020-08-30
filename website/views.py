@@ -154,15 +154,17 @@ def download(request):
 
 
 def categories(request, slug):
+    vendor = TOP.objects.all()
     category = Categories.objects.all()
     filtered_categories = Categories.objects.filter(category_name=slug)
     related_sub_category = Subcategory.objects.all().filter(category_name__in=filtered_categories)
     return render(request, 'website/category.html',
                   {'filtered_categories': filtered_categories, 'sub_category': related_sub_category,
-                   'category': category})
+                   'category': category,'vendor':vendor})
 
 
 def sub_to_sub_category(request, slug):
+    vendor = TOP.objects.all()
     category = Categories.objects.all()
     related_sub_category = Subcategory.objects.all().filter(sub_category_name=slug)
     related_sub_sub_category = Sub_sub_category.objects.all().filter(sub_category_name__in=related_sub_category)
@@ -170,14 +172,15 @@ def sub_to_sub_category(request, slug):
     if related_sub_sub_category.exists():
         return render(request, 'website/subcategory.html',
                       {'sub_category': related_sub_category, 'related_sub_sub_category': related_sub_sub_category,
-                       'category': category})
+                       'category': category,'vendor':vendor})
     else:
-        return render(request, 'website/form_category.html', {'slug': slug, 'category': category})
+        return render(request, 'website/form_category.html', {'slug': slug, 'category': category,'vendor':vendor})
 
 
 # A's here  ------------------
 
 def purchase(request, slug):
+    vendor = TOP.objects.all()
     category = Categories.objects.all()
     # assuming coming from purchase form but for instance taking from purchase button from index.html
     # about paytm implimentation will here
@@ -230,7 +233,7 @@ def purchase(request, slug):
                 'description_4': plan.description_4,
             }
 
-            return render(request, 'website/purchase_form.html', {'plan_review': dict_for_review, 'category': category})
+            return render(request, 'website/purchase_form.html', {'plan_review': dict_for_review, 'category': category,'vendor':vendor})
 
         else:
             return render(request, 'website/login.html')
@@ -365,9 +368,10 @@ def username_validator(request):
 
 
 def single_vendor(request, slug):
+    vendor = TOP.objects.all()
     category = Categories.objects.all()
-    vendor = TOP.objects.filter(vendor_name=slug)
-    return render(request, 'website/team-single.html', {'vendors': vendor, 'category': category})
+    vendors = TOP.objects.filter(vendor_name=slug)
+    return render(request, 'website/team-single.html', {'vendors': vendors, 'category': category,'vendor':vendor})
 
 
 def service_detail(request, slug):

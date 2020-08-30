@@ -57,7 +57,7 @@ sty
                 <img src="/media/{{ team.0.Image }}" class="align-self-center mr-3 top-img" alt="...">
 
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9 mt-4">
 
                 <div class="media-body">
                   <h5 class="mt-0">{{ team.0.vendor_name }}</h5>
@@ -77,11 +77,11 @@ sty
 {% for i in team|slice:"1:"  %}
 
 
-    <div class="col-md-3 mt-4">
+    <div class="col-md-3 mt-4 mb-3">
         <img src="/media/{{ i.Image }}" class="img-fluid top-img" alt="...">
     </div>
     <div class="col-md-9">
-        <div class="media mt-4">
+        <div class="media mt-4 mb-3">
             <div class="media-body">
               <h5 class="mt-0">{{ i.vendor_name }}</h5>
               <h6 class="mt-0">- {{ i.Busniess_Type  }}</h6>
