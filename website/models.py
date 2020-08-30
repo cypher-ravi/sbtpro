@@ -159,6 +159,9 @@ class Upload_resume(models.Model):
 class Categories(models.Model):
     category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=50, default='')
+    Image = models.FileField(blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['svg'])])
+
 
     def __str__(self):
         return self.category_name
@@ -330,6 +333,16 @@ class FrenchiseContact(models.Model):
     address = models.CharField(max_length=200, default='')
     frenchise_option = models.CharField(max_length=50, default='')
     submit_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.customer_name
+
+
+class AddTestimonial(models.Model):
+    id = models.AutoField(primary_key=True)
+    customer_name = models.CharField(max_length=50, default='')
+    quote = models.TextField(max_length=350, default='')
+
 
     def __str__(self):
         return self.customer_name

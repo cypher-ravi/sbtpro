@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import FreeListing, Plan, Order, Service, Job, Upload_resume, Categories, Subcategory, Sub_sub_category, \
-    TOP, ServiceContact, Vendor, Trading, Faq, QueryContact, Feedback, Contactviacategory, FrenchiseContact, Profile
+    TOP, ServiceContact, Vendor, Trading, Faq, QueryContact, Feedback, Contactviacategory, FrenchiseContact, Profile,AddTestimonial
 
 
 # from django.conf import settings
@@ -103,6 +103,7 @@ class FaqAdmin(admin.ModelAdmin):
         js = ('website/js/tinyinject.js',)
 
 
+
 # Register your models here.
 admin.site.register(FreeListing, FreelistingAdmin)
 admin.site.register(Plan)
@@ -123,3 +124,4 @@ admin.site.register(Feedback, FeedbacksAdmin)
 admin.site.register(Contactviacategory, ContactviacategoryAdmin)
 admin.site.register(FrenchiseContact, FrenchiseAdmin)
 admin.site.register(Profile)
+admin.site.register(AddTestimonial)

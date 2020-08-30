@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import FreeListing, Plan, Order, Service, Job, Upload_resume, Categories, Sub_sub_category, TOP, \
-    ServiceContact, Vendor, Subcategory, Trading, Faq, QueryContact, Feedback, Contactviacategory, FrenchiseContact
+    ServiceContact, Vendor, Subcategory, Trading, Faq, QueryContact, Feedback, Contactviacategory, FrenchiseContact,AddTestimonial
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
 from django.views.decorators.csrf import csrf_exempt
@@ -32,12 +32,15 @@ def index(request):
     # Logic for services
     services = Service.objects.all()
 
+    #testimonials
+    testimonials = AddTestimonial.objects.all()
+
     # Another section started
     vendor = TOP.objects.all()
 
     plans = Plan.objects.all()
     return render(request, 'website/index.html',
-                  {'plans': plans, 'category': category, 'services': services, 'vendor': vendor})
+                  {'plans': plans, 'category': category, 'services': services, 'vendor': vendor,'testimonials':testimonials})
 
 
 # Function to take input from form and send it through email
@@ -612,6 +615,9 @@ def frenchise(request):
             return render(request, 'website/frenchise.html', {'category': category})
 
     return render(request, 'website/frenchise.html', {'category': category})
+
+
+
 
 
 #error handling view
