@@ -1,6 +1,10 @@
 {% extends 'website/layout.html' %}
 {% block title%} Checkout - SBT Professionals{% endblock %}
+{% block script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock script %}
 {% block css %}
+
 <style>
     .margin-h3{
 
@@ -34,12 +38,26 @@
 </ul>
   </ol>
 </nav>
-            <nav aria-label="breadcrumb">
+    <h4>Enter Your Purchasing percentage below: </h4>
+	<form id="form">
+		<input type="hidden" name="id" value = "{{ i.id }}"> 
+		<input id="discount_id" type="text" name = "discount" >
+		<button>submit</button>
+	</form>
+     {% comment %} <h4 id= "output"></h4> {% endcomment %}
+	{% for i in service %}
+		<h1>{{ i.name }}</h1>
+		<p>{{ i.description }}</p>
+	{% endfor %}
+
+            <nav aria-label="breadcrumb p-0">
                  <ol class="breadcrumb mt-3">
-    Your Total is Rs.<span>{{ plan_review.amount }}</span><br>
+                 <p> Your Total is Rs.</p>
+    <p id= "output" class="ml-1"></p><br>
 
   </ol>
 </nav>
+<p>NOTE:<em>Your Default Totas Is </em><b>Rs100.</b></p>
             <h4>Step 2 - Enter Address & Other Details:</h4>
         <form action="/website/purchase/{{ plan_review.name }}" method="post">{% csrf_token %}
 <!--            <input type="hidden" name="itemsJson" id="itemsJson">-->
@@ -84,4 +102,43 @@
         </form>
     </div>
 </div>
+{% block js %}
+<script>
+    // window.scrollTo(00,500);
+    // alert(localStorage.getItem("scroll_pointer"));
+   
+    $(document).ready(function(){
+      $("#form").submit(function(event){
+          event.preventDefault();
+          console.log("in send");
+          
+          $.ajax({
+              type : 'POST',
+              url : '/website/pricing-multiplier/',
+              dataType : 'json',
+              data:{
+                  csrfmiddlewaretoken: "{{ csrf_token }}",
+                  discount : $('#discount_id').val(), 
+                  id : $('#id').val(),
+              },
+              success : function(data){
+                document.getElementById("output").innerText = data.data;
+  
+              }
+            
+          });
+          
+      });
+    });
+    
+
+    // function comment_scroll_track(){
+    // var temp = document.getElementById("comment").scrollTop
+    // alert('this is the thing here');
+    // alert(temp)
+    // localStorage.setItem("scroll_pointer", document.getElement.scrollTop);
+    // }
+</script>
+ {% endblock %}
 {% endblock %}
+

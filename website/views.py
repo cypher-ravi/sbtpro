@@ -623,3 +623,21 @@ def frenchise(request):
 #error handling view
 def error_404_view(request,exception):
     return render(request,'website/error404.html')
+
+
+def pricing(request, id):
+	try:
+		obj = Pricing.objects.filter(id = id)
+		return render(request, 'index.html', {'service':obj})
+		
+	except Exception as e:
+		return HttpResponse(f"That's an error :->{e}")
+
+def pricing_multiplier(request):
+	if request.method =="POST":
+		default_val = 100
+		discount = int(request.POST.get('discount'))
+		total = discount * default_val
+        
+
+		return JsonResponse({'data':total})

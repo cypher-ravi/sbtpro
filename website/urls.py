@@ -41,6 +41,8 @@ urlpatterns = [
     path('feedback/', views.feedback, name='feedback'),
     path('TermsCondition/', views.tac, name='Terms_and_condition'),
     path('username_validator', views.username_validator, name="uv"),
+    path('pricing/<str:id>', views.pricing, name = "P"),
+    path('pricing-multiplier/', views.pricing_multiplier, name ="PM"),
 
     path('reset_password/',
          auth_views.PasswordResetView.as_view
@@ -60,5 +62,5 @@ urlpatterns = [
          name='password_reset_complete'),
     ]
 
-if settings.DEBUG:
+if settings.DEBUG == True:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -346,3 +346,12 @@ class AddTestimonial(models.Model):
 
     def __str__(self):
         return self.customer_name
+
+
+class Pricing(models.Model):
+	id = models.AutoField(primary_key = True)
+	name = models.CharField(max_length = 27)
+	description = models.TextField()
+
+	def __str__(self):
+		return self.name
