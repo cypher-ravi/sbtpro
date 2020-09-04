@@ -196,12 +196,12 @@ def purchase(request, slug):
                 email_id = request.POST.get('email', '')
                 name = request.POST.get('name', '')
                 phone = request.POST.get('phone', '')
-                address = request.POST.get(
-                    'address1', '') + " " + request.POST.get('address2', '')
+                address = request.POST.get('address1', '') + " " + request.POST.get('address2', '')
                 state = request.POST.get('state', '')
                 city = request.POST.get('city', '')
                 zip_code = request.POST.get('zip_code', '')
-                amount = plan.plan_amount
+                discount = int(request.POST.get('discount'))
+                amount = discount * plan.plan_amount
                 plan_id = plan.plan_id
                 order = Order(name=name, email_id=email_id, address=address, city=city, state=state, zip_code=zip_code,
                               phone=phone, amount=amount, order_id=order_id, plan_id=plan)
@@ -216,7 +216,7 @@ def purchase(request, slug):
                     "CHANNEL_ID": "WEB",
                     "ORDER_ID": str(order_id),
                     "TXN_AMOUNT": str(amount),
-                    "CALLBACK_URL": "http://127.0.0.1:8000/sbtapp/req_handler",
+                    "CALLBACK_URL": "http://127.0.0.1:8000/website/req_handler",
                 }
 
                 param_dict = detail_dict
@@ -228,6 +228,7 @@ def purchase(request, slug):
 
             plan = Plan.objects.get(plan_name=slug)
             dict_for_review = {
+                'id' : plan.plan_id,
                 'name': plan.plan_name,
                 'amount': plan.plan_amount,
                 'description_1': plan.description_1,
@@ -236,14 +237,24 @@ def purchase(request, slug):
                 'description_4': plan.description_4,
             }
 
-            return render(request, 'website/purchase_form.html', {'plan_review': dict_for_review, 'category': category,'vendor':vendor})
-
+            return render(request, 'website/purchase_form.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
         else:
             return render(request, 'website/login.html')
 
-    except Exception as e:
+    except AttributeError as e:
         print("An Exception occur \n", e)
         return HttpResponse(e)
+
+
+def pricing_multiplier(request):
+    # to do make secure multiplier in purchase view
+    # change the dict passing for plan_review
+    if request.method =="POST":
+        amount = int(request.POST.get("amount"))
+        default_val = 100
+        discount = int(request.POST.get('discount'))
+        total = discount * amount
+        return JsonResponse({'discount_applied': discount,'total':total })
 
 
 @csrf_exempt
@@ -259,14 +270,13 @@ def req_handler(request):
 
             if i == "CHECKSUMHASH":
                 response_check_sum = form[i]
-        verify = CheckSum.verifySignature(
-            response_dict, MKEY, response_check_sum)
+
+        verify = CheckSum.verifySignature(response_dict, MKEY, response_check_sum)
         print(verify)
         print("..................", verify)
-        if verify:
+        if verify and response_dict["STATUS"] != "TXN_FAILURE": 
             return HttpResponse("payment successfull")
     return HttpResponse("Not successfull")
-
 
 # --------------------------payment end ------------------------
 
@@ -625,19 +635,12 @@ def error_404_view(request,exception):
     return render(request,'website/error404.html')
 
 
-def pricing(request, id):
-	try:
-		obj = Pricing.objects.filter(id = id)
-		return render(request, 'index.html', {'service':obj})
+# def pricing(request, id):
+# 	try:
+# 		obj = Pricing.objects.filter(id = id)
+# 		return render(request, 'index.html', {'service':obj})
 		
-	except Exception as e:
-		return HttpResponse(f"That's an error :->{e}")
+# 	except Exception as e:
+# 		return HttpResponse(f"That's an error :->{e}")
 
-def pricing_multiplier(request):
-	if request.method =="POST":
-		default_val = 100
-		discount = int(request.POST.get('discount'))
-		total = discount * default_val
-        
 
-		return JsonResponse({'data':total})

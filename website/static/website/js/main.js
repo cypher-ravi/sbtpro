@@ -343,6 +343,34 @@ window.jQuery(document).ready(function($){
 	// Slider End
 
 
+//  Modifying main.js The below code is self written
+   $(document).ready(function(){
+      $("#form").submit(function(event){
+          event.preventDefault();
+          var test = $('#real_val').val();
+          console.log(test);
+          $.ajax({
+              type : 'POST',
+              url : '/website/pricing-multiplier/',
+              dataType : 'json',
+              data:{
+                  csrfmiddlewaretoken:$("input[name='csrfmiddlewaretoken']").attr("value"),
+                  discount : $('#discount_val').val(), 
+                  amount : $('#real_val').val(),
+              },
+              success : function(data){
+                document.getElementById("output").innerText = data.total;
+                document.getElementById("discount").value = data.discount_applied;
+                document.getElementById("total").value = data.total;
+  
+              }
+            
+          });
+          
+      });
+    });
+
+// End of Self Written Code
 
 });
 
@@ -401,3 +429,5 @@ function prettyLog(str) {
 }
 //Typed Text End
 
+
+ 

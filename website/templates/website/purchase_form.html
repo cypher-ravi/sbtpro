@@ -39,9 +39,10 @@
   </ol>
 </nav>
     <h4>Enter Your Purchasing percentage below: </h4>
-	<form id="form">
-		<input type="hidden" name="id" value = "{{ i.id }}"> 
-		<input id="discount_id" type="text" name = "discount" >
+	<form id="form"> 
+		</input type="hidden" id="discount_id" name="id" value="{{ plan_review.id }}"> 
+      <input type="hidden" id="real_val" name="amount" value="{{ plan_review.amount}}">
+		<input id="discount_val" type="text" name = "discount_usr" >
 		<button>submit</button>
 	</form>
      {% comment %} <h4 id= "output"></h4> {% endcomment %}
@@ -62,6 +63,8 @@
         <form action="/website/purchase/{{ plan_review.name }}" method="post">{% csrf_token %}
 <!--            <input type="hidden" name="itemsJson" id="itemsJson">-->
             <input type="hidden" name="amount" value="{{ plan_review.amount }}/percent">
+            <input type="hidden" name="discount" id="discount" value="">
+            <input type="hidden" name="total" id="total" value="">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="name">Name</label>
@@ -102,43 +105,6 @@
         </form>
     </div>
 </div>
-{% block js %}
-<script>
-    // window.scrollTo(00,500);
-    // alert(localStorage.getItem("scroll_pointer"));
-   
-    $(document).ready(function(){
-      $("#form").submit(function(event){
-          event.preventDefault();
-          console.log("in send");
-          
-          $.ajax({
-              type : 'POST',
-              url : '/website/pricing-multiplier/',
-              dataType : 'json',
-              data:{
-                  csrfmiddlewaretoken: "{{ csrf_token }}",
-                  discount : $('#discount_id').val(), 
-                  id : $('#id').val(),
-              },
-              success : function(data){
-                document.getElementById("output").innerText = data.data;
-  
-              }
-            
-          });
-          
-      });
-    });
-    
 
-    // function comment_scroll_track(){
-    // var temp = document.getElementById("comment").scrollTop
-    // alert('this is the thing here');
-    // alert(temp)
-    // localStorage.setItem("scroll_pointer", document.getElement.scrollTop);
-    // }
-</script>
- {% endblock %}
 {% endblock %}
 

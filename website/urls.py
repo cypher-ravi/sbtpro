@@ -41,7 +41,7 @@ urlpatterns = [
     path('feedback/', views.feedback, name='feedback'),
     path('TermsCondition/', views.tac, name='Terms_and_condition'),
     path('username_validator', views.username_validator, name="uv"),
-    path('pricing/<str:id>', views.pricing, name = "P"),
+    # path('pricing/<str:id>', views.pricing, name = "P"),
     path('pricing-multiplier/', views.pricing_multiplier, name ="PM"),
 
     path('reset_password/',
