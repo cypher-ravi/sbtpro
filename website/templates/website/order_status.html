@@ -1,0 +1,11 @@
+{% extends 'website/layout.html'%}
+{% load static%}
+
+{% block body %}
+	<form method="POST" action="https://securegw-stage.paytm.in/order/status" >
+		{% for key, val in paytm_params %}
+			<input type="hidden" name="{{key}}" value="{{val}}">
+		{% endfor %}
+		<input type="submit" id="hidden_submit">
+
+{% endblock %}

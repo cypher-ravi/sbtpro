@@ -20,19 +20,26 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 
+# TODO ! Important !
+    # *put paytm exception logic [ for payment delay ]
+    # *change paytm for production
+    # *remove mid mkey from code
 
 # Create your views here.
 # ! NEVER SHOW MERCHANT ID AND KEY !
 MID = "VdMxPH61970223458566"  # MERCHANT ID
 MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 
+def test(request):
+    # request.session['x'] = "ahe boi"
+    return HttpResponse(request.session['x'])
 
 def index(request):
     category = Categories.objects.all()
     # Logic for services
     services = Service.objects.all()
 
-    #testimonials
+    # testimonials
     testimonials = AddTestimonial.objects.all()
 
     # Another section started
@@ -182,6 +189,22 @@ def sub_to_sub_category(request, slug):
 
 # A's here  ------------------
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def purchase(request, slug):
     vendor = TOP.objects.all()
     category = Categories.objects.all()
@@ -261,8 +284,7 @@ def pricing_multiplier(request):
 def req_handler(request):
     if request.method == 'POST':
         response_dict = dict()
-        dict(response_dict)
-        print(type(response_dict))
+
         form = request.POST  # FOR ALL VALUES
         for i in form.keys():
             response_dict[i] = form[i]
@@ -275,10 +297,73 @@ def req_handler(request):
         print(verify)
         print("..................", verify)
         if verify and response_dict["STATUS"] != "TXN_FAILURE": 
-            return HttpResponse("payment successfull")
+            return render(request, 'website/order_success.html')
     return HttpResponse("Not successfull")
 
+
+def order_status(request):
+    # also add check if user is verified
+    # if request.method == "POST":
+
+    # order_id = request.POST.get('order_id')
+    order_id = ""
+    paytmParams = dict()
+
+    paytmParams["MID"]     = MID
+    paytmParams["ORDERID"] = order_id
+
+    # Generate checksum by parameters we have
+    # Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys 
+    checksum = CheckSum.generateSignature(paytmParams, MKEY)
+
+    paytmParams["CHECKSUMHASH"] = checksum
+
+    # post_data = json.dumps(paytmParams)
+
+        # # for Staging
+        # url = "https://securegw-stage.paytm.in/order/status" 
+
+        # # for Production
+        # # url = "https://securegw.paytm.in/order/status"
+
+        # response = requests.post(url, data = post_data, headers = {"Content-type": "application/json"}).json()
+        # print(response)
+    return render(request, 'website/order_status.html', {'paytm_params': paytmParams})
+                    
+
+
+
+
+
+
 # --------------------------payment end ------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def sign_up(request):
     # have exception of geting same user name
@@ -633,14 +718,5 @@ def frenchise(request):
 #error handling view
 def error_404_view(request,exception):
     return render(request,'website/error404.html')
-
-
-# def pricing(request, id):
-# 	try:
-# 		obj = Pricing.objects.filter(id = id)
-# 		return render(request, 'index.html', {'service':obj})
-		
-# 	except Exception as e:
-# 		return HttpResponse(f"That's an error :->{e}")
 
 

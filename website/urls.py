@@ -13,6 +13,7 @@ admin.site.index_title = "Welcome To SBT Professionals"
 
 
 urlpatterns = [
+    path("test", views.test, name="test"),
     path("", views.index, name='Sbthome'),
     path("freelisting/", views.freelisting, name='listing'),
     path("top/", views.top, name='top'),
@@ -32,18 +33,22 @@ urlpatterns = [
     path("subcategories/<str:slug>", views.sub_to_sub_category, name='sub_to_sub_category'),
     path("contactservice/<str:slug>", views.contact_via_service, name="contactservice"),
     path("services/<str:slug>", views.service_detail, name='service_detail'),
-    path("purchase/<str:slug>", views.purchase, name="plan-purchase"),
-    path('req_handler', views.req_handler, name='Request Handler'),
-    path('signup/', views.sign_up, name='SignUp'),
-    path('login/', views.log_in, name='Login'),
-    path('logout/', views.logout_view, name='Logout'),
     path('newsletter/', views.newsletter, name='newsletter'),
     path('feedback/', views.feedback, name='feedback'),
     path('TermsCondition/', views.tac, name='Terms_and_condition'),
     path('username_validator', views.username_validator, name="uv"),
-    # path('pricing/<str:id>', views.pricing, name = "P"),
-    path('pricing-multiplier/', views.pricing_multiplier, name ="PM"),
 
+    # Payment, Purchase, Order Urls
+    path("purchase/<str:slug>", views.purchase, name="plan-purchase"),
+    path('pricing-multiplier/', views.pricing_multiplier, name ="PM"),
+    path('req_handler', views.req_handler, name='Request Handler'),
+    path('order_status', views.order_status, name='Order Status'),
+    # Authentication Urls
+    path('signup/', views.sign_up, name='SignUp'),
+    path('login/', views.log_in, name='Login'),
+    path('logout/', views.logout_view, name='Logout'),
+    
+    # Password Reset Urls
     path('reset_password/',
          auth_views.PasswordResetView.as_view
          (template_name='website/password_reset.html'),
