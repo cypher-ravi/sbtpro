@@ -1,8 +1,5 @@
 from django.contrib import admin
-from .models import FreeListing, Plan, Order, Service, Job, Upload_resume, Categories, Subcategory, Sub_sub_category, \
-    TOP, ServiceContact, Vendor, Trading, Faq, QueryContact, Feedback, Contactviacategory, FrenchiseContact, Profile,AddTestimonial
-
-
+from .models import *   
 # from django.conf import settings
 # from django.db.models.signals import post_save
 # from django.contrib.auth.models import User
@@ -107,7 +104,7 @@ class FaqAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(FreeListing, FreelistingAdmin)
 admin.site.register(Plan)
-admin.site.register(Order)
+# admin.site.register(Order)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Upload_resume, UploadresumeAdmin)
@@ -125,3 +122,4 @@ admin.site.register(Contactviacategory, ContactviacategoryAdmin)
 admin.site.register(FrenchiseContact, FrenchiseAdmin)
 admin.site.register(Profile)
 admin.site.register(AddTestimonial)
+admin.site.register(Order_Payment)

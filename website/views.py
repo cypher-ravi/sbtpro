@@ -2,11 +2,15 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FreeListing, Plan, Order, Service, Job, Upload_resume, Categories, Sub_sub_category, TOP, \
-    ServiceContact, Vendor, Subcategory, Trading, Faq, QueryContact, Feedback, Contactviacategory, FrenchiseContact,AddTestimonial
+from .models import *
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
+    # import checksum generation utility
+    # You can get this utility from https://developer.paytm.com/docs/checksum/
+
 from django.views.decorators.csrf import csrf_exempt
+import requests
+import json
 # FOR PAYTM End-------------------------------------
 
 from django.contrib import messages
@@ -24,15 +28,26 @@ from django.http import JsonResponse
     # *put paytm exception logic [ for payment delay ]
     # *change paytm for production
     # *remove mid mkey from code
+    # Refund Logic with paytm
 
 # Create your views here.
 # ! NEVER SHOW MERCHANT ID AND KEY !
 MID = "VdMxPH61970223458566"  # MERCHANT ID
 MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 
-def test(request):
-    # request.session['x'] = "ahe boi"
-    return HttpResponse(request.session['x'])
+def test(request,slug):
+    # 0 : create
+    # 1 : delete
+    if slug==1:
+        del request.session['x']
+    elif slug==0:
+        usr = request.user.username
+        request.session['x'] ="a boi" 
+    try :
+        x = request.session['x']
+        return HttpResponse(f'{x}and user name is {usr}')
+    except Exception as e:
+        return HttpResponse(f"kuch ni hai{e}")
 
 def index(request):
     category = Categories.objects.all()
@@ -210,12 +225,14 @@ def purchase(request, slug):
     category = Categories.objects.all()
     # assuming coming from purchase form but for instance taking from purchase button from index.html
     # about paytm implimentation will here
+    # discount won't work if empty
     try:
         if request.user.is_authenticated:
             if request.method == "POST":
                 plan = Plan.objects.get(plan_name=slug)
-                # you can use any random id (must be unique!)
+                # you can use any random [id (must be unique!)]
                 order_id = random.randint(1, 9999)
+                print('............', order_id)
                 email_id = request.POST.get('email', '')
                 name = request.POST.get('name', '')
                 phone = request.POST.get('phone', '')
@@ -223,10 +240,15 @@ def purchase(request, slug):
                 state = request.POST.get('state', '')
                 city = request.POST.get('city', '')
                 zip_code = request.POST.get('zip_code', '')
-                discount = int(request.POST.get('discount'))
-                amount = discount * plan.plan_amount
                 plan_id = plan.plan_id
-                order = Order(name=name, email_id=email_id, address=address, city=city, state=state, zip_code=zip_code,
+
+                discount = request.POST.get('discount')
+                if discount != "":
+                    amount = int(discount) * plan.plan_amount
+                else:
+                    amount = plan.plan_amount
+
+                order = Order(name=name, user = request.user, email_id=email_id, address=address, city=city, state=state, zip_code=zip_code,
                               phone=phone, amount=amount, order_id=order_id, plan_id=plan)
                 order.save()
 
@@ -249,6 +271,7 @@ def purchase(request, slug):
                 # print('.................', param_dict)
                 return render(request, 'website/redirect.html', {'detail_dict': param_dict})
 
+
             plan = Plan.objects.get(plan_name=slug)
             dict_for_review = {
                 'id' : plan.plan_id,
@@ -261,12 +284,13 @@ def purchase(request, slug):
             }
 
             return render(request, 'website/purchase_form.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
-        else:
+        
+        else: # if User is not Authenticated
             return render(request, 'website/login.html')
 
     except AttributeError as e:
         print("An Exception occur \n", e)
-        return HttpResponse(e)
+        return HttpResponse("There is an error")
 
 
 def pricing_multiplier(request):
@@ -284,54 +308,107 @@ def pricing_multiplier(request):
 def req_handler(request):
     if request.method == 'POST':
         response_dict = dict()
+        form = request.POST
+        print(form["ORDERID"])
 
-        form = request.POST  # FOR ALL VALUES
-        for i in form.keys():
-            response_dict[i] = form[i]
-            print(i, form[i])
+        # another if to handle if user get refresh
+        is_order_exist = Order_Payment.objects.filter(order_id = form["ORDERID"]).exists()
+        print('............................order', is_order_exist)
+        if is_order_exist == False:
+            # FOR ALL VALUES
 
-            if i == "CHECKSUMHASH":
-                response_check_sum = form[i]
+            for i in form.keys():
+                response_dict[i] = form[i]
+                print(i, form[i])
 
-        verify = CheckSum.verifySignature(response_dict, MKEY, response_check_sum)
-        print(verify)
-        print("..................", verify)
-        if verify and response_dict["STATUS"] != "TXN_FAILURE": 
-            return render(request, 'website/order_success.html')
-    return HttpResponse("Not successfull")
+                if i == "CHECKSUMHASH":
+                    response_check_sum = form[i]
+
+            verify = CheckSum.verifySignature(response_dict, MKEY, response_check_sum)
+            print(verify)
+            response_dict["STATUS"] = "PENDING"
+            print('.........response_dict["STATUS"]', response_dict["STATUS"])
+            print("..................", verify)
+            if verify and response_dict["STATUS"] != "TXN_FAILURE" or response_dict["STATUS"] == "PENDING":
+                order_payment = Order_Payment()
+                usr = User()
+
+                # id = models.AutoField(primary_key = True)
+                order = Order.objects.get(order_id = response_dict["ORDERID"])
+                
+                order_payment.order_summary = order
+                # paytm responses 
+                order_payment.currency = response_dict["CURRENCY"]
+                order_payment.gateway_name = response_dict["GATEWAYNAME"]
+                order_payment.response_message = response_dict["RESPMSG"] # Txn Success
+                # order_payment.bank_name = response_dict["BANKNAME"] # WALLET
+                order_payment.Payment_mode = response_dict["PAYMENTMODE"]# PPI
+                # MID = models.CharField(max_length=8) # VdMxPH61970223458566
+                order_payment.response_code = response_dict["RESPCODE"] # 01
+                order_payment.txn_id = response_dict["TXNID"]#  20200905111212800110168406201874634
+                order_payment.txn_amount = response_dict["TXNAMOUNT"]#  2400.00
+                order_payment.order_id = response_dict["ORDERID"]#  6556
+                order_payment.status = response_dict["STATUS"]# TXN_SUCCESS
+                order_payment.bank_txn_id = response_dict["BANKTXNID"] #  63209779
+                order_payment.txn_date = response_dict["TXNDATE"] #  2020-09-05 18:51:59.0
+                # order_payment.refund_amount =  #  0.00
+                order_payment.save()
+                payment_status = Order_Payment.objects.get(order_id = response_dict["ORDERID"])
+
+                return render(request, 'website/order_success.html', {'payment':payment_status})
+            else:
+                Order.objects.filter(order_id= response_dict["ORDERID"]).delete()
+                return HttpResponse('Order is not Placed Because of some error. Please <a href="/website/">Try Again </a>')
+        else:
+            payment_status = Order_Payment.objects.get(order_id = form["ORDERID"])
+            return render(request, 'website/order_success.html', {'payment':payment_status}) 
+    return HttpResponse('Not successfull <a href="/website/"> Go back Home</a>')
 
 
-def order_status(request):
-    # also add check if user is verified
-    # if request.method == "POST":
+def order_status(request, slug):
+    try:
+        obj = Order_Payment.objects.get(order_id = slug)
+        obj2 = obj.order_summary
+        if obj2.user == request.user:            
+            paytmParams = dict()
 
-    # order_id = request.POST.get('order_id')
-    order_id = ""
-    paytmParams = dict()
+            paytmParams["MID"]     = MID
+            paytmParams["ORDERID"] = slug
 
-    paytmParams["MID"]     = MID
-    paytmParams["ORDERID"] = order_id
+            checksum = CheckSum.generateSignature(paytmParams, MKEY)
 
-    # Generate checksum by parameters we have
-    # Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys 
-    checksum = CheckSum.generateSignature(paytmParams, MKEY)
+            paytmParams["CHECKSUMHASH"] = checksum
 
-    paytmParams["CHECKSUMHASH"] = checksum
+            post_data = json.dumps(paytmParams)
 
-    # post_data = json.dumps(paytmParams)
+            # for Staging
+            url = "https://securegw-stage.paytm.in/order/status"
 
-        # # for Staging
-        # url = "https://securegw-stage.paytm.in/order/status" 
+            # for Production
+            # url = "https://securegw.paytm.in/order/status"
 
-        # # for Production
-        # # url = "https://securegw.paytm.in/order/status"
+            response = requests.post(url, data = post_data, headers = {"Content-type": "application/json"}).json()
+            print(response)
 
-        # response = requests.post(url, data = post_data, headers = {"Content-type": "application/json"}).json()
-        # print(response)
-    return render(request, 'website/order_status.html', {'paytm_params': paytmParams})
-                    
+            if response["STATUS"]=="TXN_SUCCESS":
+                print("Updating Status")
+                obj = Order_Payment.objects.get(order_id = slug)
+                obj.status = response["STATUS"]
+                obj.response_code = response["RESPCODE"]
+                obj.response_message = response["RESPMSG"]
+                obj.txn_date = response["TXNDATE"]
+                obj.bank_name = response["BANKNAME"]
+                obj.save()
+                return HttpResponse("order success fully placed")
 
-
+            return HttpResponse("order is still in pending state")
+        
+        elif request.user!=None and request.user.is_authenticated :
+            return HttpResponse("Please insert correct orderid")
+        else:
+            return HttpResponse('Please Login <a href="/website/login> Here First</a>"')
+    except Exception as e:
+        return HttpResponse(f"Requested Order Not Found - {e}") # form to type in order id
 
 
 

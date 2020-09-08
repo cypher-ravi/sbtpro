@@ -344,8 +344,9 @@ window.jQuery(document).ready(function($){
 
 
 //  Modifying main.js The below code is self written
+// A's Here 
    $(document).ready(function(){
-      $("#form").submit(function(event){
+      $("#discount_val").change(function(event){
           event.preventDefault();
           var test = $('#real_val').val();
           console.log(test);
