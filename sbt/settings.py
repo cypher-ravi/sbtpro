@@ -83,10 +83,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sbtdb',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'USER': 'sbtadmin',
+        'PASSWORD': '2020@SBTadmin',
+        'HOST': 'localhost',
+        'PORT': '',
         'OPTIONS': {
             'sql_mode':'STRICT_TRANS_TABLES',
         },
@@ -132,14 +132,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # managing media
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Added manually
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     'static/',
 ]
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 # Added manually Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
