@@ -132,7 +132,7 @@ def jobs(request):
             subject='New Job seeker created resume',
             message=f"Employee Name = {name}\nMobile No. = {mobile}\nExperience = {experience}\nEducation = {education}",
             from_email='rk7305758@gmail.com',
-            recipient_list=['montisharma5401@gmail.com'],
+            recipient_list=['ronniloreo@gmail.com'],
             fail_silently=False
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
@@ -723,6 +723,12 @@ def feedback(request):
             customer_feedback = Feedback(feed_back=feed_back, Comments=Comments, customer_name=customer_name,
                                          email=email)
             customer_feedback.save()
+            send_mail(
+                subject='New feedback from customer',
+                message=f"Customer Name = {customer_name}\nemail ={email}\nFeedback Message = {feed_back}",
+                from_email='rk7305758@gmail.com',
+                recipient_list=['ronniloreo@gmail.com'],
+                fail_silently=False)
             messages.success(request, 'Form Submitted Successfully!')
             return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
         else:
@@ -752,6 +758,12 @@ def contact_via_service(request, slug):
         obj = Contactviacategory(registrant_name=name, registrant_mobile_no=mobile, calling_time=time,
                                  service_name=s_category, sub_service_name=ss_category)
         obj.save()
+        send_mail(
+                subject='New Query from customer',
+                message=f"Customer Name = {name}\nMobile No. ={mobile}\nservice = {str(s_category) + ' subcategory = '  + str(ss_category)}\n",
+                from_email='rk7305758@gmail.com',
+                recipient_list=['ronniloreo@gmail.com'],
+                fail_silently=False)
         messages.success(request,
                          'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
         return render(request, 'website/form_category.html', {'slug': slug, 'category': category})

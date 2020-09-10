@@ -5,7 +5,7 @@ crypto==1.4.1
 Django==3.1
 django-phonenumber-field==5.0.0
 idna==2.10
-mysqlclient==2.0.1
+# mysqlclient==2.0.1
 Naked==0.1.31
 phonenumbers==8.12.8
 Pillow==7.2.0

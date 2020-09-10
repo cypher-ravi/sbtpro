@@ -91,6 +91,7 @@ class FreeListing(models.Model):
     state = models.CharField(max_length=50)
     zip_code = models.IntegerField()
     mobile = models.BigIntegerField()
+    submit_date = models.DateTimeField(auto_now_add=True)
     email = models.CharField(max_length=50, default='')
 
     def __str__(self):
@@ -120,6 +121,7 @@ class Order(models.Model):
     address = models.CharField(max_length=111)
     state = models.CharField(max_length=111)
     city = models.CharField(max_length=111)
+    order_date =  models.DateTimeField(auto_now_add=True)
     zip_code = models.CharField(max_length=8)
     amount = models.IntegerField(null=False)
     plan_id = models.ForeignKey(Plan, on_delete=models.CASCADE)
@@ -149,7 +151,7 @@ class Order_Payment(models.Model):
     refund_amount = models.IntegerField(default=0.00) #  0.00
     # test = models.CharField(max_length=23)
     def __str__(self):
-        return self.order_summary
+        return str(self.order_summary)
 
 
 
@@ -157,6 +159,7 @@ class Job(models.Model):
     seeker_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     mobile = models.BigIntegerField()
+    submit_date =  models.DateTimeField(auto_now_add=True)
     # email = models.EmailField(max_length=50, default='',)
     education = models.CharField(max_length=200, default='')
     experience = models.CharField(max_length=200, default='')
@@ -170,7 +173,7 @@ class Upload_resume(models.Model):
     name = models.CharField(max_length=50, default='', blank=True, null=True)
     # copy_resume = models.CharField(max_length=5000, default='',blank=True,null=True)
 
-    # filling_date = models.DateField(blank=True, null=True)
+    filling_date =  models.DateTimeField(auto_now_add=True)
     Resume = models.FileField(blank=True, null=True,
                               validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'word'])])
 
@@ -218,7 +221,7 @@ class Service(models.Model):
                                           on_delete=models.CASCADE)
     price = models.IntegerField(default=0)
     service_desc = models.TextField(max_length=200, default='')
-    publish_date = models.DateField()
+    publish_date = models.DateTimeField(auto_now_add=True)
     Image = models.ImageField(upload_to="website/images", default="")
 
     def __str__(self):
@@ -246,6 +249,7 @@ class ServiceContact(models.Model):
     registrant_id = models.AutoField(primary_key=True)
     registrant_name = models.CharField(max_length=50, default='')
     registrant_mobile_no = PhoneNumberField()
+    submit_date =  models.DateTimeField(auto_now_add=True)
     registrant_interest = models.CharField(max_length=50, default='')
     registrant_query = models.TextField()
 
@@ -281,7 +285,7 @@ class Vendor(models.Model):
     Discount_Percentage = models.IntegerField(null=True)
     Longitude = models.FloatField(null=True, blank=True)
     Latitude = models.FloatField(null=True, blank=True)
-    # date_created = models.DateTimeField(default=timezone.now)
+    submit_date = models.DateTimeField(auto_now_add=True)
     Image = models.ImageField(upload_to="website/images/vendors", default="")
 
     def __str__(self):
@@ -295,6 +299,7 @@ class Trading(models.Model):
     product_name = models.CharField(max_length=50)
     address_from = models.CharField(max_length=50)
     address_to = models.CharField(max_length=50)
+    submit_date = models.DateTimeField(auto_now_add=True)
     zip_code = models.IntegerField(default='')
     mobile = PhoneNumberField()
 
@@ -306,6 +311,7 @@ class Faq(models.Model):
     question_id = models.AutoField(primary_key=True)
     question_category = models.CharField(max_length=100, default='')
     market_executive_name = models.CharField(max_length=50, default='')
+    submit_date = models.DateTimeField(auto_now_add=True)
     question = models.TextField()
     answer = models.TextField()
 
@@ -317,6 +323,7 @@ class QueryContact(models.Model):
     query_id = models.AutoField(primary_key=True)
     customer_name = models.CharField(max_length=50)
     mobile = PhoneNumberField()
+    submit_date =  models.DateTimeField(auto_now_add=True)
     message = models.CharField(max_length=500)
 
     def __str__(self):
@@ -326,6 +333,7 @@ class QueryContact(models.Model):
 class Feedback(models.Model):
     customer_id = models.AutoField(primary_key=True)
     feed_back = models.CharField(max_length=50, default=False)
+    submit_date =  models.DateTimeField(auto_now_add=True)
     Comments = models.TextField()
     customer_name = models.CharField(max_length=50, default='')
     email = models.EmailField()
@@ -339,6 +347,7 @@ class Contactviacategory(models.Model):
     registrant_name = models.CharField(max_length=50, default='')
     registrant_mobile_no = PhoneNumberField()
     calling_time = models.CharField(max_length=50, default='')
+    submit_date =  models.DateTimeField(auto_now_add=True)
     service_name = models.ForeignKey(to=Subcategory, on_delete=models.CASCADE, default='', blank=True, null=True)
     sub_service_name = models.ForeignKey(to=Sub_sub_category, on_delete=models.CASCADE, default='', blank=True,
                                          null=True)
@@ -354,7 +363,7 @@ class FrenchiseContact(models.Model):
     mobile_no = PhoneNumberField()
     address = models.CharField(max_length=200, default='')
     frenchise_option = models.CharField(max_length=50, default='')
-    submit_time = models.DateTimeField(auto_now_add=True)
+    submit_time =  models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.customer_name
@@ -364,6 +373,7 @@ class AddTestimonial(models.Model):
     id = models.AutoField(primary_key=True)
     customer_name = models.CharField(max_length=50, default='')
     quote = models.TextField(max_length=350, default='')
+    submit_date =  models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):
