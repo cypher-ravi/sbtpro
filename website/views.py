@@ -25,11 +25,14 @@ from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 
 # TODO ! Important !
-    # *put paytm exception logic [ for payment delay ]
     # *change paytm for production
     # *remove mid mkey from code
     # Refund Logic with paytm
+    # * Nedd to add  order_status for what if order is completed 
 
+    # GUI
+    # put icon on button of search and discount
+    # form checks
 # Create your views here.
 # ! NEVER SHOW MERCHANT ID AND KEY !
 MID = "VdMxPH61970223458566"  # MERCHANT ID
@@ -249,7 +252,7 @@ def purchase(request, slug):
                     amount = plan.plan_amount
 
                 order = Order(name=name, user = request.user, email_id=email_id, address=address, city=city, state=state, zip_code=zip_code,
-                              phone=phone, amount=amount, order_id=order_id, plan_id=plan)
+                              phone=phone, amount=amount, order_id=order_id, plan_id=plan, order_completed = False)
                 order.save()
 
                 # sending details to paytm gateway in form of dict
@@ -355,12 +358,15 @@ def req_handler(request):
                 order_payment.save()
                 payment_status = Order_Payment.objects.get(order_id = response_dict["ORDERID"])
 
+                # Session should create when order is get successfull
                 return render(request, 'website/order_success.html', {'payment':payment_status})
             else:
                 Order.objects.filter(order_id= response_dict["ORDERID"]).delete()
                 return HttpResponse('Order is not Placed Because of some error. Please <a href="/website/">Try Again </a>')
         else:
             payment_status = Order_Payment.objects.get(order_id = form["ORDERID"])
+            # Session should create when order is get successfull
+
             return render(request, 'website/order_success.html', {'payment':payment_status}) 
     return HttpResponse('Not successfull <a href="/website/"> Go back Home</a>')
 
@@ -410,23 +416,20 @@ def order_status(request, slug):
     except Exception as e:
         return HttpResponse(f"Requested Order Not Found - {e}") # form to type in order id
 
+''' Need to complete this function
+def order_id_session(order_id):
+    order = Order.objects.get(order_id = order_id)
+    all_order = Order.objects.filter(user = order.user)
+    order_ids = []
+    for i in all_order:
+        order_id.append(i)
 
+    usr = request.user.username 
+    request.session['']
+'''
 
 
 # --------------------------payment end ------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

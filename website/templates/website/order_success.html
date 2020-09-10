@@ -9,7 +9,7 @@
 Your Payment Status = {{payment.response_message}} <br>
 Your Order ID = {{payment.order_id}} 
 <br>
-If your transaction is in pending state you can check your payment status by clicking <a href="{% url 'Order Status' %}">Here</a>
+If your transaction is in pending state you can check your payment status by clicking <a href="{% url 'Order_Status' payment.order_id%}">Here</a>
 
 
 </div>

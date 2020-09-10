@@ -125,7 +125,7 @@ class Order(models.Model):
     zip_code = models.CharField(max_length=8)
     amount = models.IntegerField(null=False)
     plan_id = models.ForeignKey(Plan, on_delete=models.CASCADE)
-
+    order_completed = models.BooleanField()
 
     def __str__(self):
         return self.email_id
@@ -137,7 +137,7 @@ class Order_Payment(models.Model):
     # paytm responses 
     currency = models.CharField(max_length=8) # INR
     gateway_name = models.CharField(max_length=25) # WALLET
-    response_message = models.CharField(max_length=12) # Txn Success
+    response_message = models.TextField() # Txn Success
     bank_name = models.CharField(max_length=25) # WALLET
     Payment_mode = models.CharField(max_length=25)# PPI
     # MID = models.CharField(max_length=8) # VdMxPH61970223458566
@@ -150,6 +150,7 @@ class Order_Payment(models.Model):
     txn_date = models.CharField(max_length=23) #  2020-09-05 18:51:59.0
     refund_amount = models.IntegerField(default=0.00) #  0.00
     # test = models.CharField(max_length=23)
+    
     def __str__(self):
         return str(self.order_summary)
 

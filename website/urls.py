@@ -42,7 +42,7 @@ urlpatterns = [
     path("purchase/<str:slug>", views.purchase, name="plan-purchase"),
     path('pricing-multiplier/', views.pricing_multiplier, name ="PM"),
     path('req_handler', views.req_handler, name='Request Handler'),
-    path('order_status/<str:slug>', views.order_status, name='Order Status'),
+    path('order_status/<str:slug>', views.order_status, name='Order_Status'),
     # Authentication Urls
     path('signup/', views.sign_up, name='SignUp'),
     path('login/', views.log_in, name='Login'),
