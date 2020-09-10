@@ -865,8 +865,8 @@ input[type="submit"],
 input[type="reset"],
 button {
     line-height: 1;
-    padding-top: 16px;
-    padding-bottom: 16px;
+    padding-top: 6px;
+    padding-bottom: 12px;
 }
 
 main .btn-custom:hover,
