@@ -137,8 +137,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Added manually
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "globalstaticfiles"),
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "globalstaticfiles"),
     # for production server static settings
     #  '/home/sbtadmin/sbtprojects/static/',
      ]
