@@ -17,11 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from . import views
+from django.http import HttpResponseRedirect
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.index,name='home' ),
+    path(r'', lambda r: HttpResponseRedirect('website/')),
     path('website/', include('website.urls')),
 ] 
 
