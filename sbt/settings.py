@@ -137,7 +137,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Added manually
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "globalstaticfiles"),]
+    os.path.join(BASE_DIR, "globalstaticfiles"),
+    # for production server static settings
+     '/home/sbtadmin/sbtprojects/static/',]
 STATIC_ROOT = os.path.join(BASE_DIR,"static")
 
 # Added manually Email settings
