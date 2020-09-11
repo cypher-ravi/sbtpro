@@ -28,7 +28,7 @@ SECRET_KEY = 'io)y8-71d+8-kn7%*k&dk=4ri$=2&8i=!rvczc7c6m00o7tdno'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['164.90.213.239']
+ALLOWED_HOSTS = ['164.90.213.239','stacksoftwares.in','www.stacksoftwares.in']
 
 
 # Application definition
