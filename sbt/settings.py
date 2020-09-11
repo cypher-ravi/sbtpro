@@ -141,7 +141,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #     os.path.join(BASE_DIR, "globalstaticfiles"),
     # for production server static settings
     #  '/home/sbtadmin/sbtprojects/static/',
-     ]
+    #  ]
 
 # Added manually Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
