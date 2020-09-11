@@ -130,6 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,"static/")
 
 # managing media
 MEDIA_URL = '/media/'
@@ -139,8 +140,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "globalstaticfiles"),
     # for production server static settings
-     '/home/sbtadmin/sbtprojects/static/',]
-STATIC_ROOT = os.path.join(BASE_DIR,"static")
+    #  '/home/sbtadmin/sbtprojects/static/',
+     ]
 
 # Added manually Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
