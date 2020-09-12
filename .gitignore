@@ -101,4 +101,4 @@ ENV/
 *.sqlite3
 .vagrant
 
-media
+media/
