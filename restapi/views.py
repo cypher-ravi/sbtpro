@@ -1,16 +1,26 @@
 from website.models import TOP
 from .serializers import TOPSerializer
-from rest_framework import mixins
-from rest_framework import generics
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse, JsonResponse
+
+
+
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 
 # Create your views here.
-
-class TOPList(mixins.ListModelMixin,generics.GenericAPIView):
+@api_view(['GET'])
+def toplist(request,slug,format=None):
     """
     List all the vendors.
     """
-    queryset = TOP.objects.all()
-    serializer_class = TOPSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    if request.method == 'GET':
+        value = 'asdfghjkl'
+        if slug == value:
+            tops = TOP.objects.all()
+            serializer = TOPSerializer(tops, many=True)
+            return Response(serializer.data)
+        else:
+            raise ValueError('invalid url')

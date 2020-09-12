@@ -1,7 +1,7 @@
 from django.urls import path
-from restapi.views import TOPList
+from restapi.views import toplist
 
 
 urlpatterns = [
-    path('Tops/',TOPList.as_view()),
+    path('Tops/<str:slug>',toplist),
 ]
