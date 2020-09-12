@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'', lambda r: HttpResponseRedirect('website/')),
     path('website/', include('website.urls')),
+    path('api/', include('restapi.urls')),
 ] 
 
 if settings.DEBUG == True:

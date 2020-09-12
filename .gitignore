@@ -102,4 +102,7 @@ ENV/
 .vagrant
 
 media
+<<<<<<< HEAD
 static
+=======
+>>>>>>> da542a1f623777a8a83d9a4045a9b97248ec0425
