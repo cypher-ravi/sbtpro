@@ -17,7 +17,7 @@ class ToptList(APIView):
         if slug == value:
             return Response(serializer.data)
         else:
-            return Response(status=status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
                 
 
             
