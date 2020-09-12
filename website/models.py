@@ -3,6 +3,9 @@ from django.core.validators import FileExtensionValidator
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django import forms
+from django.contrib import messages
+from django.core.exceptions import ValidationError
 
 
 GENDER_CHOICES = (
@@ -175,7 +178,7 @@ class Upload_resume(models.Model):
     # copy_resume = models.CharField(max_length=5000, default='',blank=True,null=True)
 
     filling_date =  models.DateTimeField(auto_now_add=True)
-    Resume = models.FileField(blank=True, null=True,
+    Resume = models.FileField(blank=True, null=True,upload_to='website/JobResumes',
                               validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'word'])])
 
     def __str__(self):
@@ -191,6 +194,17 @@ class Categories(models.Model):
 
     def __str__(self):
         return self.category_name
+
+    # def save(self, *args, **kwargs):
+    #     if Categories.objects.filter(category_name=self.category_name):
+    #         def clean(self):
+    #             raise ValidationError(message='Category already exists!')
+    #     else:
+    #         super().save(self, *args, **kwargs)
+
+
+                
+  
 
 
 class Subcategory(models.Model):
