@@ -16,19 +16,13 @@ from django.contrib.messages import constants as messages
 # from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+BASE_DIR = os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'io)y8-71d+8-kn7%*k&dk=4ri$=2&8i=!rvczc7c6m00o7tdno'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = ['164.90.213.239','stacksoftwares.in','www.stacksoftwares.in','127.0.0.1']
 
 
 # Application definition
@@ -76,22 +70,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'sbt.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sbtdb',
-        'USER': 'sbtadmin',
-        'PASSWORD': '2020@SBTadmin',
-        'HOST': 'localhost',
-        'PORT': '',
-        'OPTIONS': {
-            'sql_mode':'STRICT_TRANS_TABLES',
-        },
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -134,7 +112,7 @@ STATIC_ROOT = os.path.join(BASE_DIR,"static/")
 
 # managing media
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Added manually
 # STATICFILES_DIRS = [
