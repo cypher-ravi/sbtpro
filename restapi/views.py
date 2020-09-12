@@ -1,26 +1,23 @@
 from website.models import TOP
 from .serializers import TOPSerializer
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, JsonResponse
-
-
-
-from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
+from django.http import Http404,HttpResponseServerError
 
 
-# Create your views here.
-@api_view(['GET'])
-def toplist(request,slug,format=None):
+class ToptList(APIView):
     """
-    List all the vendors.
+    List all vendors.
     """
-    if request.method == 'GET':
+    def get(self, request,slug, format=None):
+        tops = TOP.objects.all()
+        serializer = TOPSerializer(tops, many=True)
         value = 'asdfghjkl'
         if slug == value:
-            tops = TOP.objects.all()
-            serializer = TOPSerializer(tops, many=True)
             return Response(serializer.data)
         else:
-            raise ValueError('invalid url')
+            return Response(status=status.HTTP_451_UNAVAILABLE_FOR_LEGAL_REASONS)
+                
+
+            
