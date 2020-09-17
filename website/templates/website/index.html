@@ -1,5 +1,51 @@
 {% extends 'website/layout.html' %} {% block title %}SBT Professionals{% endblock %} {% block css %}
 <style>
+    
+    
+  #toggleButton {
+    float: right;
+}
+#container {
+    background-color: orange;
+    width: 250px;
+    position: absolute;
+    right:  -250px;
+}
+    #mySidenav a {
+  position: absolute;
+  right: -80px;
+  transition: 0.3s;
+  padding: 15px;
+  width: 100px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 5px 0 0 5px;
+}
+
+#mySidenav a:hover {
+  right: 0;
+}
+
+#about {
+  top: 20px;
+  background-color: #4CAF50;
+}
+
+#blog {
+  top: 80px;
+  background-color: #2196F3;
+}
+
+#projects {
+  top: 140px;
+  background-color: #f44336;
+}
+
+#contact {
+  top: 200px;
+  background-color: #555
+}
     .block {
         background-color: #ffffff;
         border: whitesmoke;
@@ -12,6 +58,9 @@
         cursor: pointer;
         width: 100%;
     }
+    .change{
+        margin-left: 12px;
+    }
     
     .block:hover {
         background-color: #ddd;
@@ -23,6 +72,7 @@
             display: none !important;
         }
     }
+ 
     
     .col-md-3 {
         display: inline-block;
@@ -38,16 +88,59 @@
 <!-- end header area -->
 
 <main>
+
     <!-- Slider Start -->
     <div class="relative">
+        
+    
         <div class="owl-navigation owl-carousel owl-theme">
             <!-- slider item 1 -->
+            
             <div class="item">
+                
                 <div class="image-overly-dark-opacity header-content slider-clean1" role="banner">
                     <div class="container opac">
                         <div class="col-xs-12 col-sm-12 header-area">
                             <div class="header-area-inner header-text">
+                                <button onclick="myFunction()">Try it</button>
+
+<div id="myDIV">
+This is my DIV element.
+</div>
+                                
+                                <!-- <div class="menu">
+                                    <div class="title">MENU</div>
+                                    <ul class="nav">
+                                      <li><a href="#">Home</a></li>
+                                      <li><a href="#">About</a></li>
+                                      <li><a href="#">Work</a></li>
+                                      <li><a href="#">Resources</a></li>
+                                      <li><a href="#">Contact</a></li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="intro">
+                                  Hover over the menu.<br> Thanks for visiting.
+                                </div> -->
                                 <!-- single content header -->
+                                <!-- <button id="toggleButton">toggle menu</button>
+<div id="container">
+    <ul>
+        <li>menu item one</li>
+        <li>menu item two</li>
+        <li>menu item three</li>
+    </ul>
+</div> -->
+
+                              <!---  <div id="mySidenav" class="sidenav">
+                               <a href="#" id="about">About</a>
+                                    <a href="#" id="blog">Blog</a>
+                                </div>
+                                <div class="change">
+                      <button style="height:49px;padding-top: 1%; margin-left: 800px; width: 250px;" type="submit">Open A Franchise</button><br><br>
+                      <button style="height:49px;padding-top: 1%;margin-left: 800px; width: 250px;" type="submit">Free Listing</button>  
+                                </div>  -->
+
                                 <span class="welcome">Welcome to SBT Professionals</span>
                                 <div><span class="subtitle">Grow Your Business</span></div>
                                 <h1 class="title">
@@ -68,6 +161,7 @@
                                             <!-- <label> -->
                                             <i style="margin-left: 4px;" class="fas fa-globe icon"></i>
                                             <input type="text" class="search-field business_search" placeholder="Business,sevices..." name="query" id="query" />
+                                              
                                             <!-- </label> -->
                                             <!-- <div class="svg"> -->
 
@@ -84,8 +178,10 @@
                                             <!-- <i class="fa fa-check-circle icon" aria-hidden="true"></i>  -->
                                             <i class="fas fa-hand-point-left icon"></i>
                                             <button style="height:49px;padding-top: 1%;" type="submit">GET PROFESSIONALS</button>
+                                            
                                         </div>
                                     </form>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -576,6 +672,28 @@
 
 {% endblock %} {% block js %}
 <script src="{%static 'website/js/autocomplete.js' %}"></script>
+<script>
+var $leftMenu = $('#container');
+
+var leftVal = parseInt($leftMenu.css('left'));
+
+$('#toggleButton').click(function () {
+    animateLeft = (parseInt($leftMenu.css('left')) == 0) ? leftVal : 0;
+	$leftMenu.animate({
+		left: animateLeft + 'px'
+    });
+});
+</script>
+<script>
+    function myFunction() {
+      var x = document.getElementById("myDIV");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    </script>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmd00x9I5t_lJ-P-C2yAa5hnkIyKRhVow&callback=initMap" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
