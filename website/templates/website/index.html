@@ -1,5 +1,27 @@
 {% extends 'website/layout.html' %} {% block title %}SBT Professionals{% endblock %} {% block css %}
 <style>
+    
+ 
+
+#about {
+  top: 20px;
+  background-color: #4CAF50;
+}
+
+#blog {
+  top: 80px;
+  background-color: #2196F3;
+}
+
+#projects {
+  top: 140px;
+  background-color: #f44336;
+}
+
+#contact {
+  top: 200px;
+  background-color: #555
+}
     .block {
         background-color: #ffffff;
         border: whitesmoke;
@@ -12,6 +34,9 @@
         cursor: pointer;
         width: 100%;
     }
+    .change{
+        margin-left: 12px;
+    }
     
     .block:hover {
         background-color: #ddd;
@@ -23,6 +48,7 @@
             display: none !important;
         }
     }
+ 
     
     .col-md-3 {
         display: inline-block;
@@ -38,16 +64,65 @@
 <!-- end header area -->
 
 <main>
+
     <!-- Slider Start -->
     <div class="relative">
+        
+    
         <div class="owl-navigation owl-carousel owl-theme">
             <!-- slider item 1 -->
+            
             <div class="item">
+                
                 <div class="image-overly-dark-opacity header-content slider-clean1" role="banner">
                     <div class="container opac">
                         <div class="col-xs-12 col-sm-12 header-area">
                             <div class="header-area-inner header-text">
-                                <!-- single content header -->
+                                <div class="hanger">
+                                    <svg height="100" width="100" style=" margin-top:-134px">
+                                      <line x1="10" y1="100" x2="100" y2="0" style="stroke:rgb(238, 231, 227);stroke-width:2" />
+                                      <circle cx="10" cy="100" r=5 fill="red" />
+                                    </svg>
+                                    <svg height="100" width="100" style=" margin-top:-134px">
+                                      <line x1="0" y1="0" x2="90" y2="100" style="stroke:rgb(238, 231, 227);stroke-width:2" />
+                                      <circle cx="90" cy="100" r=5 fill="red" />
+                                    </svg>
+                                  </div>
+                                  <div class="button">
+                                    <div
+                                     class="button-inner">
+                                      <a href="/website/frenchise"> Open A Franchise</a>
+                                    </div>
+                                  </div>
+                                
+
+                                  <!-- @media only screen and (max-width: 600px) { .hanger{
+                                    
+            <div class="item">
+                
+               
+                                <div class="hanger">
+                                    <svg height="100" width="100" style=" margin-top:-134px">
+                                      <line x1="10" y1="100" x2="100" y2="0" style="stroke:rgb(238, 231, 227);stroke-width:2" />
+                                      <circle cx="10" cy="100" r=5 fill="red" />
+                                    </svg>
+                                    <svg height="100" width="100" style=" margin-top:-134px">
+                                      <line x1="0" y1="0" x2="90" y2="100" style="stroke:rgb(238, 231, 227);stroke-width:2" />
+                                      <circle cx="90" cy="100" r=5 fill="red" />
+                                    </svg>
+                                  </div>
+                                  <div class="button">
+                                    <div
+                                     class="button-inner">
+                                      <a href="/website/frenchise"> Open A Franchise</a>
+                                    </div>
+                                  </div>
+
+
+                                }
+                                
+                           -->
+                            
                                 <span class="welcome">Welcome to SBT Professionals</span>
                                 <div><span class="subtitle">Grow Your Business</span></div>
                                 <h1 class="title">
@@ -68,6 +143,7 @@
                                             <!-- <label> -->
                                             <i style="margin-left: 4px;" class="fas fa-globe icon"></i>
                                             <input type="text" class="search-field business_search" placeholder="Business,sevices..." name="query" id="query" />
+                                              
                                             <!-- </label> -->
                                             <!-- <div class="svg"> -->
 
@@ -84,8 +160,10 @@
                                             <!-- <i class="fa fa-check-circle icon" aria-hidden="true"></i>  -->
                                             <i class="fas fa-hand-point-left icon"></i>
                                             <button style="height:49px;padding-top: 1%;" type="submit">GET PROFESSIONALS</button>
+                                            
                                         </div>
                                     </form>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -128,26 +206,7 @@
     </div>
     <!-- Slider End-->
 
-    <div class="container mt-4">
-        <hr>
-        <div class="row">
-
-            <div class="col-xsm-5 col-md-5">
-
-                <a role="button" href="/website/frenchise" class="block" style="  color: #fc4c1c !important;
-              " class="block ">Open A Franchise</a>
-            </div>
-            <div class="col-xsm-2  col-md-2">
-                <h3>|</h3>
-            </div>
-            <div class="col-sm-5 col-md-5">
-                <a class="block " href="/website/freelisting" role="button">Business Listing</a>
-
-            </div>
-        </div>
-        <hr>
-
-    </div>
+    
 
     <div class="sponsor wrap-bg-small wrap-bg-white show-on-desktop-only">
         <div class="container">
@@ -576,6 +635,20 @@
 
 {% endblock %} {% block js %}
 <script src="{%static 'website/js/autocomplete.js' %}"></script>
+<script>
+var $leftMenu = $('#container');
+
+var leftVal = parseInt($leftMenu.css('left'));
+
+$('#toggleButton').click(function () {
+    animateLeft = (parseInt($leftMenu.css('left')) == 0) ? leftVal : 0;
+	$leftMenu.animate({
+		left: animateLeft + 'px'
+    });
+});
+
+
+    </script>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmd00x9I5t_lJ-P-C2yAa5hnkIyKRhVow&callback=initMap" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
