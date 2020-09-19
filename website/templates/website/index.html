@@ -1,31 +1,7 @@
 {% extends 'website/layout.html' %} {% block title %}SBT Professionals{% endblock %} {% block css %}
 <style>
     
-    
-  #toggleButton {
-    float: right;
-}
-#container {
-    background-color: orange;
-    width: 250px;
-    position: absolute;
-    right:  -250px;
-}
-    #mySidenav a {
-  position: absolute;
-  right: -80px;
-  transition: 0.3s;
-  padding: 15px;
-  width: 100px;
-  text-decoration: none;
-  font-size: 20px;
-  color: white;
-  border-radius: 5px 0 0 5px;
-}
-
-#mySidenav a:hover {
-  right: 0;
-}
+ 
 
 #about {
   top: 20px;
@@ -102,45 +78,51 @@
                     <div class="container opac">
                         <div class="col-xs-12 col-sm-12 header-area">
                             <div class="header-area-inner header-text">
-                                <button onclick="myFunction()">Try it</button>
-
-<div id="myDIV">
-This is my DIV element.
-</div>
+                                <div class="hanger">
+                                    <svg height="100" width="100" style=" margin-top:-134px">
+                                      <line x1="10" y1="100" x2="100" y2="0" style="stroke:rgb(238, 231, 227);stroke-width:2" />
+                                      <circle cx="10" cy="100" r=5 fill="red" />
+                                    </svg>
+                                    <svg height="100" width="100" style=" margin-top:-134px">
+                                      <line x1="0" y1="0" x2="90" y2="100" style="stroke:rgb(238, 231, 227);stroke-width:2" />
+                                      <circle cx="90" cy="100" r=5 fill="red" />
+                                    </svg>
+                                  </div>
+                                  <div class="button">
+                                    <div
+                                     class="button-inner">
+                                      <a href="/website/frenchise"> Open A Franchise</a>
+                                    </div>
+                                  </div>
                                 
-                                <!-- <div class="menu">
-                                    <div class="title">MENU</div>
-                                    <ul class="nav">
-                                      <li><a href="#">Home</a></li>
-                                      <li><a href="#">About</a></li>
-                                      <li><a href="#">Work</a></li>
-                                      <li><a href="#">Resources</a></li>
-                                      <li><a href="#">Contact</a></li>
-                                    </ul>
-                                </div>
+
+                                  <!-- @media only screen and (max-width: 600px) { .hanger{
+                                    
+            <div class="item">
+                
+               
+                                <div class="hanger">
+                                    <svg height="100" width="100" style=" margin-top:-134px">
+                                      <line x1="10" y1="100" x2="100" y2="0" style="stroke:rgb(238, 231, 227);stroke-width:2" />
+                                      <circle cx="10" cy="100" r=5 fill="red" />
+                                    </svg>
+                                    <svg height="100" width="100" style=" margin-top:-134px">
+                                      <line x1="0" y1="0" x2="90" y2="100" style="stroke:rgb(238, 231, 227);stroke-width:2" />
+                                      <circle cx="90" cy="100" r=5 fill="red" />
+                                    </svg>
+                                  </div>
+                                  <div class="button">
+                                    <div
+                                     class="button-inner">
+                                      <a href="/website/frenchise"> Open A Franchise</a>
+                                    </div>
+                                  </div>
+
+
+                                }
                                 
-                                <div class="intro">
-                                  Hover over the menu.<br> Thanks for visiting.
-                                </div> -->
-                                <!-- single content header -->
-                                <!-- <button id="toggleButton">toggle menu</button>
-<div id="container">
-    <ul>
-        <li>menu item one</li>
-        <li>menu item two</li>
-        <li>menu item three</li>
-    </ul>
-</div> -->
-
-                              <!---  <div id="mySidenav" class="sidenav">
-                               <a href="#" id="about">About</a>
-                                    <a href="#" id="blog">Blog</a>
-                                </div>
-                                <div class="change">
-                      <button style="height:49px;padding-top: 1%; margin-left: 800px; width: 250px;" type="submit">Open A Franchise</button><br><br>
-                      <button style="height:49px;padding-top: 1%;margin-left: 800px; width: 250px;" type="submit">Free Listing</button>  
-                                </div>  -->
-
+                           -->
+                            
                                 <span class="welcome">Welcome to SBT Professionals</span>
                                 <div><span class="subtitle">Grow Your Business</span></div>
                                 <h1 class="title">
@@ -224,26 +206,7 @@ This is my DIV element.
     </div>
     <!-- Slider End-->
 
-    <div class="container mt-4">
-        <hr>
-        <div class="row">
-
-            <div class="col-xsm-5 col-md-5">
-
-                <a role="button" href="/website/frenchise" class="block" style="  color: #fc4c1c !important;
-              " class="block ">Open A Franchise</a>
-            </div>
-            <div class="col-xsm-2  col-md-2">
-                <h3>|</h3>
-            </div>
-            <div class="col-sm-5 col-md-5">
-                <a class="block " href="/website/freelisting" role="button">Business Listing</a>
-
-            </div>
-        </div>
-        <hr>
-
-    </div>
+    
 
     <div class="sponsor wrap-bg-small wrap-bg-white show-on-desktop-only">
         <div class="container">
@@ -683,16 +646,8 @@ $('#toggleButton').click(function () {
 		left: animateLeft + 'px'
     });
 });
-</script>
-<script>
-    function myFunction() {
-      var x = document.getElementById("myDIV");
-      if (x.style.display === "none") {
-        x.style.display = "block";
-      } else {
-        x.style.display = "none";
-      }
-    }
+
+
     </script>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmd00x9I5t_lJ-P-C2yAa5hnkIyKRhVow&callback=initMap" type="text/javascript"></script>

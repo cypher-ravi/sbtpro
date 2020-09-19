@@ -5,6 +5,7 @@
   <head>
     {% load static %}
     <!-- Metas Basic -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="google-signin-client_id"
       content="YOUR_CLIENT_ID.apps.googleusercontent.com"
@@ -230,7 +231,9 @@
 
 
               <li class="subnav ">
+
  <a href="/website/top">Team Of Professionals </a>
+ 
                 {% comment %} <a href="#">Categories</a> {% endcomment %}
                  <ul class="sub-menu">
                   {% for vend in vendor|slice:"0:" %}
@@ -249,10 +252,13 @@
               </li>
             <!-- </div> -->
               <!-- categories on mobile -->
-
-              <li class="subnav">
+              
+            
+               <li><a href="/website/freelisting">Free listing</a></li>
+               <li class="subnav">
                 <a href="/website/trading">SBT Trading</a>
                 <ul class="sub-menu">
+                  
                   <li>
                     <a href="/website/process" class="nav-link">Our Process</a>
                   </li>
@@ -310,14 +316,17 @@
       <!-- #navigation end -->
       
     </header>
-    
     <div class="feedback">
       <a href="/website/feedback/">Feedback</a>
+    </div>
+  
+      
     </div>
 
     <a class="whats-app" href="https://api.whatsapp.com/send?phone=918295393035" target="_blank">
       <i class="fab fa-whatsapp my-float" aria-hidden="true"></i>
     </a>
+    
     {% block body %} {% endblock %}
 
     <!-- #footer area start -->

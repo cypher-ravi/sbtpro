@@ -355,6 +355,7 @@ background-size: 25px auto;
     box-shadow: 3px 4px 3px #999;
     left: 15px;
     z-index: 100;
+    top: 504px;
 }
 
 .my-float {
@@ -375,6 +376,25 @@ background-size: 25px auto;
     /* Safari */
     animation: spin 500s linear infinite;
 }
+
+    .hanger {
+        margin-bottom: -27px;
+        margin-left: 924px;
+     }
+     
+     .button {
+       border: 4px solid#fe4c1c;
+       width: 200px;
+       text-align: center;
+       margin-left: 924px;
+     }
+     
+     .button-inner {
+       color: red;
+       border: 4px solid Floralwhite ;
+       padding: 16px;
+       background-color: white;
+     }
 
 
 .feedback {
