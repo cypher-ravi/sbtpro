@@ -186,16 +186,16 @@ def send_sms_message(number):
 def download(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
-    # if request.method == 'POST':
-    #     number = request.POST.get('number')
-    #     if number.isnumeric():
-    #         send_sms_message(number)
-    #         message.success(request,'Link sent successfully check your inbox!')
-    #         return redirect('website:Sbthome')
-    #     else:
-    #         message.warning(request,'Enter a number!')
-    #         return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
-    # message.error(request,'Request for link failed! Try Again')
+    if request.method == 'POST':
+        number = request.POST.get('number')
+        if number.isnumeric():
+            send_sms_message(number)
+            messages.success(request,'Link sent successfully check your inbox!')
+            return redirect('website:Sbthome')
+        else:
+            messages.warning(request,'Enter a number!')
+            return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
+    messages.error(request,'Request for link failed! Try Again')
     return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
 
 
@@ -288,18 +288,18 @@ def form_validation(form):
 
     
 
-def form_validation_from_ajax(request):
-    if request.method == "POST":
+# def form_validation_from_ajax(request):
+#     if request.method == "POST":
         
-        # form = request.POST.get("form")
-        # form = json.load(form)
-        test = request.POST.get('test')
-        name = request.POST.get('name')
-        print('.....................', test)
+#         # form = request.POST.get("form")
+#         # form = json.load(form)
+#         test = request.POST.get('test')
+#         name = request.POST.get('name')
+#         print('.....................', test)
 
-        print('.....................', name)
-        return JsonResponse({'response':'Chal gaya bale bale', 'name':test})
-    return JsonResposne({'response':'request error'})
+#         print('.....................', name)
+#         return JsonResponse({'response':'Chal gaya bale bale', 'name':test})
+#     return JsonResposne({'response':'request error'})
 
 # purchase functionalatiy ---------------
 def purchase(request, slug):
