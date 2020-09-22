@@ -186,16 +186,16 @@ def send_sms_message(number):
 def download(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
-    if request.method == 'POST':
-        number = request.POST.get('number')
-        if number.isnumeric():
-            send_sms_message(number)
-            message.success(request,'Link sent successfully check your inbox!')
-            return redirect('website:Sbthome')
-        else:
-            message.warning(request,'Enter a number!')
-            return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
-    message.error(request,'Request for link failed! Try Again')
+    # if request.method == 'POST':
+    #     number = request.POST.get('number')
+    #     if number.isnumeric():
+    #         send_sms_message(number)
+    #         message.success(request,'Link sent successfully check your inbox!')
+    #         return redirect('website:Sbthome')
+    #     else:
+    #         message.warning(request,'Enter a number!')
+    #         return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
+    # message.error(request,'Request for link failed! Try Again')
     return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
 
 
