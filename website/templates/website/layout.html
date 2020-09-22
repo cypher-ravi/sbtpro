@@ -1,303 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
-  <title>{% block title %}{% endblock %}</title>
+<title>{% block title %}{% endblock %}</title>
 
-  <head>
-    {% load static %}
-    <!-- Metas Basic -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta
-      name="google-signin-client_id"
-      content="YOUR_CLIENT_ID.apps.googleusercontent.com"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  {% load static %}
+  <!-- Metas Basic -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QDHLV3VMZ6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta
-      name="description"
-      content="Are you starting a business on a shoestring or need ways to stretch your small business marketing budget? Marketing a business doesn't have to cost a lot. .we have low-cost, high-impact methods to advertise and promote your business"
-    />
-    <meta name="keywords" content="Customer Services,business promotion,digital marketing,jobs,career,naukri, Discount" />
-    <meta name="author" content="Somansh Backops Team Of Professionals" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
-    <!-- Title -->
-    <!-- Favicon -->
-    <link
-      rel="shortcut icon"
-      href="{%static 'website/images/favicon.png' %}"
-      type="image/x-icon"
-    />
-    <!-- Bootstrap  -->
-    <link rel="stylesheet" href="{%static 'website/css/bootstrap.min.css' %}" />
-    <!-- owl carousel theme default CSS file -->
-    <link
-      rel="stylesheet"
-      href="{%static 'website/css/owl.theme.default.min.css' %}"
-    />
-    <!-- owl carousel CSS file -->
-    <link
-      rel="stylesheet"
-      href="{%static 'website/css/owl.carousel.min.css' %}"
-    />
-    <!-- Main Custom CSS -->
-    <link rel="stylesheet" href="{%static 'website/css/main.css' %}" />
-    <!-- Slick  -->
-    <link rel="stylesheet" href="{%static 'website/css/slick.css' %} " />
-    <!-- Font Awesome  -->
-    <link
-      rel="stylesheet"
-      href="{%static 'website/css/fontawesome.min.css' %}"
-    />
-    <!-- jQuery Fancybox  -->
-    <link
-      rel="stylesheet"
-      href="{%static 'website/css/jquery.fancybox.css' %}"
-    />
-    <!-- jQuery Fancybox  -->
-    <link rel="stylesheet" href="{%static 'website/css/style.css' %}" />
-    <!-- Magnific Popup core CSS file -->
-    <link rel="stylesheet" href="{%static 'website/css/magnific-popup.css'%}" />
-    <link
-      rel="stylesheet"
-      href="{%static 'website/fonts/flaticon/flaticon.css'%}"
-    />
-    <!-- services carousel CSS file -->
-    <link rel="stylesheet" href="{%static 'website/css/carousel.css'%}" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Open+Sans"
-    />
-    <link
-      href="https://use.fontawesome.com/releases/v5.0.1/css/all.css"
-      rel="stylesheet"
-    />
+    gtag('config', 'G-QDHLV3VMZ6');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--    manually added-->
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="description"
+    content="Are you starting a business on a shoestring or need ways to stretch your small business marketing budget? Marketing a business doesn't have to cost a lot. .we have low-cost, high-impact methods to advertise and promote your business" />
+  <meta name="keywords" content="Customer Services,business promotion,digital marketing,jobs,career,naukri, Discount" />
+  <meta name="author" content="Somansh Backops Team Of Professionals" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <!-- Title -->
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="{%static 'website/images/favicon.png' %}" type="image/x-icon" />
+  <!-- Bootstrap  -->
+  <link rel="stylesheet" href="{%static 'website/css/bootstrap.min.css' %}" />
+  <!-- owl carousel theme default CSS file -->
+  <link rel="stylesheet" href="{%static 'website/css/owl.theme.default.min.css' %}" />
+  <!-- owl carousel CSS file -->
+  <link rel="stylesheet" href="{%static 'website/css/owl.carousel.min.css' %}" />
+  <!-- Main Custom CSS -->
+  <link rel="stylesheet" href="{%static 'website/css/main.css' %}" />
+  <!-- Slick  -->
+  <link rel="stylesheet" href="{%static 'website/css/slick.css' %} " />
+  <!-- Font Awesome  -->
+  <link rel="stylesheet" href="{%static 'website/css/fontawesome.min.css' %}" />
+  <!-- jQuery Fancybox  -->
+  <link rel="stylesheet" href="{%static 'website/css/jquery.fancybox.css' %}" />
+  <!-- jQuery Fancybox  -->
+  <link rel="stylesheet" href="{%static 'website/css/style.css' %}" />
+  <!-- Magnific Popup core CSS file -->
+  <link rel="stylesheet" href="{%static 'website/css/magnific-popup.css'%}" />
+  <link rel="stylesheet" href="{%static 'website/fonts/flaticon/flaticon.css'%}" />
+  <!-- services carousel CSS file -->
+  <link rel="stylesheet" href="{%static 'website/css/carousel.css'%}" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+  <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet" />
 
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<!--     <script-->
-<!--      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
-<!--      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
-<!--      crossorigin="anonymous"-->
-<!--    ></script>-->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-      crossorigin="anonymous"
-    ></script>
+  <!--    manually added-->
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>   
-      
-     <script
-      src="//code.tidio.co/dsqvii9sqr9iyv4pbcn4c8tekzndgyr9.js"
-      async
-    ></script>
-    {% block script %}
-    
-    {% endblock script %}
-    <style>
-      @media only screen and (min-width: 993px) {
-        .hide-on-desktop-only {
-          display: none !important;
-          margin-top: 10px;
-        }
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!--     <script-->
+  <!--      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
+  <!--      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+  <!--      crossorigin="anonymous"-->
+  <!--    ></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+  <script src="//code.tidio.co/dsqvii9sqr9iyv4pbcn4c8tekzndgyr9.js" async></script>
+  {% block script %}
+
+  {% endblock script %}
+  <style>
+    @media only screen and (min-width: 993px) {
+      .hide-on-desktop-only {
+        display: none !important;
+        margin-top: 10px;
       }
-      @media only screen and (max-width: 993px) {
-        .show-on-desktop-only {
-          display: none !important;
-          margin-bottom: 0px;
-        }
+    }
+
+    @media only screen and (max-width: 993px) {
+      .show-on-desktop-only {
+        display: none !important;
+        margin-bottom: 0px;
       }
-    </style>
+    }
+  </style>
 
-    {% block css %} {% endblock %}
-  </head>
-  <body onload="myFunction()">
-    <div id="loading"></div>
-    <!-- header area start -->
-    <header id="header" class="transparent-header ">
-      <div class="topheader top_header_light show-on-desktop-only">
-        <div class="container">
+  {% block css %} {% endblock %}
+</head>
 
-          <div class="row">
-            <div class="col-lg-7">
-              <div class="address-icon">
-                Register Your Business At SBT Professionals Platform, FREE
-                FREE! Call us today<a href="#"
-                >+91 8295 393035</a
-                >
-              </div>
+<body onload="myFunction()">
+  <div id="loading"></div>
+  <!-- header area start -->
+  <header id="header" class="transparent-header ">
+    <div class="topheader top_header_light show-on-desktop-only">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-7">
+            <div class="address-icon">
+              Register Your Business At SBT Professionals Platform, FREE
+              FREE! Call us today<a href="#">+91 8295 393035</a>
             </div>
-            <div class="col-lg-5 text-right">
-              <div class="custom-page-top">
-                <a href="/website/download" class="search-ico-btn ico-btn"
-                  >Download App</a>
-                <a href="https://sbtprofessionals.com/sbtadmin/login.aspx" target="_blank">Employee/Branch Portal</a>
-              </div>
-              <!--
+          </div>
+          <div class="col-lg-5 text-right">
+            <div class="custom-page-top">
+              <a href="/website/download" class="search-ico-btn ico-btn">Download App</a>
+              <a href="https://app.sbtprofessionals.com/sbtadmin/login.aspx" target="_blank">Employee/Branch Portal</a>
+            </div>
+            <!--
               <div class="social_top_header">
 
               </div> -->
-            </div>
           </div>
         </div>
       </div>
-      <!-- #navigation start -->
-      {% for message in messages %}
-          <div
-            class="alert alert-{{ message.tags }} alert-dismissible fade show"
-            role="alert"
-          >
-            <strong>Message!</strong> {{ message }}
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-              aria-expanded="false"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+    </div>
+    <!-- #navigation start -->
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+      <strong>Message!</strong> {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" aria-expanded="false">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+
+    <nav class="navbar navbar-default navbar-expand-md navbar-light " id="navigation" data-offset-top="1">
+
+      <!-- .container -->
+      <div class="container  ">
+        <!-- Logo and Menu -->
+        <div class="navbar-header ">
+          <div class="navbar-brand">
+            <a href="/website/" title="SBT Professionals"><img src="{%static 'website/images/logo.png' %}"
+                alt="Best Customer service " /></a>
           </div>
-          {% endfor %}
+          <!-- site logo -->
+        </div>
+        <!-- Menu Toogle -->
+        <div class="burger-icon">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="nav navbar-nav ml-auto">
+            <div class="hide-on-desktop-only">
+              {% if user.is_authenticated %}
+              <div class="mt-4">
 
-      <nav
-        class="navbar navbar-default navbar-expand-md navbar-light "
-        id="navigation"
-        data-offset-top="1"
-      >
-
-        <!-- .container -->
-        <div class="container  ">
-          <!-- Logo and Menu -->
-          <div class="navbar-header ">
-            <div class="navbar-brand">
-              <a href="/website/" title="SBT Professionals"
-                ><img src="{%static 'website/images/logo.png' %}" alt="Best Customer service "
-              /></a>
-            </div>
-            <!-- site logo -->
-          </div>
-          <!-- Menu Toogle -->
-          <div class="burger-icon" >
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-          </div>
-          <div class="collapse navbar-collapse" id="navbarCollapse"> 
-            <ul class="nav navbar-nav ml-auto">
-              <div class="hide-on-desktop-only">
-                {% if user.is_authenticated %}
-                <div class="mt-4">
-
-                  <a class="dropdown-item" href="/website/logout/"><i class="fa fa-user"></i>Logout</a>
-
-                </div>
-                {% else %}
-                <a
-                  class="cursor-on-pointer"
-                  style="margin-left: 30px;"
-                  href="/website/login"
-                  role="button"
-                ><i class="fa fa-user"></i>
-                  Login |
-                </a>
-                <a
-                  class="cursor-on-pointer"
-                  href="/website/signup"
-                  role="button"
-                >
-                  Register
-                </a>
-
-                {% endif %}
-
+                <a class="dropdown-item" href="/website/logout/"><i class="fa fa-user"></i>Logout</a>
 
               </div>
-              <!-- Menu Link -->
-<!--              <li>-->
-<!--                <a href="/website/freelisting">Free Listing</a>-->
-<!--              </li>-->
+              {% else %}
+              <a class="cursor-on-pointer" style="margin-left: 30px;" href="/website/login" role="button"><i
+                  class="fa fa-user"></i>
+                Login |
+              </a>
+              <a class="cursor-on-pointer" href="/website/signup" role="button">
+                Register
+              </a>
 
-              <!-- categories on mobile -->
-                            <li>
-                    <a href="/website/download" class="hide-on-desktop-only  search-ico-btn ico-btn"><i class="fa fa-download"></i> Download Our App</a>
-                            
-                  </li>
-
-
-              <li class="subnav ">
-
- <a href="/website/top">Team Of Professionals </a>
- 
-                {% comment %} <a href="#">Categories</a> {% endcomment %}
-                 <ul class="sub-menu">
-                  {% for vend in vendor|slice:"0:" %}
-                  <li>
-                    <a href="/website/Topvendor/{{ vend.vendor_name }}"
-                      >{{ vend.vendor_name }}</a
-                    >
-                     {% if forloop.counter|divisibleby:0 and forloop.counter > 0 and not forloop.last%}
-                       </li> <a href=""></a>
-                      {% endif %}
-                      {% endfor %}
+              {% endif %}
 
 
+            </div>
+            <!-- Menu Link -->
+            <!--              <li>-->
+            <!--                <a href="/website/freelisting">Free Listing</a>-->
+            <!--              </li>-->
 
-                </ul>
-              </li>
+            <!-- categories on mobile -->
+            <li>
+              <a href="/website/download" class="hide-on-desktop-only  search-ico-btn ico-btn"><i
+                  class="fa fa-download"></i> Download Our App</a>
+
+            </li>
+
+
+            <li class="subnav ">
+
+              <a href="/website/top">Team Of Professionals </a>
+
+              {% comment %} <a href="#">Categories</a> {% endcomment %}
+              <ul class="sub-menu">
+                {% for vend in vendor|slice:"0:" %}
+                <li>
+                  <a href="/website/Topvendor/{{ vend.vendor_name }}">{{ vend.vendor_name }}</a>
+                  {% if forloop.counter|divisibleby:0 and forloop.counter > 0 and not forloop.last%}
+                </li> <a href=""></a>
+                {% endif %}
+                {% endfor %}
+
+
+
+              </ul>
+            </li>
             <!-- </div> -->
-              <!-- categories on mobile -->
-              
-            
-               <li><a title="List your Business" href="/website/freelisting ">Free listing</a></li>
-               <li class="subnav">
-                <a title="Shop" href="/website/trading">SBT Trading</a>
-                <ul class="sub-menu">
-                  
-                  <li>
-                    <a title="process" href="/website/process" class="nav-link">Our Process</a>
-                  </li>
-                  <li>
-                    <a title="Faq" href="/website/FAQ" class="nav-link">FAQs?</a>
-                  </li>
-                </ul>
-              </li>
+            <!-- categories on mobile -->
 
-              <li><a title="membership" href="/website/membership">Customer Membership</a></li>
-              <li><a title="naukri" href="/website/jobs">Career</a></li>
 
-          
-  </ul>
-            <div>
-              <div class="custom-btn ml-4 show-on-desktop-only">
-                {% if user.is_authenticated %}
-                <div>
-                  <a href="/website/logout/" role="button"><i class="fa fa-user"></i>
-                    Logout
-                  </a>
-                </div>
-                
+            <li><a title="List your Business" href="/website/freelisting ">Free listing</a></li>
+            <li class="subnav">
+              <a title="Shop" href="/website/trading">SBT Trading</a>
+              <ul class="sub-menu">
 
-                {% else %}
-                <div>
-                <a
-                  class="cursor-on-pointer mt-4"
-                  style="margin-left: 30px;"
-                  href="/website/login"
-                  role="button"
-                ><i class="fa fa-user"></i>
+                <li>
+                  <a title="process" href="/website/process" class="nav-link">Our Process</a>
+                </li>
+                <li>
+                  <a title="Faq" href="/website/FAQ" class="nav-link">FAQs?</a>
+                </li>
+              </ul>
+            </li>
+
+            <li><a title="membership" href="/website/membership">Customer Membership</a></li>
+            <li><a title="naukri" href="/website/jobs">Career</a></li>
+
+
+          </ul>
+          <div>
+            <div class="custom-btn ml-4 show-on-desktop-only">
+              {% if user.is_authenticated %}
+              <div>
+                <a href="/website/logout/" role="button"><i class="fa fa-user"></i>
+                  Logout
+                </a>
+              </div>
+
+
+              {% else %}
+              <div>
+                <a class="cursor-on-pointer mt-4" style="margin-left: 30px;" href="/website/login" role="button"><i
+                    class="fa fa-user"></i>
                   Login |
                 </a>
-                <a
-                  class="cursor-on-pointer"
-                  href="/website/signup"
-                  role="button"
-                >
+                <a class="cursor-on-pointer" href="/website/signup" role="button">
                   Register
                 </a>
 
@@ -306,270 +249,236 @@
             </div>
           </div>
           <!-- Menu Toogle end -->
-          
+
 
         </div>
         <!-- .container end -->
-      </nav>
-      
-      
-      <!-- #navigation end -->
-      
-    </header>
-    <div class="feedback">
-      <a title="feedback" href="/website/feedback/">Feedback</a>
-    </div>
-  
-      
-    </div>
+    </nav>
 
-    <a class="whats-app" title="Whatsapp contact" href="https://api.whatsapp.com/send?phone=918295393035" target="_blank">
-      <i class="fab fa-whatsapp my-float" aria-hidden="true"></i>
-    </a>
-    <a class="face-book" title="facebook contact" href="https://www.facebook.com/SBTProfessionals/" target="_blank">
-      <i class="fab fa-facebook my-float" aria-hidden="true"></i>
-    </a>
-    <a class="twi-tter" title="twitter contact" href="https://www.twitter.com/SBTProfessiona2" target="_blank">
-      <i class="fab fa-twitter my-float" aria-hidden="true"></i>
-    </a>
-    <a class="insta" title="instagram contact" href="https://www.instagram.com/sbtprofessionals/" target="_blank">
-      <i class="fab fa-instagram my-float" aria-hidden="true"></i>
-    </a>
-    <a class="you-tube" href="//www.youtube.com/channel/UCflqm65LJjNPQvdUKYSRO9g" target="_blank">
-      <i class="fab fa-youtube my-float" aria-hidden="true"></i>
-    </a>
-    
-    {% block body %} {% endblock %}
 
-    <!-- #footer area start -->
-    <footer id="footer">
-      <div class="footer-top">
-        <!-- .container -->
-        <div class="container">
-          <div class="row">
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-              <!-- footer widget -->
-              <div class="f-widget-title">
-                <h4>SBT Professional</h4>
-              </div>
-              <div class="sigle-address">
-                <div class="address-icon">
-                  <i class="fas fa fa-home"></i>
-                </div>
-              <address>
-                  Head office .: Plot - 505, Phase III, Udyog Vihar III, Sector 20,
-                 122016 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  Gurugram, Haryana, India</address>
-              </div>
-              <div class="sigle-address">
-                <div class="address-icon">
-                  <i class="far fa-envelope-open"></i>
-                </div>
-                <p>Contact@sbtprofessionals.com</p>
-              </div>
-              <div class="sigle-address">
-                <div class="address-icon">
-                  <i class="fas fa-headphones"></i>
-                </div>
-                <p>
-                  +918295393035 
-                 
-                </p>
-                &nbsp &nbsp <i class="fas fa-headphones"></i>
-               +91-184-7960088 (office) <br>
-               &nbsp &nbsp <i class="fas fa-headphones"></i>
-                    +91 9996503035 Manisha <br>&nbsp &nbsp &nbsp &nbsp  Dhingra(Managing Director)<br>
-                    &nbsp &nbsp    <i class="fas fa-headphones"></i>
-                    +91 930-642-5008 Sandeep(sir)<br>
-                    &nbsp &nbsp  <i class="fas fa-headphones"></i>
-                    +91 868-382-7398 Ravi <br>
-                    &nbsp &nbsp   <i class="fas fa-headphones"></i>
-                    +91 860-769-1917 Ankit Sharma <br>
-                    &nbsp &nbsp   <i class="fas fa-headphones"></i>
-                    +91 914-931-2323 Ravi Baniwal
-              </div>
-            </div>
-            <!-- footer widget -->
-            <div class="col-xl-2 offset-xl-1 col-lg-2 col-sm-6">
-              <!-- footer widget -->
-              <div class="f-widget-title">
-                <h4>Quick services</h4>
-              </div>
-              <div class="f-widget-link">
-                <ul>
-                  <!-- Menu Link -->
-                  <li><a title="naukri jobs"  href="/website/jobs">Job Search</a></li>
-                  <li><a title="vendors" href="#header">Vendor Search</a></li>
-                  <li><a title="shop" href="/website/trading">Shop Online</a></li>
-                  <li><a title="membership" href="/website/membership">membership</a></li>
-                  <li><a title="download app" href="/website/download">Download app</a></li>
-                </ul>
-              </div>
-            </div>
-            <!-- footer widget -->
-            <div class="col-xl-2 offset-xl-1 col-lg-3 col-sm-6">
-              <!-- footer widget -->
-              <div class="f-widget-title">
-                <h4>TOP BRANCHES</h4>
-              </div>
-              <div class="f-widget-link">
-                <ul>
-                  <!-- Menu Link -->
-                  <li><a href="#Gurugram">Gurugram(Head Office)</a></li>
-                  <li><a href="#Panipat">Panipat</a></li>
-                  <li><a href="#Karnal">karnal</a></li>
-                  <li><a href="#Zirakpur">Zirakpur</a></li>
-                  <li><a href="#Jind">Jind</a></li>
-                </ul>
-              </div>
-            </div>
-            <!-- footer widget -->
-            <div class="col-xl-3 col-lg-3 col-sm-6">
-              <!-- footer widget -->
-              <div class="f-widget-title">
-                <h4>Subscribe</h4>
-              </div>
+    <!-- #navigation end -->
 
-              <div class="footer-newsletter sigle-address subscribe-form-pt">
-                <p>Subscribe to our newsletter! Stay always in touch!</p>
-                <!-- Begin Newsletter Signup Form -->
-                <form
-                  class="themeioan-form-newsletter form"
-                  action="/website/newsletter"
-                >
-                  <div class="newslleter-call">
-                    <input
-                      class="input-text required-field"
-                      type="text"
-                      placeholder="Your email"
-                      title="Your email"
-                    />
-                    <div class="footer-submit">
-                      <input
-                        class="newsletter-submit"
-                        type="submit"
-                        value="Send"
-                      />
-                    </div>
-                  </div>
-                </form>
-                <!--End Newsletter-->
-                <span>* Don't worry, we don't spam.</span>
-              </div>
-            </div>
-            <!-- footer widget -->
-          </div>
-          <!-- to top -->
-<!--          <div class="cd-top"><i class="fas fa-level-up-alt"></i></div>-->
-        </div>
-      </div>
-      <!-- .container end -->
+  </header>
+  <div class="feedback">
+    <a title="feedback" href="/website/feedback/">Feedback</a>
+  </div>
 
-      <!-- #footer bottom start -->
+
+  </div>
+
+  <a class="whats-app" title="Whatsapp contact" href="https://api.whatsapp.com/send?phone=918295393035" target="_blank">
+    <i class="fab fa-whatsapp my-float" aria-hidden="true"></i>
+  </a>
+  <a class="face-book" title="facebook contact" href="https://www.facebook.com/SBTProfessionals/" target="_blank">
+    <i class="fab fa-facebook my-float" aria-hidden="true"></i>
+  </a>
+  <a class="twi-tter" title="twitter contact" href="https://www.twitter.com/SBTProfessiona2" target="_blank">
+    <i class="fab fa-twitter my-float" aria-hidden="true"></i>
+  </a>
+  <a class="insta" title="instagram contact" href="https://www.instagram.com/sbtprofessionals/" target="_blank">
+    <i class="fab fa-instagram my-float" aria-hidden="true"></i>
+  </a>
+  <a class="you-tube" href="//www.youtube.com/channel/UCflqm65LJjNPQvdUKYSRO9g" target="_blank">
+    <i class="fab fa-youtube my-float" aria-hidden="true"></i>
+  </a>
+
+  {% block body %} {% endblock %}
+
+  <!-- #footer area start -->
+  <footer id="footer">
+    <div class="footer-top">
+      <!-- .container -->
       <div class="container">
         <div class="row">
-          <div class="col-sm-6">
-            <div class="copyright">
+          <div class="col-xl-3 col-lg-4 col-sm-6">
+            <!-- footer widget -->
+            <div class="f-widget-title">
+              <h4>SBT Professional</h4>
+            </div>
+            <div class="sigle-address">
+              <div class="address-icon">
+                <i class="fas fa fa-home"></i>
+              </div>
+              <address>
+                Head office .: Plot - 505, Phase III, Udyog Vihar III, Sector 20,
+                122016 &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Gurugram, Haryana, India</address>
+            </div>
+            <div class="sigle-address">
+              <div class="address-icon">
+                <i class="far fa-envelope-open"></i>
+              </div>
+              <p>Contact@sbtprofessionals.com</p>
+            </div>
+            <div class="sigle-address">
+              <div class="address-icon">
+                <i class="fas fa-headphones"></i>
+              </div>
               <p>
-                ©2020 SOMANSH BACKOPS TEAM OF PROFESSIONLS 
-                <a
-                  href="http://www.sbtprofessionals.com"
-                  title="SBT Professionals"
-                  target="_blank"
-                  >SBT Professionals</a
-                >
+                +918295393035
+
               </p>
+              &nbsp &nbsp <i class="fas fa-headphones"></i>
+              +91-184-7960088 (office) <br>
+              &nbsp &nbsp <i class="fas fa-headphones"></i>
+              +91 9996503035 Manisha <br>&nbsp &nbsp &nbsp &nbsp Dhingra(Managing Director)<br>
+              &nbsp &nbsp <i class="fas fa-headphones"></i>
+              +91 930-642-5008 Sandeep(sir)<br>
+              &nbsp &nbsp <i class="fas fa-headphones"></i>
+              +91 868-382-7398 Ravi <br>
+              &nbsp &nbsp <i class="fas fa-headphones"></i>
+              +91 860-769-1917 Ankit Sharma <br>
+              &nbsp &nbsp <i class="fas fa-headphones"></i>
+              +91 914-931-2323 Ravi Baniwal
             </div>
           </div>
-          <div class="col-sm-6">
-            <div class="text-right icon-round-white footer-social mt-25 mb-25">
-              <a
-                href="https://www.facebook.com/SBTProfessionals/"
-                title="Facebook"
-                target="blank"
-                ><i class="fab fa-facebook"></i
-              ></a>
-              <a
-                href="https://www.twitter.com/SBTProfessiona2/"
-                title="Twitter"
-                target="blank"
-                ><i class="fab fa-twitter"></i
-              ></a>
-              <a
-                href="https://www.instagram.com/sbtprofessionals/"
-                target="blank"
-                title="Instagram"
-                ><i class="fab fa-instagram"></i
-              ></a>
-              <a href="#" title="Google+" target="blank"
-                ><i class="fab fa-google-plus"></i
-              ></a>
-              <a
-                href="https://www.youtube.com/channel/UCflqm65LJjNPQvdUKYSRO9g"
-                target="blank"
-                title="Youtube"
-                ><i class="fab fa-youtube"></i
-              ></a>
+          <!-- footer widget -->
+          <div class="col-xl-2 offset-xl-1 col-lg-2 col-sm-6">
+            <!-- footer widget -->
+            <div class="f-widget-title">
+              <h4>Quick services</h4>
             </div>
+            <div class="f-widget-link">
+              <ul>
+                <!-- Menu Link -->
+                <li><a title="naukri jobs" href="/website/jobs">Job Search</a></li>
+                <li><a title="vendors" href="#header">Vendor Search</a></li>
+                <li><a title="shop" href="/website/trading">Shop Online</a></li>
+                <li><a title="membership" href="/website/membership">membership</a></li>
+                <li><a title="download app" href="/website/download">Download app</a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- footer widget -->
+          <div class="col-xl-2 offset-xl-1 col-lg-3 col-sm-6">
+            <!-- footer widget -->
+            <div class="f-widget-title">
+              <h4>TOP BRANCHES</h4>
+            </div>
+            <div class="f-widget-link">
+              <ul>
+                <!-- Menu Link -->
+                <li><a href="#Gurugram">Gurugram(Head Office)</a></li>
+                <li><a href="#Panipat">Panipat</a></li>
+                <li><a href="#Karnal">karnal</a></li>
+                <li><a href="#Zirakpur">Zirakpur</a></li>
+                <li><a href="#Jind">Jind</a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- footer widget -->
+          <div class="col-xl-3 col-lg-3 col-sm-6">
+            <!-- footer widget -->
+            <div class="f-widget-title">
+              <h4>Subscribe</h4>
+            </div>
+
+            <div class="footer-newsletter sigle-address subscribe-form-pt">
+              <p>Subscribe to our newsletter! Stay always in touch!</p>
+              <!-- Begin Newsletter Signup Form -->
+              <form class="themeioan-form-newsletter form" action="/website/newsletter">
+                <div class="newslleter-call">
+                  <input class="input-text required-field" type="text" placeholder="Your email" title="Your email" />
+                  <div class="footer-submit">
+                    <input class="newsletter-submit" type="submit" value="Send" />
+                  </div>
+                </div>
+              </form>
+              <!--End Newsletter-->
+              <span>* Don't worry, we don't spam.</span>
+            </div>
+          </div>
+          <!-- footer widget -->
+        </div>
+        <!-- to top -->
+        <!--          <div class="cd-top"><i class="fas fa-level-up-alt"></i></div>-->
+      </div>
+    </div>
+    <!-- .container end -->
+
+    <!-- #footer bottom start -->
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="copyright">
+            <p>
+              ©2020 SOMANSH BACKOPS TEAM OF PROFESSIONLS
+              <a href="http://www.sbtprofessionals.com" title="SBT Professionals" target="_blank">SBT Professionals</a>
+            </p>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="text-right icon-round-white footer-social mt-25 mb-25">
+            <a href="https://www.facebook.com/SBTProfessionals/" title="Facebook" target="blank"><i
+                class="fab fa-facebook"></i></a>
+            <a href="https://www.twitter.com/SBTProfessiona2/" title="Twitter" target="blank"><i
+                class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/sbtprofessionals/" target="blank" title="Instagram"><i
+                class="fab fa-instagram"></i></a>
+            <a href="#" title="Google+" target="blank"><i class="fab fa-google-plus"></i></a>
+            <a href="https://www.youtube.com/channel/UCflqm65LJjNPQvdUKYSRO9g" target="blank" title="Youtube"><i
+                class="fab fa-youtube"></i></a>
           </div>
         </div>
       </div>
-      <!-- #footer bottom end -->
-    </footer>
-    <!-- #footer area end -->
-    <script>
-      window.onscroll = function () {
-        myFunction();
-      };
+    </div>
+    <!-- #footer bottom end -->
+  </footer>
+  <!-- #footer area end -->
+  <script>
+    window.onscroll = function () {
+      myFunction();
+    };
 
-      var navbar = document.getElementById("header");
-      var sticky = navbar.offsetTop;
+    var navbar = document.getElementById("header");
+    var sticky = navbar.offsetTop;
 
-      function myFunction() {
-        if (window.pageYOffset >= sticky) {
-          navbar.classList.add("sticky");
-        } else {
-          navbar.classList.remove("sticky");
-        }
+    function myFunction() {
+      if (window.pageYOffset >= sticky) {
+        navbar.classList.add("sticky");
+      } else {
+        navbar.classList.remove("sticky");
       }
-    </script>
-    <script>
-      $("#myModal").on("shown.bs.modal", function () {
-        $("#myInput").trigger("focus");
-      });
-    </script>
+    }
+  </script>
+  <script>
+    $("#myModal").on("shown.bs.modal", function () {
+      $("#myInput").trigger("focus");
+    });
+  </script>
 
-    <!-- JavaScript File -->
-    <!-- jQuery -->
-    <script src="{%static 'website/js/jquery-3.4.1.min.js' %} "></script>
-    <!-- Main -->
-    <script src="{%static 'website/js/main.js' %}"></script>
-    <!-- Bootstrap -->
-    <script src="{%static 'website/js/bootstrap.min.js' %}"></script>
-    <!-- Slick -->
-    <script src="{%static 'website/js/slick.min.js' %}"></script>
-    <!-- Fancybox -->
-    <script src="{%static 'website/js/jquery.fancybox.pack.js' %}"></script>
-    <!-- Magnific Popup core JS file -->
-    <script src="{%static 'website/js/jquery.magnific-popup.min.js' %}"></script>
-    <!-- Waypoints -->
-    <script src="{%static 'website/js/waypoints.min.js' %}"></script>
-    <!-- Counterup -->
-    <script src="{%static 'website/js/jquery.counterup.min.js' %}"></script>
-    <!-- owl carousel -->
-    <script src="{%static 'website/js/owl.carousel.min.js' %}"></script>
-    <!-- Typed Animation Library -->
-    <script src="{%static 'website/js/typed.min.js' %}"></script>
+  <!-- JavaScript File -->
+  <!-- jQuery -->
+  <script src="{%static 'website/js/jquery-3.4.1.min.js' %} "></script>
+  <!-- Main -->
+  <script src="{%static 'website/js/main.js' %}"></script>
+  <!-- Bootstrap -->
+  <script src="{%static 'website/js/bootstrap.min.js' %}"></script>
+  <!-- Slick -->
+  <script src="{%static 'website/js/slick.min.js' %}"></script>
+  <!-- Fancybox -->
+  <script src="{%static 'website/js/jquery.fancybox.pack.js' %}"></script>
+  <!-- Magnific Popup core JS file -->
+  <script src="{%static 'website/js/jquery.magnific-popup.min.js' %}"></script>
+  <!-- Waypoints -->
+  <script src="{%static 'website/js/waypoints.min.js' %}"></script>
+  <!-- Counterup -->
+  <script src="{%static 'website/js/jquery.counterup.min.js' %}"></script>
+  <!-- owl carousel -->
+  <script src="{%static 'website/js/owl.carousel.min.js' %}"></script>
+  <!-- Typed Animation Library -->
+  <script src="{%static 'website/js/typed.min.js' %}"></script>
 
-    <!-- manually added -->
+  <!-- manually added -->
 
-    <!-- loading bar -->
-    <script>
-      var preloader = document.getElementById("loading");
-      function myFunction() {
-        preloader.style.display = "none";
-      }
-    </script>
+  <!-- loading bar -->
+  <script>
+    var preloader = document.getElementById("loading");
+    function myFunction() {
+      preloader.style.display = "none";
+    }
+  </script>
 
-    {% block js %} {% endblock %}
-  </body>
+  {% block js %} {% endblock %}
+</body>
+
 </html>

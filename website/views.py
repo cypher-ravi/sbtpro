@@ -25,6 +25,9 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 
+#importing func from function.py
+from .functions import send_sms_message
+
 # TODO ! Important !
     # *change paytm for production
     # *remove mid mkey from code
@@ -178,11 +181,6 @@ def upload_resume(request):
     except:
         return render(request, 'website/404.html')
 
-def send_sms_message(number):
-    #url = API for sending message for download link
-    return number
-
-
 def download(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
@@ -190,12 +188,12 @@ def download(request):
         number = request.POST.get('number')
         if number.isnumeric():
             send_sms_message(number)
-            message.success(request,'Link sent successfully check your inbox!')
+            messages.success(request,'Link sent successfully check your inbox!')
             return redirect('website:Sbthome')
         else:
-            message.warning(request,'Enter a number!')
+            messages.warning(request,'Enter a number!')
             return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
-    message.error(request,'Request for link failed! Try Again')
+    messages.error(request,'Request for link failed! Try Again')
     return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
 
 
