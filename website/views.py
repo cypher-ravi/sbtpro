@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import *
+from django.urls import reverse
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
     # import checksum generation utility
@@ -104,6 +105,7 @@ def freelisting(request):
             listing.save()
             messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24'
                                       'hours.')
+            return HttpResponseRedirect('/website')
     return render(request, 'website/freelisting.html', {'vendor': vendor, 'category': category})
 
 
@@ -176,10 +178,24 @@ def upload_resume(request):
     except:
         return render(request, 'website/404.html')
 
+def send_sms_message(number):
+    #url = API for sending message for download link
+    return number
+
 
 def download(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
+    if request.method == 'POST':
+        number = request.POST.get('number')
+        if number.isnumeric():
+            send_sms_message(number)
+            message.success(request,'Link sent successfully check your inbox!')
+            return redirect('website:Sbthome')
+        else:
+            message.warning(request,'Enter a number!')
+            return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
+    message.error(request,'Request for link failed! Try Again')
     return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
 
 
@@ -357,7 +373,7 @@ def purchase(request, slug):
             return render(request, 'website/purchase_form.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
         
         else: # if User is not Authenticated
-            return render(request, 'website/login.html')
+            return render(request, 'website/login.html',{'slug':slug})
 
     except AttributeError as e:
         print("An Exception occur \n", e)
@@ -570,17 +586,31 @@ def log_in(request):
     if request.method == "POST":
         loginusername = request.POST['loginusername']
         loginpass = request.POST['loginpass']
-
+        redirect_url = request.POST['url']
+        try:
+            redirect_slug = request.POST['slug']
+            flag = True
+        except:
+            redirect_slug=None
+        print('slug.........',redirect_slug)
+        print('url.........',redirect_url)
         if User.objects.filter(email=loginusername).exists():
             usr_by_email = User.objects.get(email=loginusername)
             loginusername = usr_by_email.username
 
         user = authenticate(request, username=loginusername,
                             password=loginpass)  # checks if user is exist
-        if user is not None:  # if user exist than create a session using login function
-            login(request, user)
-            messages.success(request, 'Login Successful!')
-            return redirect(index)
+        if user is not None :  # if user exist than create a session using login function
+            if  redirect_slug !=None :
+                login(request, user)
+                messages.success(request, 'Login Successful!')
+                return redirect('website:plan-purchase',slug=redirect_slug)
+                
+            if redirect_slug == None: 
+                login(request, user)
+                messages.success(request, 'Login Successful!')
+                return redirect('website:Sbthome')
+
         else:
             print('....................user->', user)
             messages.error(request, 'Invalid credentials,Please Try Again!')
@@ -594,7 +624,7 @@ def log_in(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'Logged Out Successfully!')
-    return redirect('Sbthome')
+    return redirect('website:Sbthome')
 
 
 def username_validator(request):
@@ -802,7 +832,7 @@ def feedback(request):
                 recipient_list=['ronniloreo@gmail.com'],
                 fail_silently=False)
             messages.success(request, 'Form Submitted Successfully!')
-            return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
+            return HttpResponseRedirect('/website')
         else:
             messages.error(request, 'Form not submitted! TRY AGAIN')
             return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
