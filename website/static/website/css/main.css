@@ -161,6 +161,7 @@ h6 {
 }
 
 p {
+    margin-top: -109px;
     font-size: 16px;
     line-height: 1.875;
 }
@@ -1405,7 +1406,7 @@ select:focus {
 #header .navbar-default .navbar-nav>li>a {
     background: none;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 #header .navbar-nav>li>a:hover,
