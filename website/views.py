@@ -33,24 +33,26 @@ from django.http import JsonResponse
     # GUI
     # put icon on button of search and discount
     # form checks
+    # mail send functions
 # Create your views here.
 # ! NEVER SHOW MERCHANT ID AND KEY !
 MID = "VdMxPH61970223458566"  # MERCHANT ID
 MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 
-def test(request,slug):
-    # 0 : create
-    # 1 : delete
-    if slug==1:
-        del request.session['x']
-    elif slug==0:
-        usr = request.user.username
-        request.session['x'] ="a boi" 
-    try :
-        x = request.session['x']
-        return HttpResponse(f'{x}and user name is {usr}')
-    except Exception as e:
-        return HttpResponse(f"kuch ni hai{e}")
+# def test(request,slug):
+#     # 0 : create
+#     # 1 : delete
+#     # if slug==1:
+#     #     del request.session['x']
+#     # elif slug==0:
+#     #     usr = request.user.username
+#     #     request.session['x'] ="a boi" 
+#     # try :
+#     #     x = request.session['x']
+#     #     return HttpResponse(f'{x}and user name is {usr}')
+#     # except Exception as e:
+#     #     return HttpResponse(f"kuch ni hai{e}")
+    
 
 def index(request):
     category = Categories.objects.all()
@@ -102,7 +104,7 @@ def freelisting(request):
             listing.save()
             messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24'
                                       'hours.')
-    return render(request, 'website/listing.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/freelisting.html', {'vendor': vendor, 'category': category})
 
 
 def customer_membership(request):
@@ -140,9 +142,9 @@ def jobs(request):
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
         )
-        return render(request, 'website/form.html', {'vendor': vendor, 'category': category})
+        return render(request, 'website/job_form.html', {'vendor': vendor, 'category': category})
 
-    return render(request, 'website/form.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/job_form.html', {'vendor': vendor, 'category': category})
 
 
 def upload_resume(request):
@@ -170,7 +172,7 @@ def upload_resume(request):
             else:
                 messages.error(request, 'Before submit resume Enter your name')
 
-        return render(request, 'website/form.html', {'category': category})
+        return render(request, 'website/job_form.html', {'category': category})
     except:
         return render(request, 'website/404.html')
 
@@ -202,27 +204,88 @@ def sub_to_sub_category(request, slug):
                       {'sub_category': related_sub_category, 'related_sub_sub_category': related_sub_sub_category,
                        'category': category,'vendor':vendor})
     else:
-        return render(request, 'website/form_category.html', {'slug': slug, 'category': category,'vendor':vendor})
+        return render(request, 'website/contact_via_category.html', {'slug': slug, 'category': category,'vendor':vendor})
 
 
 # A's here  ------------------
 
+def test(request):
+    if request.method =="POST":
+        resp = form_validation(request.POST)
+        return HttpResponse(f"nahi chala{resp}")
 
+    return render(request, 'website/test.html')
 
+def form_validation(form):
+    
+    # what if value of form is another 
+    if form.get("test_text") == "test_value":
+        print("..........test_validation chala")
+        return "Chal gaya" 
 
+    # Purchase Form
+    print("return ke age bhi chala")
+    if form.get("form_id") == "purchase_form":
 
+        # Zip Code Field
+        if not form.get('zip_code').isnumeric():
+            return "zip code should be numeric"
 
+        if len(form.get('zip_code')) <= 3:
+            return "zip code length should be more than 3"
 
+        if len(form.get('zip_code')) >= 6:
+            return "zip code length should be less than 6"
 
+        
+        # Phone Number Field
+        if not form.get('phone').isnumeric():
+            return "Phone Number should be Numeric"
 
+        if len(form.get('phone')) <10 or len(form.get('phone')) >10:
+            return "phone number should be in correct length"
 
+        
+        
 
+    if form.get("job_form") == "form_for_jobs":
+        pass
+    
+    if form.get("frenchise_form") == "form_for_frenchise":
+        pass
+    
+    if form.get("freelisting_form") == "form_for_freelisting":
+        pass
+    
+        #  upload form 
+        #  job form
+        #  contact via category
+    if form.get("contact_via_category_form") == "form_for_contact_via_category":
+        # phno. validate
+        # min length max length
+        if len(form.get("mobile")) <10:
+            print(".........length should be 10")
 
+        if not form.get("mobile").isnumeric():
+            print("...........value should be numeric")
+            return HttpResponse("...........value should be numeric")
 
+    
 
+def form_validation_from_ajax(request):
+    if request.method == "POST":
+        
+        # form = request.POST.get("form")
+        # form = json.load(form)
+        test = request.POST.get('test')
+        name = request.POST.get('name')
+        print('.....................', test)
 
+        print('.....................', name)
+        return JsonResponse({'response':'Chal gaya bale bale', 'name':test})
+    return JsonResposne({'response':'request error'})
 
-
+# purchase functionalatiy ---------------
 def purchase(request, slug):
     vendor = TOP.objects.all()
     category = Categories.objects.all()
@@ -232,6 +295,11 @@ def purchase(request, slug):
     try:
         if request.user.is_authenticated:
             if request.method == "POST":
+                # Validate
+                resp = form_validation(request.POST)
+                print('.............validation response --',resp)
+                if resp != None:
+                    return HttpResponse(resp)
                 plan = Plan.objects.get(plan_name=slug)
                 # you can use any random [id (must be unique!)]
                 order_id = random.randint(1, 9999)
@@ -429,11 +497,12 @@ def order_id_session(order_id):
 '''
 
 
-# --------------------------payment end ------------------------
+# --------------------------payment/purchase end ------------------------
 
 
 
-
+    
+    
 
 
 
@@ -742,6 +811,40 @@ def feedback(request):
 
 
 # contact through category for service handler view
+# def contact_via_service(request, slug):
+#     category = Categories.objects.all()
+#     flag = False
+#     if request.method == 'POST':
+#         try:
+#             s_category = Subcategory.objects.get(sub_category_name__exact=slug)
+#             ss_category = None
+#         except:
+#             flag = True
+
+#         if flag:
+#             ss_category = Sub_sub_category.objects.get(sub_sub_category_name__exact=slug)
+#             s_category = ss_category.sub_category_name
+        
+#         # form_validation(request, request.POST)        
+#         name = request.POST.get('name')
+#         print("........name is ", name)
+#         mobile = request.POST.get('mobile')
+#         time = request.POST.get('time')
+#         obj = Contactviacategory(registrant_name=name, registrant_mobile_no=mobile, calling_time=time, service_name=s_category, sub_service_name=ss_category)
+#         obj.save()
+#         send_mail(
+#                 subject='New Query from customer',
+#                 message=f"Customer Name = {name}\nMobile No. ={mobile}\nservice = {str(s_category) + ' subcategory = '  + str(ss_category)}\n",
+#                 from_email='rk7305758@gmail.com',
+#                 recipient_list=['ronniloreo@gmail.com'],
+#                 fail_silently=False)
+#         messages.success(request,
+#                          'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
+#         return render(request, 'website/contact_via_category.html', {'slug': slug, 'category': category})
+#         # return HttpResponseRedirect('/website/')
+
+#     return render(request, 'website/contact_via_category.html', {'slug': slug, 'category': category})
+
 def contact_via_service(request, slug):
     category = Categories.objects.all()
     flag = False
@@ -772,7 +875,6 @@ def contact_via_service(request, slug):
         return render(request, 'website/form_category.html', {'slug': slug, 'category': category})
 
     return render(request, 'website/form_category.html', {'slug': slug, 'category': category})
-
 
 # open Frenchise contact form
 def frenchise(request):

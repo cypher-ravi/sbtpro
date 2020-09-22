@@ -15,6 +15,7 @@
 {% endblock css %} {% block body %} {% load static %}
 
 <form method="POST" action="{% url 'contactservice' slug %}">{% csrf_token %}
+    <input type="hidden" name="contact_via_category_form" id="contact_via_category_form" value="form_for_contact_via_category">
 
     <div class="container form-contact">
         <h3>Share Your Details:</h3>
