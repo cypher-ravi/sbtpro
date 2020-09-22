@@ -10,7 +10,7 @@ admin.site.site_header = "SBT Professionals"
 admin.site.site_title = "Dashboard- SBT Professionals"
 admin.site.index_title = "Welcome To SBT Professionals"
 
-
+app_name = 'website'
 
 urlpatterns = [
 #     path("test/<int:slug>", views.test, name="test"),
