@@ -340,12 +340,71 @@ background-size: 25px auto;
 .category-a{
     margin-left: 14px;
 }
+.twi-tter{
+    position: fixed;
+    width: 45px;
+    height: 45px;
+    bottom: 40px;
+    background-color: #2592d3;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 3px 4px 3px #999;
+    left: 0px;
+    z-index: 100;
+    top: 324px;
+}
+    .insta{
+        position: fixed;
+        width: 45px;
+        height: 45px;
+        bottom: 40px;
+        background-color: #2592d3;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 30px;
+        box-shadow: 3px 4px 3px #999;
+        left: 0px;
+        z-index: 100;
+        top: 384px;
+    }
+    .you-tube   {
+        position: fixed;
+        width: 45px;
+        height: 45px;
+        bottom: 40px;
+        background-color: #2592d3;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 30px;
+        box-shadow: 3px 4px 3px #999;
+        left: 0px;
+        z-index: 100;
+        top: 444px;
+    }
+.face-book{
+    position: fixed;
+    width: 45px;
+    height: 45px;
+    bottom: 40px;
+    background-color: #2592d3;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 3px 4px 3px #999;
+    left: 0px;
+    z-index: 100;
+    top: 504px;
 
-
+}
 .whats-app {
     position: fixed;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     bottom: 40px;
     background-color: #25d366;
     color: #FFF;
@@ -353,9 +412,9 @@ background-size: 25px auto;
     text-align: center;
     font-size: 30px;
     box-shadow: 3px 4px 3px #999;
-    left: 15px;
+    left: 0px;
     z-index: 100;
-    top: 504px;
+    top: 560px;
 }
 
 .my-float {
@@ -376,7 +435,24 @@ background-size: 25px auto;
     /* Safari */
     animation: spin 500s linear infinite;
 }
-
+@media only screen and (min-width: 993px) {
+    .hide-on-desktop-only {
+    display: none !important;
+    }
+    .hange{
+        margin-bottom: -27px;
+        margin-right: 924px;
+     }
+     
+     .butto{
+        border: 4px solid#fe4c1c;
+       width: 200px;
+       text-align: center;
+     
+     
+    }
+    
+}
     .hanger {
         margin-bottom: -27px;
         margin-left: 924px;
@@ -404,7 +480,7 @@ background-size: 25px auto;
     -o-transform: rotate(270deg);
     filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
     position: fixed;
-    top: 40%;
+    top: 24%;
     border-radius: 8px;
     left: -25px;
     background: #ccc;
