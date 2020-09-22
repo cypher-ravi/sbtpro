@@ -60,11 +60,14 @@
 </nav>
 <p>NOTE:<em>Your Default Totas Is </em><b>Rs100.</b></p>
             <h4>Step 2 - Enter Address & Other Details:</h4>
-        <form action="/website/purchase/{{ plan_review.name }}" method="post">{% csrf_token %}
+        <form id="purchase_form" action="/website/purchase/{{ plan_review.name }}" method="post">{% csrf_token %}
 <!--            <input type="hidden" name="itemsJson" id="itemsJson">-->
             <input type="hidden" name="amount" value="{{ plan_review.amount }}/percent">
             <input type="hidden" name="discount" id="discount" value="">
             <input type="hidden" name="total" id="total" value="">
+            <input type="hidden" name="form_id" id="form_id" value="purchase_form">
+
+        
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="name">Name</label>
@@ -92,15 +95,16 @@
                     <label for="state">State</label>
                     <input type="text" class="form-control" name="state" id="state" placeholder="Enter State" required>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-2" id="div_zip">
                     <label for="zip">Zip</label>
-                    <input type="text" class="form-control" name="zip_code" placeholder="Zip code" id="zip" required>
+                    <input type="text" id="zip_code" class="form-control" name="zip_code" placeholder="Zip code" id="zip_code" required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="phone">Phone Number</label>
                 <input type="tel" class="form-control" placeholder="Where company contacts you" name="phone" id="phone" required>
             </div>
+
             <button type="submit" class="color-two">Place Order</button>
         </form>
     </div>
