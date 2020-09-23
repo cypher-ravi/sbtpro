@@ -448,19 +448,54 @@ $("#zip_code").change(function(event) {
     var div = document.createElement('div');
     div.classList.add('error-msg');
     div.setAttribute('id', 'error_div')
-    div.innerText = "this is an error";
 
-    if (x.length >= 6) {
+    var numbers = /^[0-9]+$/;
+    if (!x.match(numbers)) {
+        console.log("if chala")
+        div.innerText = "alphabets are not valid";
         document.getElementById('div_zip').appendChild(div);
+    } else {
+        if (x.length > 6) {
+            div.innerText = "Zip code should not be greater then 6 digits";
+            document.getElementById('div_zip').appendChild(div);
+        }
+
+        if (x.length < 3) {
+            div.innerText = "Zip code should not be less then 3 digits";
+            document.getElementById('div_zip').appendChild(div);
+
+        }
+        // $(this).parent().append('<div class="error-msg">This is a required field.</div>');
     }
-    // $(this).parent().append('<div class="error-msg">This is a required field.</div>');
-
-
-
-
-
 });
 
+$("#phone").change(function(event) {
+    var test = document.getElementsByClassName('error-msg');
+    for (i = 0; i <= test.length; i++) {
+        if (test[i]) // Exception avoiding if
+            test[i].remove()
+    }
+    var x = document.getElementById('phone').value
+    var div = document.createElement('div');
+    div.classList.add('error-msg');
+    div.setAttribute('id', 'error_div')
+
+    var numbers = /^[0-9]+$/;
+    if (!x.match(numbers)) {
+        console.log("if chala")
+        div.innerText = "alphabets are not valid";
+        document.getElementById('div_phone').appendChild(div);
+    } else {
+        if (x.length < 10) {
+            div.innerText = "Phone code should not be less then 10 digits";
+            document.getElementById('div_phone').appendChild(div);
+        }
+        if (x.length > 10) {
+            div.innerText = "Phone code should not be greater then 10 digits";
+            document.getElementById('div_phone').appendChild(div);
+        }
+    }
+});
 
 
 
