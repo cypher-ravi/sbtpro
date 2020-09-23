@@ -160,8 +160,9 @@ h6 {
     }
 }
 
+
 p {
-    margin-top: -109px;
+    margin-top: -4px;
     font-size: 16px;
     line-height: 1.875;
 }
@@ -4523,6 +4524,7 @@ select:focus {
 }
 
 #contact input[type=submit] {
+    
     color: #fff;
     border: 2px solid #fe4c1c;
     background: #fe4c1c;

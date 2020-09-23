@@ -489,6 +489,10 @@ background-size: 25px auto;
     z-index: 100;
   }
 
+  .bt2:hover {
+    background-color: grey;
+    color: white;
+  }
   /*for feedback sidepanel*/
 
   .sidepanel  {
