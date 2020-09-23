@@ -330,8 +330,9 @@ def purchase(request, slug):
                 city = request.POST.get('city', '')
                 zip_code = request.POST.get('zip_code', '')
                 plan_id = plan.plan_id
-
+                discount_applied(request)
                 discount = request.POST.get('discount')
+                # only disocunt 0 to 30
                 if discount != "":
                     amount = int(discount) * plan.plan_amount
                 else:
@@ -381,18 +382,46 @@ def purchase(request, slug):
         print("An Exception occur \n", e)
         return HttpResponse("There is an error")
 
-
-def pricing_multiplier(request):
+def discount_validation(request):
     # to do make secure multiplier in purchase view
     # change the dict passing for plan_review
     if request.method =="POST":
-        amount = int(request.POST.get("amount"))
-        default_val = 100
+        amount = int(request.POST.get('amount'))
         discount = int(request.POST.get('discount'))
-        total = discount * amount
-        return JsonResponse({'discount_applied': discount,'total':total })
+        try:
+            print('try block')
+            id = request.POST.get('plan_id')
+            print(id)
+            plan = Plan.objects.get(plan_id = id)
+        except:
+            print('exception occured...')
+            return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
+        if plan.plan_amount == amount:
+            if  discount == 0:
+                return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'Value should not be 0'})
+            print('plan')
+            print(discount)
+            if discount >= plan.minimum_discount and discount <= plan.maximum_discount:
+                print('min max')
+                amount = plan.plan_amount
+                # default_val = 100
+                
+                total = discount * amount
+                return JsonResponse({'discount_applied': discount,'total':total ,'error': None})
+            else:
+                print('else min max')
+                return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
+        else:
+            print('critical error')
+            return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'Plan Amount is Invalid'})
+        return JsonResponse({'error':'Invalid Request'})
 
-
+def pricing_multiplier(request):    
+    response = discount_validation(request)
+    response_dict = json.loads(response.getvalue().decode('utf-8'))
+    print(response_dict)
+    return JsonResponse(response_dict)
+    
 @csrf_exempt
 def req_handler(request):
     if request.method == 'POST':
@@ -400,12 +429,11 @@ def req_handler(request):
         form = request.POST
         print(form["ORDERID"])
 
-        # another if to handle if user get refresh
+        # another if to handle if user load refresh
         is_order_exist = Order_Payment.objects.filter(order_id = form["ORDERID"]).exists()
         print('............................order', is_order_exist)
         if is_order_exist == False:
             # FOR ALL VALUES
-
             for i in form.keys():
                 response_dict[i] = form[i]
                 print(i, form[i])
@@ -415,7 +443,7 @@ def req_handler(request):
 
             verify = CheckSum.verifySignature(response_dict, MKEY, response_check_sum)
             print(verify)
-            response_dict["STATUS"] = "PENDING"
+            # response_dict["STATUS"] = "PENDING"
             print('.........response_dict["STATUS"]', response_dict["STATUS"])
             print("..................", verify)
             if verify and response_dict["STATUS"] != "TXN_FAILURE" or response_dict["STATUS"] == "PENDING":
@@ -444,7 +472,6 @@ def req_handler(request):
                 order_payment.save()
                 payment_status = Order_Payment.objects.get(order_id = response_dict["ORDERID"])
 
-                # Session should create when order is get successfull
                 return render(request, 'website/order_success.html', {'payment':payment_status})
             else:
                 Order.objects.filter(order_id= response_dict["ORDERID"]).delete()
@@ -454,7 +481,7 @@ def req_handler(request):
             # Session should create when order is get successfull
 
             return render(request, 'website/order_success.html', {'payment':payment_status}) 
-    return HttpResponse('Not successfull <a href="/website/"> Go back Home</a>')
+    return HttpResponse('Invalid Request <a href="/website/"> Go back Home</a>')
 
 
 def order_status(request, slug):
@@ -498,7 +525,7 @@ def order_status(request, slug):
         elif request.user!=None and request.user.is_authenticated :
             return HttpResponse("Please insert correct orderid")
         else:
-            return HttpResponse('Please Login <a href="/website/login> Here First</a>"')
+            return HttpResponse('Please Login <a href="/website/login"> Here First</a>')
     except Exception as e:
         return HttpResponse(f"Requested Order Not Found - {e}") # form to type in order id
 

@@ -349,19 +349,25 @@ window.jQuery(document).ready(function($) {
                 url: '/website/pricing-multiplier/',
                 dataType: 'json',
                 data: {
+                    plan_id: $('#discount_id').val(),
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
                     discount: $('#discount_val').val(),
                     amount: $('#real_val').val(),
                 },
                 success: function(data) {
-                    document.getElementById("output").innerText = data.total;
-                    document.getElementById("discount").value = data.discount_applied;
-                    document.getElementById("total").value = data.total;
+                    if(data.error != null){
 
+                        document.getElementById("output").innerText = data.error;
+
+                    }
+                    else{
+                        
+                        document.getElementById("output").innerText = data.total;
+                        document.getElementById("discount").value = data.discount_applied;
+                        document.getElementById("total").value = data.total;
+                    }
                 }
-
             });
-
         });
     });
 
@@ -374,22 +380,26 @@ window.jQuery(document).ready(function($) {
                 dataType: 'json',
                 data: {
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
+                    plan_id: $('#discount_id').val(),
                     discount: $('#discount_val').val(),
                     amount: $('#real_val').val(),
                 },
-                success: function(data) {
-                    document.getElementById("output").innerText = data.total;
-                    document.getElementById("discount").value = data.discount_applied;
-                    document.getElementById("total").value = data.total;
+                success: function(data){
+                    if(data.error != null){
 
+                        document.getElementById("output").innerText = data.error;
+
+                    }
+                    else{
+                        
+                        document.getElementById("output").innerText = data.total;
+                        document.getElementById("discount").value = data.discount_applied;
+                        document.getElementById("total").value = data.total;
+                    }
                 }
-
             });
-
         });
     });
-
-});
 
 /* Form Checks using Ajax */
 // Plan Purchase Form - purchase_form.html
@@ -554,3 +564,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function prettyLog(str) {}
 //Typed Text End
+});

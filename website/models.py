@@ -105,6 +105,8 @@ class Plan(models.Model):
     plan_id = models.AutoField(primary_key=True)
     plan_name = models.CharField(max_length=25, null=False)
     plan_amount = models.IntegerField(null=False)
+    minimum_discount = models.IntegerField(null = False)
+    maximum_discount = models.IntegerField(null = False)
     description_1 = models.CharField(max_length=50, null=True)
     description_2 = models.CharField(max_length=50, null=True)
     description_3 = models.CharField(max_length=50, null=True)
