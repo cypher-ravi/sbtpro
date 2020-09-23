@@ -76,6 +76,10 @@ def freelisting(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
     if request.method == 'POST':
+        resp = form_validation(request.POST)
+        print('.............validation response --',resp)
+        if resp != None:
+            return HttpResponse(resp)
         Company_name = request.POST.get('companyname', '')
         location = request.POST.get('location', '')
         first_name = request.POST.get('firstname', '')
@@ -83,7 +87,7 @@ def freelisting(request):
         city = request.POST.get('city', '')
         state = request.POST.get('state', '')
         zip_code = request.POST.get('zip_code', '')
-        mobile = request.POST.get('mobile', '')
+        mobile = request.POST.get('phone', '')
         email = request.POST.get('email', '')
         # send mail function from django.core.mail import send mail
         send_mail(
@@ -240,26 +244,26 @@ def form_validation(form):
         return "Chal gaya" 
 
     # Purchase Form
-    print("return ke age bhi chala")
-    if form.get("form_id") == "purchase_form":
+    # print("return ke age bhi chala")
+    # if form.get("form_id") == "purchase_form":
 
-        # Zip Code Field
-        if not form.get('zip_code').isnumeric():
-            return "zip code should be numeric"
+    # Zip Code Field
+    if not form.get('zip_code').isnumeric():
+        return "zip code should be numeric"
 
-        if len(form.get('zip_code')) <= 3:
-            return "zip code length should be more than 3"
+    if len(form.get('zip_code')) < 3:
+        return "zip code length should be more than 3"
 
-        if len(form.get('zip_code')) >= 6:
-            return "zip code length should be less than 6"
+    if len(form.get('zip_code')) > 6:
+        return "zip code length should be less than 6"
 
-        
-        # Phone Number Field
-        if not form.get('phone').isnumeric():
-            return "Phone Number should be Numeric"
+    
+    # Phone Number Field
+    if not form.get('phone').isnumeric():
+        return "Phone Number should be Numeric"
 
-        if len(form.get('phone')) <10 or len(form.get('phone')) >10:
-            return "phone number should be in correct length"
+    if len(form.get('phone')) <10 or len(form.get('phone')) >10:
+        return "phone number should be in correct length"
 
         
         

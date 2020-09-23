@@ -489,7 +489,6 @@ $("#phone").change(function(event) {
         if (x.length < 10) {
             div.innerText = "Phone code should not be less then 10 digits";
             document.getElementById('div_phone').appendChild(div);
-
         }
         if (x.length > 10) {
             div.innerText = "Phone code should not be greater then 10 digits";
