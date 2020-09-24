@@ -1407,7 +1407,7 @@ select:focus {
 #header .navbar-default .navbar-nav>li>a {
     background: none;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 #header .navbar-nav>li>a:hover,
@@ -3076,7 +3076,8 @@ select:focus {
     color: inherit;
     vertical-align: baseline;
     text-decoration: inherit;
-    font-size: 70px;
+    font-size: 40px;
+    margin-top: 30px;
     line-height: 0.01;
     font-weight: 700;
     color: #000;

@@ -15,6 +15,8 @@ app_name = 'website'
 urlpatterns = [
 #     path("test/<int:slug>", views.test, name="test"),
     path("test", views.test, name="test"),
+    path("test2", views.test2, name="test2"),
+
     path("", views.index, name='Sbthome'),
     path("freelisting/", views.freelisting, name='listing'),
     path("top/", views.top, name='top'),

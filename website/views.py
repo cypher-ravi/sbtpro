@@ -56,7 +56,9 @@ MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 #     #     return HttpResponse(f'{x}and user name is {usr}')
 #     # except Exception as e:
 #     #     return HttpResponse(f"kuch ni hai{e}")
-    
+
+def test2(request):
+    return render(request, 'website/vendor2.html')
 
 def index(request):
     category = Categories.objects.all()

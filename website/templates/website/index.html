@@ -7,6 +7,16 @@
   top: 20px;
   background-color: #4CAF50;
 }
+.market-img{
+    height: 198px;
+    width: 349px;
+    margin-top: -66px;;
+}
+.market-img:hover{
+    opacity: 0.3;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
 
 #blog {
   top: 80px;
@@ -368,7 +378,9 @@
                             <div class="tbl-prc-heading">
                                 <h4>{{ plan.plan_name }}</h4>
                                 <div class="tbl-prc-price">
-                                    <span class="price">₹{{ plan.plan_amount}}</span>
+                                    <a href="purchase/{{ plan.plan_name }}">
+                                <img class="market-img"  src="{% static 'website/images/MARKETCARD.jpeg' %}" alt="" ></a>
+                                    <span class="price" style="margin-top: 32px;">₹{{ plan.plan_amount}}</span>
                                     <span class="month">/ percent</span>
                                 </div>
                             </div>
