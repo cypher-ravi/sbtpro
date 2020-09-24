@@ -37,11 +37,11 @@
    <span>4. {{ plan_review.description_4 }}</span></strong>
 </ul>
   </ol>
-</nav>
+</nav>  <!---->
     <h4>Enter Your Purchasing percentage below: </h4>
 	<form id="form"> 
-		</input type="hidden" id="discount_id" name="id" value="{{ plan_review.id }}"> 
-      <input type="hidden" id="real_val" name="amount" value="{{ plan_review.amount}}">
+		<input type="hidden" id="discount_id" name="id" value="{{ plan_review.id }}"> 
+        <input type="hidden" id="real_val" name="amount" value="{{ plan_review.amount}}">
 		<input id="discount_val" type="text" name = "discount_usr" >
 		<button>submit</button>
 	</form>
@@ -100,9 +100,9 @@
                     <input type="text" id="zip_code" class="form-control" name="zip_code" placeholder="Zip code" id="zip_code" required>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group " id="div_phone">
                 <label for="phone">Phone Number</label>
-                <input type="tel" class="form-control" placeholder="Where company contacts you" name="phone" id="phone" required>
+                <input type="text" class="form-control" placeholder="Where company contacts you" name="phone" id="phone" required>
             </div>
 
             <button type="submit" class="color-two">Place Order</button>

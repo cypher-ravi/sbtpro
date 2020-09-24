@@ -10,7 +10,7 @@ admin.site.site_header = "SBT Professionals"
 admin.site.site_title = "Dashboard- SBT Professionals"
 admin.site.index_title = "Welcome To SBT Professionals"
 
-
+app_name = 'website'
 
 urlpatterns = [
 #     path("test/<int:slug>", views.test, name="test"),
@@ -49,8 +49,6 @@ urlpatterns = [
     path('login/', views.log_in, name='Login'),
     path('logout/', views.logout_view, name='Logout'),
     
-    #Form Validation Urls
-    path('form_validation', views.form_validation_from_ajax, name='Form_Validation'),    
     # Password Reset Urls
     path('reset_password/',
          auth_views.PasswordResetView.as_view

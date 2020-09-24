@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import *
+from django.urls import reverse
 # FOR PAYTM---------------------
 from .PayTm import CheckSum
     # import checksum generation utility
@@ -23,6 +24,9 @@ from django.contrib.auth import login, logout, authenticate
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
+
+#importing func from function.py
+from .functions import send_sms_message
 
 # TODO ! Important !
     # *change paytm for production
@@ -75,6 +79,10 @@ def freelisting(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
     if request.method == 'POST':
+        resp = form_validation(request.POST)
+        print('.............validation response --',resp)
+        if resp != None:
+            return HttpResponse(resp)
         Company_name = request.POST.get('companyname', '')
         location = request.POST.get('location', '')
         first_name = request.POST.get('firstname', '')
@@ -82,7 +90,7 @@ def freelisting(request):
         city = request.POST.get('city', '')
         state = request.POST.get('state', '')
         zip_code = request.POST.get('zip_code', '')
-        mobile = request.POST.get('mobile', '')
+        mobile = request.POST.get('phone', '')
         email = request.POST.get('email', '')
         # send mail function from django.core.mail import send mail
         send_mail(
@@ -104,6 +112,7 @@ def freelisting(request):
             listing.save()
             messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24'
                                       'hours.')
+            return HttpResponseRedirect('/website')
     return render(request, 'website/freelisting.html', {'vendor': vendor, 'category': category})
 
 
@@ -176,10 +185,19 @@ def upload_resume(request):
     except:
         return render(request, 'website/404.html')
 
-
 def download(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
+    if request.method == 'POST':
+        number = request.POST.get('number')
+        if number.isnumeric():
+            send_sms_message(number)
+            messages.success(request,'Link sent successfully check your inbox!')
+            return redirect('website:Sbthome')
+        else:
+            messages.warning(request,'Enter a number!')
+            return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
+    messages.error(request,'Request for link failed! Try Again')
     return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
 
 
@@ -224,26 +242,26 @@ def form_validation(form):
         return "Chal gaya" 
 
     # Purchase Form
-    print("return ke age bhi chala")
-    if form.get("form_id") == "purchase_form":
+    # print("return ke age bhi chala")
+    # if form.get("form_id") == "purchase_form":
 
-        # Zip Code Field
-        if not form.get('zip_code').isnumeric():
-            return "zip code should be numeric"
+    # Zip Code Field
+    if not form.get('zip_code').isnumeric():
+        return "zip code should be numeric"
 
-        if len(form.get('zip_code')) <= 3:
-            return "zip code length should be more than 3"
+    if len(form.get('zip_code')) < 3:
+        return "zip code length should be more than 3"
 
-        if len(form.get('zip_code')) >= 6:
-            return "zip code length should be less than 6"
+    if len(form.get('zip_code')) > 6:
+        return "zip code length should be less than 6"
 
-        
-        # Phone Number Field
-        if not form.get('phone').isnumeric():
-            return "Phone Number should be Numeric"
+    
+    # Phone Number Field
+    if not form.get('phone').isnumeric():
+        return "Phone Number should be Numeric"
 
-        if len(form.get('phone')) <10 or len(form.get('phone')) >10:
-            return "phone number should be in correct length"
+    if len(form.get('phone')) <10 or len(form.get('phone')) >10:
+        return "phone number should be in correct length"
 
         
         
@@ -272,18 +290,18 @@ def form_validation(form):
 
     
 
-def form_validation_from_ajax(request):
-    if request.method == "POST":
+# def form_validation_from_ajax(request):
+#     if request.method == "POST":
         
-        # form = request.POST.get("form")
-        # form = json.load(form)
-        test = request.POST.get('test')
-        name = request.POST.get('name')
-        print('.....................', test)
+#         # form = request.POST.get("form")
+#         # form = json.load(form)
+#         test = request.POST.get('test')
+#         name = request.POST.get('name')
+#         print('.....................', test)
 
-        print('.....................', name)
-        return JsonResponse({'response':'Chal gaya bale bale', 'name':test})
-    return JsonResposne({'response':'request error'})
+#         print('.....................', name)
+#         return JsonResponse({'response':'Chal gaya bale bale', 'name':test})
+#     return JsonResposne({'response':'request error'})
 
 # purchase functionalatiy ---------------
 def purchase(request, slug):
@@ -312,8 +330,9 @@ def purchase(request, slug):
                 city = request.POST.get('city', '')
                 zip_code = request.POST.get('zip_code', '')
                 plan_id = plan.plan_id
-
+                discount_applied(request)
                 discount = request.POST.get('discount')
+                # only disocunt 0 to 30
                 if discount != "":
                     amount = int(discount) * plan.plan_amount
                 else:
@@ -357,24 +376,52 @@ def purchase(request, slug):
             return render(request, 'website/purchase_form.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
         
         else: # if User is not Authenticated
-            return render(request, 'website/login.html')
+            return render(request, 'website/login.html',{'slug':slug})
 
     except AttributeError as e:
         print("An Exception occur \n", e)
         return HttpResponse("There is an error")
 
-
-def pricing_multiplier(request):
+def discount_validation(request):
     # to do make secure multiplier in purchase view
     # change the dict passing for plan_review
     if request.method =="POST":
-        amount = int(request.POST.get("amount"))
-        default_val = 100
+        amount = int(request.POST.get('amount'))
         discount = int(request.POST.get('discount'))
-        total = discount * amount
-        return JsonResponse({'discount_applied': discount,'total':total })
+        try:
+            print('try block')
+            id = request.POST.get('plan_id')
+            print(id)
+            plan = Plan.objects.get(plan_id = id)
+        except:
+            print('exception occured...')
+            return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
+        if plan.plan_amount == amount:
+            if  discount == 0:
+                return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'Value should not be 0'})
+            print('plan')
+            print(discount)
+            if discount >= plan.minimum_discount and discount <= plan.maximum_discount:
+                print('min max')
+                amount = plan.plan_amount
+                # default_val = 100
+                
+                total = discount * amount
+                return JsonResponse({'discount_applied': discount,'total':total ,'error': None})
+            else:
+                print('else min max')
+                return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
+        else:
+            print('critical error')
+            return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'Plan Amount is Invalid'})
+        return JsonResponse({'error':'Invalid Request'})
 
-
+def pricing_multiplier(request):    
+    response = discount_validation(request)
+    response_dict = json.loads(response.getvalue().decode('utf-8'))
+    print(response_dict)
+    return JsonResponse(response_dict)
+    
 @csrf_exempt
 def req_handler(request):
     if request.method == 'POST':
@@ -382,12 +429,11 @@ def req_handler(request):
         form = request.POST
         print(form["ORDERID"])
 
-        # another if to handle if user get refresh
+        # another if to handle if user load refresh
         is_order_exist = Order_Payment.objects.filter(order_id = form["ORDERID"]).exists()
         print('............................order', is_order_exist)
         if is_order_exist == False:
             # FOR ALL VALUES
-
             for i in form.keys():
                 response_dict[i] = form[i]
                 print(i, form[i])
@@ -397,7 +443,7 @@ def req_handler(request):
 
             verify = CheckSum.verifySignature(response_dict, MKEY, response_check_sum)
             print(verify)
-            response_dict["STATUS"] = "PENDING"
+            # response_dict["STATUS"] = "PENDING"
             print('.........response_dict["STATUS"]', response_dict["STATUS"])
             print("..................", verify)
             if verify and response_dict["STATUS"] != "TXN_FAILURE" or response_dict["STATUS"] == "PENDING":
@@ -426,7 +472,6 @@ def req_handler(request):
                 order_payment.save()
                 payment_status = Order_Payment.objects.get(order_id = response_dict["ORDERID"])
 
-                # Session should create when order is get successfull
                 return render(request, 'website/order_success.html', {'payment':payment_status})
             else:
                 Order.objects.filter(order_id= response_dict["ORDERID"]).delete()
@@ -436,7 +481,7 @@ def req_handler(request):
             # Session should create when order is get successfull
 
             return render(request, 'website/order_success.html', {'payment':payment_status}) 
-    return HttpResponse('Not successfull <a href="/website/"> Go back Home</a>')
+    return HttpResponse('Invalid Request <a href="/website/"> Go back Home</a>')
 
 
 def order_status(request, slug):
@@ -480,7 +525,7 @@ def order_status(request, slug):
         elif request.user!=None and request.user.is_authenticated :
             return HttpResponse("Please insert correct orderid")
         else:
-            return HttpResponse('Please Login <a href="/website/login> Here First</a>"')
+            return HttpResponse('Please Login <a href="/website/login"> Here First</a>')
     except Exception as e:
         return HttpResponse(f"Requested Order Not Found - {e}") # form to type in order id
 
@@ -570,17 +615,31 @@ def log_in(request):
     if request.method == "POST":
         loginusername = request.POST['loginusername']
         loginpass = request.POST['loginpass']
-
+        redirect_url = request.POST['url']
+        try:
+            redirect_slug = request.POST['slug']
+            flag = True
+        except:
+            redirect_slug=None
+        print('slug.........',redirect_slug)
+        print('url.........',redirect_url)
         if User.objects.filter(email=loginusername).exists():
             usr_by_email = User.objects.get(email=loginusername)
             loginusername = usr_by_email.username
 
         user = authenticate(request, username=loginusername,
                             password=loginpass)  # checks if user is exist
-        if user is not None:  # if user exist than create a session using login function
-            login(request, user)
-            messages.success(request, 'Login Successful!')
-            return redirect(index)
+        if user is not None :  # if user exist than create a session using login function
+            if  redirect_slug !=None :
+                login(request, user)
+                messages.success(request, 'Login Successful!')
+                return redirect('website:plan-purchase',slug=redirect_slug)
+                
+            if redirect_slug == None: 
+                login(request, user)
+                messages.success(request, 'Login Successful!')
+                return redirect('website:Sbthome')
+
         else:
             print('....................user->', user)
             messages.error(request, 'Invalid credentials,Please Try Again!')
@@ -594,7 +653,7 @@ def log_in(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'Logged Out Successfully!')
-    return redirect('Sbthome')
+    return redirect('website:Sbthome')
 
 
 def username_validator(request):
@@ -802,7 +861,7 @@ def feedback(request):
                 recipient_list=['ronniloreo@gmail.com'],
                 fail_silently=False)
             messages.success(request, 'Form Submitted Successfully!')
-            return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
+            return HttpResponseRedirect('/website')
         else:
             messages.error(request, 'Form not submitted! TRY AGAIN')
             return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})

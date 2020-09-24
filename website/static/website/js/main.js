@@ -349,19 +349,25 @@ window.jQuery(document).ready(function($) {
                 url: '/website/pricing-multiplier/',
                 dataType: 'json',
                 data: {
+                    plan_id: $('#discount_id').val(),
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
                     discount: $('#discount_val').val(),
                     amount: $('#real_val').val(),
                 },
                 success: function(data) {
-                    document.getElementById("output").innerText = data.total;
-                    document.getElementById("discount").value = data.discount_applied;
-                    document.getElementById("total").value = data.total;
+                    if(data.error != null){
 
+                        document.getElementById("output").innerText = data.error;
+
+                    }
+                    else{
+                        
+                        document.getElementById("output").innerText = data.total;
+                        document.getElementById("discount").value = data.discount_applied;
+                        document.getElementById("total").value = data.total;
+                    }
                 }
-
             });
-
         });
     });
 
@@ -374,22 +380,26 @@ window.jQuery(document).ready(function($) {
                 dataType: 'json',
                 data: {
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
+                    plan_id: $('#discount_id').val(),
                     discount: $('#discount_val').val(),
                     amount: $('#real_val').val(),
                 },
-                success: function(data) {
-                    document.getElementById("output").innerText = data.total;
-                    document.getElementById("discount").value = data.discount_applied;
-                    document.getElementById("total").value = data.total;
+                success: function(data){
+                    if(data.error != null){
 
+                        document.getElementById("output").innerText = data.error;
+
+                    }
+                    else{
+                        
+                        document.getElementById("output").innerText = data.total;
+                        document.getElementById("discount").value = data.discount_applied;
+                        document.getElementById("total").value = data.total;
+                    }
                 }
-
             });
-
         });
     });
-
-});
 
 /* Form Checks using Ajax */
 // Plan Purchase Form - purchase_form.html
@@ -448,19 +458,54 @@ $("#zip_code").change(function(event) {
     var div = document.createElement('div');
     div.classList.add('error-msg');
     div.setAttribute('id', 'error_div')
-    div.innerText = "this is an error";
 
-    if (x.length >= 6) {
+    var numbers = /^[0-9]+$/;
+    if (!x.match(numbers)) {
+        console.log("if chala")
+        div.innerText = "alphabets are not valid";
         document.getElementById('div_zip').appendChild(div);
+    } else {
+        if (x.length > 6) {
+            div.innerText = "Zip code should not be greater then 6 digits";
+            document.getElementById('div_zip').appendChild(div);
+        }
+
+        if (x.length < 3) {
+            div.innerText = "Zip code should not be less then 3 digits";
+            document.getElementById('div_zip').appendChild(div);
+
+        }
+        // $(this).parent().append('<div class="error-msg">This is a required field.</div>');
     }
-    // $(this).parent().append('<div class="error-msg">This is a required field.</div>');
-
-
-
-
-
 });
 
+$("#phone").change(function(event) {
+    var test = document.getElementsByClassName('error-msg');
+    for (i = 0; i <= test.length; i++) {
+        if (test[i]) // Exception avoiding if
+            test[i].remove()
+    }
+    var x = document.getElementById('phone').value
+    var div = document.createElement('div');
+    div.classList.add('error-msg');
+    div.setAttribute('id', 'error_div')
+
+    var numbers = /^[0-9]+$/;
+    if (!x.match(numbers)) {
+        console.log("if chala")
+        div.innerText = "alphabets are not valid";
+        document.getElementById('div_phone').appendChild(div);
+    } else {
+        if (x.length < 10) {
+            div.innerText = "Phone code should not be less then 10 digits";
+            document.getElementById('div_phone').appendChild(div);
+        }
+        if (x.length > 10) {
+            div.innerText = "Phone code should not be greater then 10 digits";
+            document.getElementById('div_phone').appendChild(div);
+        }
+    }
+});
 
 
 
@@ -519,3 +564,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function prettyLog(str) {}
 //Typed Text End
+});
