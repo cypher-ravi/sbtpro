@@ -160,7 +160,9 @@ h6 {
     }
 }
 
+
 p {
+    margin-top: -4px;
     font-size: 16px;
     line-height: 1.875;
 }
@@ -1405,7 +1407,7 @@ select:focus {
 #header .navbar-default .navbar-nav>li>a {
     background: none;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 #header .navbar-nav>li>a:hover,
@@ -4522,6 +4524,7 @@ select:focus {
 }
 
 #contact input[type=submit] {
+    
     color: #fff;
     border: 2px solid #fe4c1c;
     background: #fe4c1c;
