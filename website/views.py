@@ -1,22 +1,12 @@
 from django.shortcuts import render, HttpResponse, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import *
-from django.urls import reverse
-# FOR PAYTM---------------------
-from .PayTm import CheckSum
-    # import checksum generation utility
-    # You can get this utility from https://developer.paytm.com/docs/checksum/
-
-from django.views.decorators.csrf import csrf_exempt
-import requests
-import json
-# FOR PAYTM End-------------------------------------
-
 from django.contrib import messages
-import random
+from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
+
 # To import for login,Signup
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
@@ -25,8 +15,17 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 
+import random
+
+# FOR PAYTM---------------------
+from .PayTm import CheckSum
+import requests
+import json
+# FOR PAYTM End-------------------------------------
+
 #importing func from function.py
-from .functions import send_sms_message
+from .functions import *
+from .models import *
 
 # TODO ! Important !
     # *change paytm for production
@@ -57,7 +56,6 @@ MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 #     # except Exception as e:
 #     #     return HttpResponse(f"kuch ni hai{e}")
     
-
 def index(request):
     category = Categories.objects.all()
     # Logic for services
@@ -241,10 +239,6 @@ def form_validation(form):
         print("..........test_validation chala")
         return "Chal gaya" 
 
-    # Purchase Form
-    # print("return ke age bhi chala")
-    # if form.get("form_id") == "purchase_form":
-
     # Zip Code Field
     if not form.get('zip_code').isnumeric():
         return "zip code should be numeric"
@@ -290,20 +284,6 @@ def form_validation(form):
 
     
 
-# def form_validation_from_ajax(request):
-#     if request.method == "POST":
-        
-#         # form = request.POST.get("form")
-#         # form = json.load(form)
-#         test = request.POST.get('test')
-#         name = request.POST.get('name')
-#         print('.....................', test)
-
-#         print('.....................', name)
-#         return JsonResponse({'response':'Chal gaya bale bale', 'name':test})
-#     return JsonResposne({'response':'request error'})
-
-# purchase functionalatiy ---------------
 def purchase(request, slug):
     vendor = TOP.objects.all()
     category = Categories.objects.all()
@@ -387,37 +367,6 @@ def purchase(request, slug):
         print("An Exception occur \n", e)
         return HttpResponse("There is an error")
     
-def discount_validation(plan_id, discount, amount):
-    # to do make secure multiplier in purchase view
-    # change the dict passing for plan_review
-    try:
-        print('try block')
-        id = plan_id
-        print(id)
-        plan = Plan.objects.get(plan_id = id)
-    except:  
-        print('exception occured...')
-        return ({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
-    if plan.plan_amount == amount:
-        if  discount == 0:
-            return ({'discount_applied':'' ,'total':'' ,'error': 'Value should not be 0'})
-        print('plan')
-        print(discount)
-        if discount >= plan.minimum_discount and discount <= plan.maximum_discount:
-            print('min max')
-            amount = plan.plan_amount
-            # default_val = 100
-            
-            total = discount * amount
-            return ({'discount_applied': discount,'total':total ,'error': None})
-        else:
-            print('else min max')
-            return ({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
-    else:
-        print('critical error')
-        return ({'discount_applied':'' ,'total':'' ,'error': 'Plan Amount is Invalid'})
-    return ({'error':'Invalid Request'})
-
 def pricing_multiplier(request):    
     if request.method =="POST":
 

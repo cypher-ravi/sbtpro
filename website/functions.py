@@ -1,3 +1,4 @@
+from .models import Plan
 
 def send_sms_message(number):
     #url = API for sending message for download link
