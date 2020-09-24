@@ -313,15 +313,14 @@ def purchase(request, slug):
     try:
         if request.user.is_authenticated:
             if request.method == "POST":
+                
                 # Validate
                 resp = form_validation(request.POST)
-                print('.............validation response --',resp)
                 if resp != None:
                     return HttpResponse(resp)
-                plan = Plan.objects.get(plan_name=slug)
-                # you can use any random [id (must be unique!)]
+
+                plan = Plan.objects.get(plan_name=slug) 
                 order_id = random.randint(1, 9999)
-                print('............', order_id)
                 email_id = request.POST.get('email', '')
                 name = request.POST.get('name', '')
                 phone = request.POST.get('phone', '')
@@ -330,11 +329,12 @@ def purchase(request, slug):
                 city = request.POST.get('city', '')
                 zip_code = request.POST.get('zip_code', '')
                 plan_id = plan.plan_id
-                discount_applied(request)
-                discount = request.POST.get('discount')
+                
+                discount = int(request.POST.get('discount'))
+                discount_applied(plan_id, discount)
                 # only disocunt 0 to 30
                 if discount != "":
-                    amount = int(discount) * plan.plan_amount
+                    amount = discount * plan.plan_amount
                 else:
                     amount = plan.plan_amount
 
@@ -382,46 +382,92 @@ def purchase(request, slug):
         print("An Exception occur \n", e)
         return HttpResponse("There is an error")
 
-def discount_validation(request):
+# def discount_validation(plan_id, discount):
+#     # to do make secure multiplier in purchase view
+#     # change the dict passing for plan_review
+#     if request.method =="POST":
+#         amount = int(request.POST.get('amount'))
+#         discount = int(request.POST.get('discount'))
+#         try:
+#             print('try block')
+#             id = request.POST.get('plan_id')
+#             print(id)
+#             plan = Plan.objects.get(plan_id = id)
+#         except:
+#             print('exception occured...')
+#             return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
+#         if plan.plan_amount == amount:
+#             if  discount == 0:
+#                 return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'Value should not be 0'})
+#             print('plan')
+#             print(discount)
+#             if discount >= plan.minimum_discount and discount <= plan.maximum_discount:
+#                 print('min max')
+#                 amount = plan.plan_amount
+#                 # default_val = 100
+                
+#                 total = discount * amount
+#                 return JsonResponse({'discount_applied': discount,'total':total ,'error': None})
+#             else:
+#                 print('else min max')
+#                 return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
+#         else:
+#             print('critical error')
+#             return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'Plan Amount is Invalid'})
+#         return JsonResponse({'error':'Invalid Request'})
+
+# def pricing_multiplier(request):    
+#     amount = int(request.POST.get('amount'))
+#     discount = int(request.POST.get('discount'))
+#     response = discount_validation()
+#     response_dict = json.loads(response.getvalue().decode('utf-8'))
+#     print(response_dict)
+#     return JsonResponse(response_dict)
+    
+
+def discount_validation(plan_id, discount, amount):
     # to do make secure multiplier in purchase view
     # change the dict passing for plan_review
-    if request.method =="POST":
-        amount = int(request.POST.get('amount'))
-        discount = int(request.POST.get('discount'))
-        try:
-            print('try block')
-            id = request.POST.get('plan_id')
-            print(id)
-            plan = Plan.objects.get(plan_id = id)
-        except:
-            print('exception occured...')
-            return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
-        if plan.plan_amount == amount:
-            if  discount == 0:
-                return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'Value should not be 0'})
-            print('plan')
-            print(discount)
-            if discount >= plan.minimum_discount and discount <= plan.maximum_discount:
-                print('min max')
-                amount = plan.plan_amount
-                # default_val = 100
-                
-                total = discount * amount
-                return JsonResponse({'discount_applied': discount,'total':total ,'error': None})
-            else:
-                print('else min max')
-                return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
+    try:
+        print('try block')
+        id = plan_id
+        print(id)
+        plan = Plan.objects.get(plan_id = id)
+    except:
+        print('exception occured...')
+        return ({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
+    if plan.plan_amount == amount:
+        if  discount == 0:
+            return ({'discount_applied':'' ,'total':'' ,'error': 'Value should not be 0'})
+        print('plan')
+        print(discount)
+        if discount >= plan.minimum_discount and discount <= plan.maximum_discount:
+            print('min max')
+            amount = plan.plan_amount
+            # default_val = 100
+            
+            total = discount * amount
+            return ({'discount_applied': discount,'total':total ,'error': None})
         else:
-            print('critical error')
-            return JsonResponse({'discount_applied':'' ,'total':'' ,'error': 'Plan Amount is Invalid'})
-        return JsonResponse({'error':'Invalid Request'})
+            print('else min max')
+            return ({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
+    else:
+        print('critical error')
+        return ({'discount_applied':'' ,'total':'' ,'error': 'Plan Amount is Invalid'})
+    return ({'error':'Invalid Request'})
 
 def pricing_multiplier(request):    
-    response = discount_validation(request)
-    response_dict = json.loads(response.getvalue().decode('utf-8'))
-    print(response_dict)
-    return JsonResponse(response_dict)
-    
+    if request.method =="POST":
+
+        amount = int(request.POST.get('amount'))
+        discount = int(request.POST.get('discount'))
+        plan_id = int(request.POST.get('plan_id'))
+        response = discount_validation(plan_id, discount, amount)
+        # response_dict = json.loads(response.getvalue().decode('utf-8'))
+        # print(response_dict)
+        return JsonResponse(response)
+
+
 @csrf_exempt
 def req_handler(request):
     if request.method == 'POST':
