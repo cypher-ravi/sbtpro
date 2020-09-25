@@ -5,24 +5,26 @@
 <style>
     .container-top {
         margin-top: 135px;
-       
-    }
-    table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
 
 
 
     .box {
-       
+
         border-radius: 0.25rem;
     }
 </style>
@@ -58,7 +60,7 @@ td, th {
                         placeholder="NAME & TITLE OF COMANY">
                 </div>
                 <div class="form-group col-md-4">
-                    <input type="text" class="form-control" value="DATE COMPANY WAS ESTABLISHED">
+                    <input type="text" class="form-control" value="DATE COMPANY WAS ESTABLISHED" readonly>
 
                 </div>
                 <div class="form-group col-md-2">
@@ -107,6 +109,10 @@ td, th {
                 <div class="form-group col-md-6">
                     <input type="email" class="form-control" id="email" name="email" minlength="12" required
                         placeholder="TIN NO.">
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="email" class="form-control" id="email" name="email" minlength="12" required
+                        placeholder="Discount percent %">
                 </div>
 
             </div>
@@ -375,10 +381,11 @@ td, th {
     <hr>
 
 
-    <hr>  
+    <hr>
+    <div class="container">
         <h3>LIST BELOW UP TO FIFTEEN (15) OF YOUR CORE GOODS /SERVICES OFFERED</h3>
+        <table class="table">
 
-        <table>
             <tr>
                 <th>CODE</th>
                 <th>Description( one line for each item)</th>
@@ -386,33 +393,64 @@ td, th {
             </tr>
             <tr>
                 <td><input></td>
-                <td></td>
-                <td></td>
+                <td><input></td>
+                <td><input></td>
+
+
             </tr>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><input></td>
+                <td><input></td>
+                <td><input></td>
             </tr>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><input></td>
+                <td><input></td>
+                <td><input></td>
+            </tr>
+            <tr>
+                <td><input></td>
+                <td><input></td>
+                <td><input></td>
+            </tr>
+            <tr>
+                <td><input></td>
+                <td><input></td>
+                <td><input></td>
             </tr>
         </table>
     </div>
 
-</div>
-<div>
-    <input class="color-two" type="submit" value="Submit" style="width: 100px;height: 40px; padding: 8px;">
 
-    </form>
-</div>
+    <div style="margin-left: 200px;margin-bottom: 58px;">
+        <input class="color-two" type="submit" value="Submit" style="width: 100px;height: 40px; padding: 8px;">
 
+        </form>
+    </div>
+</div>
 
 </div>
 {% block js %}
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    // the selector will match all input controls of type :checkbox
+// and attach a click event handler 
+$("input:checkbox").on('click', function() {
+  // in the handler, 'this' refers to the box clicked on
+  var $box = $(this);
+  if ($box.is(":checked")) {
+    // the name of the box is retrieved using the .attr() method
+    // as it is assumed and expected to be immutable
+    var group = "input:checkbox[name='" + $box.attr("name") + "']";
+    // the checked state of the group/box on the other hand will change
+    // and the current value is retrieved using .prop() method
+    $(group).prop("checked", false);
+    $box.prop("checked", true);
+  } else {
+    $box.prop("checked", false);
+  }
+});
+</script>
 
 {% endblock %}
 
