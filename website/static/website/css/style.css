@@ -351,9 +351,9 @@ background-size: 25px auto;
     text-align: center;
     font-size: 25px;
     box-shadow: 3px 4px 3px #999;
-    left: 0px;
+    right: 0px;
     z-index: 100;
-    top: 324px;
+    top: 224px;
 }
     .insta{
         position: fixed;
@@ -367,9 +367,9 @@ background-size: 25px auto;
         text-align: center;
         font-size: 25px;
         box-shadow: 3px 4px 3px #999;
-        left: 0px;
+        right: 0px;
         z-index: 100;
-        top: 384px;
+        top: 284px;
     }
     .you-tube   {
         position: fixed;
@@ -382,9 +382,9 @@ background-size: 25px auto;
         text-align: center;
         font-size: 25px;
         box-shadow: 3px 4px 3px #999;
-        left: 0px;
+        right: 0px;
         z-index: 100;
-        top: 444px;
+        top: 344px;
     }
 .face-book{
     position: fixed;
@@ -397,9 +397,9 @@ background-size: 25px auto;
     text-align: center;
     font-size: 25px;
     box-shadow: 3px 4px 3px #999;
-    left: 0px;
+    right: 0px;
     z-index: 100;
-    top: 504px;
+    top: 404px;
 
 }
 .whats-app {
@@ -413,9 +413,9 @@ background-size: 25px auto;
     text-align: center;
     font-size: 25px;
     box-shadow: 3px 4px 3px #999;
-    left: 0px;
+    right: 0px;
     z-index: 100;
-    top: 560px;
+    top: 460px;
 }
 
 .my-float {
@@ -483,8 +483,8 @@ background-size: 25px auto;
     position: fixed;
     top: 33%;
     border-radius: 8px;
-    left: -25px;
-    background: #ccc;
+    left: -7px;
+    
     padding: 10px;
     z-index: 100;
   }
