@@ -481,7 +481,7 @@ $("#zip_code").change(function(event) {
 
 $("#phone").change(function(event) {
     var test = document.getElementsByClassName('error-msg');
-    for (i = 0; i <= test.length; i++) {
+    for(i=0; i <= test.length; i++) {
         if (test[i]) // Exception avoiding if
             test[i].remove()
     }
