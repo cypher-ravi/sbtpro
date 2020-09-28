@@ -14,7 +14,7 @@
 </style>
 {% endblock css %} {% block body %} {% load static %}
 
-<form method="POST" action="{% url 'contactservice' slug %}">{% csrf_token %}
+<form method="POST" action="{% url 'website:contactservice' slug %}">{% csrf_token %}
 
     <div class="container form-contact">
         <h3>Share Your Details:</h3>
