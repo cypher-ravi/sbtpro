@@ -231,7 +231,7 @@ def test(request):
         resp = form_validation(request.POST)
         return HttpResponse(f"nahi chala{resp}")
 
-    return render(request, 'website/test.html')
+    return render(request, 'website/vendor2.html')
 
 def form_validation(form):
     
