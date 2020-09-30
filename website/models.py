@@ -111,7 +111,8 @@ class Plan(models.Model):
     description_2 = models.CharField(max_length=50, null=True)
     description_3 = models.CharField(max_length=50, null=True)
     description_4 = models.CharField(max_length=50, null=True)
-
+    plan_img = models.ImageField(upload_to="website/membershipcard", default="")
+    
     def __str__(self):
         return self.plan_name
 

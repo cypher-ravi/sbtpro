@@ -1,36 +1,27 @@
-{% extends 'website/layout.html' %}
-{% block title %}Free listing-SBT Professionals {% endblock %}
-
-{% block css %}
+{% extends 'website/layout.html' %} {% block title %}Free listing-SBT Professionals {% endblock %} {% block css %}
 <style>
     .container-top {
         margin-top: 135px;
-
     }
-
+    
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
     }
-
+    
     td,
     th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
     }
-
-
-
+    
     .box {
-
         border-radius: 0.25rem;
     }
 </style>
-{% endblock %}
-{% block body %}
-{% load static %}
+{% endblock %} {% block body %} {% load static %}
 
 <div class="container container-top">
     <!--    alert-->
@@ -46,133 +37,64 @@
             <input type="hidden" name="amount" id="amount">
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="companyname" name="companyname" required minlength="5"
-                        placeholder="NAME OF COMANY">
+                    <input type="text" class="form-control" id="companyname" name="companyname" required minlength="5" placeholder="NAME OF COMANY">
                 </div>
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="FEXNUMBER" name="location" required minlength="3"
-                        placeholder="FAX NUMBER">
+                    <input type="text" class="form-control" id="FEXNUMBER" name="FEXNUMBER" required minlength="3" placeholder="FAX NUMBER">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="firstname" name="firstname" required minlength="4"
-                        placeholder="NAME & TITLE OF COMANY">
+                    <input type="text" class="form-control" id="contactperson" name="contactperson" required minlength="4" placeholder="contact person">
                 </div>
                 <div class="form-group col-md-4">
                     <input type="text" class="form-control" value="DATE COMPANY WAS ESTABLISHED" readonly>
 
                 </div>
                 <div class="form-group col-md-2">
-                    <input type="date" class="form-control" name="DATE" id="Birthday"
-                        placeholder="DATE COMPANY WAS ESTABLISHED">
+                    <input type="date" class="form-control" name="DATE" id="Birthday" placeholder="DATE COMPANY WAS ESTABLISHED">
 
                 </div>
-                
+
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" name="city" id="city" required minlength="3"
-                        placeholder="City">
+                    <input type="text" class="form-control" name="city" id="city" required minlength="3" placeholder="City">
                 </div>
                 <div class="form-group col-md-4">
-                    <input type="text" class="form-control" name="state" id="state" required minlength="3"
-                        placeholder="State">
+                    <input type="text" class="form-control" name="state" id="state" required minlength="3" placeholder="State">
                 </div>
                 <div class="form-group col-md-2" id="div_zip">
-                    <input type="text" class="form-control" name="zip_code" id="zip_code" required minlength="4"
-                        placeholder="Zip code">
+                    <input type="text" class="form-control" name="zip_code" id="zip_code" required minlength="4" placeholder="Zip code">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6" id="div_phone">
-                    <input type="text" class="form-control" id="phone" minlength="10" name="phone" required
-                        placeholder="Mobile Number">
+                    <input type="text" class="form-control" id="phone" minlength="10" name="phone" required placeholder="Mobile Number">
                 </div>
 
                 <div class="form-group col-md-6">
-                    <input type="email" class="form-control" id="email" name="email" minlength="12" required
-                        placeholder="Email">
+                    <input type="email" class="form-control" id="email" name="email" minlength="12" required placeholder="Email">
                 </div>
                 <div class="form-group col-md-6" id="div_phone">
-                    <input type="text" class="form-control" id="URL" name="phone" required
-                        placeholder=" WEBSITE ADDRESS/ANDROID APP/IOS APP">
+                    <input type="text" class="form-control" id="URL" name="url" placeholder=" WEBSITE ADDRESS/ANDROID APP/IOS APP">
                 </div>
 
                 <div class="form-group col-md-6">
-                    <input type="email" class="form-control" id="email" name="email" minlength="12" required
-                        placeholder="GST NO.">
+                    <input type="email" class="form-control" id="gst" name="gst" minlength="12" required placeholder="GST NO.">
                 </div>
                 <div class="form-group col-md-6">
-                    <input type="email" class="form-control" id="email" name="email" minlength="12" required
-                        placeholder="PAN NO.">
+                    <input type="email" class="form-control" id="pan" name="pan" minlength="12" required placeholder="PAN NO.">
                 </div>
                 <div class="form-group col-md-6">
-                    <input type="email" class="form-control" id="email" name="email" minlength="12" required
-                        placeholder="TIN NO.">
+                    <input type="email" class="form-control" id="tin" name="tin" minlength="12" required placeholder="TIN NO.">
                 </div>
                 <div class="form-group col-md-6">
-                    <input type="email" class="form-control" id="email" name="email" minlength="12" required
-                        placeholder="Discount percent %">
+                    <input type="email" class="form-control" id="discount" name="discount" minlength="12" required placeholder="Discount percent %">
                 </div>
 
             </div>
-            <!-- <div class="form-row">
 
-                <div class="form-group"
-                    style="background-color: #fff;background-clip: padding-box;border: 1px solid #ced4da;border-radius: 1.25rem;width: 326px;">
-
-
-                    <h3 style="margin-left: -66px;"> LEGAL STRUCTURE</h3>
-                    <div class="form-group" style="margin-left: 12px;">
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6" id="div_phone">
-                                <input type="checkbox" name="vehicle1" value="Bike">
-                                <label for="vehicle1"> Joint venture</label><br>
-                            </div>
-            
-                            <div class="form-group col-md-6">
-                                <input type="checkbox" name="vehicle1" value="Bike">
-                                <label for="vehicle1"> Joint venture</label><br>
-                            </div>
-                            <div class="form-group col-md-6" id="div_phone">
-                                <input type="checkbox" name="vehicle1" value="Bike">
-                                <label for="vehicle1"> Joint venture</label><br>
-                            </div>
-            
-                            <div class="form-group col-md-6">
-                                <input type="checkbox" name="vehicle1" value="Bike">
-                                    <label for="vehicle1"> Joint venture</label><br>
-                            </div>
-            
-                        </div>
-                    </div>
-                    <div class="form-group" style="margin-left: 147px;margin-top: -111px;">
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6" id="div_phone">
-                                <input type="checkbox" name="vehicle1" value="Bike">
-                                <label for="vehicle1"> Joint venture</label><br> 
-                            </div>
-            
-                            <div class="form-group col-md-6">
-                                <input type="checkbox" name="vehicle1" value="Bike">
-                                <label for="vehicle1"> Joint venture</label><br>
-                            </div>
-                            <div class="form-group col-md-6" id="div_phone">
-                                <input type="checkbox" name="vehicle1" value="Bike">
-                                <label for="vehicle1"> Joint venture</label><br>
-                            </div>
-            
-                            <div class="form-group col-md-6">
-                                <input type="checkbox" name="vehicle1" value="Bike">
-                                    <label for="vehicle1"> Joint venture</label><br>
-                            </div>
-            
-                        </div>
-                    </div>
-                </div> -->
     </div>
     <hr>
     <div class="form-row">
@@ -182,30 +104,30 @@
     <div class="form-row">
 
         <div class="form-group col-md-4" id="div_phone">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1">Corporation</label><br>
+            <input type="checkbox" name="legal_structure" value="legal_structure">
+            <label for="legal_structure">Corporation</label><br>
         </div>
 
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Partnership</label><br>
+            <input type="checkbox" name="legal_structure" value="legal_structure">
+            <label for="legal_structure"> Partnership</label><br>
         </div>
         <div class="form-group col-md-4" id="div_phone">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Sole Proprietorship</label><br>
+            <input type="checkbox" name="legal_structure" value="legal_structure">
+            <label for="legal_structure"> Sole Proprietorship</label><br>
         </div>
 
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1">Frachise</label><br>
+            <input type="checkbox" name="legal_structure" value="legal_structure">
+            <label for="legal_structure">Frachise</label><br>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Joint venture</label><br>
+            <input type="checkbox" name="legal_structure" value="legal_structure">
+            <label for="legal_structure"> Joint venture</label><br>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Non-Profit</label><br>
+            <input type="checkbox" name="legal_structure" value="legal_structure">
+            <label for="legal_structure"> Non-Profit</label><br>
         </div>
 
     </div>
@@ -218,54 +140,54 @@
     <div class="form-row">
 
         <div class="form-group col-md-4" id="div_phone">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Retailer</label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business"> Retailer</label><br>
         </div>
 
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1">Publiccation </label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business">Publication </label><br>
         </div>
         <div class="form-group col-md-4" id="div_phone">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Manufacture</label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business"> Manufacture</label><br>
         </div>
 
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Contruction</label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business"> Contruction</label><br>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Professional SERVICE</label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business"> Professional SERVICE</label><br>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Consultant</label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business"> Consultant</label><br>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> distribution</label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business"> distribution</label><br>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> SERVICE Provider</label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business"> SERVICE Provider</label><br>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Freght/Transporation</label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business"> Freght/Transporation</label><br>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Authorised Agent</label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business"> Authorised Agent</label><br>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Trader</label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business"> Trader</label><br>
         </div>
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1">Other(Specify)</label><br>
+            <input type="checkbox" name="type_of_business" value="type_of_business">
+            <label for="type_of_business">Other</label><br>
         </div>
 
 
@@ -279,36 +201,28 @@
     <div class="form-row">
 
         <div class="form-group col-md-4" id="div_phone">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Vilage</label><br>
+            <input type="checkbox" name="geographical_area" value="geographical_area">
+            <label for="geographical_area"> Vilage</label><br>
         </div>
 
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> District</label><br>
+            <input type="checkbox" name="geographical_area" value="geographical_area">
+            <label for="geographical_area"> District</label><br>
         </div>
         <div class="form-group col-md-4" id="div_phone">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Tehsil</label><br>
+            <input type="checkbox" name="geographical_area" value="geographical_area">
+            <label for="geographical_area"> Tehsil</label><br>
         </div>
 
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> State</label><br>
+            <input type="checkbox" name="geographical_area" value="geographical_area">
+            <label for="geographical_area"> State</label><br>
         </div>
-        <!-- <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> </label><br>
-        </div>
-        <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Joint ve</label><br>
-        </div> -->
 
     </div>
     <hr>
     <hr>
-<div class="stomach">0000000000000  </div>
+    <div class="stomach"> </div>
     <div class="form-row">
         <h3>HAVE YOUN PERVIOUSLY DONE BUSINESS WITH "SOMANSH BACKOPS" TEAM OF ProfessionalS PVT.LMT:</h3>
     </div>
@@ -316,24 +230,34 @@
     <div class="form-row">
 
         <div class="form-group col-md-4" id="div_phone">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> Yes</label><br>
+            <input type="checkbox" name="done_business" value="done_business">
+            <label for="done_business"> Yes</label><br>
         </div>
 
         <div class="form-group col-md-4">
-            <input type="checkbox" name="vehicle1" value="Bike">
-            <label for="vehicle1"> No</label><br>
+            <input type="checkbox" name="done_business" value="done_business">
+            <label for="done_business"> No</label><br>
         </div>
 
     </div>
     <hr>
     <hr>
     <div class="form-row">
-        <h3>DO YOU HAVE ANY SOCIAL MEDIA PRESENCE LIKE FACEBOOK/INSTAGRAM/YOUTUBR IF YES THEN FILL THE COLUME </h3>
-        <h3>REGISTRATION FEE</h3>
+        <h3>DO YOU HAVE ANY SOCIAL MEDIA PRESENCE LIKE FACEBOOK/INSTAGRAM/YOUTUBE</h3>
+        <div class="form-group col-md-4" id="div_phone">
+            <input type="checkbox" name="have_online_presence" value="have_online_presence">
+            <label for="have_online_presence"> Yes</label><br>
+        </div>
+
+        <div class="form-group col-md-4">
+            <input type="checkbox" name="have_online_presence" value="have_online_presence">
+            <label for="have_online_presence"> No</label><br>
+        </div>
+
     </div>
 
     <div class="form-row">
+        <h3>REGISTRATION FEE</h3>
 
         <div class="form-group col-md-4" id="div_phone">
             <input type="checkbox" name="vehicle1" value="Bike">
@@ -436,24 +360,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
     // the selector will match all input controls of type :checkbox
-// and attach a click event handler 
-$("input:checkbox").on('click', function() {
-  // in the handler, 'this' refers to the box clicked on
-  var $box = $(this);
-  if ($box.is(":checked")) {
-    // the name of the box is retrieved using the .attr() method
-    // as it is assumed and expected to be immutable
-    var group = "input:checkbox[name='" + $box.attr("name") + "']";
-    // the checked state of the group/box on the other hand will change
-    // and the current value is retrieved using .prop() method
-    $(group).prop("checked", false);
-    $box.prop("checked", true);
-  } else {
-    $box.prop("checked", false);
-  }
-});
+    // and attach a click event handler 
+    $("input:checkbox").on('click', function() {
+        // in the handler, 'this' refers to the box clicked on
+        var $box = $(this);
+        if ($box.is(":checked")) {
+            // the name of the box is retrieved using the .attr() method
+            // as it is assumed and expected to be immutable
+            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+            // the checked state of the group/box on the other hand will change
+            // and the current value is retrieved using .prop() method
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+        } else {
+            $box.prop("checked", false);
+        }
+    });
 </script>
 
-{% endblock %}
-
-{% endblock %}
+{% endblock %} {% endblock %}

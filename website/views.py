@@ -82,14 +82,25 @@ def freelisting(request):
         if resp != None:
             return HttpResponse(resp)
         Company_name = request.POST.get('companyname', '')
-        location = request.POST.get('location', '')
-        first_name = request.POST.get('firstname', '')
-        last_name = request.POST.get('lastname', '')
+        fax_number = request.POST.get('FEXNUMBER', '')
+        first_name = request.POST.get('contactperson', '')
+        date_of_company_established = request.POST.get('DATE', '')
         city = request.POST.get('city', '')
         state = request.POST.get('state', '')
         zip_code = request.POST.get('zip_code', '')
         mobile = request.POST.get('phone', '')
         email = request.POST.get('email', '')
+        url_for_app_or_website = request.POST.get('url', '')
+        gst_no = request.POST.get('gst', '')
+        pan_no = request.POST.get('pan', '')
+        tin_no = request.POST.get('tin', '')
+        discount = request.POST.get('discount', '')
+        legal_structure = request.POST.get('legal_structure', '')
+        type_of_business = request.POST.get('type_of_business', '')
+        geographical_area = request.POST.get('geographical_area', '')
+        done_business = request.POST.get('done_business', '')
+        have_online_presence = request.POST.get('have_online_presence', '')
+
         # send mail function from django.core.mail import send mail
         send_mail(
             subject='New Vendor registered',
@@ -175,7 +186,7 @@ def upload_resume(request):
                     msg.attach_file(file)
                     msg.send()
                 except Exception as e:
-                    messages.error(request,'Failed to uplaod Resume! Try Again')
+                    messages.error(request,'Failed to uplaod Resume! Try Again.')
                     return redirect('website:Sbthome')
             else:
                 messages.error(request, 'Before submit resume Enter your name')
@@ -204,7 +215,7 @@ def categories(request, slug):
     vendor = TOP.objects.all()
     category = Categories.objects.all()
     filtered_categories = Categories.objects.filter(category_name=slug)
-    related_sub_category = Subcategory.objects.all().filter(category_name__in=filtered_categories)
+    related_sub_category = Subcategory.objects.all().filter(category_name__in=filteredf_categories)
     return render(request, 'website/category.html',
                   {'filtered_categories': filtered_categories, 'sub_category': related_sub_category,
                    'category': category,'vendor':vendor})
@@ -231,7 +242,7 @@ def test(request):
         resp = form_validation(request.POST)
         return HttpResponse(f"nahi chala{resp}")
 
-    return render(request, 'website/vendor2.html')
+    return render(request, 'website/test.html')
 
 def form_validation(form):
     
