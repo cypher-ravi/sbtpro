@@ -41,28 +41,34 @@
        
 <div class="row mt-4">
 
-{% for i in filtered_top_vendors|slice:"0:"  %}
-
- <div class="col-md-3 mt-4">
-        <img src="/media/{{ i.Image }}" class="img-fluid top-img" alt="...">
-    </div>
-    <div class="col-md-9">
-        <div class="media mt-4">
-            <div class="media-body">
-              <h5 class="mt-0">{{ i.vendor_name }}</h5>
-              <h6 class="mt-0">- {{ i.Busniess_Type  }}</h6>
-              <p class="mb-0"> {{ i.vendor_work_desc|slice:"350"  }}</p>
-              <ul>
-                <li><b>Address:</b> {{ i.address }} {{ i.city }} {{ i.state }}  </li>
-                <li><b>Contact:</b> {{ i.vendor_mobile_no }} </li>
-            </ul>
-            </div>
-            
-            {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
-            <div class="media"> </div>
-            {% endif %}
+{% for i in vendor|slice:"0:"  %}
+    {% if i != 0 %}
+    <div class="col-md-3 mt-4">
+            <img src="/media/{{ i.Image }}" class="img-fluid top-img" alt="...">
         </div>
-    </div>
+        <div class="col-md-9">
+            <div class="media mt-4">
+                <div class="media-body">
+                <h5 class="mt-0">{{ i.vendor_name }}</h5>
+                <h6 class="mt-0">- {{ i.Busniess_Type  }}</h6>
+                <p class="mb-0"> {{ i.vendor_work_desc|safe  }}</p>
+                <ul>
+                    <li><b>Address:</b> {{ i.address }} {{ i.city }} {{ i.state }}  </li>
+                    <li><b>Contact:</b> {{ i.vendor_mobile_no }} </li>
+                </ul>
+                </div>
+                
+                {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
+                <div class="media"> </div>
+                {% endif %}
+            </div>
+        </div>
+
+    {% else %}
+    <p><em>No entries in{{ location }}</em></p>
+    {% endif %}
+
+ 
   {% endfor %}
 </section>
 

@@ -97,8 +97,13 @@ class FreeListing(models.Model):
     submit_date = models.DateTimeField(auto_now_add=True)
     email = models.CharField(max_length=50, default='')
 
+    class Meta:
+        verbose_name_plural = "Vendor Requests"
+
     def __str__(self):
         return self.Company_name
+
+    
 
 
 class Plan(models.Model):

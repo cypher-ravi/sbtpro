@@ -15,7 +15,7 @@
 <h2 style="text-transform: lowercase; margin-top: 140px;font-size: larger;text-align: left; margin-left:-10px;" >
  Results near you :
 </h2>
-{% if categories|length < 1 %}
+{% if vendors|length == 0 %}
 <p style="margin-left: 50px;">
   Your search query: <b>{{ query }}</b> did not match any categories.<br />
 
@@ -26,8 +26,8 @@
 {% endif %}
 <div class="row  pl-2 pr-2 ">
 
-{% for loc in vendor_location %}
-  {% if loc.Address1 or loc.Address2  or loc.city  or loc.state == location %}
+{% for vendor in vendors %}
+  {% if vendor %}
   <div class="list-group container-top ">
     <a href="#" class="list-group-item list-group-item-action active">
     Your search for: {{ location }} 
@@ -37,16 +37,16 @@
   <div class="row mb-5 mt-2">
     <!-- <div class="media"> -->
     <div class="col-md-3">
-    <img src="/media/{{ loc.Image }}" class="img-fluid top-img" alt="...">
+    <img src="/media/{{ vendor.Image }}" class="img-fluid top-img" alt="...">
     </div>
 
     <div class="col-md-9">
     <div class="media-body">
-      <h5 class="mt-0">{{ loc.Company_Name }}</h5>
-      <p>{{ loc.Service_decsription|safe }}</p>
+      <h5 class="mt-0">{{ vendor.Company_Name }}</h5>
+      <p>{{ vendor.Service_decsription|safe }}</p>
       <ul>
-        <li><b>Address:</b> {{ loc.Address1 }} {{ loc.Address2 }} {{ loc.city }} {{ loc.state }}  </li>
-        <li><b>Contact:</b> {{ loc.Mobile_No }} </li>
+        <li><b>Address:</b> {{ vendor.Address1 }} {{ vendor.Address2 }} {{ vendor.city }} {{ vendor.state }}  </li>
+        <li><b>Contact:</b> {{ vendor.Mobile_No }} </li>
     </ul>
     </div>
      {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}

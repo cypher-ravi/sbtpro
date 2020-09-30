@@ -71,36 +71,20 @@ def index(request):
     return render(request, 'website/index.html',
                   {'plans': plans, 'category': category, 'services': services, 'vendor': vendor,'testimonials':testimonials})
 
-
 # Function to take input from form and send it through email
 def freelisting(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
     if request.method == 'POST':
-        resp = form_validation(request.POST)
-        print('.............validation response --',resp)
-        if resp != None:
-            return HttpResponse(resp)
         Company_name = request.POST.get('companyname', '')
-        fax_number = request.POST.get('FEXNUMBER', '')
-        first_name = request.POST.get('contactperson', '')
-        date_of_company_established = request.POST.get('DATE', '')
+        location = request.POST.get('location', '')
+        first_name = request.POST.get('firstname', '')
+        last_name = request.POST.get('lastname', '')
         city = request.POST.get('city', '')
         state = request.POST.get('state', '')
         zip_code = request.POST.get('zip_code', '')
         mobile = request.POST.get('phone', '')
         email = request.POST.get('email', '')
-        url_for_app_or_website = request.POST.get('url', '')
-        gst_no = request.POST.get('gst', '')
-        pan_no = request.POST.get('pan', '')
-        tin_no = request.POST.get('tin', '')
-        discount = request.POST.get('discount', '')
-        legal_structure = request.POST.get('legal_structure', '')
-        type_of_business = request.POST.get('type_of_business', '')
-        geographical_area = request.POST.get('geographical_area', '')
-        done_business = request.POST.get('done_business', '')
-        have_online_presence = request.POST.get('have_online_presence', '')
-
         # send mail function from django.core.mail import send mail
         send_mail(
             subject='New Vendor registered',
@@ -112,17 +96,16 @@ def freelisting(request):
             # teamofprofessionals2015@gmail.com
         )
         # checks on values of form and using django.contrib import message for alert messages
-        if len(Company_name) < 5 or len(first_name) < 2 or len(last_name) < 2 or len(mobile) < 10:
-            messages.error(request, 'Please fill the form correctly!')
-        else:
+        if Company_name: 
+    
             listing = FreeListing(Company_name=Company_name, location=location, first_name=first_name,
                                   last_name=last_name, city=city, state=state, zip_code=zip_code, mobile=mobile,
                                   email=email)
             listing.save()
             messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24'
                                       'hours.')
-            return HttpResponseRedirect('/website')
-    return render(request, 'website/vendor2.html', {'vendor': vendor, 'category': category})
+            return redirect('website:Sbthome')
+    return render(request, 'website/freelisting.html', {'vendor': vendor, 'category': category})
 
 
 def customer_membership(request):
@@ -187,7 +170,7 @@ def upload_resume(request):
                     msg.send()
                 except Exception as e:
                     messages.error(request,'Failed to uplaod Resume! Try Again.')
-                return redirect('website:Sbthome')
+                    return redirect('website:Sbthome')
             else:
                 messages.error(request, 'Before submit resume Enter your name')
 
@@ -684,27 +667,27 @@ def service_detail(request, slug):
 
 def search(request):
     category = Categories.objects.all()
-    try:
-        query = request.GET['query']
-        location = request.GET['location']
-        if len(query) > 80 and len(location) > 20:
-            categories = Categories.objects.none()
-        else:
-            categories_names = Categories.objects.filter(category_name__icontains=query)
-            vendor_address_location1 = Vendor.objects.filter(Address1__icontains=location)
-            vendor_address_location2 = Vendor.objects.filter(Address2__icontains=location)
-            vendor_work_description = Vendor.objects.filter(Service_decsription__icontains=query)
+    # try:
+    query = request.GET['query']
+    location = request.GET['location']
+    if len(query) > 80 and len(location) > 20:
+        categories = Categories.objects.none()
+    else:
+        # categories_names = Categories.objects.filter(category_name__icontains=query)
+        vendor = Vendor.objects.filter(Name__icontains=query).filter(
+                Busniess_Type__category_name__icontains=query).filter(
+                Service_decsription=query).filter(
+                Address1__icontains = location).filter(
+                Address2__icontains=location).filter(
+                city__icontains=location).filter(
+                state__icontains=location)
+        print(vendor)
+    
 
-            vendor_location = vendor_address_location1.union(vendor_address_location2, vendor_work_description)
-            categories = categories_names
-            print(location)
-            print(categories)
+    params = {'query': query, 'vendors': vendor, 'location': location,
+                'category': category}
+    return render(request, 'website/searchtest.html', params)
 
-        params = {'categories': categories, 'query': query, 'vendor_location': vendor_location, 'location': location,
-                  'category': category}
-        return render(request, 'website/searchtest.html', params)
-    except :
-        return render(request, 'website/coming-soon.html', {'category': category})
 
 
 # function for define process of organisation
@@ -732,9 +715,9 @@ def search_top(request):
         filtered_top_vendors = TOP.objects.none()
     else:
         top_vendors = TOP.objects.filter(vendor_name__icontains=query)
-        top_vendors_business_type = TOP.objects.filter(Busniess_Type__category_name__icontains=query)
+        # top_vendors_business_type = TOP.objects.filter(Busniess_Type__category_name__icontains=query)
         top_vendors_work = TOP.objects.filter(vendor_work_desc__icontains=query)
-        filtered_top_vendors = top_vendors.union(top_vendors_business_type, top_vendors_work)
+        filtered_top_vendors = top_vendors.union(top_vendors_work)
         print(filtered_top_vendors)
     return render(request, 'website/search_top.html',
                   {'filtered_top_vendors': filtered_top_vendors, 'vendor': vendor, 'category': category})
@@ -830,7 +813,7 @@ def feedback(request):
                 recipient_list=['ronniloreo@gmail.com'],
                 fail_silently=False)
             messages.success(request, 'Form Submitted Successfully!')
-            return redirect('website:Sbthome')
+            return HttpResponseRedirect('/sbt')
         else:
             messages.error(request, 'Form not submitted! TRY AGAIN')
             return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
@@ -838,6 +821,40 @@ def feedback(request):
     return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
 
 
+# contact through category for service handler view
+# def contact_via_service(request, slug):
+#     category = Categories.objects.all()
+#     flag = False
+#     if request.method == 'POST':
+#         try:
+#             s_category = Subcategory.objects.get(sub_category_name__exact=slug)
+#             ss_category = None
+#         except:
+#             flag = True
+
+#         if flag:
+#             ss_category = Sub_sub_category.objects.get(sub_sub_category_name__exact=slug)
+#             s_category = ss_category.sub_category_name
+        
+#         # form_validation(request, request.POST)        
+#         name = request.POST.get('name')
+#         print("........name is ", name)
+#         mobile = request.POST.get('mobile')
+#         time = request.POST.get('time')
+#         obj = Contactviacategory(registrant_name=name, registrant_mobile_no=mobile, calling_time=time, service_name=s_category, sub_service_name=ss_category)
+#         obj.save()
+#         send_mail(
+#                 subject='New Query from customer',
+#                 message=f"Customer Name = {name}\nMobile No. ={mobile}\nservice = {str(s_category) + ' subcategory = '  + str(ss_category)}\n",
+#                 from_email='rk7305758@gmail.com',
+#                 recipient_list=['ronniloreo@gmail.com'],
+#                 fail_silently=False)
+#         messages.success(request,
+#                          'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
+#         return render(request, 'website/contact_via_category.html', {'slug': slug, 'category': category})
+#         # return HttpResponseRedirect('/website/')
+
+#     return render(request, 'website/contact_via_category.html', {'slug': slug, 'category': category})
 
 def contact_via_service(request, slug):
     category = Categories.objects.all()

@@ -1,5 +1,5 @@
 {% extends 'website/layout.html' %}
-{% block title %}Free listing-SBT Professionals {% endblock %}
+{% block title %}Become A Vendor-SBT Professionals {% endblock %}
 
 {% block css %}
 <style>
@@ -19,7 +19,7 @@
   <div class="col my-4">
   <br>
         <h3>
-List your business for FREE with India's leading search engine</h3>
+List your business with India's leading search engine</h3>
     <p>Enter your details below:</p><br>
         <form action="/sbt/become_a_vendor/" method="post">{% csrf_token %}
         <input type="hidden" name="freelisting_form" id="freelisting_form" value="form_for_freelisting">
