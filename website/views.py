@@ -187,7 +187,7 @@ def upload_resume(request):
                     msg.send()
                 except Exception as e:
                     messages.error(request,'Failed to uplaod Resume! Try Again.')
-                    return redirect('website:Sbthome')
+                return redirect('website:Sbthome')
             else:
                 messages.error(request, 'Before submit resume Enter your name')
 
@@ -215,7 +215,7 @@ def categories(request, slug):
     vendor = TOP.objects.all()
     category = Categories.objects.all()
     filtered_categories = Categories.objects.filter(category_name=slug)
-    related_sub_category = Subcategory.objects.all().filter(category_name__in=filteredf_categories)
+    related_sub_category = Subcategory.objects.all().filter(category_name__in=filtered_categories)
     return render(request, 'website/category.html',
                   {'filtered_categories': filtered_categories, 'sub_category': related_sub_category,
                    'category': category,'vendor':vendor})
@@ -673,7 +673,7 @@ def service_detail(request, slug):
             # teamofprofessionals2015@gmail.com
             messages.success(request,
                              'Form submission successful. SBT Professional team Contact You within 24 hours')
-            return render(request, 'website/services-detail.html', {'services': services, 'category': category})
+            return redirect('website:Sbthome')
         else:
             messages.error(request, 'Form Not Submitted Try Again!!', {
                 'services': services})
@@ -830,7 +830,7 @@ def feedback(request):
                 recipient_list=['ronniloreo@gmail.com'],
                 fail_silently=False)
             messages.success(request, 'Form Submitted Successfully!')
-            return HttpResponseRedirect('/sbt')
+            return redirect('website:Sbthome')
         else:
             messages.error(request, 'Form not submitted! TRY AGAIN')
             return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
@@ -838,40 +838,6 @@ def feedback(request):
     return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
 
 
-# contact through category for service handler view
-# def contact_via_service(request, slug):
-#     category = Categories.objects.all()
-#     flag = False
-#     if request.method == 'POST':
-#         try:
-#             s_category = Subcategory.objects.get(sub_category_name__exact=slug)
-#             ss_category = None
-#         except:
-#             flag = True
-
-#         if flag:
-#             ss_category = Sub_sub_category.objects.get(sub_sub_category_name__exact=slug)
-#             s_category = ss_category.sub_category_name
-        
-#         # form_validation(request, request.POST)        
-#         name = request.POST.get('name')
-#         print("........name is ", name)
-#         mobile = request.POST.get('mobile')
-#         time = request.POST.get('time')
-#         obj = Contactviacategory(registrant_name=name, registrant_mobile_no=mobile, calling_time=time, service_name=s_category, sub_service_name=ss_category)
-#         obj.save()
-#         send_mail(
-#                 subject='New Query from customer',
-#                 message=f"Customer Name = {name}\nMobile No. ={mobile}\nservice = {str(s_category) + ' subcategory = '  + str(ss_category)}\n",
-#                 from_email='rk7305758@gmail.com',
-#                 recipient_list=['ronniloreo@gmail.com'],
-#                 fail_silently=False)
-#         messages.success(request,
-#                          'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
-#         return render(request, 'website/contact_via_category.html', {'slug': slug, 'category': category})
-#         # return HttpResponseRedirect('/website/')
-
-#     return render(request, 'website/contact_via_category.html', {'slug': slug, 'category': category})
 
 def contact_via_service(request, slug):
     category = Categories.objects.all()
@@ -900,7 +866,7 @@ def contact_via_service(request, slug):
                 fail_silently=False)
         messages.success(request,
                          'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
-        return render(request, 'website/form_category.html', {'slug': slug, 'category': category})
+        return redirect('website:Sbthome')
 
     return render(request, 'website/form_category.html', {'slug': slug, 'category': category})
 
