@@ -23,8 +23,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'', lambda r: HttpResponseRedirect('website/')),
-    path('website/', include('website.urls',namespace='website')),
-] 
+    path('website/', include('website.urls')),
+    path('api/', include('restapi.urls')),
+]
 
 if settings.DEBUG == True:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'website',
     'blog',
     'phonenumber_field',
+    'restapi',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
