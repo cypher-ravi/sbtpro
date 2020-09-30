@@ -23,7 +23,7 @@
 </div>
 </div>
     <h2 id="need" style="margin-top: 10px;">SBT Trading</h2>
-<form  action="/website/trading/" method="post" style="margin-bottom: 10px;">{% csrf_token %}
+<form  action="{% url 'website:trading' %}" method="post" style="margin-bottom: 10px;">{% csrf_token %}
     <input type="hidden" name="itemsJson" id="itemsJson">
     <input type="hidden" name="amount" id="amount">
     <div  class="form-row">

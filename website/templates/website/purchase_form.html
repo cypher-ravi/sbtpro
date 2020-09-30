@@ -58,9 +58,9 @@
 
   </ol>
 </nav>
-<p>NOTE:<em>Your Default Totas Is </em><b>Rs100.</b></p>
+{% comment %} <p>NOTE:<em>Your Default Totas Is </em><b>Rs100.</b></p> {% endcomment %}
             <h4>Step 2 - Enter Address & Other Details:</h4>
-        <form id="purchase_form" action="/website/purchase/{{ plan_review.name }}" method="post">{% csrf_token %}
+        <form id="purchase_form" action="/sbt/purchase/{{ plan_review.name }}" method="post">{% csrf_token %}
 <!--            <input type="hidden" name="itemsJson" id="itemsJson">-->
             <input type="hidden" name="amount" value="{{ plan_review.amount }}/percent">
             <input type="hidden" name="discount" id="discount" value="">

@@ -22,8 +22,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(r'', lambda r: HttpResponseRedirect('website/')),
-    path('website/', include('website.urls')),
+    path(r'', lambda r: HttpResponseRedirect('sbt/')),
+    path('sbt/', include('website.urls')),
     path('api/', include('restapi.urls')),
 ]
 

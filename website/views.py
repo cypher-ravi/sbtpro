@@ -111,12 +111,12 @@ def freelisting(request):
             messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24'
                                       'hours.')
             return HttpResponseRedirect('/website')
-    return render(request, 'website/freelisting.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/vendor2.html', {'vendor': vendor, 'category': category})
 
 
 def customer_membership(request):
     category = Categories.objects.all()
-    redirect1 = '/website/purchase'
+    redirect1 = '/sbt/purchase'
 
     plans = Plan.objects.all()
     vendor = TOP.objects.all()
@@ -175,7 +175,8 @@ def upload_resume(request):
                     msg.attach_file(file)
                     msg.send()
                 except Exception as e:
-                    print(e)
+                    messages.error(request,'Failed to uplaod Resume! Try Again')
+                    return redirect('website:Sbthome')
             else:
                 messages.error(request, 'Before submit resume Enter your name')
 
@@ -526,32 +527,32 @@ def sign_up(request):
 
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Username already exists Please Consider Login')
-            return redirect(sign_up)
+            return redirect('website:SignUp')
 
         if User.objects.filter(email=email).exists():
             messages.error(request, 'Email already exists Please consider Login')
-            return redirect(sign_up)
+            return redirect('website:SignUp')
 
         # username validation stuff ----------------
         if len(username) > 15:
             messages.error(request, 'Username must be unique!!')
-            return redirect(sign_up)
+            return redirect('website:SignUp')
 
         if not username.isalnum():
             messages.error(
                 request, 'Username should contain letters and numbers!!')
-            return redirect(sign_up)
+            return redirect('website:SignUp')
 
         # Email Validation
         try:
             validate_email(email)
         except ValidationError:
             messages.error(request, 'Email is not valid')
-            return redirect(sign_up)
+            return redirect('website:SignUp')
         # Password valdation
         if password != confirm_password:
             messages.error(request, 'Password do not match')
-            return redirect(sign_up)
+            return redirect('website:SignUp')
         # username should contain numbers and letters
 
         # create the user
@@ -563,7 +564,7 @@ def sign_up(request):
         newuser.save()
 
         messages.success(request, "Your SBT Professionals account has been successfully created")
-        return redirect(log_in)
+        return redirect('website:Login')
     else:
         return render(request, 'website/register.html')
 
@@ -720,7 +721,7 @@ def search_top(request):
         filtered_top_vendors = TOP.objects.none()
     else:
         top_vendors = TOP.objects.filter(vendor_name__icontains=query)
-        top_vendors_business_type = TOP.objects.filter(Busniess_Type__icontains=query)
+        top_vendors_business_type = TOP.objects.filter(Busniess_Type__category_name__icontains=query)
         top_vendors_work = TOP.objects.filter(vendor_work_desc__icontains=query)
         filtered_top_vendors = top_vendors.union(top_vendors_business_type, top_vendors_work)
         print(filtered_top_vendors)
@@ -818,7 +819,7 @@ def feedback(request):
                 recipient_list=['ronniloreo@gmail.com'],
                 fail_silently=False)
             messages.success(request, 'Form Submitted Successfully!')
-            return HttpResponseRedirect('/website')
+            return HttpResponseRedirect('/sbt')
         else:
             messages.error(request, 'Form not submitted! TRY AGAIN')
             return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
@@ -898,7 +899,7 @@ def frenchise(request):
     if request.method == "POST":
         customer_name = request.POST.get('name')
         email = request.POST.get('email')
-        mobile_no = request.POST.get('mobile')
+        mobile_no = request.POST.get('phone')
         address = request.POST.get('address')
         frenchise_option = request.POST['Interest']
         if frenchise_option:
@@ -914,7 +915,7 @@ def frenchise(request):
             )
             messages.success(request,
                              'Form Submitted Successfully SBT Professionals Team Contacts You Within 24 hours!')
-            return HttpResponseRedirect('/website/frenchise')
+            return HttpResponseRedirect('/sbt/frenchise')
         else:
             messages.error(request, 'Form submittion Failed! TRY AGAIN')
             return render(request, 'website/frenchise.html', {'category': category})
