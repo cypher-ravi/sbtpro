@@ -1,20 +1,11 @@
-{% extends 'website/layout.html' %}
-{% block title %}SBT Professionals{% endblock %}
-{% block css %}
+{% extends 'website/layout.html' %} {% block title %}SBT Professionals{% endblock %} {% block css %}
 <style>
-    .top-img{
+    .top-img {
         height: 200px;
         width: 250px;
-
-     }
-     
-
+    }
 </style>
-{% endblock css %}
-
-
-{% block body %}
-{% load static %}
+{% endblock css %} {% block body %} {% load static %}
 <main>
     <!-- breadcrumb banner content area start -->
     <div class="lernen_banner large bg-about">
@@ -24,7 +15,7 @@
                     <h1>Our Team of Professionals</h1>
                     <div class="lernen_breadcrumb">
                         <div class="breadcrumbs">
-									<span class="first-item">
+                            <span class="first-item">
 									<a href="/website/">Homepage</a></span>
                             <span class="separator">&gt;</span>
                             <span class="last-item">Our Team of Professionals</span>
@@ -38,39 +29,35 @@
 
     <!-- members area start -->
     <section class="container" style="margin-top: 100px;margin-bottom: 100px;">
-       
-<div class="row mt-4">
 
-{% for i in vendor|slice:"0:"  %}
-    {% if i != 0 %}
-    <div class="col-md-3 mt-4">
-            <img src="/media/{{ i.Image }}" class="img-fluid top-img" alt="...">
-        </div>
-        <div class="col-md-9">
-            <div class="media mt-4">
-                <div class="media-body">
-                <h5 class="mt-0">{{ i.vendor_name }}</h5>
-                <h6 class="mt-0">- {{ i.Busniess_Type  }}</h6>
-                <p class="mb-0"> {{ i.vendor_work_desc|safe  }}</p>
-                <ul>
-                    <li><b>Address:</b> {{ i.address }} {{ i.city }} {{ i.state }}  </li>
-                    <li><b>Contact:</b> {{ i.vendor_mobile_no }} </li>
-                </ul>
-                </div>
-                
-                {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
-                <div class="media"> </div>
-                {% endif %}
+        <div class="row mt-4">
+
+            {% for i in vendor|slice:"0:" %} {% if i != 0 %}
+            <div class="col-md-3 mt-4">
+                <img src="/media/{{ i.Image }}" class="img-fluid top-img" alt="...">
             </div>
-        </div>
+            <div class="col-md-9">
+                <div class="media mt-4">
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ i.vendor_name }}</h5>
+                        <h6 class="mt-0">- {{ i.Busniess_Type }}</h6>
+                        <p class="mb-0"> {{ i.vendor_work_desc|safe }}</p>
+                        <ul>
+                            <li><b>Address:</b> {{ i.address }} {{ i.city }} {{ i.state }} </li>
+                            <li><b>Contact:</b> {{ i.vendor_mobile_no }} </li>
+                        </ul>
+                    </div>
 
-    {% else %}
-    <p><em>No entries in{{ location }}</em></p>
-    {% endif %}
+                    {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
+                    <div class="media"> </div>
+                    {% endif %}
+                </div>
+            </div>
 
- 
-  {% endfor %}
-</section>
+            {% else %}
+            <p><em>No entries in{{ location }}</em></p>
+            {% endif %} {% endfor %}
+    </section>
 
 
 

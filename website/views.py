@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
+from django.db.models import Q
 
 # To import for login,Signup
 from django.contrib.auth.models import User
@@ -76,6 +77,10 @@ def freelisting(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
     if request.method == 'POST':
+        # Validate
+        resp = form_validation(request.POST)
+        if resp != None:
+            return HttpResponse(resp)
         Company_name = request.POST.get('companyname', '')
         location = request.POST.get('location', '')
         first_name = request.POST.get('firstname', '')
@@ -235,22 +240,24 @@ def form_validation(form):
         return "Chal gaya" 
 
     # Zip Code Field
-    if not form.get('zip_code').isnumeric():
-        return "zip code should be numeric"
+    if form.get('zip_code'):
+        if not form.get('zip_code').isnumeric():
+            return "zip code should be numeric"
 
-    if len(form.get('zip_code')) < 3:
-        return "zip code length should be more than 3"
+        if len(form.get('zip_code')) < 3:
+            return "zip code length should be more than 3"
 
-    if len(form.get('zip_code')) > 6:
-        return "zip code length should be less than 6"
+        if len(form.get('zip_code')) > 6:
+            return "zip code length should be less than 6"
 
     
     # Phone Number Field
-    if not form.get('phone').isnumeric():
-        return "Phone Number should be Numeric"
+    if form.get('phone'):
+        if len(form.get('phone')) < 10 or len(form.get('phone')) > 10:
+            return "phone number should be in correct length"
 
-    if len(form.get('phone')) <10 or len(form.get('phone')) >10:
-        return "phone number should be in correct length"
+        if not form.get('phone').isnumeric():
+            return "Phone Number should be Numeric"
 
         
         
@@ -267,15 +274,16 @@ def form_validation(form):
         #  upload form 
         #  job form
         #  contact via category
-    if form.get("contact_via_category_form") == "form_for_contact_via_category":
-        # phno. validate
-        # min length max length
-        if len(form.get("mobile")) <10:
-            print(".........length should be 10")
+    if form.get('mobile'):
+        if form.get("contact_via_category_form") == "form_for_contact_via_category":
+            # phno. validate
+            # min length max length
+            if len(form.get("mobile")) <10:
+                print(".........length should be 10")
 
-        if not form.get("mobile").isnumeric():
-            print("...........value should be numeric")
-            return HttpResponse("...........value should be numeric")
+            if not form.get("mobile").isnumeric():
+                print("...........value should be numeric")
+                return HttpResponse("...........value should be numeric")
 
     
 
@@ -670,23 +678,19 @@ def search(request):
     # try:
     query = request.GET['query']
     location = request.GET['location']
+    print(location)
     if len(query) > 80 and len(location) > 20:
-        categories = Categories.objects.none()
+        vendor = Vendor.objects.none()
     else:
-        # categories_names = Categories.objects.filter(category_name__icontains=query)
-        vendor = Vendor.objects.filter(Name__icontains=query).filter(
-                Busniess_Type__category_name__icontains=query).filter(
-                Service_decsription=query).filter(
-                Address1__icontains = location).filter(
-                Address2__icontains=location).filter(
-                city__icontains=location).filter(
-                state__icontains=location)
-        print(vendor)
-    
-
-    params = {'query': query, 'vendors': vendor, 'location': location,
+        or_lookup = (Q(city__icontains=location) & Q(Busniess_Type__category_name__icontains=query))
+        vendors = Vendor.objects.filter(or_lookup)
+        print(vendors)
+    params = {'query': query, 'vendors': vendors, 'location': location,
                 'category': category}
     return render(request, 'website/searchtest.html', params)
+        
+    
+
 
 
 
@@ -821,45 +825,14 @@ def feedback(request):
     return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
 
 
-# contact through category for service handler view
-# def contact_via_service(request, slug):
-#     category = Categories.objects.all()
-#     flag = False
-#     if request.method == 'POST':
-#         try:
-#             s_category = Subcategory.objects.get(sub_category_name__exact=slug)
-#             ss_category = None
-#         except:
-#             flag = True
-
-#         if flag:
-#             ss_category = Sub_sub_category.objects.get(sub_sub_category_name__exact=slug)
-#             s_category = ss_category.sub_category_name
-        
-#         # form_validation(request, request.POST)        
-#         name = request.POST.get('name')
-#         print("........name is ", name)
-#         mobile = request.POST.get('mobile')
-#         time = request.POST.get('time')
-#         obj = Contactviacategory(registrant_name=name, registrant_mobile_no=mobile, calling_time=time, service_name=s_category, sub_service_name=ss_category)
-#         obj.save()
-#         send_mail(
-#                 subject='New Query from customer',
-#                 message=f"Customer Name = {name}\nMobile No. ={mobile}\nservice = {str(s_category) + ' subcategory = '  + str(ss_category)}\n",
-#                 from_email='rk7305758@gmail.com',
-#                 recipient_list=['ronniloreo@gmail.com'],
-#                 fail_silently=False)
-#         messages.success(request,
-#                          'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
-#         return render(request, 'website/contact_via_category.html', {'slug': slug, 'category': category})
-#         # return HttpResponseRedirect('/website/')
-
-#     return render(request, 'website/contact_via_category.html', {'slug': slug, 'category': category})
 
 def contact_via_service(request, slug):
     category = Categories.objects.all()
     flag = False
     if request.method == 'POST':
+        resp = form_validation(request.POST)
+        if resp != None:
+            return HttpResponse(resp)
         try:
             s_category = Subcategory.objects.get(sub_category_name__exact=slug)
             ss_category = None

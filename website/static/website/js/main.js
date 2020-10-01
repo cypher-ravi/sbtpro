@@ -355,13 +355,12 @@ window.jQuery(document).ready(function($) {
                     amount: $('#real_val').val(),
                 },
                 success: function(data) {
-                    if(data.error != null){
+                    if (data.error != null) {
 
                         document.getElementById("output").innerText = data.error;
 
-                    }
-                    else{
-                        
+                    } else {
+
                         document.getElementById("output").innerText = data.total;
                         document.getElementById("discount").value = data.discount_applied;
                         document.getElementById("total").value = data.total;
@@ -384,14 +383,13 @@ window.jQuery(document).ready(function($) {
                     discount: $('#discount_val').val(),
                     amount: $('#real_val').val(),
                 },
-                success: function(data){
-                    if(data.error != null){
+                success: function(data) {
+                    if (data.error != null) {
 
                         document.getElementById("output").innerText = data.error;
 
-                    }
-                    else{
-                        
+                    } else {
+
                         document.getElementById("output").innerText = data.total;
                         document.getElementById("discount").value = data.discount_applied;
                         document.getElementById("total").value = data.total;
@@ -401,167 +399,193 @@ window.jQuery(document).ready(function($) {
         });
     });
 
-/* Form Checks using Ajax */
-// Plan Purchase Form - purchase_form.html
-// $(document).ready(function() {
-//     $("#zip_code").change(function(event) {
-//         event.preventDefault();
+    /* Form Checks using Ajax */
+    // Plan Purchase Form - purchase_form.html
+    // $(document).ready(function() {
+    //     $("#zip_code").change(function(event) {
+    //         event.preventDefault();
 
-//         var test = $('#zip').val();
-//         console.log(test)
-//         $.ajax({
-//             type: 'POST',
-//             url: '/website/form_validation',
-//             dataType: 'json',
-//             data: {
-//                 csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
-//                 test: $('#zip_code').val(),
-//                 name: $('#name').val(),
+    //         var test = $('#zip').val();
+    //         console.log(test)
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: '/website/form_validation',
+    //             dataType: 'json',
+    //             data: {
+    //                 csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
+    //                 test: $('#zip_code').val(),
+    //                 name: $('#name').val(),
 
-//             },
-//             success: function(data) {
-//                 console.log('chal gaya sayad', data.response, data.name);
-//                 document.write(data.name);
-//             }
+    //             },
+    //             success: function(data) {
+    //                 console.log('chal gaya sayad', data.response, data.name);
+    //                 document.write(data.name);
+    //             }
 
-//         });
+    //         });
 
-//     });
-// });
+    //     });
+    // });
 
-// form.find('.required-field').each(function() {
-//     $(this).removeClass('not-valid');
-//     if ($.trim($(this).val()) === '') {
-//         $(this).addClass('not-valid').parent().append('<div class="error-msg">This is a required field.</div>');
-//         hasError = true;
-//     } else if ($(this).hasClass('email-field')) {
-//         var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-//         if (!emailReg.test($.trim($(this).val()))) {
-//             $(this).addClass('not-valid').parent().append('<div class="error-msg">You entered an invalid Email.</div>');
-//             hasError = true;
-//         }
-//     }
-// });
+    // form.find('.required-field').each(function() {
+    //     $(this).removeClass('not-valid');
+    //     if ($.trim($(this).val()) === '') {
+    //         $(this).addClass('not-valid').parent().append('<div class="error-msg">This is a required field.</div>');
+    //         hasError = true;
+    //     } else if ($(this).hasClass('email-field')) {
+    //         var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+    //         if (!emailReg.test($.trim($(this).val()))) {
+    //             $(this).addClass('not-valid').parent().append('<div class="error-msg">You entered an invalid Email.</div>');
+    //             hasError = true;
+    //         }
+    //     }
+    // });
 
 
-$("#zip_code").change(function(event) {
-    // if ($('#zip_code').val() >= 6) 
-    if ($('.error-msg').length >= 1) {
-        $('.error-msg').empty()
-        console.log("if chala")
-    }
-    // if (document.getElementById('error_div').innerText.length >= 1) {
-    //     $('.error-msg').empty()
-    //     console.log("if chala")
-    // }
-    var x = document.getElementById('zip_code').value
-    var div = document.createElement('div');
-    div.classList.add('error-msg');
-    div.setAttribute('id', 'error_div')
+    $("#zip_code").change(function(event) {
+        // if ($('#zip_code').val() >= 6) 
+        if ($('.error-msg').length >= 1) {
+            $('.error-msg').empty()
+            console.log("if chala")
+        }
+        // if (document.getElementById('error_div').innerText.length >= 1) {
+        //     $('.error-msg').empty()
+        //     console.log("if chala")
+        // }
+        var x = document.getElementById('zip_code').value
+        var div = document.createElement('div');
+        div.classList.add('error-msg');
+        div.setAttribute('id', 'error_div')
 
-    var numbers = /^[0-9]+$/;
-    if (!x.match(numbers)) {
-        console.log("if chala")
-        div.innerText = "alphabets are not valid";
-        document.getElementById('div_zip').appendChild(div);
-    } else {
-        if (x.length > 6) {
-            div.innerText = "Zip code should not be greater then 6 digits";
+        var numbers = /^[0-9]+$/;
+        if (!x.match(numbers)) {
+            console.log("if chala")
+            div.innerText = "alphabets are not valid";
             document.getElementById('div_zip').appendChild(div);
-        }
-
-        if (x.length < 3) {
-            div.innerText = "Zip code should not be less then 3 digits";
-            document.getElementById('div_zip').appendChild(div);
-
-        }
-        // $(this).parent().append('<div class="error-msg">This is a required field.</div>');
-    }
-});
-
-$("#phone").change(function(event) {
-    var test = document.getElementsByClassName('error-msg');
-    for(i=0; i <= test.length; i++) {
-        if (test[i]) // Exception avoiding if
-            test[i].remove()
-    }
-    var x = document.getElementById('phone').value
-    var div = document.createElement('div');
-    div.classList.add('error-msg');
-    div.setAttribute('id', 'error_div')
-
-    var numbers = /^[0-9]+$/;
-    if (!x.match(numbers)) {
-        console.log("if chala")
-        div.innerText = "alphabets are not valid";
-        document.getElementById('div_phone').appendChild(div);
-    } else {
-        if (x.length < 10) {
-            div.innerText = "Phone code should not be less then 10 digits";
-            document.getElementById('div_phone').appendChild(div);
-        }
-        if (x.length > 10) {
-            div.innerText = "Phone code should not be greater then 10 digits";
-            document.getElementById('div_phone').appendChild(div);
-        }
-    }
-});
-
-
-
-
-
-//Typed Text Start
-document.addEventListener('DOMContentLoaded', function() {
-
-    'use strict';
-
-    if ($("#typed")[0]) {
-        var typed = new Typed('#typed', {
-            stringsElement: '#typed-strings',
-            typeSpeed: 90,
-            backSpeed: 90,
-            startDelay: 1500,
-            loop: true,
-            loopCount: Infinity,
-            onComplete: function(self) {
-                prettyLog('onComplete ' + self);
-            },
-            preStringTyped: function(pos, self) {
-                prettyLog('preStringTyped ' + pos + ' ' + self);
-            },
-            onStringTyped: function(pos, self) {
-                prettyLog('onStringTyped ' + pos + ' ' + self);
-            },
-            onLastStringBackspaced: function(self) {
-                prettyLog('onLastStringBackspaced ' + self);
-            },
-            onTypingPaused: function(pos, self) {
-                prettyLog('onTypingPaused ' + pos + ' ' + self);
-            },
-            onTypingResumed: function(pos, self) {
-                prettyLog('onTypingResumed ' + pos + ' ' + self);
-            },
-            onReset: function(self) {
-                prettyLog('onReset ' + self);
-            },
-            onStop: function(pos, self) {
-                prettyLog('onStop ' + pos + ' ' + self);
-            },
-            onStart: function(pos, self) {
-                prettyLog('onStart ' + pos + ' ' + self);
-            },
-            onDestroy: function(self) {
-                prettyLog('onDestroy ' + self);
+        } else {
+            if (x.length > 6) {
+                div.innerText = "Zip code should not be greater then 6 digits";
+                document.getElementById('div_zip').appendChild(div);
             }
-        });
-    } else {
-        // Do something if class does not exist
-    }
+
+            if (x.length < 3) {
+                div.innerText = "Zip code should not be less then 3 digits";
+                document.getElementById('div_zip').appendChild(div);
+
+            }
+            // $(this).parent().append('<div class="error-msg">This is a required field.</div>');
+        }
+    });
+
+    $("#phone").change(function(event) {
+        var test = document.getElementsByClassName('error-msg');
+        for (i = 0; i <= test.length; i++) {
+            if (test[i]) // Exception avoiding if
+                test[i].remove()
+        }
+        var x = document.getElementById('phone').value
+        var div = document.createElement('div');
+        div.classList.add('error-msg');
+        div.setAttribute('id', 'error_div')
+
+        var numbers = /^[0-9]+$/;
+        if (!x.match(numbers)) {
+            console.log("if chala")
+            div.innerText = "alphabets are not valid";
+            document.getElementById('div_phone').appendChild(div);
+        } else {
+            if (x.length < 10) {
+                div.innerText = "Phone code should not be less then 10 digits";
+                document.getElementById('div_phone').appendChild(div);
+            }
+            if (x.length > 10) {
+                div.innerText = "Phone code should not be greater then 10 digits";
+                document.getElementById('div_phone').appendChild(div);
+            }
+        }
+    });
+    $("#mobile").change(function(event) {
+        var test = document.getElementsByClassName('error-msg');
+        for (i = 0; i <= test.length; i++) {
+            if (test[i]) // Exception avoiding if
+                test[i].remove()
+        }
+        var x = document.getElementById('phone').value
+        var div = document.createElement('div');
+        div.classList.add('error-msg');
+        div.setAttribute('id', 'error_div')
+
+        var numbers = /^[0-9]+$/;
+        if (!x.match(numbers)) {
+            console.log("if chala")
+            div.innerText = "alphabets are not valid";
+            document.getElementById('div_phone').appendChild(div);
+        } else {
+            if (x.length < 10) {
+                div.innerText = "Phone code should not be less then 10 digits";
+                document.getElementById('div_phone').appendChild(div);
+            }
+            if (x.length > 10) {
+                div.innerText = "Phone code should not be greater then 10 digits";
+                document.getElementById('div_phone').appendChild(div);
+            }
+        }
+    });
 
 
-});
 
-function prettyLog(str) {}
-//Typed Text End
+
+    //Typed Text Start
+    document.addEventListener('DOMContentLoaded', function() {
+
+        'use strict';
+
+        if ($("#typed")[0]) {
+            var typed = new Typed('#typed', {
+                stringsElement: '#typed-strings',
+                typeSpeed: 90,
+                backSpeed: 90,
+                startDelay: 1500,
+                loop: true,
+                loopCount: Infinity,
+                onComplete: function(self) {
+                    prettyLog('onComplete ' + self);
+                },
+                preStringTyped: function(pos, self) {
+                    prettyLog('preStringTyped ' + pos + ' ' + self);
+                },
+                onStringTyped: function(pos, self) {
+                    prettyLog('onStringTyped ' + pos + ' ' + self);
+                },
+                onLastStringBackspaced: function(self) {
+                    prettyLog('onLastStringBackspaced ' + self);
+                },
+                onTypingPaused: function(pos, self) {
+                    prettyLog('onTypingPaused ' + pos + ' ' + self);
+                },
+                onTypingResumed: function(pos, self) {
+                    prettyLog('onTypingResumed ' + pos + ' ' + self);
+                },
+                onReset: function(self) {
+                    prettyLog('onReset ' + self);
+                },
+                onStop: function(pos, self) {
+                    prettyLog('onStop ' + pos + ' ' + self);
+                },
+                onStart: function(pos, self) {
+                    prettyLog('onStart ' + pos + ' ' + self);
+                },
+                onDestroy: function(self) {
+                    prettyLog('onDestroy ' + self);
+                }
+            });
+        } else {
+            // Do something if class does not exist
+        }
+
+
+    });
+
+    function prettyLog(str) {}
+    //Typed Text End
 });

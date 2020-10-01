@@ -1,67 +1,60 @@
-{% extends 'website/layout.html' %} {% block title %}Search-SBT Professionals{%endblock %}
- {% block css %}
+{% extends 'website/layout.html' %} {% block title %}Search-SBT Professionals{%endblock %} {% block css %}
 <style>
-    
     .search-container {
-     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 40px;
-}
-
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
+    }
 </style>
 {% endblock %} {% block body %} {% load static %}
 <div class="container">
-<h2 style="text-transform: lowercase; margin-top: 140px;font-size: larger;text-align: left; margin-left:-10px;" >
- Results near you :
-</h2>
-{% if vendors|length == 0 %}
-<p style="margin-left: 50px;">
-  Your search query: <b>{{ query }}</b> did not match any categories.<br />
+    <h2 style="text-transform: lowercase; margin-top: 140px;font-size: larger;text-align: left; margin-left:-10px;">
+        Results near you :
+    </h2>
+    {% if vendors|length == 0 %}
+    <p style="margin-left: 50px;">
+        Your search query: <b>{{ query }}</b> did not match any categories.<br />
 
-  <b>Suggestions:</b><br />
-  Try different keywords.<br />
-</p>
+        <b>Suggestions:</b><br /> Try different keywords.<br />
+    </p>
 
-{% endif %}
-<div class="row  pl-2 pr-2 ">
+    {% endif %}
+    <section class="container" style="margin-top: 10px;margin-bottom: 100px;">
+      {% if vendors %}
+         <ul class="list-group">
+            <li class="list-group-item active">Your search for {{ location }}</li>
+        </ul>
+      {% endif %}
 
-{% for vendor in vendors %}
-  {% if vendor %}
-  <div class="list-group container-top ">
-    <a href="#" class="list-group-item list-group-item-action active">
-    Your search for: {{ location }} 
-    </a>
-  </div>
+        <div class="row mt-4">
 
-  <div class="row mb-5 mt-2">
-    <!-- <div class="media"> -->
-    <div class="col-md-3">
-    <img src="/media/{{ vendor.Image }}" class="img-fluid top-img" alt="...">
-    </div>
-
-    <div class="col-md-9">
-    <div class="media-body">
-      <h5 class="mt-0">{{ vendor.Company_Name }}</h5>
-      <p>{{ vendor.Service_decsription|safe }}</p>
-      <ul>
-        <li><b>Address:</b> {{ vendor.Address1 }} {{ vendor.Address2 }} {{ vendor.city }} {{ vendor.state }}  </li>
-        <li><b>Contact:</b> {{ vendor.Mobile_No }} </li>
-    </ul>
-    </div>
-     {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
-            <div class="media"> </div>
-            {% endif %}
+            {% for vendor in vendors %} {% if vendor %}
+            <div class="col-md-3 mt-4">
+                <img src="/media/{{ vendor.Image }}" class="img-fluid top-img" alt="...">
             </div>
-  </div>
-  </div>
-  {% else %}
-  <p><em>No entries in{{ location }}</em></p>
-  {% endif %}
+            <div class="col-md-9">
+                <div class="media mt-4">
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ vendor.Company_Name}}</h5>
+                        <h6 class="mt-0">- {{ vendor.Busniess_Type }}</h6>
+                        <p class="mb-0"> {{ vendor.Service_decsription|safe }}</p>
+                        <ul>
+                            <li><b>Address:</b> {{ vendor.Address1 }} {{ vendor.city }} {{ vendor.state }} </li>
+                            <li><b>Contact:</b> {{ vendor.Mobile_No }} </li>
+                        </ul>
+                    </div>
+
+                    {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
+                    <div class="media"> </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% else %}
+            <p><em>No entries in{{ location }}</em></p>
+            {% endif %} {% endfor %}
+    </section>
 
 
-{% endfor %}
-
-</div>
-
-{% endblock %}
+    {% endblock %}
