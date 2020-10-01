@@ -28,23 +28,36 @@
     <!-- end breadcrumb banner content area start -->
 
     <!-- members area start -->
-    <section class="container" style="margin-top: 100px;margin-bottom: 100px;">
+    {% if filtered_top_vendors|length == 0 %}
+    <p style="margin-left: 50px;margin-top: 50px;">
+        Your search query: <b>{{ query }}</b> did not match any vendor.<br />
+
+        <b>Suggestions:</b><br /> Try different keywords.<br />
+    </p>
+
+    {% endif %}
+    <section class="container" style="margin-top: 50px;margin-bottom: 100px;">
+        {% if filtered_top_vendors %}
+        <ul class="list-group">
+            <li class="list-group-item active">Your search for {{ query }}</li>
+        </ul>
+        {% endif %}
 
         <div class="row mt-4">
 
-            {% for i in vendor|slice:"0:" %} {% if i != 0 %}
+            {% for vendor in filtered_top_vendors %} {% if vendor %}
             <div class="col-md-3 mt-4">
-                <img src="/media/{{ i.Image }}" class="img-fluid top-img" alt="...">
+                <img src="/media/{{ vendor.Image }}" class="img-fluid top-img" alt="...">
             </div>
             <div class="col-md-9">
                 <div class="media mt-4">
                     <div class="media-body">
-                        <h5 class="mt-0">{{ i.vendor_name }}</h5>
-                        <h6 class="mt-0">- {{ i.Busniess_Type }}</h6>
-                        <p class="mb-0"> {{ i.vendor_work_desc|safe }}</p>
+                        <h5 class="mt-0">{{ vendor.vendor_name}}</h5>
+                        <h6 class="mt-0">- {{ vendor.Busniess_Type }}</h6>
+                        <p class="mb-0"> {{ vendor.vendor_work_desc|safe }}</p>
                         <ul>
-                            <li><b>Address:</b> {{ i.address }} {{ i.city }} {{ i.state }} </li>
-                            <li><b>Contact:</b> {{ i.vendor_mobile_no }} </li>
+                            <li><b>Address:</b> {{ vendor.address }} {{ vendor.city }} {{ vendor.state }} </li>
+                            <li><b>Contact:</b> {{ vendor.vendor_mobile_no }} </li>
                         </ul>
                     </div>
 
@@ -55,7 +68,7 @@
             </div>
 
             {% else %}
-            <p><em>No entries in{{ location }}</em></p>
+            <p><em>No entries in{{ query }}</em></p>
             {% endif %} {% endfor %}
     </section>
 

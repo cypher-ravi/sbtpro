@@ -718,13 +718,12 @@ def search_top(request):
     if len(query) > 80:
         filtered_top_vendors = TOP.objects.none()
     else:
-        top_vendors = TOP.objects.filter(vendor_name__icontains=query)
-        # top_vendors_business_type = TOP.objects.filter(Busniess_Type__category_name__icontains=query)
-        top_vendors_work = TOP.objects.filter(vendor_work_desc__icontains=query)
-        filtered_top_vendors = top_vendors.union(top_vendors_work)
+        or_lookup = (Q(vendor_name__icontains=query) | Q(Busniess_Type__category_name__icontains=query) | Q( vendor_work_desc__icontains=query))
+        filtered_top_vendors = TOP.objects.filter(or_lookup)
+         
         print(filtered_top_vendors)
     return render(request, 'website/search_top.html',
-                  {'filtered_top_vendors': filtered_top_vendors, 'vendor': vendor, 'category': category})
+                  {'filtered_top_vendors': filtered_top_vendors, 'vendor': vendor, 'category': category,'query':query})
 
 
 def trading(request):
