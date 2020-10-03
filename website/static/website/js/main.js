@@ -346,7 +346,7 @@ window.jQuery(document).ready(function($) {
             console.log(test);
             $.ajax({
                 type: 'POST',
-                url: '/website/pricing-multiplier/',
+                url: '/sbt/pricing-multiplier/',
                 dataType: 'json',
                 data: {
                     plan_id: $('#discount_id').val(),
@@ -375,7 +375,7 @@ window.jQuery(document).ready(function($) {
             event.preventDefault();
             $.ajax({
                 type: 'POST',
-                url: '/website/pricing-multiplier/',
+                url: '/sbt/pricing-multiplier/',
                 dataType: 'json',
                 data: {
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
@@ -399,47 +399,7 @@ window.jQuery(document).ready(function($) {
         });
     });
 
-    /* Form Checks using Ajax */
-    // Plan Purchase Form - purchase_form.html
-    // $(document).ready(function() {
-    //     $("#zip_code").change(function(event) {
-    //         event.preventDefault();
 
-    //         var test = $('#zip').val();
-    //         console.log(test)
-    //         $.ajax({
-    //             type: 'POST',
-    //             url: '/website/form_validation',
-    //             dataType: 'json',
-    //             data: {
-    //                 csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
-    //                 test: $('#zip_code').val(),
-    //                 name: $('#name').val(),
-
-    //             },
-    //             success: function(data) {
-    //                 console.log('chal gaya sayad', data.response, data.name);
-    //                 document.write(data.name);
-    //             }
-
-    //         });
-
-    //     });
-    // });
-
-    // form.find('.required-field').each(function() {
-    //     $(this).removeClass('not-valid');
-    //     if ($.trim($(this).val()) === '') {
-    //         $(this).addClass('not-valid').parent().append('<div class="error-msg">This is a required field.</div>');
-    //         hasError = true;
-    //     } else if ($(this).hasClass('email-field')) {
-    //         var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    //         if (!emailReg.test($.trim($(this).val()))) {
-    //             $(this).addClass('not-valid').parent().append('<div class="error-msg">You entered an invalid Email.</div>');
-    //             hasError = true;
-    //         }
-    //     }
-    // });
 
 
     $("#zip_code").change(function(event) {

@@ -43,20 +43,7 @@ from .models import *
 MID = "VdMxPH61970223458566"  # MERCHANT ID
 MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 
-# def test(request,slug):
-#     # 0 : create
-#     # 1 : delete
-#     # if slug==1:
-#     #     del request.session['x']
-#     # elif slug==0:
-#     #     usr = request.user.username
-#     #     request.session['x'] ="a boi" 
-#     # try :
-#     #     x = request.session['x']
-#     #     return HttpResponse(f'{x}and user name is {usr}')
-#     # except Exception as e:
-#     #     return HttpResponse(f"kuch ni hai{e}")
-    
+
 def index(request):
     category = Categories.objects.all()
     # Logic for services
@@ -80,7 +67,8 @@ def freelisting(request):
         # Validate
         resp = form_validation(request.POST)
         if resp != None:
-            return HttpResponse(resp)
+            messages.warning(request,resp)
+            return redirect('website:listing')
         Company_name = request.POST.get('companyname', '')
         location = request.POST.get('location', '')
         first_name = request.POST.get('firstname', '')
@@ -110,7 +98,7 @@ def freelisting(request):
             messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24'
                                       'hours.')
             return redirect('website:Sbthome')
-    return render(request, 'website/freelisting.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/forms/freelisting.html', {'vendor': vendor, 'category': category})
 
 
 def customer_membership(request):
@@ -120,7 +108,7 @@ def customer_membership(request):
     plans = Plan.objects.all()
     vendor = TOP.objects.all()
 
-    return render(request, 'website/membership.html', {'plans': plans, 'vendor': vendor, 'category': category,'redirect':redirect1})
+    return render(request, 'website/pages/membership.html', {'plans': plans, 'vendor': vendor, 'category': category,'redirect':redirect1})
 
 
 def jobs(request):
@@ -148,9 +136,9 @@ def jobs(request):
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
         )
-        return render(request, 'website/job_form.html', {'vendor': vendor, 'category': category})
+        return render(request, 'website/forms/job_form.html', {'vendor': vendor, 'category': category})
 
-    return render(request, 'website/job_form.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/forms/job_form.html', {'vendor': vendor, 'category': category})
 
 
 def upload_resume(request):
@@ -194,9 +182,9 @@ def download(request):
             return redirect('website:Sbthome')
         else:
             messages.warning(request,'Enter a number!')
-            return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
+            return render(request, 'website/pages/downloadapp.html', {'vendor': vendor, 'category': category})
     # messages.error(request,'Request for link failed! Try Again')
-    return render(request, 'website/downloadapp.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/pages/downloadapp.html', {'vendor': vendor, 'category': category})
 
 
 def categories(request, slug):
@@ -204,7 +192,7 @@ def categories(request, slug):
     category = Categories.objects.all()
     filtered_categories = Categories.objects.filter(category_name=slug)
     related_sub_category = Subcategory.objects.all().filter(category_name__in=filtered_categories)
-    return render(request, 'website/category.html',
+    return render(request, 'website/pages/category.html',
                   {'filtered_categories': filtered_categories, 'sub_category': related_sub_category,
                    'category': category,'vendor':vendor})
 
@@ -216,11 +204,11 @@ def sub_to_sub_category(request, slug):
     related_sub_sub_category = Sub_sub_category.objects.all().filter(sub_category_name__in=related_sub_category)
     params = {'slug': slug}
     if related_sub_sub_category.exists():
-        return render(request, 'website/subcategory.html',
+        return render(request, 'website/pages/subcategory.html',
                       {'sub_category': related_sub_category, 'related_sub_sub_category': related_sub_sub_category,
                        'category': category,'vendor':vendor})
     else:
-        return render(request, 'website/contact_via_category.html', {'slug': slug, 'category': category,'vendor':vendor})
+        return render(request, 'website/forms/contact_via_category.html', {'slug': slug, 'category': category,'vendor':vendor})
 
 
 # A's here  ------------------
@@ -253,10 +241,10 @@ def form_validation(form):
     
     # Phone Number Field
     if form.get('phone'):
-        if len(form.get('phone')) < 10 or len(form.get('phone')) > 10:
+        if len(form.get('phone')) < 10 or len(form.get('phone')) > 10 :
             return "phone number should be in correct length"
 
-        if not form.get('phone').isnumeric():
+        elif not form.get('phone').isnumeric():
             return "Phone Number should be Numeric"
 
         
@@ -278,12 +266,11 @@ def form_validation(form):
         if form.get("contact_via_category_form") == "form_for_contact_via_category":
             # phno. validate
             # min length max length
-            if len(form.get("mobile")) <10:
-                print(".........length should be 10")
+            if len(form.get("mobile")) < 10:
+                return "length should be 10"
 
             if not form.get("mobile").isnumeric():
-                print("...........value should be numeric")
-                return HttpResponse("...........value should be numeric")
+                return "Phone Number should be numeric"
 
     
 
@@ -348,7 +335,7 @@ def purchase(request, slug):
                 param_dict['CHECKSUMHASH'] = CheckSum.generateSignature(
                     detail_dict, MKEY)
                 # print('.................', param_dict)
-                return render(request, 'website/redirect.html', {'detail_dict': param_dict})
+                return render(request, 'website/order_process/redirect.html', {'detail_dict': param_dict})
 
 
             plan = Plan.objects.get(plan_name=slug)
@@ -362,10 +349,10 @@ def purchase(request, slug):
                 'description_4': plan.description_4,
             }
 
-            return render(request, 'website/purchase_form.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
+            return render(request, 'website/forms/purchase_form.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
         
         else: # if User is not Authenticated
-            return render(request, 'website/login.html',{'slug':slug})
+            return render(request, 'website/auth_and_pass/login.html',{'slug':slug})
     except Exception as e:
         print("An Exception occur \n", e)
         return HttpResponse("There is an error")
@@ -502,19 +489,7 @@ def order_id_session(order_id):
 '''
 
 
-# --------------------------payment/purchase end ------------------------
-
-
-
-    
-    
-
-
-
-
-
-
-
+# --------------------------payment/purchase end -----------------------
 
 
 
@@ -568,7 +543,7 @@ def sign_up(request):
         messages.success(request, "Your SBT Professionals account has been successfully created")
         return redirect('website:Login')
     else:
-        return render(request, 'website/register.html')
+        return render(request, 'website/auth_and_pass/register.html')
 
 
 def log_in(request):
@@ -604,7 +579,7 @@ def log_in(request):
             print('....................user->', user)
             messages.error(request, 'Invalid credentials,Please Try Again!')
             return redirect(log_in)
-    return render(request, 'website/login.html')
+    return render(request, 'website/auth_and_pass/login.html')
 
 
 # return redirect(index)
@@ -630,14 +605,14 @@ def username_validator(request):
 
 # A done here -------------------------------------
 
+
+
 # For displaying Single TOP Info
-
-
 def single_vendor(request, slug):
     vendor = TOP.objects.all()
     category = Categories.objects.all()
     vendors = TOP.objects.filter(vendor_name=slug)
-    return render(request, 'website/team-single.html', {'vendors': vendors, 'category': category,'vendor':vendor})
+    return render(request, 'website/pages/team-single.html', {'vendors': vendors, 'category': category,'vendor':vendor})
 
 
 def service_detail(request, slug):
@@ -687,7 +662,7 @@ def search(request):
         print(vendors)
     params = {'query': query, 'vendors': vendors, 'location': location,
                 'category': category}
-    return render(request, 'website/searchtest.html', params)
+    return render(request, 'website/search/searchtest.html', params)
         
     
 
@@ -699,7 +674,7 @@ def process(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
 
-    return render(request, 'website/process.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/pages/process.html', {'vendor': vendor, 'category': category})
 
 
 # for list all team of professionals
@@ -707,7 +682,7 @@ def top(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
     team = TOP.objects.all()
-    return render(request, 'website/top2.html', {'vendor': vendor, 'team': team, 'category': category})
+    return render(request, 'website/pages/top2.html', {'vendor': vendor, 'team': team, 'category': category})
 
 
 def search_top(request):
@@ -722,7 +697,7 @@ def search_top(request):
         filtered_top_vendors = TOP.objects.filter(or_lookup)
          
         print(filtered_top_vendors)
-    return render(request, 'website/search_top.html',
+    return render(request, 'website/search/search_top.html',
                   {'filtered_top_vendors': filtered_top_vendors, 'vendor': vendor, 'category': category,'query':query})
 
 
@@ -750,11 +725,11 @@ def trading(request):
             # teamofprofessionals2015@gmail.com
             messages.success(request,
                              'Order successful.')
-            return render(request, 'website/trading-info.html', {'vendor': vendor, 'category': category})
+            return render(request, 'website/pages/trading-info.html', {'vendor': vendor, 'category': category})
         else:
             messages.error(request, 'Failed to Order Try Again!')
-            return render(request, 'website/trading-info.html', {'vendor': vendor, 'category': category})
-    return render(request, 'website/trading-info.html', {'vendor': vendor, 'category': category})
+            return render(request, 'website/pages/trading-info.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/pages/trading-info.html', {'vendor': vendor, 'category': category})
 
 
 def faq(request):
@@ -762,6 +737,10 @@ def faq(request):
     faq_query = Faq.objects.all()
     vendor = TOP.objects.all()
     if request.method == 'POST':
+        resp = form_validation(request.POST)
+        if resp != None:
+            messages.warning(request,resp)
+            return redirect('website:faq')
         customer_name = request.POST.get('customer_name', '')
         mobile = request.POST.get('mobile', '')
         message = request.POST.get('message', '')
@@ -778,23 +757,23 @@ def faq(request):
             # teamofprofessionals2015@gmail.com
             messages.success(request,
                              'Query Submittion successful.')
-            return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
+            return render(request, 'website/forms/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
         else:
             messages.error(request, 'Failed to submit Try Again!')
-            return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
-    return render(request, 'website/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
+            return render(request, 'website/forms/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
+    return render(request, 'website/forms/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
 
 
 def newsletter(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
-    return render(request, 'website/coming-soon.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/pages/coming-soon.html', {'vendor': vendor, 'category': category})
 
 
 def tac(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
-    return render(request, 'website/Terms_and_condition.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/pages/Terms_and_condition.html', {'vendor': vendor, 'category': category})
 
 
 def feedback(request):
@@ -819,9 +798,9 @@ def feedback(request):
             return HttpResponseRedirect('/sbt')
         else:
             messages.error(request, 'Form not submitted! TRY AGAIN')
-            return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
+            return render(request, 'website/forms/feedback.html', {'vendor': vendor, 'category': category})
 
-    return render(request, 'website/feedback.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/forms/feedback.html', {'vendor': vendor, 'category': category})
 
 
 
@@ -831,7 +810,8 @@ def contact_via_service(request, slug):
     if request.method == 'POST':
         resp = form_validation(request.POST)
         if resp != None:
-            return HttpResponse(resp)
+            messages.warning(request,resp)
+            return render(request, 'website/forms/form_category.html', {'slug': slug, 'category': category})
         try:
             s_category = Subcategory.objects.get(sub_category_name__exact=slug)
             ss_category = None
@@ -857,7 +837,7 @@ def contact_via_service(request, slug):
                          'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
         return redirect('website:Sbthome')
 
-    return render(request, 'website/form_category.html', {'slug': slug, 'category': category})
+    return render(request, 'website/forms/form_category.html', {'slug': slug, 'category': category})
 
 # open Frenchise contact form
 def frenchise(request):
@@ -884,9 +864,9 @@ def frenchise(request):
             return HttpResponseRedirect('/sbt/frenchise')
         else:
             messages.error(request, 'Form submittion Failed! TRY AGAIN')
-            return render(request, 'website/frenchise.html', {'category': category})
+            return render(request, 'website/forms/frenchise.html', {'category': category})
 
-    return render(request, 'website/frenchise.html', {'category': category})
+    return render(request, 'website/forms/frenchise.html', {'category': category})
 
 
 
