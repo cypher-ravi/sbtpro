@@ -125,7 +125,7 @@ def jobs(request):
         resume = Job(name=name, mobile=mobile,
                      education=education, experience=experience)
         resume.save()
-        messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24 '
+        messages.success(request, 'Form submission successful. SBT Professional team Contact You within '
                                   '24 hours.')
         send_mail(
             subject='New Job seeker created resume',
