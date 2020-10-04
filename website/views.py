@@ -183,7 +183,6 @@ def download(request):
         else:
             messages.warning(request,'Enter a number!')
             return render(request, 'website/pages/downloadapp.html', {'vendor': vendor, 'category': category})
-    # messages.error(request,'Request for link failed! Try Again')
     return render(request, 'website/pages/downloadapp.html', {'vendor': vendor, 'category': category})
 
 
