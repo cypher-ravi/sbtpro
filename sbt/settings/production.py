@@ -29,7 +29,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'sql_mode':'STRICT_TRANS_TABLES',
             'read_default_file':'/sbtproject/auth/mysql.cnf',
         },
     }
