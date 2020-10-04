@@ -404,8 +404,8 @@ window.jQuery(document).ready(function($) {
 
     $("#zip_code").change(function(event) {
         // if ($('#zip_code').val() >= 6) 
-        if ($('.error-msg').length >= 1) {
-            $('.error-msg').empty()
+        if ($('#error_div_zip').length >= 1) {
+            $('#error_div_zip').remove()
             console.log("if chala")
         }
         // if (document.getElementById('error_div').innerText.length >= 1) {
@@ -415,7 +415,7 @@ window.jQuery(document).ready(function($) {
         var x = document.getElementById('zip_code').value
         var div = document.createElement('div');
         div.classList.add('error-msg');
-        div.setAttribute('id', 'error_div')
+        div.setAttribute('id', 'error_div_zip')
 
         var numbers = /^[0-9]+$/;
         if (!x.match(numbers)) {
@@ -438,15 +438,19 @@ window.jQuery(document).ready(function($) {
     });
 
     $("#phone").change(function(event) {
-        var test = document.getElementsByClassName('error-msg');
-        for (i = 0; i <= test.length; i++) {
-            if (test[i]) // Exception avoiding if
-                test[i].remove()
+        // var test = document.getElementsByClassName('error-msg');
+        // for(i=0; i <= test.length; i++) {
+        //     if (test[i]) // Exception avoiding if
+        //         test[i].remove()
+        // }
+         if ($('#error_div_phone').length >= 1) {
+            $('#error_div_phone').remove()
+            console.log("if chala")
         }
         var x = document.getElementById('phone').value
         var div = document.createElement('div');
         div.classList.add('error-msg');
-        div.setAttribute('id', 'error_div')
+        div.setAttribute('id', 'error_div_phone')
 
         var numbers = /^[0-9]+$/;
         if (!x.match(numbers)) {
@@ -455,25 +459,25 @@ window.jQuery(document).ready(function($) {
             document.getElementById('div_phone').appendChild(div);
         } else {
             if (x.length < 10) {
-                div.innerText = "Phone code should not be less then 10 digits";
+                div.innerText = "Phone number should not be less then 10 digits";
                 document.getElementById('div_phone').appendChild(div);
             }
             if (x.length > 10) {
-                div.innerText = "Phone code should not be greater then 10 digits";
+                div.innerText = "Phone number should not be greater then 10 digits";
                 document.getElementById('div_phone').appendChild(div);
             }
         }
     });
+
     $("#mobile").change(function(event) {
-        var test = document.getElementsByClassName('error-msg');
-        for (i = 0; i <= test.length; i++) {
-            if (test[i]) // Exception avoiding if
-                test[i].remove()
+        if ($('#error_div_phone').length >= 1) {
+            $('#error_div_phone').remove()
+            console.log("if chala")
         }
-        var x = document.getElementById('phone').value
+        var x = document.getElementById('mobile').value
         var div = document.createElement('div');
         div.classList.add('error-msg');
-        div.setAttribute('id', 'error_div')
+        div.setAttribute('id', 'error_div_phone')
 
         var numbers = /^[0-9]+$/;
         if (!x.match(numbers)) {
@@ -482,11 +486,11 @@ window.jQuery(document).ready(function($) {
             document.getElementById('div_phone').appendChild(div);
         } else {
             if (x.length < 10) {
-                div.innerText = "Phone code should not be less then 10 digits";
+                div.innerText = "Phone number should not be less then 10 digits";
                 document.getElementById('div_phone').appendChild(div);
             }
             if (x.length > 10) {
-                div.innerText = "Phone code should not be greater then 10 digits";
+                div.innerText = "Phone number should not be greater then 10 digits";
                 document.getElementById('div_phone').appendChild(div);
             }
         }

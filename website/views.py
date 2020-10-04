@@ -28,6 +28,7 @@ import json
 from .functions import *
 from .models import *
 
+from .validations import *
 # TODO ! Important !
     # *change paytm for production
     # *remove mid mkey from code
@@ -219,59 +220,6 @@ def test(request):
 
     return render(request, 'website/test.html')
 
-def form_validation(form):
-    
-    # what if value of form is another 
-    if form.get("test_text") == "test_value":
-        print("..........test_validation chala")
-        return "Chal gaya" 
-
-    # Zip Code Field
-    if form.get('zip_code'):
-        if not form.get('zip_code').isnumeric():
-            return "zip code should be numeric"
-
-        if len(form.get('zip_code')) < 3:
-            return "zip code length should be more than 3"
-
-        if len(form.get('zip_code')) > 6:
-            return "zip code length should be less than 6"
-
-    
-    # Phone Number Field
-    if form.get('phone'):
-        if len(form.get('phone')) < 10 or len(form.get('phone')) > 10 :
-            return "phone number should be in correct length"
-
-        elif not form.get('phone').isnumeric():
-            return "Phone Number should be Numeric"
-
-        
-        
-
-    if form.get("job_form") == "form_for_jobs":
-        pass
-    
-    if form.get("frenchise_form") == "form_for_frenchise":
-        pass
-    
-    if form.get("freelisting_form") == "form_for_freelisting":
-        pass
-    
-        #  upload form 
-        #  job form
-        #  contact via category
-    if form.get('mobile'):
-        if form.get("contact_via_category_form") == "form_for_contact_via_category":
-            # phno. validate
-            # min length max length
-            if len(form.get("mobile")) < 10:
-                return "length should be 10"
-
-            if not form.get("mobile").isnumeric():
-                return "Phone Number should be numeric"
-
-    
 
 def purchase(request, slug):
     vendor = TOP.objects.all()
@@ -355,18 +303,6 @@ def purchase(request, slug):
     except Exception as e:
         print("An Exception occur \n", e)
         return HttpResponse("There is an error")
-    
-def pricing_multiplier(request):    
-    if request.method =="POST":
-
-        amount = int(request.POST.get('amount'))
-        discount = int(request.POST.get('discount'))
-        plan_id = int(request.POST.get('plan_id'))
-        response = discount_validation(plan_id, discount, amount)
-        # response_dict = json.loads(response.getvalue().decode('utf-8'))
-        # print(response_dict)
-        return JsonResponse(response)
-
 
 @csrf_exempt
 def req_handler(request):
@@ -429,6 +365,19 @@ def req_handler(request):
             return render(request, 'website/order_success.html', {'payment':payment_status}) 
     return HttpResponse('Invalid Request <a href="/website/"> Go back Home</a>')
 
+def pricing_multiplier(request):    
+    if request.method =="POST":
+
+        amount = int(request.POST.get('amount')) 
+        try:
+            discount = int(request.POST.get('discount'))
+        except ValueError:
+            return JsonResponse({'discount_applied':'' ,'total':'', 'error': 'Expected integer'})
+        plan_id = int(request.POST.get('plan_id'))
+        response = discount_validation(plan_id, discount, amount)
+        # response_dict = json.loads(response.getvalue().decode('utf-8'))
+        # print(response_dict)
+        return JsonResponse(response)
 
 def order_status(request, slug):
     try:
@@ -738,7 +687,7 @@ def faq(request):
     if request.method == 'POST':
         resp = form_validation(request.POST)
         if resp != None:
-            messages.warning(request,resp)
+            messages.warning(request, resp)
             return redirect('website:faq')
         customer_name = request.POST.get('customer_name', '')
         mobile = request.POST.get('mobile', '')
@@ -779,10 +728,16 @@ def feedback(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
     if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, 'Email is not valid')
+            return redirect('website:feedback')
         feed_back = request.POST['experience']
         Comments = request.POST.get('comments')
         customer_name = request.POST.get('name')
-        email = request.POST.get('email')
+
         if feed_back:
             customer_feedback = Feedback(feed_back=feed_back, Comments=Comments, customer_name=customer_name,
                                          email=email)
