@@ -274,7 +274,7 @@ def purchase(request, slug):
                     "CHANNEL_ID": "WEB",
                     "ORDER_ID": str(order_id),
                     "TXN_AMOUNT": str(amount),
-                    "CALLBACK_URL": "http://127.0.0.1:8000/website/req_handler",
+                    "CALLBACK_URL": "http://127.0.0.1:8000/sbt/req_handler",
                 }
 
                 param_dict = detail_dict
@@ -354,16 +354,16 @@ def req_handler(request):
                 order_payment.save()
                 payment_status = Order_Payment.objects.get(order_id = response_dict["ORDERID"])
 
-                return render(request, 'website/order_success.html', {'payment':payment_status})
+                return render(request, 'website/order_process/order_success.html', {'payment':payment_status})
             else:
                 Order.objects.filter(order_id= response_dict["ORDERID"]).delete()
-                return HttpResponse('Order is not Placed Because of some error. Please <a href="/website/">Try Again </a>')
+                return HttpResponse('Order is not Placed Because of some error. Please <a href="/sbt/">Try Again </a>')
         else:
             payment_status = Order_Payment.objects.get(order_id = form["ORDERID"])
             # Session should create when order is get successfull
 
-            return render(request, 'website/order_success.html', {'payment':payment_status}) 
-    return HttpResponse('Invalid Request <a href="/website/"> Go back Home</a>')
+            return render(request, 'website/order_process/order_success.html', {'payment':payment_status}) 
+    return HttpResponse('Invalid Request <a href="/sbt/"> Go back Home</a>')
 
 def pricing_multiplier(request):    
     if request.method =="POST":
@@ -420,7 +420,7 @@ def order_status(request, slug):
         elif request.user!=None and request.user.is_authenticated :
             return HttpResponse("Please insert correct orderid")
         else:
-            return HttpResponse('Please Login <a href="/website/login"> Here First</a>')
+            return HttpResponse('Please Login <a href="/sbt/login"> Here First</a>')
     except Exception as e:
         return HttpResponse(f"Requested Order Not Found - {e}") # form to type in order id
 
