@@ -28,8 +28,13 @@ MIDDLEWARE += [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sbtdb',
+        'USER': 'sbtadmin',
+        'PASSWORD': '2020@SBTadmin',
+        'HOST': 'localhost',
+        'PORT': '',
         'OPTIONS': {
-            'read_default_file':'/sbtproject/auth/mysql.cnf',
+            'sql_mode':'STRICT_TRANS_TABLES',
         },
     }
 }
