@@ -9,7 +9,10 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
+import json
 
+with open("D:\workspace sbt\deployment\prodsbt\config.json", "r") as params:
+    parameters = json.load(params)
 
 import os
 from django.contrib.messages import constants as messages
@@ -20,8 +23,10 @@ from django.contrib.messages import constants as messages
 BASE_DIR = os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__))))
 
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'io)y8-71d+8-kn7%*k&dk=4ri$=2&8i=!rvczc7c6m00o7tdno'
+SECRET_KEY = parameters['SECRET_KEY']
 
 
 
@@ -127,7 +132,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'rk7305758@gmail.com'
-EMAIL_HOST_PASSWORD = 'ztupoklvzybovgtd'
+EMAIL_HOST_PASSWORD = parameters['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'SBT Professional Team <rk7305758@gmail.com>'

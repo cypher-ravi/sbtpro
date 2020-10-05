@@ -45,6 +45,11 @@ MID = "VdMxPH61970223458566"  # MERCHANT ID
 MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 
 
+with open("D:\workspace sbt\deployment\prodsbt\config.json", "r") as params:
+    parameters = json.load(params)
+
+
+
 def index(request):
     category = Categories.objects.all()
     # Logic for services
@@ -83,8 +88,8 @@ def freelisting(request):
         send_mail(
             subject='New Vendor registered',
             message=f"Company Name = {Company_name}\nName = {first_name + ' ' + last_name}\nMobile No. = {mobile}\nAddress = {city + ',' + state + ',' + zip_code}",
-            from_email='rk7305758@gmail.com',
-            recipient_list=['ronniloreo@gmail.com'],
+            from_email= parameters['from_email'],
+            recipient_list=[parameters['to_email']],
             fail_silently=False
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
@@ -131,8 +136,8 @@ def jobs(request):
         send_mail(
             subject='New Job seeker created resume',
             message=f"Employee Name = {name}\nMobile No. = {mobile}\nExperience = {experience}\nEducation = {education}",
-            from_email='rk7305758@gmail.com',
-            recipient_list=['ronniloreo@gmail.com'],
+            from_email= parameters['from_email'],
+            recipient_list=[parameters['to_email']],
             fail_silently=False
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
@@ -158,8 +163,8 @@ def upload_resume(request):
                 try:
                     file = settings.MEDIA_URL[1:] + str(uploaded_resume)
                     from django.core.mail import EmailMessage
-                    msg = EmailMessage('New job Seeker on your website', 'name =' + name, 'rk7305758@gmail.com',
-                                       ['ronniloreo@gmail.com'])
+                    msg = EmailMessage('New job Seeker on your website', 'name =' + name, parameters['from_email'],
+                                       [parameters['to_email']])
                     msg.attach_file(file)
                     msg.send()
                 except Exception as e:
@@ -580,8 +585,8 @@ def service_detail(request, slug):
             send_mail(
                 subject='New Customer registered for service',
                 message=f"Customer Name = {registrant_name}\nMobile No. = {registrant_mobile_no}\nInterest Area = {registrant_interest}\nQuery message = {registrant_query}",
-                from_email='rk7305758@gmail.com',
-                recipient_list=['ronniloreo@gmail.com'],
+                from_email=parameters['from_email'],
+                recipient_list=[parameters['to_email']],
                 fail_silently=False)
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
@@ -666,8 +671,8 @@ def trading(request):
             send_mail(
                 subject='New Customer registered for service',
                 message=f"Customer Name = {customer_name}\nProduct Name = {product_name}\nAddress From = {address_from}\nAddress To = {address_to}\nMobile No. ={mobile}\nZip code = {zip_code}",
-                from_email='rk7305758@gmail.com',
-                recipient_list=['ronniloreo@gmail.com'],
+                from_email=parameters['from_email'],
+                recipient_list=[parameters['to_email']],
                 fail_silently=False)
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
@@ -698,8 +703,8 @@ def faq(request):
             send_mail(
                 subject='New Query from customer',
                 message=f"Customer Name = {customer_name}\nMobile No. ={mobile}\nQueryMessage = {message}",
-                from_email='rk7305758@gmail.com',
-                recipient_list=['ronniloreo@gmail.com'],
+                from_email=parameters['from_email'],
+                recipient_list=[parameters['to_email']],
                 fail_silently=False)
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
@@ -745,8 +750,8 @@ def feedback(request):
             send_mail(
                 subject='New feedback from customer',
                 message=f"Customer Name = {customer_name}\nemail ={email}\nFeedback Message = {feed_back}",
-                from_email='rk7305758@gmail.com',
-                recipient_list=['ronniloreo@gmail.com'],
+                from_email=parameters['from_email'],
+                recipient_list=[parameters['to_email']],
                 fail_silently=False)
             messages.success(request, 'Form Submitted Successfully!')
             return HttpResponseRedirect('/sbt')
@@ -784,8 +789,8 @@ def contact_via_service(request, slug):
         send_mail(
                 subject='New Query from customer',
                 message=f"Customer Name = {name}\nMobile No. ={mobile}\nservice = {str(s_category) + ' subcategory = '  + str(ss_category)}\n",
-                from_email='rk7305758@gmail.com',
-                recipient_list=['ronniloreo@gmail.com'],
+                from_email=parameters['from_email'],
+                recipient_list=[parameters['to_email']],
                 fail_silently=False)
         messages.success(request,
                          'Form submission successful. SBT Professional team Contact You On Your Chosen Time')
@@ -809,8 +814,8 @@ def frenchise(request):
             send_mail(
                 subject='New Frenchise customer',
                 message=f"Customer Name = {customer_name}\nMobile No. ={mobile_no}\nAddress = {address}\nInterested in ={frenchise_option}",
-                from_email='rk7305758@gmail.com',
-                recipient_list=['ronniloreo@gmail.com'],
+                from_email=parameters['from_email'],
+                recipient_list=[parameters['to_email']],
                 fail_silently=False
             )
             messages.success(request,
