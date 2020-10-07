@@ -1,0 +1,161 @@
+ {% extends "dashboard/layout/base.html" %} {% block title %}
+<title>New Employee - Dashboard SBTProfessionals</title>
+{% endblock title %} {% block maincontent %}
+
+<!-- begin app-main -->
+<div class="app-main" id="main">
+    <!-- begin container-fluid -->
+    <div class="container-fluid">
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-md-12 m-b-30">
+                <!-- Notification -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        {% for message in messages %}
+                        <li class=""></li>
+                        <div {% if message.tags %} class="{{ message.tags }}" {% endif %} role="alert">
+                            <strong>Sorry!</strong> {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="ti ti-close"></i>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- begin page title -->
+                <div class="d-block d-sm-flex flex-nowrap align-items-center">
+                    <div class="page-title mb-2 mb-sm-0">
+                        <h1>New Employee</h1>
+                    </div>
+                    <div class="ml-auto d-flex align-items-center">
+                        <nav>
+                            <ol class="breadcrumb p-0 m-b-0">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html"><i class="ti ti-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    Dashboard
+                                </li>
+                                <li class="breadcrumb-item active text-primary" aria-current="page">New Employee</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- end page title -->
+            </div>
+        </div>
+        <!-- end row -->
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card card-statistics">
+                    <div class="card-header">
+                        <div class="card-heading">
+                            <h4 class="card-title">Enter Details Below:</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'dashboard:NewEmployee' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-employee-name">Employee Name</label> {{ form.employee_name }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="input-father-name">Father Name</label> {{ form.employee_father_name }}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-mobile">Mobile No.</label> {{ form.mobile_no }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="input-mobile2">Mobile No. 2</label> {{ form.mobile_no_2 }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-address">Address</label> {{ form.employee_address }}
+                            </div>
+                            <div class="form-group">
+                                <label for="input-address2">Address 2</label> {{ form.employee_address_2 }}
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-city">City</label> {{ form.city }}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="input-state">State</label> {{ form.state }}
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="input-zip">Zip</label> {{ form.zip_code }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-country">Country</label> {{ form.country }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="input-email">Email</label> {{ form.employee_email_address }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-joindate">Joining Date</label> {{ form.joining_date }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="input-gross-salary">Gross salary</label> {{ form.gross_salary }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-gender">Gender</label> {{ form.gender }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="input-dob">Date Of Birth</label> {{ form.date_of_birth }}
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Extra Info</span>
+                                </div>
+                                {{ form.extra_info }}
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mt-4">
+                                    <label for="contact-person">Contact Person</label> {{ form.contact_person }}
+                                </div>
+                                <div class="form-group col-md-6 mt-4">
+                                    <label for="contact-person">Employee Designation</label> {{ form.employee_designation }}
+                                </div>
+                            </div>
+                            <div class="input-group mt-4">
+                                <div class="custom-file">
+                                    {{ form.employee_img }}
+                                    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    {{ form.employee_is_active }}
+                                    <label class="form-check-label" for="active">
+                                                        <strong>Employee Is Active</strong>
+                                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container-fluid -->
+</div>
+<!-- end app-main -->
+</div>
+<!-- end app-container -->
+
+{% endblock maincontent %}

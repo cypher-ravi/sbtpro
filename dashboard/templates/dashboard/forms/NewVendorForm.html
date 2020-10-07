@@ -1,0 +1,446 @@
+ {% extends "dashboard/layout/base.html" %} {% block title %}
+<title>New Vendor - Dashboard SBTProfessionals</title>
+{% endblock title %} {% block maincontent %}
+
+<!-- begin app-main -->
+<div class="app-main" id="main">
+    <!-- begin container-fluid -->
+    <div class="container-fluid">
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-md-12 m-b-30">
+                <!-- begin page title -->
+                <div class="d-block d-sm-flex flex-nowrap align-items-center">
+                    <div class="page-title mb-2 mb-sm-0">
+                        <h1>New Vendor</h1>
+                    </div>
+                    <div class="ml-auto d-flex align-items-center">
+                        <nav>
+                            <ol class="breadcrumb p-0 m-b-0">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html"><i class="ti ti-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    Dashboard
+                                </li>
+                                <li class="breadcrumb-item active text-primary" aria-current="page">New Vendor</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- end page title -->
+            </div>
+        </div>
+        <!-- end row -->
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card card-statistics">
+                    <div class="card-header">
+                        <div class="card-heading">
+                            <h4 class="card-title">Enter Details Below:</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                </div>
+                                {{ form.name_of_company }}
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress">Address</label> {{ form.vendor_address }}
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress2">Address 2</label> {{ form.vendor_address_2 }}
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputCity">City</label> {{ form.vendor_city }}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputState">State</label> {{ form.vendor_state }}
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputZip">Zip</label> {{ form.zip_code }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-country">Country</label> {{ form.vendor_country }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="contact-person">Contact Person</label> {{ form.vendor_contact_person }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-mobile">Mobile No.</label> {{ form.mobile_no }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="input-mobile2">Mobile No. 2</label> {{ form.mobile_no_2 }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-fax">Fax Number</label> {{ form.fax_number }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="input-email">Email</label> {{ form.vendor_email_address }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-url">Website Address</label> {{ form.vendor_website_url }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="input-email">Android App Address</label> {{ form.vendor_android_app_url }}
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-register">Date Company Was Established</label> {{ form.date_company_was_established }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="input-landline-number">Landline No.</label> {{ form.landline_number }}
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="card-body">
+                                <h4>Legal Structure</h4>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="form-group col-md-6 col-sm-4 col-xs-2 ">
+                                            <div class="row mb-4 ">
+                                                <label for="corporation">Corporation</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="corporation" name="legal-structure" value="corporation">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="joint-venture">Joint-venture</label>
+                                                <div class="input-group-text ml-3">
+                                                    <input type="radio" id="joint-venture" name="legal-structure" value="joint-venture">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-4 ">
+                                            <div class="row mb-4">
+                                                <label for="partnership">Partnership</label>
+                                                <div class="input-group-text ml-2">
+                                                    <input type="radio" id="partnership" name="legal-structure" value="partnership">
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-4">
+                                                <label for="frenchise">Frenchise</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="frenchise" name="legal-structure" value="frenchise">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-4">
+                                            <div class="row mb-4">
+                                                <label for="sole-proprietorship">Sole-proprietorship</label>
+                                                <div class="input-group-text ml-2">
+                                                    <input type="radio" id="sole-proprietorship" name="legal-structure" value="sole-proprietorship">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="non-profit">Non-profit</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="non-profit" name="legal-structure" value="non-profit">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="card-body">
+                                <h4>Type Of Business/Services</h4>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="form-group col-md-6 col-sm-4 col-xs-2 ">
+                                            <div class="row mb-4 ">
+                                                <label for="retailer">Retailer</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="retailer" name="legal-structure" value="retailer">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="construction-contactor">Construction Contractor</label>
+                                                <div class="input-group-text ml-3">
+                                                    <input type="radio" id="construction-contactor" name="legal-structure" value="construction-contactor">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="distribution-dealer">Distribution/Dealer</label>
+                                                <div class="input-group-text ml-3">
+                                                    <input type="radio" id="distribution-dealer" name="legal-structure" value="distribution-dealer">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="authorised-agent">Authorised Agent</label>
+                                                <div class="input-group-text ml-3">
+                                                    <input type="radio" id="authorised-agent" name="legal-structure" value="authorised-agent">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-4 ">
+                                            <div class="row mb-4">
+                                                <label for="publication">Publication</label>
+                                                <div class="input-group-text ml-2">
+                                                    <input type="radio" id="publication" name="legal-structure" value="publication">
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-4">
+                                                <label for="profesisonal-services">Professional Services</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="profesisonal-services" name="legal-structure" value="profesisonal-services">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="service-provider">Service Provider</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="service-provider" name="legal-structure" value="service-provider">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="trader">Trader</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="trader" name="legal-structure" value="trader">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-4">
+                                            <div class="row mb-4">
+                                                <label for="manufacturer">Manufacturer</label>
+                                                <div class="input-group-text ml-2">
+                                                    <input type="radio" id="manufacturer" name="legal-structure" value="manufacturer">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="consultant">Consultant</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="consultant" name="legal-structure" value="consultant">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="transport">Freight/Transportation</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="transport" name="legal-structure" value="transport">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="others">Others</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="others" name="legal-structure" value="others">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <h4>Details On Services or Goods Company Supplies (Brief Description)</h4>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Info</span>
+                                </div>
+                                <textarea class="form-control" aria-label="With textarea"></textarea>
+                            </div>
+                            <br>
+                            <hr>
+                            <h4>Geographics Service Area</h4>
+                            <div class="card-body">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="form-group col-md-6 col-sm-4 col-xs-2 ">
+                                            <div class="row mb-4 ">
+                                                <label for="Village">Village</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="Village" name="legal-structure" value="Village">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="Tehsil">Tehsil</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="Tehsil" name="legal-structure" value="Tehsil">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-4 ">
+                                            <div class="row mb-4">
+                                                <label for="District">District</label>
+                                                <div class="input-group-text ml-2">
+                                                    <input type="radio" id="District" name="legal-structure" value="District">
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-4">
+                                                <label for="State">State</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="State" name="legal-structure" value="State">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-4">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <!-- done business start -->
+                            <h4>Have You Previously Done Business with SBT Professioanals</h4>
+                            <div class="row mb-4 ml-2">
+                                <label for="Yes">Yes</label>
+                                <div class="input-group-text ml-3">
+                                    <input type="radio" id="Yes" name="legal-structure" value="Yes">
+                                </div>
+                                <label class="ml-4" for="No">No</label>
+                                <div class="input-group-text ml-3">
+                                    <input type="radio" id="No" name="legal-structure" value="No">
+                                </div>
+                            </div>
+
+                            <!-- done business end -->
+                            <hr>
+                            <!-- social media question start -->
+                            <h4>Do You Have Social Media Presence Like Facebook / Instagram / Youtube ?</h4>
+                            <div class="row mb-4 ml-2">
+                                <label for="Yes">Yes</label>
+                                <div class="input-group-text ml-3">
+                                    <input type="radio" id="Yes" name="legal-structure" value="Yes">
+                                </div>
+                                <label class="ml-4" for="No">No</label>
+                                <div class="input-group-text ml-3">
+                                    <input type="radio" id="No" name="legal-structure" value="No">
+                                </div>
+                            </div>
+
+                            <!--  social media question end -->
+                            <hr>
+                            <!-- regsitration fees start -->
+                            <h4>Registration Fee</h4>
+                            <div class="row mb-4 ml-2">
+                                <div class="input-group-text ml-3">
+                                    <input type="radio" id="1200" name="legal-structure" value="INR 1200 (Per Month)">
+                                </div>
+                                <label class="ml-2" for="1200">INR 1200 (Per Month)</label>
+
+                                <div class="input-group-text ml-3">
+                                    <input type="radio" id="12000" name="legal-structure" value="INR 12000 (Yearly)">
+                                </div>
+                                <label class="ml-2" for="12000">INR 12000 (Yearly)</label>
+
+                                <div class="input-group-text ml-3">
+                                    <input type="radio" id="100" name="legal-structure" value="Registration Fee (INR 100 @ LifeTime)">
+                                </div>
+                                <label class="ml-2" for="100">Registration Fee (INR 100 @ LifeTime)</label>
+
+                                <div class="input-group-text ml-3">
+                                    <input type="radio" id="SBTMarketingConcept" name="legal-structure" value="SBTMarketingConcept">
+                                </div>
+                                <label class="ml-2" for="SBTMarketingConcept">SBT Marketing Manager Concept</label>
+                            </div>
+                            <hr>
+                            <!-- regsitration fees end -->
+                            <!-- confirm leads start -->
+                            <h4>Confirm Leads Paid Packeges By Slabs</h4>
+                            <div class="card-body">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+
+                                        <div class="col">
+                                            <div class="row mb-4">
+                                                <label for="partnership">1-25 Leads in a Month/Quarterly/Yearly</label>
+                                                <div class="input-group-text" style="margin-left: 45px;">
+                                                    <input type="radio" id="partnership" name="legal-structure" value="partnership">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="partnership">25-100 Leads in a Month/Quarterly/Yearly</label>
+                                                <div class="input-group-text " style="margin-left: 28px;">
+                                                    <input type="radio" id="partnership" name="legal-structure" value="partnership">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="partnership">100-500 Leads in a Month/Quarterly/Yearly</label>
+                                                <div class="input-group-text ml-4">
+                                                    <input type="radio" id="partnership" name="legal-structure" value="partnership">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- confirm leads end -->
+                            <!-- employee id section start -->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-employee">Name / Employee ID</label> {{ form.employee_id_reference }}
+                                </div>
+                            </div>
+                            <!-- employee id section end -->
+                            <!-- tin id section start -->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputTin">Tin No.</label> {{ form.tin_no }}
+                                </div>
+                            </div>
+                            <!-- tin id section end -->
+                            <!-- pan id section start -->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputPan">Pan No.</label> {{ form.pan_no }}
+                                </div>
+                            </div>
+                            <!-- pan id section end -->
+                            <!--gst id section start -->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputGst">Gst No.</label> {{ form.gst_no }}
+                                </div>
+                            </div>
+                            <!-- gst id section end -->
+                            <div class="form-group">
+                                <div class="form-check">
+                                    {{ form.vendor_is_active }}
+                                    <label class="form-check-label" for="active">
+                                                        <strong>Vendor Is Active</strong>
+                                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container-fluid -->
+</div>
+<!-- end app-main -->
+</div>
+<!-- end app-container -->
+
+{% endblock maincontent %}

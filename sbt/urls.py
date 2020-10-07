@@ -25,6 +25,7 @@ urlpatterns = [
     path(r'', lambda r: HttpResponseRedirect('sbt/')),
     path('sbt/', include('website.urls')),
     path('api/', include('restapi.urls')),
+    path('sbtadmin/', include('dashboard.urls',namespace='dashboard')),
 ]
 
 if settings.DEBUG == True:

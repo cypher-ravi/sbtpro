@@ -1,0 +1,110 @@
+
+{% extends "dashboard/layout/base.html" %}
+{% block maincontent %}
+
+                <!-- begin app-main -->
+                <div class="app-main" id="main">
+                    <!-- begin container-fluid -->
+                    <div class="container-fluid">
+                        <!-- begin row -->
+                        <div class="row">
+                            <div class="col-md-12 m-b-30">
+                                <!-- begin page title -->
+                                <div class="d-block d-sm-flex flex-nowrap align-items-center">
+                                    <div class="page-title mb-2 mb-sm-0">
+                                        <h1>New Branch</h1>
+                                    </div>
+                                    <div class="ml-auto d-flex align-items-center">
+                                        <nav>
+                                            <ol class="breadcrumb p-0 m-b-0">
+                                                <li class="breadcrumb-item">
+                                                    <a href="index.html"><i class="ti ti-home"></i></a>
+                                                </li>
+                                                <li class="breadcrumb-item">
+                                                    Dashboard
+                                                </li>
+                                                <li class="breadcrumb-item active text-primary" aria-current="page">New Branch</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <!-- end page title -->
+                            </div>
+                        </div>
+                        <!-- end row -->
+                        <!-- begin row -->
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card card-statistics">
+                                    <div class="card-header">
+                                        <div class="card-heading">
+                                            <h4 class="card-title">Enter Details Below:</h4>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">@</span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                                        </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputEmail4">Email</label>
+                                                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputPassword4">Password</label>
+                                                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputAddress">Address</label>
+                                                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputAddress2">Address 2</label>
+                                                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputCity">City</label>
+                                                    <input type="text" class="form-control" id="inputCity">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="inputState">State</label>
+                                                    <select id="inputState" class="form-control">
+                                                        <option selected>Select State</option>
+                                                        <option>Ontario</option>
+                                                        <option>Toronto</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <label for="inputZip">Zip</label>
+                                                    <input type="text" class="form-control" id="inputZip">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                                                    <label class="form-check-label" for="gridCheck">
+                                                        Check me out
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Sign in</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                    </div>
+                    <!-- end container-fluid -->
+                </div>
+                <!-- end app-main -->
+            </div>
+            <!-- end app-container -->
+            
+{% endblock maincontent %}

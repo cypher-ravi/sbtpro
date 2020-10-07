@@ -4,7 +4,7 @@
 *$py.class
 *.pyc
 
-# C extensions
+# C extensionsfenv
 *.so
 
 # Distribution / packaging

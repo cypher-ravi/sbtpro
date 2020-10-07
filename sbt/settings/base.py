@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'restapi',
     'rest_framework',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,7 @@ MESSAGE_TAGS = {
 }
 
 # LOGIN_REDIRECT_URL = 'INDEx'
+MESSAGE_TAGS = {
+    messages.SUCCESS: 'alert border-0 alert-primary bg-gradient m-b-30 alert-dismissible fade show border-radius-none',
+    messages.INFO: 'alert alert-warning alert-dismissible fade show',
+}

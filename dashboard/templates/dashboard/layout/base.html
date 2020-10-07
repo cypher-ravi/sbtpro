@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+<head>
+{% block title %}
+    <title>Dashboard- SBTProfessionals</title>
+{% endblock title %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Admin template that can be used to build dashboards for CRM, CMS, etc." />
+    <meta name="author" content="Potenza Global Solutions" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- app favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico">
+
+   {% include "dashboard/scripts/css/main_css.html" %}
+   {% block extracss %}
+  
+   
+   {% endblock extracss %}
+</head>
+
+<body>
+    <!-- begin app -->
+    <div class="app">
+        <!-- begin app-wrap -->
+        <div class="app-wrap">
+            <!-- begin pre-loader -->
+            <div class="loader">
+                <div class="h-100 d-flex justify-content-center">
+                    <div class="align-self-center">
+                        <img src="{% static 'dashboard/assets/img/loader/loader.svg' %}" alt="loader">
+                    </div>
+                </div>
+            </div>
+            <!-- end pre-loader -->
+            <!-- begin app-header -->
+           {% include "dashboard/includes/header.html" %}
+            <!-- end app-header -->
+            <!-- begin app-container -->
+            <div class="app-container">
+                <!-- begin app-nabar -->
+                {% include "dashboard/includes/side_nav.html" %}
+                <!-- end app-navbar -->
+              {% block maincontent %}
+              
+              {% endblock maincontent %}
+            </div>
+            <!-- end app-container -->
+            <!-- begin footer -->
+            {% include "dashboard/includes/footer.html" %}
+            <!-- end footer -->
+        </div>
+        <!-- end app-wrap -->
+    </div>
+    <!-- end app -->
+
+   {% include "dashboard/scripts/js/main_js.html" %}
+</body>
+
+
+</html>
