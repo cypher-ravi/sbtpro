@@ -218,7 +218,7 @@ def test(request):
         resp = form_validation(request.POST)
         return HttpResponse(f"nahi chala{resp}")
 
-    return render(request, 'website/test.html')
+    return render(request, 'website/auth_and_pass/test.html')
 
 
 def purchase(request, slug):
@@ -632,6 +632,7 @@ def top(request):
     team = TOP.objects.all()
     return render(request, 'website/pages/top2.html', {'vendor': vendor, 'team': team, 'category': category})
 
+    
 
 def search_top(request):
     category = Categories.objects.all()

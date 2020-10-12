@@ -6,7 +6,7 @@
 <!-- end header area -->
 
 <main>
-
+ 
     <!-- Slider Start -->
     <div class="relative">
 
@@ -167,7 +167,7 @@
     </div>
 
     <!-- services carousel start -->
-    <div class="container">
+    {% comment %} <div class="container">
         <div class="row">
             <h2 id="trendingservice">Trending <b class="underline-small"> Services</b></h2>
 
@@ -196,7 +196,7 @@
                                 <div class="card" style="width: 18rem;">
                                     <img src="/media/{{ i.Image }}" class="card-img-top" alt="..." />
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ i.service_name}}</h5>
+                                        <h5 class="card-title">{{ i.service_name}}</h5>JI  
                                         <p class="card-text">
                                             {{ i.service_desc|safe }}
 
@@ -212,9 +212,9 @@
                             {% endif %} {% endfor %}
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
                 <!-- left and right controls for the slide -->
-                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                {% comment %} <a class="carousel-control-prev" href="#demo" data-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
                 </a>
                 <a class="carousel-control-next" href="#demo" data-slide="next">
@@ -222,12 +222,160 @@
                 </a>
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     <!-- services carousel end -->
 
     <!-- services carousel end -->
     <!-- why-us area start -->
+    <!--Carousel Wrapper-->
+<div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+
+  <!--Controls-->
+  <div class="controls-top">
+    <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fas fa-chevron-left"></i></a>
+    <a class="btn-floating" href="#multi-item-example" data-slide="next"><i
+        class="fas fa-chevron-right"></i></a>
+  </div>
+  <!--/.Controls-->
+
+  <!--Indicators-->
+  <ol class="carousel-indicators">
+    <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+    <li data-target="#multi-item-example" data-slide-to="1"></li>
+    
+  </ol>
+  <!--/.Indicators-->
+
+  <!--Slides-->
+  <div class="carousel-inner" role="listbox">
+
+    <!--First slide-->
+    <div class="carousel-item active">
+
+      <div class="col-md-3" style="float:left">
+       <div class="card mb-2">
+          <img class="card-img-top"
+            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Card title</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's content.</p>
+              <a class="color-two btn-custom" style="color: white;">Button</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3" style="float:left">
+        <div class="card mb-2">
+          <img class="card-img-top"
+            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Card title</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's content.</p>
+              <a class="color-two btn-custom" style="color: white;">Button</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3" style="float:left">
+        <div class="card mb-2">
+          <img class="card-img-top"
+            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Card title</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's content.</p>
+              <a class="color-two btn-custom" style="color: white;">Button</a>
+          </div>
+        </div>
+      </div>
+      
+       <div class="col-md-3" style="float:left">
+       <div class="card mb-2">
+          <img class="card-img-top"
+            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Card title</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's content.</p>
+              <a class="color-two btn-custom" style="color: white;">Button</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--/.First slide-->
+
+    <!--Second slide-->
+    <div class="carousel-item">
+
+      <div class="col-md-3" style="float:left">
+        <div class="card mb-2">
+          <img class="card-img-top"
+            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Card title</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's content.</p>
+              <a class="color-two btn-custom" style="color: white;">Button</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3" style="float:left">
+        <div class="card mb-2">
+          <img class="card-img-top"
+            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(47).jpg" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Card title</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's content.</p>
+              <a class="color-two btn-custom" style="color: white;">Button</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3" style="float:left">
+        <div class="card mb-2">
+          <img class="card-img-top"
+            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Card title</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's content.
+              
+           
+             </p>
+             <a class="color-two btn-custom" style="color: white;">Button</a>
+          </div>
+        </div>
+      </div>
+      
+       <div class="col-md-3" style="float:left">
+        <div class="card mb-2">
+          <img class="card-img-top"
+            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(47).jpg" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title">Card title</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's content.</p>
+              <a class="color-two btn-custom" style="color: white;">Button</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--/.Second slide-->
+
+   
+
+  </div>
+  <!--/.Slides-->
+
+</div>
+<!--/.Carousel Wrapper-->
     <div id="why-us-white">
         <div class="why-us-container why-us-left-bg5">
             <div class="container">
@@ -342,7 +490,7 @@
                                     <!-- single widget-call content-->
                                     <div class="post-heading-left">
                                         <h3 class="text-white">
-                                            Trusted By More <br /> Than <span class="underline">10,000</span> Happy Company
+                                            Trusted By More  <b class="underline-small" >10,000 </b>Happy Company
                                         </h3>
                                     </div>
                                     <p class="text-white">
@@ -387,11 +535,10 @@
                                                 <a href="services-detail.html">Test Your Brain</a>
                                             </h5>
                                             <p>
-                                                Open a beautiful store & increase your conversion rates. Deploy a conversion rate optimization. Best Services.
+                                                Open a beautiful store &amp; increase your conversion rates. Deploy a conversion rate optimization. Best Services.
                                             </p>
                                             <div class="mt-25">
-                                                <a href="services-detail.html" class="button-light"><i
-                                                        class="fas fa-arrow-right"></i> Read
+                                                <a href="services-detail.html" class="button-light"><i class="fas fa-arrow-right"></i> Read
                                                     More</a>
                                             </div>
                                         </div>
@@ -410,11 +557,10 @@
                                                 <a href="services-detail.html">Training Mentor</a>
                                             </h5>
                                             <p>
-                                                Open a beautiful store & increase your conversion rates. Deploy a conversion rate optimization. Best Services.
+                                                Open a beautiful store &amp; increase your conversion rates. Deploy a conversion rate optimization. Best Services.
                                             </p>
                                             <div class="mt-25">
-                                                <a href="services-detail.html" class="button-light"><i
-                                                        class="fas fa-arrow-right"></i> Read
+                                                <a href="services-detail.html" class="button-light"><i class="fas fa-arrow-right"></i> Read
                                                     More</a>
                                             </div>
                                         </div>
@@ -433,10 +579,10 @@
                                                 <a href="services-detail.html">Thinking Creative</a>
                                             </h5>
                                             <p>
-                                                Open a beautiful store & increase your conversion rates. Deploy a conversion rate optimization. Best Services.
+                                                Open a beautiful store &amp; increase your conversion rates. Deploy a conversion rate optimization. Best Services.
                                             </p>
                                             <div class="mt-25">
-                                                More</a>
+                                                More
                                             </div>
                                         </div>
                                     </article>
@@ -447,8 +593,7 @@
 
                         <div class="content-button btn-section">
                             <!-- button call to action -->
-                            <a href="#trendingservice" class="color-two btn-custom">View Services <i
-                                    class="fas fa-arrow-right"></i></a>
+                            <a href="#trendingservice" class="color-two btn-custom">View Services <i class="fas fa-arrow-right"></i></a>
                         </div>
 
                         <!-- .row end -->
@@ -481,7 +626,7 @@
                                             <div class="themeioan_counter text-center">
                                                 <!-- single counter item -->
                                                 <i class="secondary-color fas fa-user fa-3x"></i>
-                                                <h4>10000</h4>
+                                                <h4>1000</h4>
                                                 <p>Happy Clients</p>
                                             </div>
                                             <!-- end single counter item -->

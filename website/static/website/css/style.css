@@ -202,7 +202,7 @@ label:before {
     margin-top: 6%;
     justify-content: center;
     align-items: center;
-    margin-left: 28%;
+    /* margin-left: 28%; */
     margin-bottom: 2%;
     height: 40px;
 }
@@ -368,7 +368,7 @@ label:before {
     box-shadow: 3px 4px 3px #999;
     right: 0px;
     z-index: 100;
-    top: 224px;
+    top: 152px;
 }
 
 .insta {
@@ -385,7 +385,7 @@ label:before {
     box-shadow: 3px 4px 3px #999;
     right: 0px;
     z-index: 100;
-    top: 284px;
+    top: 215px;
 }
 
 .you-tube {
@@ -401,7 +401,7 @@ label:before {
     box-shadow: 3px 4px 3px #999;
     right: 0px;
     z-index: 100;
-    top: 344px;
+    top: 263px;
 }
 
 .face-book {
@@ -417,7 +417,7 @@ label:before {
     box-shadow: 3px 4px 3px #999;
     right: 0px;
     z-index: 100;
-    top: 404px;
+    top: 320px;
 }
 
 .whats-app {
@@ -433,7 +433,7 @@ label:before {
     box-shadow: 3px 4px 3px #999;
     right: 0px;
     z-index: 100;
-    top: 460px;
+    top: 378px;
 }
 
 .my-float {
@@ -452,7 +452,7 @@ label:before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #fff url(../images/762.gif) no-repeat center;
+    background: #fff url(../images/load.gif) no-repeat center;
     -webkit-animation: spin 300s linear infinite;
     /* Safari */
     animation: spin 500s linear infinite;
@@ -640,7 +640,7 @@ label:before {
     padding: 18px;
     width: 100%;
     border: none;
-    text-align: left;
+    text-align: left;   
     outline: none;
     font-size: 15px;
     transition: 0.4s;
@@ -648,10 +648,10 @@ label:before {
     margin-bottom: 10px;
 }
 
-.active,
+/* .active,
 .accordion:hover {
-    background-color: #ccc;
-}
+    background-color:white;
+} */
 
 .panel {
     padding: 0 18px;
@@ -662,5 +662,5 @@ label:before {
 
 .container-top {
     margin-top: 135px;
-    width:
+  
 }

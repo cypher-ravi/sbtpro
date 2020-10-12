@@ -33,7 +33,7 @@
         margin-bottom: 0px;
       }
     }
-  </style>
+   </style>
 
   {% block css %} {% endblock %}
 </head>
@@ -43,11 +43,16 @@
   <!-- header area start -->
   {% include "website/includes/header.html" %}
   <div class="feedback">
-    <a href="/sbt/feedback/">
+    
+ 
+
+
       <img src="/static/website/images/thumb-up-1.svg"
-        style="max-width: 287%;height: 48px;margin-top: -11px;transform: rotate(90deg);">
+style="max-width: 287%; height: 48px; margin-top: -11px;transform: rotate(90deg);"onclick = "message();" />
     </a>
   </div>
+  
+
   
 
       <a class="whats-app" title="Whatsapp contact" href="https://api.whatsapp.com/send?phone=918295393035"
@@ -79,6 +84,15 @@
   {% include "website/scripts/js/main_js.html" %}
   <!-- manually added -->
 
+  <script type = "text/javascript">
+   
+       function message() {
+          alert("thank you for like the website");
+       
+       }
+ 
+ </script>
+    
   {% include "website/scripts/manually_added/manuall_js.html" %}
 
   {% block js %} {% endblock %}

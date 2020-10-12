@@ -55,20 +55,22 @@
           <ul class="nav navbar-nav ml-auto">
             <div class="hide-on-desktop-only">
               {% if user.is_authenticated %}
+            
               <div class="mt-4">
 
                 <a class="dropdown-item" href="/sbt/logout/"><i class="fa fa-user"></i>Logout</a>
 
               </div>
               {% else %}
+
               <a class="cursor-on-pointer" style="margin-left: 30px;" href="/sbt/login" role="button"><i
                   class="fa fa-user"></i>
                 Login |
               </a>
               <a class="cursor-on-pointer" href="/sbt/signup" role="button">
                 Register
-              </a>
-
+             </a>
+ 
               {% endif %}
 
 
@@ -76,9 +78,11 @@
          
             <!-- categories on mobile -->
             <li>
+             
               <a href="/sbt/download" class="hide-on-desktop-only  search-ico-btn ico-btn"><i
-                  class="fa fa-download"></i> Download Our App</a>
-
+                  class="fa fa-download" ></i> Download Our App</a>
+                
+                  
             </li>
 
 
@@ -102,9 +106,6 @@
             </li>
             <!-- </div> -->
             <!-- categories on mobile -->
-
-
-            <li><a title="List your Business" href="/sbt/become_a_vendor ">Become A Vendor</a></li>
             <li class="subnav">
               <a title="Shop" href="/sbt/trading">SBT Trading</a>
               <ul class="sub-menu">
@@ -115,8 +116,13 @@
                 <li>
                   <a title="Faq" href="/sbt/FAQ" class="nav-link">FAQs?</a>
                 </li>
+                 
               </ul>
             </li>
+            <li><a href="categories.html"  class="hide-on-desktop-only "> categories </a></li>
+
+            <li><a title="List your Business" href="/sbt/become_a_vendor ">Become A Vendor</a></li>
+          
 
             <li><a title="membership" href="/sbt/membership">Customer Membership</a></li>
             <li><a title="naukri" href="/sbt/jobs">Career</a></li>
