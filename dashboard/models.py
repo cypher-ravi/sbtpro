@@ -1,7 +1,7 @@
 from django.db import models
 from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
-from website.models import VALID_STATE_CHOICES,GENDER_CHOICES
+from website.models import VALID_STATE_CHOICES,GENDER_CHOICES,Plan
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
 
@@ -84,3 +84,26 @@ class Banner2(models.Model):
 
     def __str__(self):
         return self.banner_name
+    
+
+class Customer(models.Model):
+    customer_id = models.AutoField(primary_key=True)
+    customer_name = models.CharField(max_length=20,default='')
+    Mobile_No = PhoneNumberField()
+    Mobile_No_2 = PhoneNumberField(blank=True,null=True)
+    Address1 = models.CharField(max_length=100, default='')
+    Address2 = models.CharField(max_length=100, blank=True, null=True, default='')
+    city = models.CharField(max_length=100, default='')
+    state = models.CharField(max_length=100, choices=VALID_STATE_CHOICES, default='Please Select')
+    zipcode = models.IntegerField()
+    country = CountryField()
+    EmailID = models.EmailField(null=True, blank=True)
+    joining_date = models.DateTimeField(auto_now_add=True)
+    gender = models.CharField(max_length=100, choices=GENDER_CHOICES, default='Please Select')
+    extra_Info = models.TextField(max_length=200, blank=True, null=True)
+    Contact_Person = models.CharField(max_length=100, default='', blank=True, null=True)
+    customer_is_active = models.BooleanField(default=False)
+    subscription_plan_taken = models.ForeignKey(Plan,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.customer_name
