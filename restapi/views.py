@@ -32,6 +32,21 @@ class VendorList(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+    
+class BannersList(APIView):
+    """
+    List of all Banners
+
+    """
+    def get(self, request,slug, format=None):
+        key = parameters['key']
+        if slug == key:
+            banner = Banner.objects.all()
+            serializer = AllBannerSerializer(banner, many=True)
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
 class VendorDetail(generics.GenericAPIView):
     """
     Vendor Detail By ID
@@ -49,7 +64,8 @@ class VendorDetail(generics.GenericAPIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
+    def post(self, request,vendor_id,slug, format=None):
+        return Response(status=status.HTTP_400_BAD_REQUEST) 
 
 class PlanList(APIView):
     """
@@ -85,6 +101,28 @@ class PlanDetail(generics.GenericAPIView):
             return Response(serializer.data)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class EmployeeDailyAttendanceDetail(generics.GenericAPIView):
+    """
+    Employee Attendance Detail By ID
+
+    """
+    serializer_class = DailyAttendanceSerializer
+    queryset = DailyAttendance
+    def get(self, request,employee_id,slug, format=None):
+        key = parameters['key']
+        if slug == key:
+            attendance = DailyAttendance.objects.filter(employee=employee_id)
+            serializer = DailyAttendanceSerializer(attendance, many=True)
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class AttendanceList(generics.ListCreateAPIView):
+    queryset = DailyAttendance.objects.all()
+    serializer_class = DailyAttendanceSerializer
+    
+
     
 """   
 --------------------------------------------ViewSets----------------------------------------------------------                  
@@ -129,7 +167,7 @@ class NewVendorAPI(viewsets.ModelViewSet):
     serializer_class = VendorSerializer
 
     def create(self, request, *args, **kwargs):
-        vendor = Vendor.objects.filter(Company_Name=request.data['Company_Name'])
+        vendor = Vendor.objects.filter(Company_Name__iexact = request.data['Company_Name'])
         if vendor.exists():
             return Response({'detail':'vendor already exists'},status=status.HTTP_400_BAD_REQUEST) 
         data = request.data
@@ -178,3 +216,19 @@ class NewCustomerAPI(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# class DailyAttendanceAPI(viewsets.ModelViewSet):
+#     """
+#     This API creates new attendance,view and edit using viewsets
+
+#     """
+#     queryset = DailyAttendance.objects.all()
+#     serializer_class = DailyAttendanceSerializer
+
+#     def create(self, request,employee_id, *args, **kwargs):
+#         attendance = DailyAttendance.objects.filter(employee=employee_id)
+#         data = request.data
+#         serializer = DailyAttendanceSerializer(data=data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

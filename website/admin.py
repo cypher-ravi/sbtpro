@@ -80,7 +80,7 @@ class VendorAdmin(admin.ModelAdmin):
               ('TIN_No', 'Discount_Percentage'), ('Facebook_URL', 'Twitter_URL'), ('website_URL', 'Contact_Person'),
               ('Other_Info', 'Registered_Trade_Name'), ('Longitude', 'Latitude'),
               ('type_of_commodity_or_business', 'geograpgical_area'), ('business_history_with_sbt', 'registration_fee'),
-              'Service_decsription','vendor_services','vendor_video')
+              'Service_decsription','vendor_services','vendor_video','employee')
 
     class Media:
         js = ('website/js/tinyinject.js',)

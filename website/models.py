@@ -1,3 +1,5 @@
+from restapi.models import *
+from dashboard.models import Employee
 from django.db import models
 from django.core.validators import FileExtensionValidator
 from phonenumber_field.modelfields import PhoneNumberField
@@ -6,9 +8,6 @@ from django.utils import timezone
 from django import forms
 from django.contrib import messages
 from django.core.exceptions import ValidationError
-from restapi.models import *
-
-
 GENDER_CHOICES = (
     ("1", "Please Select"),
     ("2", "Male"),
@@ -339,6 +338,7 @@ class Vendor(models.Model):
     ("Sbt marketing concept", "Sbt marketing concept"),
     )
     registration_fee = models.CharField(max_length=100, choices=REGISTRATION_FEE, default='none')
+    employee = models.ForeignKey(Employee,on_delete=models.CASCADE)
 
 
     def __str__(self):

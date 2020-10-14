@@ -6,4 +6,5 @@ admin.site.register(Employee)
 admin.site.register(Banner)
 admin.site.register(Banner2)
 admin.site.register(Customer)
+admin.site.register(DailyAttendance)
 
