@@ -21,12 +21,6 @@ from django.http import HttpResponseRedirect
 from django.conf.urls.static import static
 
 from restapi.views import *
-from rest_framework.routers import DefaultRouter
-
-router = DefaultRouter()
-router.register("api/NewVendorAPI",NewVendorAPI)
-router.register("api/NewCategoryAPI",NewCategoryAPI)
-
 
 
 
@@ -35,6 +29,9 @@ urlpatterns = [
     path(r'', lambda r: HttpResponseRedirect('sbt/')),
     path('sbt/', include('website.urls')),
     path('api/', include('restapi.urls',namespace='rest_api')),
+    path('vendor/', include('Vendor.urls')),
+    path('employee/', include('Employee.urls',namespace='employee')),
+    path('customer/', include('Customer.urls')),
     path('sbtadmin/', include('dashboard.urls',namespace='dashboard')),
 ]
 

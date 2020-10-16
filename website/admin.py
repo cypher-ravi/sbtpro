@@ -70,20 +70,20 @@ class UploadresumeAdmin(admin.ModelAdmin):
     list_per_page = 50
 
 
-class VendorAdmin(admin.ModelAdmin):
-    list_display = ('vendor_id', 'Name', 'Company_Name', 'Busniess_Type', 'Mobile_No', 'Status')
-    search_fields = ['Company_Name', 'Name']
-    list_per_page = 50
-    fields = (('Name', 'Company_Name'), ('Busniess_Type', 'Image'),
-              ('Mobile_No', 'Mobile_No_2'), ('Address1', 'Address2'), ('city', 'state'),
-              ('PinCode', 'Status'), ('EmailID', 'Landline'), ('GST_No', 'Pan_No'),
-              ('TIN_No', 'Discount_Percentage'), ('Facebook_URL', 'Twitter_URL'), ('website_URL', 'Contact_Person'),
-              ('Other_Info', 'Registered_Trade_Name'), ('Longitude', 'Latitude'),
-              ('type_of_commodity_or_business', 'geograpgical_area'), ('business_history_with_sbt', 'registration_fee'),
-              'Service_decsription','vendor_services','vendor_video','employee')
+# class VendorAdmin(admin.ModelAdmin):
+#     list_display = ('vendor_id', 'Name', 'Company_Name', 'Busniess_Type', 'Mobile_No', 'Status')
+#     search_fields = ['Company_Name', 'Name']
+#     list_per_page = 50
+#     fields = (('Name', 'Company_Name'), ('Busniess_Type', 'Image'),
+#               ('Mobile_No', 'Mobile_No_2'), ('Address1', 'Address2'), ('city', 'state'),
+#               ('PinCode', 'Status'), ('EmailID', 'Landline'), ('GST_No', 'Pan_No'),
+#               ('TIN_No', 'Discount_Percentage'), ('Facebook_URL', 'Twitter_URL'), ('website_URL', 'Contact_Person'),
+#               ('Other_Info', 'Registered_Trade_Name'), ('Longitude', 'Latitude'),
+#               ('type_of_commodity_or_business', 'geograpgical_area'), ('business_history_with_sbt', 'registration_fee'),
+#               'Service_decsription','vendor_services','vendor_video','employee')
 
-    class Media:
-        js = ('website/js/tinyinject.js',)
+#     class Media:
+#         js = ('website/js/tinyinject.js',)
 
 
 class ServiceAdmin(admin.ModelAdmin):
@@ -114,7 +114,7 @@ admin.site.register(Subcategory)
 admin.site.register(Sub_sub_category)
 admin.site.register(TOP, TopAdmin)
 admin.site.register(ServiceContact, ServiceContactAdmin)
-admin.site.register(Vendor, VendorAdmin)
+# admin.site.register(Vendor, VendorAdmin)
 admin.site.register(Trading)
 admin.site.register(Faq, FaqAdmin)
 admin.site.register(QueryContact, QueryContactAdmin)

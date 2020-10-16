@@ -40,12 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'website',
-    'blog',
     'phonenumber_field',
     'restapi',
     'rest_framework',
     'dashboard',
     'rest_framework_swagger',
+    'Vendor',
+    'Employee',
+    'Customer',
 ]
 
 MIDDLEWARE = [
