@@ -33,19 +33,11 @@ class VendorListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
         fields = [
-           'vendor_id','Name','Company_Name',
-            'Busniess_Type','Service_decsription',
-            'Mobile_No','Mobile_No_2','Address1',
-            'Address2','city','state','PinCode',
-            'Contact_Person','EmailID','Landline',
-            'GST_No','Pan_No','TIN_No','Registered_Trade_Name',
-            'Facebook_URL','Twitter_URL','website_URL',
-            'Status','Other_Info','Discount_Percentage',
-            'Longitude','Latitude','submit_date','Image',
-            'type_of_commodity_or_business','geograpgical_area','business_history_with_sbt','registration_fee',
-            'vendor_services','vendor_video','employee',
+           'vendor_id','Name','Company_Name','Address1',
+            'Address2','city','state','Discount_Percentage','Image',
+            'type_of_commodity_or_business',
         ]
-
+        depth = 1
         # depth = 1
         # read_only_fields = ('vendor_id','Name','Mobile_No_2','Address2',
         #                     'Landline','Status','submit_date','Facebook_URL','Twitter_URL','website_URL','Other_Info')

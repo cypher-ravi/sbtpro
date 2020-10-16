@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'restapi',
     'rest_framework',
     'dashboard',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -117,7 +118,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,"static/")
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
 # managing media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -149,3 +150,4 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'alert border-0 alert-primary bg-gradient m-b-30 alert-dismissible fade show border-radius-none',
     messages.INFO: 'alert alert-warning alert-dismissible fade show',
 }
+REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' }
