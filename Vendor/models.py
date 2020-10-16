@@ -91,6 +91,17 @@ class VendorVideos(models.Model):
     def __str__(self):
         return self.video_url
 
+class VendorImages(models.Model):
+    image_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=20,default='')
+    image_url = models.URLField(default='')
+
+    class Meta:
+        verbose_name_plural = "Vendor images"
+
+    def __str__(self):
+        return self.image_url
+
 
 
 class Vendor(models.Model):
@@ -126,6 +137,7 @@ class Vendor(models.Model):
     Image = models.ImageField(upload_to="website/images/vendors", default="")
     vendor_services = models.ManyToManyField(VendorServices)
     vendor_video = models.ForeignKey(VendorVideos,on_delete=models.CASCADE,null=True,blank=True)
+    vendor_images = models.ManyToManyField(VendorImages,blank=True)
     TYPE_OF_BUSINESS =  (
     ("none", "Please Select"),
     ("consultant", "Consultant"),

@@ -1,8 +1,9 @@
 
 from django.urls import path,include
-# from .views import index,profile
+from .views import index
+"""
 from .views import login_view
-
+"""
 # from .views import *
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
@@ -12,10 +13,10 @@ from django.conf.urls.static import static
 app_name = 'dashboard'
 
 urlpatterns =[
-   # path('', index, name = 'AdminHome'),
-   path('login/', login_view, name="login"),
+   path('', index, name = 'AdminHome'),
+#  path('login/', login_view, name="login")
    # path('register/', register_user, name="register"),
-   path("logout/", LogoutView.as_view(), name="logout"),
+   # path("logout/", LogoutView.as_view(), name="logout"),
   
 
 #   # class based views url routes

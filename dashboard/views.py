@@ -28,7 +28,7 @@ from django.shortcuts import render,redirect
 # from django.core.mail import send_mail
 # # Create your views here.
 
-
+"""
 def login_view(request):
     form = LoginForm(request.POST or None)
 
@@ -52,7 +52,7 @@ def login_view(request):
             return HttpResponse('Error validating the form')   
     return render(request, "dashboard/accounts/auth-login.html", {"form": form})
             
-
+"""
         
             
             

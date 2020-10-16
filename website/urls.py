@@ -37,35 +37,35 @@ urlpatterns = [
     path('newsletter/', views.newsletter, name='newsletter'),
     path('feedback/', views.feedback, name='feedback'),
     path('TermsCondition/', views.tac, name='Terms_and_condition'),
-    path('username_validator', views.username_validator, name="uv"),
+#     path('username_validator', views.username_validator, name="uv"),"""
 
     # Payment, Purchase, Order Urls
-    path("purchase/<str:slug>", views.purchase, name="plan-purchase"),
-    path('pricing-multiplier/', views.pricing_multiplier, name ="PM"),
-    path('req_handler', views.req_handler, name='Request Handler'),
-    path('order_status/<str:slug>', views.order_status, name='Order_Status'),
+#    path("purchase/<str:slug>", views.purchase, name="plan-purchase"),
+#     path('pricing-multiplier/', views.pricing_multiplier, name ="PM"),
+#     path('req_handler', views.req_handler, name='Request Handler'),
+#     path('order_status/<str:slug>', views.order_status, name='Order_Status'),
     # Authentication Urls
-    path('signup/', views.sign_up, name='SignUp'),
-    path('login/', views.log_in, name='Login'),
-    path('logout/', views.logout_view, name='Logout'),
+#     path('signup/', views.sign_up, name='SignUp'),
+#     path('login/', views.log_in, name='Login'),
+#     path('logout/', views.logout_view, name='Logout')
     
     # Password Reset Urls
-    path('reset_password/',
-         auth_views.PasswordResetView.as_view
-         (template_name='website/password_reset.html'),
-         name='password_reset'),
-    path('reset_password_sent/',
-         auth_views.PasswordResetDoneView.as_view
-         (template_name='website/password_reset_Sent.html'),
-         name='password_reset_done'),
-    path('reset/<uidb64>/<token>',
-         auth_views.PasswordResetConfirmView.as_view
-         (template_name='website/password_reset_form.html'),
-         name='password_reset_confirm'),
-    path('reset_password_complete/',
-         auth_views.PasswordResetCompleteView.as_view
-         (template_name='website/password_reset_done.html'),
-         name='password_reset_complete'),
+#     path('reset_password/',
+#          auth_views.PasswordResetView.as_view
+#          (template_name='website/password_reset.html'),
+#          name='password_reset'),
+#     path('reset_password_sent/',
+#          auth_views.PasswordResetDoneView.as_view
+#          (template_name='website/password_reset_Sent.html'),
+#          name='password_reset_done'),
+#     path('reset/<uidb64>/<token>',
+#          auth_views.PasswordResetConfirmView.as_view
+#          (template_name='website/password_reset_form.html'),
+#          name='password_reset_confirm'),
+#     path('reset_password_complete/',
+#          auth_views.PasswordResetCompleteView.as_view
+#          (template_name='website/password_reset_done.html'),
+#          name='password_reset_complete'),
     ]
 
 if settings.DEBUG == True:

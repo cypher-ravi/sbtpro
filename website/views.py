@@ -9,7 +9,9 @@ from django.core.files.storage import FileSystemStorage
 from django.db.models import Q
 
 # To import for login,Signup
+"""
 from django.contrib.auth.models import User
+"""
 from django.contrib.auth import login, logout, authenticate
 # validations
 from django.core.validators import validate_email
@@ -226,7 +228,7 @@ def test(request):
     return render(request, 'website/test.html')
 
 
-def purchase(request, slug):
+"""def purchase(request, slug):
     vendor = TOP.objects.all()
     category = Categories.objects.all()
     # assuming coming from purchase form but for instance taking from purchase button from index.html
@@ -427,7 +429,7 @@ def order_status(request, slug):
         else:
             return HttpResponse('Please Login <a href="/sbt/login"> Here First</a>')
     except Exception as e:
-        return HttpResponse(f"Requested Order Not Found - {e}") # form to type in order id
+        return HttpResponse(f"Requested Order Not Found - {e}") # form to type in order id"""
 
 ''' Need to complete this function
 def order_id_session(order_id):
@@ -447,7 +449,7 @@ def order_id_session(order_id):
 
 
 
-def sign_up(request):
+"""def sign_up(request):
     # have exception of geting same user name
     if request.method == "POST":
         username = request.POST['username']
@@ -534,7 +536,7 @@ def log_in(request):
             return redirect(log_in)
     return render(request, 'website/auth_and_pass/login.html')
 
-
+"""
 # return redirect(index)
 
 
@@ -543,7 +545,7 @@ def logout_view(request):
     messages.success(request, 'Logged Out Successfully!')
     return redirect('website:Sbthome')
 
-
+"""
 def username_validator(request):
     if request.method == 'POST':
         usr = request.POST.get('user_name')
@@ -554,7 +556,7 @@ def username_validator(request):
             data['error_message'] = 'A user with this username already exists.'
         print(data)
     return JsonResponse(data)
-
+"""
 
 # A done here -------------------------------------
 

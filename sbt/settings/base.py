@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = parameters['SECRET_KEY']
+SECRET_KEY = 'io)y8-71d+8-kn7%*k&dk=4ri$=2&8i=!rvczc7c6m00o7tdno'
 
 
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'authentication',
     'website',
     'phonenumber_field',
     'restapi',
@@ -153,3 +154,7 @@ MESSAGE_TAGS = {
     messages.INFO: 'alert alert-warning alert-dismissible fade show',
 }
 REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' }
+
+
+
+AUTH_USER_MODEL = "authentication.User"

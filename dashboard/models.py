@@ -3,8 +3,8 @@ from website.models import *
 from django.db import models
 from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
-from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import User
+"""from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User"""
 
 GENDER_CHOICES = (
     ("1", "Please Select"),
@@ -62,17 +62,19 @@ VALID_STATE_CHOICES = (
 
 )
 
-class UserType(models.Model):
+"""class UserType(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True,blank=True)
     is_branch_user = models.BooleanField(default=False)
     is_vendor = models.BooleanField(default=False)
-    is_employee = models.BooleanField(default=False)
+    is_employee = models.BooleanField(default=False)"""
 
 
 # Create your models here.
 class Branch(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
-    branch_user_type = models.OneToOneField(UserType,related_name='branch_user',on_delete=models.CASCADE,blank=True,null=True)
+
+    # user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
+    # branch_user_type = models.OneToOneField(UserType,related_name='branch_user',on_delete=models.CASCADE,blank=True,null=True)
+    
     branch_name = models.CharField(max_length=20,default='')
     Mobile_No = PhoneNumberField()
     Mobile_No_2 = PhoneNumberField()
