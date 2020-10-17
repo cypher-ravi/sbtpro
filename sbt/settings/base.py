@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'Vendor',
     'Employee',
     'Customer',
+    'django_filters',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -153,8 +155,22 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'alert border-0 alert-primary bg-gradient m-b-30 alert-dismissible fade show border-radius-none',
     messages.INFO: 'alert alert-warning alert-dismissible fade show',
 }
-REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' }
+REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+                   'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'] 
+                   }
 
-
+# REST_FRAMEWORK = {
+    
+# }
 
 AUTH_USER_MODEL = "authentication.User"
+
+
+
+#Twilio
+# TWILIO_PHONE = config('TWILIO_PHONE', default=None)
+# TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID', default=None)
+# TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN', default=None)
+
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True

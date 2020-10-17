@@ -25,6 +25,10 @@ urlpatterns = [
     path('<str:slug>/plan_detail/<int:pk>',PlanDetail.as_view({'get':'retrieve'})),
     path('<str:slug>/banners_list',BannersList.as_view({'get':'list'})),
     
+    #for search in vendors
+    path('<str:slug>/vendors',VendorList.as_view()),
+
+    
     
 ]
 urlpatterns += router.urls

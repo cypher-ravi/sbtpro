@@ -4,6 +4,9 @@ from .models import *
 
 
 class TOPSerializer(serializers.ModelSerializer):
+    """
+    Serializer show list of Team of professionals
+    """
     class Meta:
         model = TOP
         fields = ['vendor_id', 'vendor_name',
@@ -15,6 +18,9 @@ class TOPSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    """
+    Serializer can CRUD on category model
+    """
     queryset = Categories.objects.all()
     class Meta:
         model = Categories

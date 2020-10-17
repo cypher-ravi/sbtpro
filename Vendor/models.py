@@ -10,6 +10,9 @@ from django.utils import timezone
 from django import forms
 from django.contrib import messages
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 # Create your models here.
 
 GENDER_CHOICES = (
@@ -69,6 +72,9 @@ VALID_STATE_CHOICES = (
 )
 
 class VendorServices(models.Model):
+    """
+    Store vendor services
+    """
     service_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=20,default='')
     description = models.TextField(max_length=200,default='')
@@ -81,6 +87,9 @@ class VendorServices(models.Model):
         return self.title
     
 class VendorVideos(models.Model):
+    """
+    Store vendor videos
+    """
     video_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=20,default='')
     video_url = models.URLField(default='')
@@ -92,19 +101,23 @@ class VendorVideos(models.Model):
         return self.video_url
 
 class VendorImages(models.Model):
+    """
+    Store vendor images
+    """
     image_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=20,default='')
-    image_url = models.URLField(default='')
+    image_url = models.ImageField(upload_to="website/images/vendors/VendorImages", default="")
 
     class Meta:
         verbose_name_plural = "Vendor images"
 
     def __str__(self):
-        return self.image_url
+        return self.title
 
 
 
 class Vendor(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null= True, blank=True)
     vendor_id = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=50, default='')
     Company_Name = models.CharField(max_length=100, default='')
@@ -168,7 +181,7 @@ class Vendor(models.Model):
     ("none", "Please Select"),
     ("INR 1200/per month", "INR 1200/per month"),
     ("INR 12000/per yearly", "INR 12000/per yearly"),
-    ("Registration Fee(INR 100@ lifetime)", "Registration Fee(INR 100@ lifetime)"),
+    ("Registration Fee(INR 365@ lifetime)", "Registration Fee(INR 100@ lifetime)"),
     ("Sbt marketing concept", "Sbt marketing concept"),
     )
     registration_fee = models.CharField(max_length=100, choices=REGISTRATION_FEE, default='none')

@@ -49,9 +49,6 @@ class UserManager(BaseUserManager):
 
         return user
 
-
-   
-
 class Key(models.Model):
     key = models.CharField(max_length=64, unique=True, blank=True,null=True)
     is_key_activated = models.BooleanField(default=False)
@@ -62,14 +59,25 @@ class User(AbstractBaseUser, PermissionsMixin):
                   message= "Phone number must be entered in format: '+9999999999'. Up to 14 digits allowed. ")
     phone = models.CharField(validators=[phone_regex], max_length=15, unique=True)
     first_name = models.CharField(max_length=23, blank=True)
+    otp_count = models.IntegerField(blank=True,null=True)
     key = models.ForeignKey(Key,on_delete=models.CASCADE,null=True,blank=True)
     is_active = models.BooleanField(default = True)# to check wheather a user is subscribed or not
     is_staff = models.BooleanField(default=False)
-    is_veryfied = models.BooleanField(default=False)
-    is_branch_user = models.BooleanField(default=False,blank=True,null=True)
-    is_vendor = models.BooleanField(default=False,blank=True,null=True)
-    is_employee = models.BooleanField(default=False,blank=True,null=True)
-    is_customer = models.BooleanField(default=False,blank=True,null=True)
+    is_verified = models.BooleanField(default=False)
+
+  
+    is_vendor_registered = models.BooleanField(default=False)
+    is_vendor_paid = models.BooleanField(default=False)
+
+    is_branch_user = models.BooleanField(default=False)
+
+    
+    is_customer_registered = models.BooleanField(default=False)
+    is_customer_paid = models.BooleanField(default=False)
+
+  
+    is_employee_registered =  models.BooleanField(default=False)
+    is_employee_paid =  models.BooleanField(default=False)
  
     
     

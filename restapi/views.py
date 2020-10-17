@@ -12,18 +12,27 @@ from django.conf import settings
 import json
 from django.shortcuts import get_object_or_404
 from Customer.serializers import CustomerPlanSerializer
-
-
+from Vendor.models import Vendor
+from Vendor.serializers import VendorListSerializer,VendorSerializer
 # with open("D:\workspace sbt\deployment\prodsbt\config.json", "r") as params:
 #     parameters = json.load(params)
 
+from django_filters.rest_framework import DjangoFilterBackend
 
 
+class VendorList(generics.ListAPIView):
+    """
+    API filter Vendors by Category,Company Service decsription ,vendor services
+    Use these fields for search Busniess_Type Service_decsription vendor_services
+    """
+    queryset = Vendor.objects.all()
+    serializer_class = VendorSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['Busniess_Type', 'Service_decsription','vendor_services',]
 
-    
-# """   
-# --------------------------------------------ViewSets----------------------------------------------------------                  
-# """
+
+ #--------------------------------------------ViewSets----------------------------------------------------------                  
+ 
 class NewCategoryAPI(viewsets.ModelViewSet):
     """
     This API creates new category and delete,update via id using viewsets

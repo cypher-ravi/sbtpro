@@ -1,7 +1,8 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 GENDER_CHOICES = (
     ("1", "Please Select"),
@@ -60,6 +61,9 @@ VALID_STATE_CHOICES = (
 
 # # Create your models here.
 class DailyAttendance(models.Model):
+    """
+    Model used for punch daily attendance by Employee
+    """
     ATTENDACE_CHOICES = (
     ("is_present", "present"),
     ("is_absent", "absent"),
@@ -78,6 +82,11 @@ class DailyAttendance(models.Model):
 
 
 class Employee(models.Model):
+    """
+    Model associate with vendor and branch,
+    this model create employee after form fill up by user role panel in APP
+    """
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null= True, blank=True)
     employee_id = models.AutoField(primary_key=True)
     employee_name = models.CharField(max_length=20,default='')
     father_name = models.CharField(max_length=20,default='')

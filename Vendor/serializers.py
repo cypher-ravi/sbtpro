@@ -4,6 +4,9 @@ from rest_framework import serializers
 from .models import Vendor
 
 class VendorListSerializer(serializers.ModelSerializer):
+    """
+    serializer serialize data from db for only showing 
+    """
     class Meta:
         model = Vendor
         fields = [
@@ -18,7 +21,10 @@ class VendorListSerializer(serializers.ModelSerializer):
 
       
 class VendorSerializer(serializers.ModelSerializer):
+    """
+    Serializer shows Vendors list, create by ID, retrieve by ID,update by ID
+    """
     class Meta:
         model = Vendor
         fields = '__all__'
-        
+        depth = 1
