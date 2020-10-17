@@ -47,7 +47,9 @@ class UserCreateView(viewsets.ModelViewSet):
         serializer = UserCreateSerializer(data = data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({'Account Created Successfully'}, status=status.HTTP_200_OK)
+            print(serializer.data)
+            user = User.objects.filter(phone = request.data['phone'])
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
             
@@ -95,6 +97,7 @@ def Verify(request, otpFromUser, phno):
             print("count increased", count)
             return Response({
                 'verified': True,
+                # 'User_details':already_verified_user
             })
         else:
             """if count > 10:
@@ -110,6 +113,7 @@ def Verify(request, otpFromUser, phno):
             print("count increased", count)
             return Response({
                 'verified': True,
+                # 'user details':already_verified_user
             })
     totp = pyotp.TOTP('base64secret6464')
     resp = totp.verify(otpFromUser)
