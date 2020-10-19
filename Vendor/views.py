@@ -1,6 +1,7 @@
 from django.shortcuts import render ,HttpResponse
 from rest_framework import viewsets
-
+from rest_framework import permissions
+from rest_framework.response import Response
 
 from .models import VendorServices,VendorVideos,Vendor
 from .serializers import VendorListSerializer,VendorSerializer
@@ -13,6 +14,7 @@ class VendorList(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Vendor.objects.all()
     serializer_class = VendorListSerializer
+    # permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request,category_id,slug, format=None):
         key = parameters['key']
@@ -30,6 +32,8 @@ class VendorDetail(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Vendor.objects.all()
     serializer_class = VendorListSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request,slug, format=None):
         key = parameters['key']
         if slug == key:   
@@ -45,6 +49,7 @@ class NewVendorAPI(viewsets.ModelViewSet):
     """
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
+    # permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         vendor = Vendor.objects.filter(Company_Name__iexact = request.data['Company_Name'])

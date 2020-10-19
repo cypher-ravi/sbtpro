@@ -18,7 +18,7 @@ from Vendor.serializers import VendorListSerializer,VendorSerializer
 #     parameters = json.load(params)
 
 from django_filters.rest_framework import DjangoFilterBackend
-
+from authentication.pagination import PaginationForVendorAndCategory
 
 class VendorList(generics.ListAPIView):
     """
@@ -28,7 +28,8 @@ class VendorList(generics.ListAPIView):
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['Busniess_Type', 'Service_decsription','vendor_services',]
+    filterset_fields = ['Busniess_Type', 'Service_decsription','vendor_services','Address1','city','state','Company_Name','Name']
+    
 
 
  #--------------------------------------------ViewSets----------------------------------------------------------                  
@@ -40,6 +41,7 @@ class NewCategoryAPI(viewsets.ModelViewSet):
     """
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
+    pagination_class = PaginationForVendorAndCategory
 
 
 

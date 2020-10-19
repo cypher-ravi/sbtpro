@@ -121,11 +121,11 @@ class Vendor(models.Model):
     vendor_id = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=50, default='')
     Company_Name = models.CharField(max_length=100, default='')
-    Busniess_Type = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    Busniess_Type = models.ForeignKey(Categories, on_delete=models.CASCADE,null=True,blank=True)
     # subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE,blank=True,null=True)
     Service_decsription = models.TextField(max_length=1000, default='')
-    Mobile_No = PhoneNumberField()
-    Mobile_No_2 = PhoneNumberField()
+    Mobile_No = PhoneNumberField(blank=True,null=True)
+    Mobile_No_2 = PhoneNumberField(blank=True,null=True)
     Address1 = models.CharField(max_length=100, default='')
     Address2 = models.CharField(max_length=100, blank=True, null=True, default='')
     city = models.CharField(max_length=100, default='')
@@ -133,10 +133,10 @@ class Vendor(models.Model):
     PinCode = models.IntegerField()
     Contact_Person = models.CharField(max_length=100, default='', blank=True, null=True)
     EmailID = models.EmailField(null=True, blank=True)
-    Landline = PhoneNumberField(null=True)
-    GST_No = models.IntegerField(null=True, blank=True)
-    Pan_No = models.IntegerField(null=True, blank=True)
-    TIN_No = models.IntegerField(null=True, blank=True)
+    Landline = PhoneNumberField(null=True,blank=True)
+    GST_No = models.CharField(max_length=15,null=True, blank=True)
+    Pan_No = models.CharField(max_length=11,null=True, blank=True)
+    TIN_No = models.CharField(max_length=11,null=True, blank=True)
     Registered_Trade_Name = models.CharField(max_length=100, blank=True, null=True, default='')
     Facebook_URL = models.URLField(max_length=200, blank=True, null=True)
     Twitter_URL = models.URLField(max_length=200, blank=True, null=True)
@@ -189,6 +189,6 @@ class Vendor(models.Model):
 
 
     def __str__(self):
-        return self.Name
+        return self.Company_Name
 
 

@@ -1,5 +1,9 @@
 from django.shortcuts import render
+
 from rest_framework import viewsets,generics
+from rest_framework import permissions
+from rest_framework.response import Response
+
 from .models import Employee,DailyAttendance
 from .serializers import EmployeeSerializer,DailyAttendanceSerializer
 
@@ -12,6 +16,7 @@ class NewEmployeeAPI(viewsets.ModelViewSet):
     """
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    # permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         employee = Employee.objects.filter(employee_name=request.data['employee_name'])
@@ -32,6 +37,8 @@ class EmployeeDailyAttendanceDetail(generics.GenericAPIView):
     """
     serializer_class = DailyAttendanceSerializer
     queryset = DailyAttendance
+    # permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request,employee_id,slug, format=None):
         key = parameters['key']
         if slug == key:

@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-
+from rest_framework import permissions
 
 from .models import User
 from .serializers import *
@@ -30,6 +30,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 
@@ -47,8 +48,6 @@ class UserCreateView(viewsets.ModelViewSet):
         serializer = UserCreateSerializer(data = data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            print(serializer.data)
-            user = User.objects.filter(phone = request.data['phone'])
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -67,7 +66,7 @@ def SendOtp(request, phno, format = None):
         url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
         response = requests.request("GET",url)
         print(response)
-        return Response({'sent':True})
+        return Response({'sent':True,'OTP':otp})
     else:
         totp = pyotp.TOTP('base64secret6464',interval=300)
         secret = generate_key()
@@ -75,7 +74,7 @@ def SendOtp(request, phno, format = None):
         url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
         response = requests.request("GET",url)
         print(response)
-        return Response({'sent':True})
+        return Response({'sent':True,'OTP':otp})
        
     
 
