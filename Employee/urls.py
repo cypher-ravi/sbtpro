@@ -13,4 +13,4 @@ urlpatterns = [
     path('<str:slug>/attendance_detail/<int:employee_id>',EmployeeDailyAttendanceDetail.as_view()),
     path('<str:slug>/attendance_detail/',AttendanceList.as_view()),
     
-]
+]+router.urls

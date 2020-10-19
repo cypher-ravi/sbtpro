@@ -6,6 +6,8 @@ router = routers.SimpleRouter()
 
 router.register(r'users', UserViewSet)
 
+app_name = 'authentication'
+
 urlpatterns = [
     path('send_sms_code/<str:phno>', SendOtp),
     path('verify/<str:otpFromUser>/<str:phno>', Verify),

@@ -1,23 +1,21 @@
 # Create your views here.
-from django.contrib.auth import get_user_model
-from django.shortcuts import render,redirect
-from django.urls import reverse, resolve
-
-from rest_framework.decorators import api_view
-from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import permissions
-
-from .models import User
-from .serializers import *
-from .functions import generate_key
-
 import json
-import pyotp
 import random
 import string
+
+import pyotp
 import requests
+from django.contrib.auth import get_user_model
+from django.shortcuts import redirect, render
+from django.urls import resolve, reverse
+from rest_framework import permissions, status, viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from .functions import generate_key
+from .models import User
+from .serializers import *
+
 # from twilio.rest import Client as TwilioClient
 
 User = get_user_model()
