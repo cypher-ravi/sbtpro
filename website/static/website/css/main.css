@@ -159,10 +159,8 @@ h6 {
         float: none !important;
     }
 }
-
-
 p {
-    margin-top: -4px;
+    margin-top: -12px;
     font-size: 16px;
     line-height: 1.875;
 }
@@ -4355,7 +4353,7 @@ select:focus {
 
 @media (min-width: 1200px) {
     .container {
-        max-width: 1200px!important;
+        max-width: 1143px!important;
     }
     .modern-container {
         left: calc((100% - 1170px)/ 2);
