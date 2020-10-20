@@ -254,6 +254,15 @@ class TOP(models.Model):
     vendor_mobile_no = PhoneNumberField()
     vendor_email = models.EmailField(null=True, blank=True)
     Image = models.ImageField(upload_to="website/images/TOPvendors", default="")
+    APP_CHOICES = (
+    ("True", "True"),
+    ("False", "False"),
+    )
+
+
+    app_exists = models.CharField(choices=APP_CHOICES,max_length=20,default=False)
+    app_url = models.CharField(max_length=50,default=False)
+
 
     def __str__(self):
         return self.vendor_name
@@ -341,15 +350,20 @@ class Contactviacategory(models.Model):
 
 class FrenchiseContact(models.Model):
     customer_id = models.AutoField(primary_key=True)
-    customer_name = models.CharField(max_length=50, default='')
-    email = models.EmailField()
-    mobile_no = PhoneNumberField()
+    name = models.CharField(max_length=50, default='')
+    mobile_no = models.CharField(max_length=14,blank=True,null=True)
+    email = models.CharField(max_length=50,blank=True,null=True)
     address = models.CharField(max_length=200, default='')
-    frenchise_option = models.CharField(max_length=50, default='')
+    frenchise_option = models.CharField(max_length=50, default='',blank=True,null=True)
+    company_name = models.CharField(max_length=100,blank=True,null=True)
+    message = models.TextField(max_length=1000,blank=True,null=True)
     submit_time =  models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name_plural = 'Frenchise Requests'
+
     def __str__(self):
-        return self.customer_name
+        return self.name
 
 
 class AddTestimonial(models.Model):

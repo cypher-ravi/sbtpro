@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from website.models import TOP,Categories,Plan,Subcategory
+from website.models import TOP,Categories,Plan,Subcategory,FrenchiseContact
 from .models import *
 
 
@@ -9,11 +9,7 @@ class TOPSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = TOP
-        fields = ['vendor_id', 'vendor_name',
-                 'Busniess_Type',
-                 'vendor_work_desc', 
-                 'address', 'state','city',
-                 'vendor_mobile_no','vendor_email',
+        fields = ['vendor_name','app_exists','app_url',
                  'Image',]
 
 
@@ -38,6 +34,9 @@ class SubCategorySerializer(serializers.ModelSerializer):
 
 
 
-  
+class FrenchiseRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =  FrenchiseContact
+        fields = '__all__'
 
 

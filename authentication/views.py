@@ -5,6 +5,7 @@ import string
 
 import pyotp
 import requests
+from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 from django.urls import resolve, reverse
@@ -61,17 +62,17 @@ def SendOtp(request, phno, format = None):
         totp = pyotp.TOTP('base64secret6464',interval=300)
         secret = generate_key()
         otp = totp.now()
-        url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
-        response = requests.request("GET",url)
-        print(response)
+        # url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
+        # response = requests.request("GET",url)
+        # print(response)
         return Response({'sent':True,'OTP':otp})
     else:
         totp = pyotp.TOTP('base64secret6464',interval=300)
         secret = generate_key()
         otp = totp.now()
-        url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
-        response = requests.request("GET",url)
-        print(response)
+        # url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
+        # response = requests.request("GET",url)
+        # print(response)
         return Response({'sent':True,'OTP':otp})
        
     
@@ -90,28 +91,20 @@ def Verify(request, otpFromUser, phno):
             totp = pyotp.TOTP('base64secret6464')
             resp = totp.verify(otpFromUser)
             already_verified_user.otp_count = count + 1
+            already_verified_user.is_verified = True
             already_verified_user.save()
-            print("count increased", count)
-            return Response({
-                'verified': True,
-                # 'User_details':already_verified_user
-            })
+            request.data.update({'phone':phno,'is_verified':True})
+            already_verified_user = User.objects.filter(phone = phno).values()
+            return Response(already_verified_user,status=status.HTTP_200_OK)
         else:
-            """if count > 10:
-                return Response({
-                                'status': False,
-                                'detail': 'Sending OTP error. Limit exceeded. Please contact cutomer support'
-                                })"""
             totp = pyotp.TOTP('base64secret6464')
             resp = totp.verify(otpFromUser)
-            user = UserCreateView()
             already_verified_user.otp_count = count + 1
+            already_verified_user.is_verified = True
             already_verified_user.save()
-            print("count increased", count)
-            return Response({
-                'verified': True,
-                # 'user details':already_verified_user
-            })
+            request.data.update({'phone':phno,'is_verified':True})
+            already_verified_user = User.objects.filter(phone = phno).values()
+            return Response(already_verified_user,status=status.HTTP_200_OK)
     totp = pyotp.TOTP('base64secret6464')
     resp = totp.verify(otpFromUser)
     user = UserCreateView()

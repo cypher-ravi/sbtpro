@@ -3,11 +3,14 @@ from django.shortcuts import render
 from rest_framework import viewsets,generics
 from rest_framework import permissions
 from rest_framework.response import Response
+from rest_framework import status
 
 from .models import Employee,DailyAttendance
 from .serializers import EmployeeSerializer,DailyAttendanceSerializer
 
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 # Create your views here.
 class NewEmployeeAPI(viewsets.ModelViewSet):
     """
@@ -23,11 +26,20 @@ class NewEmployeeAPI(viewsets.ModelViewSet):
         if employee.exists():
             return Response({'detail':'Employee already exists'},status=status.HTTP_400_BAD_REQUEST) 
         data = request.data
+        user_data = request.data['user']
         serializer = EmployeeSerializer(data=data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+            user = User.objects.filter(id=request.data['user'])
+            for employee in user:
+                employee.is_employee_registered = True
+                employee.save()
+            user = User.objects.filter(id=request.data['user']).values()
+            return Response(user, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors)
+
+            
+         
     
 
 class EmployeeDailyAttendanceDetail(generics.GenericAPIView):

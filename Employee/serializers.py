@@ -9,7 +9,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Employee
-        exclude =[ 'gross_salary','employee_designation','employee_is_active','daily_attendance','Contact_Person','extra_Info']
+        exclude =[ 'gross_salary','employee_designation','employee_is_active','daily_attendance','Contact_Person','extra_Info','Image']
 
 
 class DailyAttendanceSerializer(serializers.ModelSerializer):

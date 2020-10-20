@@ -18,3 +18,10 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ('is_branch_user' ,'is_staff','is_superuser','otp_count','is_verified','first_name','key','last_login','groups','user_permissions','password','is_active')
+
+
+
+class UserSerializerAfterVerified(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'

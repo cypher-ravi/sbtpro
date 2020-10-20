@@ -3,7 +3,7 @@ from .views import NewEmployeeAPI,DailyAttendance,EmployeeDailyAttendanceDetail,
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register("EmployeeAPI",NewEmployeeAPI)
+router.register("EmployeeAPI",NewEmployeeAPI,basename='EmployeeApi')
 # router.register("EmployeeAttendanceAPI/employee_id",DailyAttendanceAPI)
 
 

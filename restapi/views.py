@@ -1,24 +1,26 @@
-from website.models import Categories,Plan
-from .serializers import *
-from rest_framework.views import APIView
-from rest_framework import generics
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import viewsets
+import json
+
+from Customer.serializers import CustomerPlanSerializer
 from dashboard.models import Banner
 from dashboard.serializers import AllBannerSerializer
-from django.http import Http404,HttpResponseServerError
 from django.conf import settings
-import json
+from django.http import Http404, HttpResponseServerError
 from django.shortcuts import get_object_or_404
-from Customer.serializers import CustomerPlanSerializer
+from rest_framework import generics, status, viewsets
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from Vendor.models import Vendor
-from Vendor.serializers import VendorListSerializer,VendorSerializer
-# with open("D:\workspace sbt\deployment\prodsbt\config.json", "r") as params:
-#     parameters = json.load(params)
+from Vendor.serializers import VendorListSerializer, VendorSerializer
+from website.models import Categories, Plan
 
-from django_filters.rest_framework import DjangoFilterBackend
+from .serializers import *
+
+with open("config.json", "r") as params:
+    parameters = json.load(params)
+
 from authentication.pagination import PaginationForVendorAndCategory
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 class VendorList(generics.ListAPIView):
     """
@@ -31,6 +33,32 @@ class VendorList(generics.ListAPIView):
     filterset_fields = ['Busniess_Type', 'Service_decsription','vendor_services','Address1','city','state','Company_Name','Name']
     
 
+
+
+class FrenchiseRequestAPIView(generics.CreateAPIView):
+    """
+    This API accepts post requests for frenchise requests 
+    """
+    queryset = FrenchiseContact.objects.all()
+    serializer_class = FrenchiseRequestSerializer
+
+    def post(self, request, format=None):
+        key = parameters['key']
+        # if slug == key:
+        serializer = FrenchiseRequestSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # return Response({'You are not allowed to access these end points'}, status=status.HTTP_400_BAD_REQUEST)
+
+        
+
+
+
+
+
+          
 
  #--------------------------------------------ViewSets----------------------------------------------------------                  
  
@@ -45,7 +73,7 @@ class NewCategoryAPI(viewsets.ModelViewSet):
 
 
 
-class ToptList(viewsets.ModelViewSet):
+class ToptList(viewsets.ReadOnlyModelViewSet):
     """
     This API creates new Top,view and edit using viewsets
 
@@ -53,16 +81,14 @@ class ToptList(viewsets.ModelViewSet):
     queryset = TOP.objects.all()
     serializer_class = TOPSerializer
 
-    def create(self, request, *args, **kwargs):
-        top = TOP.objects.filter(vendor_name=request.data['vendor_name'])
-        if top.exists():
-            return Response({'detail':'TOP vendor already exists'},status=status.HTTP_400_BAD_REQUEST) 
-        data = request.data
-        serializer = EmployeeSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request,slug, format=None):
+        key = parameters['key']
+        if slug == key:
+            top = TOP.objects.all()
+            serializer = TOPSerializer(top,many=True)
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 
