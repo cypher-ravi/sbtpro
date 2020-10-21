@@ -1,16 +1,16 @@
 from django.urls import path
-from .views import NewEmployeeAPI,DailyAttendance,EmployeeDailyAttendanceDetail,AttendanceList
+from .views import NewEmployeeAPI,EmployeeDailyAttendanceDetail,AttendanceList,EmployeeDailyAttendanceList
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register("EmployeeAPI",NewEmployeeAPI,basename='EmployeeApi')
-# router.register("EmployeeAttendanceAPI/employee_id",DailyAttendanceAPI)
+# router.register("EmployeeAttendanceAPI",EmployeeDailyAttendanceDetail,basename='AttendaceAPI')
 
 
 app_name = 'employee'
 
 urlpatterns = [
-    path('<str:slug>/attendance_detail/<int:employee_id>',EmployeeDailyAttendanceDetail.as_view()),
-    path('<str:slug>/attendance_detail/',AttendanceList.as_view()),
+    path('<str:slug>/attendance_detail/', EmployeeDailyAttendanceDetail.as_view(),name = 'attendance_post_request'),
+    path('<str:slug>/attendance_detail_list/<int:pk>',EmployeeDailyAttendanceList.as_view()),
     
 ]+router.urls

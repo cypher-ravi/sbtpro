@@ -1,17 +1,22 @@
-from django.shortcuts import render
-
-from rest_framework import viewsets,generics
-from rest_framework import permissions
-from rest_framework.response import Response
-from rest_framework import status
-
-from .models import Employee,DailyAttendance
-from .serializers import EmployeeSerializer,DailyAttendanceSerializer
+import json
+from datetime import datetime
 
 from django.contrib.auth import get_user_model
+from django.shortcuts import render
+from rest_framework import generics, permissions, status, viewsets,mixins
+from rest_framework.response import Response
+
+from .models import DailyAttendance, Employee
+from .serializers import DailyAttendanceSerializer, EmployeeSerializer
 
 User = get_user_model()
 # Create your views here.
+
+with open("config.json", "r") as params:
+    parameters = json.load(params)
+
+
+
 class NewEmployeeAPI(viewsets.ModelViewSet):
     """
     This API creates new employee and delete,update via id using viewsets
@@ -43,22 +48,62 @@ class NewEmployeeAPI(viewsets.ModelViewSet):
     
 
 class EmployeeDailyAttendanceDetail(generics.GenericAPIView):
-    """
-    Employee Attendance Detail By ID
-
-    """
+    
     serializer_class = DailyAttendanceSerializer
     queryset = DailyAttendance
     # permission_classes = [permissions.IsAuthenticated]
+    
 
-    def get(self, request,employee_id,slug, format=None):
+    def post(self, request, *args, **kwargs):
+        employee_from_user = Employee.objects.filter(user=request.data['user'])
+        if employee_from_user.exists():
+            employee = DailyAttendance.objects.filter(employee=employee_from_user[0])
+            data = request.data
+            punching_in = request.data['punching_in']
+            if punching_in == 'True':
+                serializer = DailyAttendanceSerializer(data=data)
+                if serializer.is_valid(raise_exception=True):
+                    serializer.save(employee=employee_from_user[0])
+                    return Response({'Attendance marked':'True'}, status=status.HTTP_201_CREATED)
+                return Response(serializer.errors)
+            else:
+                employee = DailyAttendance.objects.filter(employee=employee_from_user[0])
+                for em in employee:
+                    if em.punch_time == 'False':
+                        return Response({'detail':'Punch in before punchout'})
+                    em.punching_out_time = datetime.now()
+                    em.save()
+                    return Response({'punch out time':'ok'})
+        return Response({'Detail':'User not exists'})
+
+
+                
+        
+                    
+
+class EmployeeDailyAttendanceList(generics.ListAPIView):
+    """
+    List of daily attendance by employee id
+
+    """
+    queryset = DailyAttendance.objects.all()
+    serializer_class = DailyAttendanceSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request,pk,slug, format=None):
         key = parameters['key']
         if slug == key:
-            attendance = DailyAttendance.objects.filter(employee=employee_id)
-            serializer = DailyAttendanceSerializer(attendance, many=True)
+            employee = DailyAttendance.objects.filter(employee=pk)
+            serializer = DailyAttendanceSerializer(employee, many=True)
             return Response(serializer.data)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+        
+    
 
 class AttendanceList(generics.ListCreateAPIView):
     queryset = DailyAttendance.objects.all()

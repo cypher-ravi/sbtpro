@@ -1,12 +1,17 @@
+from datetime import datetime
+
 from django.test import TestCase
-from rest_framework.test import APITestCase
 from django.urls import reverse
 from rest_framework import status
+from rest_framework.test import APITestCase
+
 # Create your tests here.
 
 
 class EmployeeTestCase(APITestCase):
+    
     def test_create_employee(self):
+        t1 = datetime.now()
         url = f'/employee/EmployeeAPI/'
         data = {
             'user':19,
@@ -28,3 +33,24 @@ class EmployeeTestCase(APITestCase):
         }
         response = self.client.get(url,data=data)
         self.assertEqual(response.status_code,status.HTTP_200_OK)
+        t2 = datetime.now()
+        time_taken_to_create_employee = t2 - t1
+        print('time_taken_to_create_employee',time_taken_to_create_employee)
+
+
+class DailyAttendanceTestCase(APITestCase):
+    def test_daily_attendance_if_punch_time_is_true(self):
+        url = f'employee:attendance_post_request'
+        data = {
+            "id": 19,
+            "punching_in": "True",
+            "vendor": "racu",
+            "work_description": "sdas",
+            "longitude": "dasd",
+            "latitude": "4324.324",
+            "employee": 22,
+            'punch_time':'4242542',
+            'punching_out_time' : ''
+        }
+        response = self.client.get(url,data=data)
+        self.assertEqual(response.status_code,status.HTTP_201_CREATED)

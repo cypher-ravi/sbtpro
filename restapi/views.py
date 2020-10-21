@@ -1,4 +1,5 @@
 import json
+import requests
 
 from Customer.serializers import CustomerPlanSerializer
 from dashboard.models import Banner
@@ -9,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.metadata import SimpleMetadata
 from Vendor.models import Vendor
 from Vendor.serializers import VendorListSerializer, VendorSerializer
 from website.models import Categories, Plan
@@ -29,6 +31,7 @@ class VendorList(generics.ListAPIView):
     """
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
+    metadata_class = SimpleMetadata
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['Busniess_Type', 'Service_decsription','vendor_services','Address1','city','state','Company_Name','Name']
     
@@ -41,6 +44,7 @@ class FrenchiseRequestAPIView(generics.CreateAPIView):
     """
     queryset = FrenchiseContact.objects.all()
     serializer_class = FrenchiseRequestSerializer
+    metadata_class = SimpleMetadata
 
     def post(self, request, format=None):
         key = parameters['key']
@@ -48,9 +52,17 @@ class FrenchiseRequestAPIView(generics.CreateAPIView):
         serializer = FrenchiseRequestSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
+            name = request.data['name']
+            mobile_no = request.data['mobile_no']
+            email = request.data['email']
+            address = request.data['address']
+            frenchise_option = request.data['frenchise_option']
+            company_name = request.data['company_name']
+            message = request.data['message']
+            url = f'http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={+918683827398}&route=TA&msgtype=1&sms=New Frenchise request \n\nName ={name} \nMobile= {mobile_no} \nEmail= {email}\nAddress= {address} \nFrenchise option= {frenchise_option} \nMessage= {message} \nCompany Name= {company_name}'
+            response = requests.request("GET",url)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        # return Response({'You are not allowed to access these end points'}, status=status.HTTP_400_BAD_REQUEST)
 
         
 

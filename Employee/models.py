@@ -2,6 +2,9 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
 from django.contrib.auth import get_user_model
+from datetime import datetime
+from django.utils import timezone
+
 User = get_user_model()
 
 GENDER_CHOICES = (
@@ -60,25 +63,6 @@ VALID_STATE_CHOICES = (
 )
 
 # # Create your models here.
-class DailyAttendance(models.Model):
-    """
-    Model used for punch daily attendance by Employee
-    """
-    ATTENDACE_CHOICES = (
-    ("is_present", "present"),
-    ("is_absent", "absent"),
-
-    )
-    attendance = models.CharField(max_length=20,choices=ATTENDACE_CHOICES,default='absent')
-    punch_time = models.DateTimeField()
-    punch_out_time = models.DateTimeField(null=True,blank=True)
-    vendor = models.CharField(max_length=50,null=True,blank=True)
-    work_description = models.TextField(max_length=1000,null=True,blank=True)
-    longitude = models.FloatField(null=True,blank=True)
-    latitude = models.FloatField(null=True,blank=True)
-
-    def __str__(self):
-        return str(self.attendance) + ' today punch time is ' + str(self.punch_time)
 
 
 class Employee(models.Model):
@@ -108,11 +92,34 @@ class Employee(models.Model):
     employee_is_active = models.BooleanField(default=False,blank=True,null=True)
     employee_designation = models.CharField(max_length=30,default='',blank=True,null=True)
     Image = models.ImageField(upload_to="dashboard/images/Employee", blank=True,null=True)
-    daily_attendance = models.ForeignKey(DailyAttendance,on_delete=models.CASCADE,null=True,blank=True)
     qualification = models.CharField(max_length=100,default='',blank=True,null=True)
     university = models.CharField(max_length=150,default='',blank=True,null=True)
     year_of_passing = models.CharField(max_length=30,default='',blank=True,null=True)
     education_percentage = models.CharField(max_length=30,default='',blank=True,null=True)
 
     def __str__(self):
-        return self.employee_name
+        return str(self.employee_name)
+
+
+class DailyAttendance(models.Model):
+    """
+    Model used for punch daily attendance by Employee
+    """
+    ATTENDACE_CHOICES = (
+    ("True", "True"),
+    ("False", "False"),
+
+    )
+    employee = models.ForeignKey(Employee,on_delete=models.CASCADE,null=True,blank=True)
+
+    punching_in = models.CharField(max_length=20,choices=ATTENDACE_CHOICES,default='False')
+    punch_time = models.DateTimeField(auto_now_add=True)
+    punching_out_time = models.CharField(max_length=50,default='')
+    vendor = models.CharField(max_length=50,null=True,blank=True)
+    work_description = models.TextField(max_length=1000,null=True,blank=True)
+    longitude = models.CharField(max_length=100,null=True,blank=True)
+    latitude = models.CharField(max_length=100,null=True,blank=True)
+    user = models.IntegerField(null=True,blank=True)
+
+    def __str__(self):
+        return str(self.employee) + ' today punch time is ' + str(self.punch_time)
