@@ -1,6 +1,13 @@
 {% extends 'website/layout.html' %} {% block title %}SBT Professionals - Best Customer Service Provider{% endblock %}
 {% block css %}
 <style>
+    p {
+    margin-top: -6px;
+   
+    line-height: 1.875;
+    margin-left: 23px;
+}
+
     address {
         margin-left: 23px;
     }
@@ -124,7 +131,7 @@
 
                             <span class="welcome">Welcome to SBT Professionals</span>
                             <div><span class="subtitle" style="font-size: 43PX;">Grow Your Business We provide <br><b
-                                        class="underline-small">Vandors,Custmers,services.</b></span></div>
+                                        class="underline-small">Vendors,Custmers,services.</b></span></div>
                             <h2 class="title" style="font-size: 43PX;margin-left: -410px; 
                             
                                     <span id=" typed" class="underline-large"></span>
@@ -144,8 +151,7 @@
                                             <i style="margin-left: 4px;" class="fas fa-globe icon"> </i>
 
 
-                                            <input list="browsers" name="browser" id="browser" placeholder="search"
-                                                style="border-radius: 19px; height: 45px; border-color: #fe4c1c; padding-left:26px; ">
+                                            <input list="browsers" name="browser" id="browser" placeholder="search" style="border-radius: 42px;height: 45px;border-color: #fe4c1c;padding-left: 38px;font-weight: 600;width: 222px;margin-bottom: 4px;">
                                             <datalist id="browsers">
                                                 <option value="location">
                                                 <option value="product">
@@ -153,10 +159,11 @@
                                                 <option value="serveris">
                                                 <option value="data">
                                             </datalist>
-
-                                            <i class="fas fa-hand-point-left icon"></i>
+                                            <i class="fas fa-hand-point-right icon" style="
+    margin-top: -2px;
+"></i>
                                             <button
-                                                style="height: 44px;padding-top: 0%;width: 169px;/* margin-top: 11px; */padding: 12px;"
+                                                style="height: 44px;padding-top: 0%;width: 106px;/* margin-top: 11px; */padding: 12px;"
                                                 type="submit">search </button>
 
                                         </div>
@@ -260,6 +267,7 @@
             </div>
         </div>
     </div> {% endcomment %}
+<hr>
 
     <!-- services carousel end -->
 
@@ -279,9 +287,13 @@
         <!--Indicators-->
         <ol class="carousel-indicators">
             <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
-            <li data-target="#multi-item-example" data-slide-to="1"></li>
+            <li data-target="#multi-item-example" data-slide-to="1"></li> 
 
-        </ol>
+        </ol> <p style="
+    font-weight: 600;
+    margin-left: 40px;
+    margin-top: -29px;
+"> scroll trending services</p>
         <!--/.Indicators-->
 
         <!--Slides-->

@@ -159,11 +159,6 @@ h6 {
         float: none !important;
     }
 }
-p {
-    margin-top: -12px;
-    font-size: 16px;
-    line-height: 1.875;
-}
 
 a {
     color: inherit;
