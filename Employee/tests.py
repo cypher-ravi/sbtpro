@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 from django.test import TestCase
@@ -6,7 +7,8 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 # Create your tests here.
-
+with open("config.json", "r") as params:
+    parameters = json.load(params)
 
 class EmployeeTestCase(APITestCase):
     
@@ -40,6 +42,7 @@ class EmployeeTestCase(APITestCase):
 
 class DailyAttendanceTestCase(APITestCase):
     def test_daily_attendance_if_punch_time_is_true(self):
+        key = parameters['key']
         url = f'employee:attendance_post_request'
         data = {
             "id": 19,
@@ -48,9 +51,46 @@ class DailyAttendanceTestCase(APITestCase):
             "work_description": "sdas",
             "longitude": "dasd",
             "latitude": "4324.324",
-            "employee": 22,
+            "user": 14,
             'punch_time':'4242542',
             'punching_out_time' : ''
+
         }
-        response = self.client.get(url,data=data)
-        self.assertEqual(response.status_code,status.HTTP_201_CREATED)
+        response = self.client.post(reverse(url,args=['key']),data=data)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+    
+    def test_daily_attendance_if_punch_time_is_false(self):
+        key = parameters['key']
+        url = f'employee:attendance_post_request'
+        data = {
+            "id": 19,
+            "punching_in": "False",
+            "vendor": "racu",
+            "work_description": "sdas",
+            "longitude": "dasd",
+            "latitude": "4324.324",
+            "user": 14,
+            'punch_time':'',
+            'punching_out_time' : ''
+
+        }
+        response = self.client.post(reverse(url,args=['key']),data=data)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+
+    def test_check_if_user_exists(self):
+        key = parameters['key']
+        url = f'employee:attendance_post_request'
+        data = {
+            "id": 19,
+            "punching_in": "False",
+            "vendor": "racu",
+            "work_description": "sdas",
+            "longitude": "dasd",
+            "latitude": "4324.324",
+            "user": 55,
+            'punch_time':'',
+            'punching_out_time' : ''
+
+        }
+        response = self.client.post(reverse(url,args=['key']),data=data)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)

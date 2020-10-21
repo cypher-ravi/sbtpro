@@ -7,19 +7,19 @@ class CustomerTestCase(APITestCase):
     def test_create_customer(self):
         url = f'/customer/CustomerAPI/'
         data = {
-            'customer_name':'ravi',
-            'last_name':'kumar',
-            'Address':'fbd',
-            'city':'ravi',
-            'state':'Haryana',
-            'zipcode':121005,
-            'EmailID':'ronniloreo@gmail.com',
-            'gender':'',
-            'extra_Info':'ravi',
-            'Contact_Person':'ravi',
-            'customer_is_active':False,
-            'subscription_plan_taken':'',
-            'user':4,
+            "customer_name": "sads",
+            "last_name": "sddsa",
+            "Address": "dsads",
+            "city": "sdsadsa",
+            "state": "dsdsa",
+            "zipcode": 4254,
+            "EmailID": "sadsa",
+            "gender": "dsad",
+            "extra_Info": "dsad",
+            "Contact_Person": "sda",
+            "customer_is_active": True,
+            "user": 4,
+            "subscription_plan_taken": 1
         }
         response = self.client.post(url,data=data)
         self.assertEqual(response.status_code,status.HTTP_201_CREATED)
