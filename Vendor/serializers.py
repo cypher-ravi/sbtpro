@@ -28,3 +28,17 @@ class VendorSerializer(serializers.ModelSerializer):
         model = Vendor
         fields = '__all__'
         depth = 1
+
+
+class VendordetailSerializer(serializers.ModelSerializer):
+    """
+    Serializer shows Vendors list, create by ID, retrieve by ID,update by ID
+    """
+    class Meta:
+        model = Vendor
+        fields = ['Company_Name','Address1','city',
+                  'state','PinCode','EmailID',
+                  'website_URL','Longitude','Latitude',
+                  'Service_decsription','vendor_video','vendor_images',
+                  'vendor_services',]
+        depth = 1

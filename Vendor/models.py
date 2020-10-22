@@ -147,7 +147,7 @@ class Vendor(models.Model):
     Longitude = models.FloatField(null=True, blank=True)
     Latitude = models.FloatField(null=True, blank=True)
     submit_date = models.DateTimeField(auto_now_add=True)
-    Image = models.ImageField(upload_to="website/images/vendors", default="",null= True, blank=True)
+    Image = models.ImageField(upload_to="website/images/vendors", default="")
     vendor_services = models.ManyToManyField(VendorServices,blank=True)
     vendor_video = models.ForeignKey(VendorVideos,on_delete=models.CASCADE,null=True,blank=True)
     vendor_images = models.ManyToManyField(VendorImages,blank=True)

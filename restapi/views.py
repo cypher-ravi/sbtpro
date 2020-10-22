@@ -61,7 +61,7 @@ class FrenchiseRequestAPIView(generics.CreateAPIView):
             message = request.data['message']
             url = f'http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={+918683827398}&route=TA&msgtype=1&sms=New Frenchise request \n\nName ={name} \nMobile= {mobile_no} \nEmail= {email}\nAddress= {address} \nFrenchise option= {frenchise_option} \nMessage= {message} \nCompany Name= {company_name}'
             response = requests.request("GET",url)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({'sent':'True'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         
@@ -82,6 +82,7 @@ class NewCategoryAPI(viewsets.ModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
     pagination_class = PaginationForVendorAndCategory
+    
    
 
 

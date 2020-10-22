@@ -1,19 +1,32 @@
 from django.shortcuts import render ,HttpResponse
-from rest_framework import viewsets
-from rest_framework import permissions
-from rest_framework.response import Response
+from rest_framework import viewsets,generics
+from rest_framework import permissions,status,mixins
+from rest_framework.response import Response 
 
+from django.contrib.auth import get_user_model
 from .models import VendorServices,VendorVideos,Vendor
-from .serializers import VendorListSerializer,VendorSerializer
+from .pagination import PaginationForVendor
+from .serializers import VendorListSerializer,VendorSerializer,VendordetailSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from sbt.settings.base import REST_FRAMEWORK
+import json
+from django.views.generic import ListView
+
+User = get_user_model()
+with open("config.json", "r") as params:
+    parameters = json.load(params)
+
 
 # Create your views here.
-class VendorList(viewsets.ReadOnlyModelViewSet):
+class VendorList(generics.ListAPIView):
     """
-    List of all Vendor
+    List of all Vendor by category ID
 
     """
     queryset = Vendor.objects.all()
     serializer_class = VendorListSerializer
+    pagination_class = PaginationForVendor
+    
     # permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request,category_id,slug, format=None):
@@ -25,22 +38,28 @@ class VendorList(viewsets.ReadOnlyModelViewSet):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-class VendorDetail(viewsets.ReadOnlyModelViewSet):
+class VendorDetail(generics.GenericAPIView):
     """
-    Vendor Detail By ID
+    Vendor Detail By user ID
 
     """
     queryset = Vendor.objects.all()
-    serializer_class = VendorListSerializer
+    serializer_class = VendordetailSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request,slug, format=None):
-        key = parameters['key']
-        if slug == key:   
-            serializer = VendorListSerializer(many=True)
-            return Response(serializer.data)
+    def get(self, request,slug,pk, format=None):
+        vendor = Vendor.objects.filter(user=pk)
+        print(vendor)
+        if vendor.exists():
+            key = parameters['key']
+            if slug == key:   
+                serializer = VendordetailSerializer(vendor[0],many=False)
+                return Response(serializer.data,status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail':'user not exists'})
+        
 
 class NewVendorAPI(viewsets.ModelViewSet):
     """

@@ -158,8 +158,10 @@ MESSAGE_TAGS = {
     messages.INFO: 'alert alert-warning alert-dismissible fade show',
 }
 REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+                   'DEFAULT_PAGINATION_CLASS': 'authentication.pagination.PaginationForVendorAndCategory' ,
                    'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
-                   'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'] 
+                   'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend',
+                   ]
                    }
 
 # REST_FRAMEWORK = {

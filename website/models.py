@@ -3,8 +3,7 @@ from restapi.models import *
 from django.db import models
 from django.core.validators import FileExtensionValidator
 from phonenumber_field.modelfields import PhoneNumberField
-"""from django.contrib.auth.models import User
-"""
+from authentication.models import User 
 from django.utils import timezone
 from django import forms
 from django.contrib import messages
@@ -123,7 +122,7 @@ class Plan(models.Model):
         return self.plan_name
 
 
-"""class Order(models.Model):
+class Order(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_id = models.IntegerField(null=False)
@@ -140,10 +139,9 @@ class Plan(models.Model):
     order_completed = models.BooleanField()
 
     def __str__(self):
-        return self.email_id"""
+        return self.email_id
 
-
-"""class Order_Payment(models.Model):
+class Order_Payment(models.Model):
     id = models.AutoField(primary_key = True)
     order_summary = models.ForeignKey(Order, on_delete = models.CASCADE)
     # paytm responses 
@@ -165,7 +163,7 @@ class Plan(models.Model):
     
     def __str__(self):
         return str(self.order_summary)
-"""
+
 
 
 class Job(models.Model):
