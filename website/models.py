@@ -198,7 +198,7 @@ class Categories(models.Model):
     category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=50, default='')
     Image = models.FileField(blank=True, null=True,
-                              validators=[FileExtensionValidator(allowed_extensions=['svg'])])
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg','jpeg','png'])])
     category_description = models.TextField(max_length=100,default='')
     category_is_active = models.BooleanField(default=True)
   

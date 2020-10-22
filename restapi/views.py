@@ -85,6 +85,7 @@ class NewCategoryAPI(viewsets.ModelViewSet):
 
 
 
+
 class ToptList(viewsets.ReadOnlyModelViewSet):
     """
     This API creates new Top,view and edit using viewsets

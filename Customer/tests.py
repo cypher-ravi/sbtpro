@@ -12,12 +12,12 @@ class CustomerTestCase(APITestCase):
             "Address": "dsads",
             "city": "sdsadsa",
             "state": "dsdsa",
-            "zipcode": 4254,
+            "zipcode": 425412,
             "EmailID": "sadsa",
             "gender": "dsad",
             "extra_Info": "dsad",
             "Contact_Person": "sda",
-            "customer_is_active": True,
+            "customer_is_active": 'True',
             "user": 4,
             "subscription_plan_taken": 1
         }
