@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import json
 
-with open("D:\workspace sbt\deployment\prodsbt\config.json", "r") as params:
+with open("config.json", "r") as params:
     parameters = json.load(params)
 
 import os

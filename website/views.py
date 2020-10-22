@@ -47,7 +47,7 @@ MID = "VdMxPH61970223458566"  # MERCHANT ID
 MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 
 
-with open("D:\workspace sbt\deployment\prodsbt\config.json", "r") as params:
+with open("config.json", "r") as params:
     parameters = json.load(params)
 
 
