@@ -30,27 +30,27 @@ class EmployeeTestCase(APITestCase):
             "PinCode": 121200,
             "Contact_Person": "ravi",
             "EmailID": "ronniloreo@gmail.com",
-            "Landline": "string",
-            "GST_No": "string",
-            "Pan_No": "string",
-            "TIN_No": "string",
+            "Landline": "",
+            "GST_No": "",
+            "Pan_No": "",
+            "TIN_No": "",
             "Registered_Trade_Name": "string",
-            "Facebook_URL": "string",
-            "Twitter_URL": "string",
-            "website_URL": "string",
-            "Status": "string",
+            "Facebook_URL": "",
+            "Twitter_URL": "",
+            "website_URL": "",
+            "Status": "verified",
             "Other_Info": "string",
-            "Discount_Percentage": 0,
+            "Discount_Percentage": 10,
             "Longitude": 0,
             "Latitude": 0,
-            "Image": "string",
-            "type_of_commodity_or_business": "string",
-            "geograpgical_area": "string",
-            "business_history_with_sbt": "string",
-            "registration_fee": "string"
+            "Image": "",
+            "type_of_commodity_or_business": "",
+            "geograpgical_area": "",
+            "business_history_with_sbt": "",
+            "registration_fee": ""
         }
         response = self.client.get(url,data=data)
         self.assertEqual(response.status_code,status.HTTP_200_OK)
         t2 = datetime.now()
-        time_taken_to_create_employee = t2 - t1
-        print('time_taken_to_create_employee',time_taken_to_create_employee)
+        time_taken_to_create_vendor = t2 - t1
+        print('time_taken_to_vendor_employee',time_taken_to_create_vendor)

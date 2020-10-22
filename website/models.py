@@ -201,7 +201,10 @@ class Categories(models.Model):
                               validators=[FileExtensionValidator(allowed_extensions=['jpg','jpeg','png'])])
     category_description = models.TextField(max_length=100,default='')
     category_is_active = models.BooleanField(default=True)
-  
+    
+    class Meta:
+        ordering = ['category_id']
+
     def __str__(self):
         return self.category_name
 

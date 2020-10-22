@@ -1,20 +1,20 @@
 @font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/Roboto-Bold-webfont.woff');
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Bold.ttf');
     font-weight: 700;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/Roboto-Regular-webfont.woff');
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Regular.ttf');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/Roboto-Light-webfont.woff');
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Light.ttf');
     font-weight: 300;
     font-style: normal;
 }

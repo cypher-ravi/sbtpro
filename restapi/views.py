@@ -82,7 +82,7 @@ class NewCategoryAPI(viewsets.ModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
     pagination_class = PaginationForVendorAndCategory
-
+   
 
 
 
