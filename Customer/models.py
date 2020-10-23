@@ -84,6 +84,9 @@ class Customer(models.Model):
     customer_is_active = models.BooleanField(default=False)
     subscription_plan_taken = models.ForeignKey('website.Plan',on_delete=models.CASCADE,blank=True,null=True)
 
+    class Meta:
+        ordering = ['customer_id']
+
     def __str__(self):
         return self.customer_name
 

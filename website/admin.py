@@ -46,7 +46,7 @@ class FreelistingAdmin(admin.ModelAdmin):
 
 
 class FrenchiseAdmin(admin.ModelAdmin):
-    list_display = ('customer_id', 'name', 'frenchise_option', 'mobile_no', 'email', 'submit_time')
+    list_display = ('customer_id', 'name', 'franchise_option', 'mobile_no', 'email', 'submit_time')
     list_per_page = 50
 
 

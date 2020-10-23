@@ -1,4 +1,4 @@
-from django.shortcuts import render ,HttpResponse
+from django.shortcuts import render ,HttpResponse,get_list_or_404,get_object_or_404
 from rest_framework import viewsets,generics
 from rest_framework import permissions,status,mixins
 from rest_framework.response import Response 
@@ -18,25 +18,26 @@ with open("config.json", "r") as params:
 
 
 # Create your views here.
-class VendorList(generics.ListAPIView):
+# class VendorList(generics.GenericAPIView):
+class VendorList(viewsets.ModelViewSet):
+
     """
     List of all Vendor by category ID
 
     """
-    queryset = Vendor.objects.all()
+    model = Vendor
     serializer_class = VendorListSerializer
     pagination_class = PaginationForVendor
-    
+    allow_empty = False
     # permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request,category_id,slug, format=None):
+    def get_queryset(self):  # no pk parameter
         key = parameters['key']
-        if slug == key:
-            vendor = Vendor.objects.filter(Busniess_Type=category_id)
-            serializer = VendorListSerializer(vendor, many=True)
-            return Response(serializer.data)
+        if not key == self.kwargs['slug']:
+            return Vendor.objects.none()
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            category = self.kwargs['pk']
+            return Vendor.objects.filter(Busniess_Type=category)
+        
 
 class VendorDetail(generics.GenericAPIView):
     """

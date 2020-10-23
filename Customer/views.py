@@ -40,7 +40,7 @@ class NewCustomerAPI(viewsets.ModelViewSet):
             for cust in user:
                 cust.is_customer_registered = True
                 cust.save()
-            serializer.save()
+            serializer.save(customer_is_active=True)
             user = User.objects.filter(id=request.data['user']).values()
             return Response(user, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

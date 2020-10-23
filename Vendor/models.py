@@ -186,7 +186,8 @@ class Vendor(models.Model):
     )
     registration_fee = models.CharField(max_length=100, choices=REGISTRATION_FEE, default='none')
     # employee = models.ForeignKey(Employee,on_delete=models.CASCADE)
-
+    class Meta:
+        ordering = ['vendor_id']
 
     def __str__(self):
         return self.Company_Name

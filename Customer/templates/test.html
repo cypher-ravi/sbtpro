@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<form method="POST" action="{% url 'customer:plan-purchase' plan_id %}">
+<form method="POST" action="/customer/purchase_customer_card/{{}}">
     {% csrf_token%} plan_id
     <input type="text"> userid
     <input type="text"> discount

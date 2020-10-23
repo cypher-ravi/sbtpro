@@ -201,7 +201,7 @@ class Categories(models.Model):
     category_is_active = models.BooleanField(default=True)
     
     class Meta:
-        ordering = ['category_id']
+        ordering = ['category_name']
 
     def __str__(self):
         return self.category_name
@@ -355,7 +355,7 @@ class FrenchiseContact(models.Model):
     mobile_no = models.CharField(max_length=14,blank=True,null=True)
     email = models.CharField(max_length=50,blank=True,null=True)
     address = models.CharField(max_length=200, default='')
-    frenchise_option = models.CharField(max_length=50, default='',blank=True,null=True)
+    franchise_option = models.CharField(max_length=50, default='',blank=True,null=True)
     company_name = models.CharField(max_length=100,blank=True,null=True)
     message = models.TextField(max_length=1000,blank=True,null=True)
     submit_time =  models.DateTimeField(auto_now_add=True)

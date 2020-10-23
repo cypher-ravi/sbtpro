@@ -1,6 +1,6 @@
 import json
-import requests
 
+import requests
 from Customer.serializers import CustomerPlanSerializer
 from dashboard.models import Banner
 from dashboard.serializers import AllBannerSerializer
@@ -8,13 +8,12 @@ from django.conf import settings
 from django.http import Http404, HttpResponseServerError
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status, viewsets
+from rest_framework.metadata import SimpleMetadata
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.metadata import SimpleMetadata
 from Vendor.models import Vendor
 from Vendor.serializers import VendorListSerializer, VendorSerializer
 from website.models import Categories, Plan
-
 from .serializers import *
 
 with open("config.json", "r") as params:
@@ -22,25 +21,34 @@ with open("config.json", "r") as params:
 
 from authentication.pagination import PaginationForVendorAndCategory
 from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
 
+from rest_framework import filters
 
 class VendorList(generics.ListAPIView):
     """
-    API filter Vendors by Category,Company Service decsription ,vendor services
+    API search filter Vendors by Category,Company Service decsription ,vendor services
     Use these fields for search Busniess_Type Service_decsription vendor_services
     """
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
     metadata_class = SimpleMetadata
     filter_backends = [DjangoFilterBackend]
+    # pagination_class = PaginationForVendorAndCategory
     filterset_fields = ['Busniess_Type', 'Service_decsription','vendor_services','Address1','city','state','Company_Name','Name']
     
+class CategorySearchView(generics.ListAPIView):
+    queryset = Categories.objects.all()
+    serializer_class = CategorySerializer
+    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
+    search_fields = ['category_name','category_description']
+
 
 
 
 class FrenchiseRequestAPIView(generics.CreateAPIView):
     """
-    This API accepts post requests for frenchise requests 
+    This API accepts post requests for franchise requests 
     """
     queryset = FrenchiseContact.objects.all()
     serializer_class = FrenchiseRequestSerializer
@@ -56,7 +64,7 @@ class FrenchiseRequestAPIView(generics.CreateAPIView):
             mobile_no = request.data['mobile_no']
             email = request.data['email']
             address = request.data['address']
-            frenchise_option = request.data['frenchise_option']
+            frenchise_option = request.data['franchise_option']
             company_name = request.data['company_name']
             message = request.data['message']
             url = f'http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={+918683827398}&route=TA&msgtype=1&sms=New Frenchise request \n\nName ={name} \nMobile= {mobile_no} \nEmail= {email}\nAddress= {address} \nFrenchise option= {frenchise_option} \nMessage= {message} \nCompany Name= {company_name}'
@@ -76,7 +84,7 @@ class FrenchiseRequestAPIView(generics.CreateAPIView):
  
 class NewCategoryAPI(viewsets.ModelViewSet):
     """
-    This API creates new category and delete,update via id using viewsets
+    This Paginated API creates new category and delete,update via id using viewsets
 
     """
     queryset = Categories.objects.all()
