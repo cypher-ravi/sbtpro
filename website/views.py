@@ -1,36 +1,37 @@
-from django.shortcuts import render, HttpResponse, redirect
-from django.http import HttpResponseRedirect, JsonResponse
-from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
-from django.views.decorators.csrf import csrf_exempt
-from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
+from django.core.mail import send_mail
 from django.db.models import Q
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import HttpResponse, redirect, render
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 # To import for login,Signup
 """
 from django.contrib.auth.models import User
 """
-from django.contrib.auth import login, logout, authenticate
-# validations
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
-from django.http import JsonResponse
-
+import json
 import random
 
-# FOR PAYTM---------------------
-from .PayTm import CheckSum
 import requests
-import json
-# FOR PAYTM End-------------------------------------
+from django.contrib.auth import authenticate, login, logout
+from django.core.exceptions import ValidationError
+# validations
+from django.core.validators import validate_email
+from django.http import JsonResponse
 
 #importing func from function.py
 from .functions import *
 from .models import *
-
+# FOR PAYTM---------------------
+from .PayTm import CheckSum
 from .validations import *
+
+# FOR PAYTM End-------------------------------------
+
+
 # TODO ! Important !
     # *change paytm for production
     # *remove mid mkey from code

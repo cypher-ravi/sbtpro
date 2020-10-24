@@ -10,7 +10,7 @@ class EmployeeAdmin(admin.ModelAdmin):
     inlines = [
         DailyAttendanceInline,
     ]
-    list_display = ['employee_id','employee_name','Mobile_No','joining_date','employee_is_active']
+    list_display = ['employee_id','employee_name','Mobile_No','joining_date','employee_is_active','user']
     search_fields = ['employee_id','employee_name',]
     list_filter = ['employee_is_active']
     list_per_page = 20

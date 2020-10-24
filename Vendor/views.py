@@ -1,16 +1,18 @@
-from django.shortcuts import render ,HttpResponse,get_list_or_404,get_object_or_404
-from rest_framework import viewsets,generics
-from rest_framework import permissions,status,mixins
-from rest_framework.response import Response 
+import json
 
 from django.contrib.auth import get_user_model
-from .models import VendorServices,VendorVideos,Vendor
-from .pagination import PaginationForVendor
-from .serializers import VendorListSerializer,VendorSerializer,VendordetailSerializer
-from django_filters.rest_framework import DjangoFilterBackend
-from sbt.settings.base import REST_FRAMEWORK
-import json
+from django.shortcuts import (HttpResponse, get_list_or_404, get_object_or_404,
+                              render)
 from django.views.generic import ListView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, mixins, permissions, status, viewsets
+from rest_framework.response import Response
+from sbt.settings.base import REST_FRAMEWORK
+
+from .models import Vendor, VendorServices, VendorVideos
+from .pagination import PaginationForVendor
+from .serializers import (VendordetailSerializer, VendorListSerializer,
+                          VendorSerializer)
 
 User = get_user_model()
 with open("config.json", "r") as params:
@@ -72,12 +74,47 @@ class NewVendorAPI(viewsets.ModelViewSet):
     # permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        vendor = Vendor.objects.filter(Company_Name__iexact = request.data['Company_Name'])
-        if vendor.exists():
-            return Response({'detail':'vendor already exists'},status=status.HTTP_400_BAD_REQUEST) 
+        """
+        create vendor  by User ID
+        """
+        vendor = Vendor.objects.filter(
+            user=request.data['user'])
+        if customer.exists():
+            return Response({'detail': 'vendpr already exists'}, status=status.HTTP_306_RESERVED)
         data = request.data
+        user = User.objects.filter(id=request.data['user'])
+        for i in user:
+            if i.is_vendor_registered == True:
+                return Response('this user already a vendor')
+        print(user)
         serializer = VendorSerializer(data=data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
+            for cust in user:
+                cust.is_vendor_registered = True
+                cust.save()
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+            user = User.objects.filter(id=request.data['user']).values()
+            return Response(user, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def update(self, request, *args, **kwargs):
+        """
+        Update vendor by user id
+        """
+
+        vendor = Vendor.objects.filter(user=request.data['user']).first()
+        print(vendor)
+        if vendor != None:
+            partial = kwargs.pop('partial', False)
+            instance = vendor
+            serializer = self.get_serializer(instance, data=request.data, partial=partial)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+
+            if getattr(instance, '_prefetched_objects_cache', None):
+                # If 'prefetch_related' has been applied to a queryset, we need to
+                # forcibly invalidate the prefetch cache on the instance.
+                instance._prefetched_objects_cache = {}
+
+            return Response({'details':'updated'})
+ 

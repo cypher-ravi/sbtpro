@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{%static 'website/css/bootstrap.min.css' %}" />
+</head>
+<style>
+    .order_sucess {
+        margin: auto;
+        width: 50%;
+    }
+</style>
+
+<body>
+    <div class="order_sucess center>
+        <div class=" card " style="width: 18rem; ">
+            <img class="card-img-top " src="https://www.i-q.net.au/wp-content/uploads/success.png " alt="Card image cap ">
+            <div class="card-body ">
+                <h5 class="card-title ">Order Payment Successful</h5>
+            </div>
+            <ul class="list-group list-group-flush ">
+                <!-- <li class="list-group-item ">Payment Status - {{payment.response_message}} </li> -->
+                <li class="list-group-item ">Order ID - {{payment.order_id}} </li>
+                
+            </ul>
+            <div class="card-body ">
+                <p class="card-text ">If you want to check your payment status click below</p>
+                <a href="{% url 'customer:Order_Status' payment.order_id%} " class="card-link ">Order status</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

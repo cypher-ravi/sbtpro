@@ -14,16 +14,17 @@ from rest_framework.views import APIView
 from Vendor.models import Vendor
 from Vendor.serializers import VendorListSerializer, VendorSerializer
 from website.models import Categories, Plan
+
 from .serializers import *
 
 with open("config.json", "r") as params:
     parameters = json.load(params)
 
 from authentication.pagination import PaginationForVendorAndCategory
-from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
-
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+
 
 class VendorList(generics.ListAPIView):
     """
@@ -38,6 +39,9 @@ class VendorList(generics.ListAPIView):
     filterset_fields = ['Busniess_Type', 'Service_decsription','vendor_services','Address1','city','state','Company_Name','Name']
     
 class CategorySearchView(generics.ListAPIView):
+    """
+    Search API for categroies 
+    """
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
     filter_backends = [filters.SearchFilter,filters.OrderingFilter]
