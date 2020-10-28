@@ -1,4 +1,4 @@
- {% extends "dashboard/layout/base.html" %} {% block title %}
+{% extends "dashboard/layout/base.html" %} {% block title %}
 <title>New Category - Dashboard SBTProfessionals</title>
 {% endblock title %} {% block maincontent %}
 
@@ -26,7 +26,7 @@
                 <!-- begin page title -->
                 <div class="d-block d-sm-flex flex-nowrap align-items-center">
                     <div class="page-title mb-2 mb-sm-0">
-                        <h1>New Category</h1>
+                        <h1>Edit Category</h1>
                     </div>
                     <div class="ml-auto d-flex align-items-center">
                         <nav>
@@ -37,7 +37,7 @@
                                 <li class="breadcrumb-item">
                                     Dashboard
                                 </li>
-                                <li class="breadcrumb-item active text-primary" aria-current="page">New Category</li>
+                                <li class="breadcrumb-item active text-primary" aria-current="page">Edit Category</li>
                             </ol>
                         </nav>
                     </div>
@@ -63,7 +63,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">@</span>
                                     </div>
-                                    {{ form.category_name }}
+                                    {{ object.category_name }}
                                 </div>
                             </div>
                             <div class="input-group">
@@ -72,7 +72,7 @@
 
                                     <span class="input-group-text">Description</span>
                                 </div>
-                                {{ form.description }}
+                                {{ object.description }}
                             </div>
                             <div class="input-group mt-4">
                                 <div class="custom-file">
@@ -102,4 +102,8 @@
 </div>
 <!-- end app-container -->
 
-{% endblock maincontent %}
+{% endblock maincontent %} 
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update">
+</form>

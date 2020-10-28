@@ -1,34 +1,41 @@
-from .forms import *
+from Customer.models import Customer
 import json
+from django.core import exceptions
 
-# from django.views.generic import TemplateView
-from django.views import generic 
-from django.views import View
+import requests
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
+
 # from django.views.generic.edit import FormView
-# from django.contrib import messages
+from django.contrib import messages
+# from website.models import *
+from django.contrib.auth import login,logout
+# #from app
+from django.contrib.auth import get_user_model,authenticate
 # #from authentication app
-# from django.contrib.auth import authenticate, login
-# from django.contrib.auth.models import User
-# from django.contrib.auth.models import Group
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 # from django.forms.utils import ErrorList
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-
-# #models
-from .models import *
+# from django.views.generic import TemplateView
+from django.views import View, generic
 from Employee.models import Employee
 from Vendor.models import Vendor
-# from website.models import *
-# from django.contrib.auth import login
-# #from app
-from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import check_password
+
+from .forms import *
+# #functions
+from .functions import *
+# #models
+from .models import *
+
 # from django.shortcuts import render, get_object_or_404, redirect
 # from django.template import loader
 # from django.http import HttpResponse
 # from django import template
 
-# #functions
-from .functions import *
 # from django.core.mail import send_mail
 # # Create your views here.
 
@@ -40,67 +47,37 @@ with open('config.json', mode='r') as file:
 
 api_key = parameters['key']
 
-"""
-def login_view(request):
-    form = LoginForm(request.POST or None)
 
+def login_view(request):
+    print('......POST')
     if request.method == "POST":
-        if form.is_valid():
-            loginusername = form.cleaned_data.get("username")
-            loginpassword = form.cleaned_data.get("password")
-            print(User.objects.filter(username= form.cleaned_data.get("username")))
-            print(User.objects.filter(password= form.cleaned_data.get("password")))
+        print('......POST')
+        loginusername = request.POST.get("phone")
+        loginpassword = request.POST.get("password")
+        print(loginusername)
+        print(loginpassword)
+        user = User.objects.get(phone=loginusername)
+        user.check_password(loginpassword)
+        if user is not None and user.is_staff:
+            login(request, user)
+            messages.success(request, 'Login Successful!')
+            return redirect('dashboard:AdminHome')
+        else:    
+            return HttpResponse('Invalid credentials')  
+    return render(request, "dashboard/accounts/auth-login.html")
             
-            user = authenticate(request, username=loginusername,
-                password=loginpassword)
-            print(user)
-            if user is not None and user.is_staff:
-                login(request, user)
-                messages.success(request, 'Login Successful!')
-                return redirect('dashboard:AdminHome')
-            else:    
-                return HttpResponse('Invalid credentials')  
-        else:
-            return HttpResponse('Error validating the form')   
-    return render(request, "dashboard/accounts/auth-login.html", {"form": form})
-            
-"""
+
         
-            
-            
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'Logged Out Successfully!')
+    return redirect('dashboard:login')      
              
           
 
 
-# # def register_user(request):
 
-# #     msg     = None
-# #     success = False
-
-# #     if request.method == "POST":
-# #         form = SignUpForm(request.POST)
-# #         if form.is_valid():
-# #             form.save()
-# #             username = form.cleaned_data.get("username")
-# #             raw_password = form.cleaned_data.get("password1")
-# #             user = authenticate(username=username, password=raw_password)
-
-# #             msg     = 'User created.'
-# #             success = True
-            
-# #             #return redirect("/login/")
-
-# #         else:
-# #             msg = 'Form is not valid'    
-# #     else:
-# #         form = SignUpForm()
-
-# #     return render(request, "dashboard/accounts/register.html", {"form": form, "msg" : msg, "success" : success })
-
-
-
-
-# @login_required(login_url="/sbtadmin/login/") 
+@login_required(login_url="/sbtadmin/login/") 
 def index(request):
 
     # if slug == api_key:
@@ -117,6 +94,7 @@ class NewBranchView(View):
     """
     Save Branch Form to database
     TODO:Send Generated ID and Password Of Branch
+    TODO:check if branch with a user already exists
 
     """
     template_name = "dashboard/forms/NewBranchForm.html"
@@ -135,6 +113,7 @@ class NewBranchView(View):
             response = check_if_branch_already_exists(form.cleaned_data['branch_name'])
             if response != None:
                 messages.info(request,'Branch Already exists')
+                # return HttpResponse('branch already exists')
                 return redirect('dashboard:NewBranch')
              
             new_branch.branch_name = form.cleaned_data['branch_name']
@@ -154,27 +133,42 @@ class NewBranchView(View):
             new_branch.branch_is_active = form.cleaned_data['branch_is_active']
             new_branch.Image = form.cleaned_data['branch_img']
             if new_branch.branch_is_active:
-                from django.contrib.auth.hashers import make_password     
-                branch_user = User.objects.create(phone=new_branch.Mobile_No,password=make_password(
-                              password_genrator()),is_staff=True)
-             
-                password = password_genrator()
-                branch_user.is_staff = True
-                branch_group = Group.objects.get(name='branch')
-                branch_group.user_set.add(branch_user) 
-                new_branch.user = branch_user
-                # send_mail(
-                #     subject='Your ID and Password',
-                #     message=f"username = {branch_user.username}\npassword = {password}",
-                #     from_email='rk7305758@gmail.com',
-                #     recipient_list=[new_branch.EmailID],
-                #     fail_silently=False
-                #     # contact@sbtprofessionals.com
-                #     # teamofprofessionals2015@gmail.com
-                # )
-                new_branch.save()
-                messages.success(request,'New Branch Created!')
-                return redirect('dashboard:AdminHome')
+                from django.contrib.auth.hashers import make_password
+                branch_user = User.objects.filter(phone=form.cleaned_data['mobile_no']).first()
+                print(branch_user)  
+                if branch_user != None:   
+                    branch_user.set_password(make_password(password_genrator()))
+                    branch_user.is_staff = True
+                    branch_user.is_branch_user = True
+                    branch_group = Group.objects.get(name='branch')
+                    branch_group.user_set.add(branch_user) 
+                    branch_user.save()
+                    new_branch.user = branch_user
+                    new_branch.save()  
+                    password = password_genrator()
+                    url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={branch_user.phone}&route=TA&msgtype=1&sms=Your USER ID = {branch_user.phone}\n password is {password}"
+                    response = requests.request("GET",url)
+                    print(response)
+                    messages.success(request,'New Branch Created!')
+                    return redirect('dashboard:AdminHome')
+                else:
+                    branch_user = User.objects.create(phone=new_branch.Mobile_No)
+                
+                    password = password_genrator()
+                    print('...............',password)
+                    url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={branch_user.phone}&route=TA&msgtype=1&sms=Your USER ID = {branch_user.phone}\n password is {password}"
+                    response = requests.request("GET",url)
+                    print(response)
+                    branch_user.is_staff = True
+                    branch_user.is_branch_user = True
+                    branch_user.set_password(make_password(password_genrator()))
+                    branch_group = Group.objects.get(name='branch')
+                    branch_group.user_set.add(branch_user) 
+                    branch_user.save()
+                    new_branch.user = branch_user
+                    new_branch.save()
+                    messages.success(request,'New Branch Created!')
+                    return redirect('dashboard:AdminHome')
         # return render(request, self.template_name, {'form': form})
            
     
@@ -191,53 +185,6 @@ class AllBranchView(generic.ListView):
         return context
 
 
-class NewEmployeeView(View):
-    """
-    Save Branch Form to database
-    TODO:Send Generated ID and Password Of Branch
-
-    """
-    template_name = "dashboard/forms/NewEmployeeForm.html"
-    initial = {'key': 'value'}
-    form_class = NewEmployeeForm
-    
-    def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            # <process form cleaned data>
-            new_employee = Employee()
-            response = check_if_employee_already_exists(form.cleaned_data['employee_name'])
-            if response != None:
-                messages.info(request,'Employee Already exists')
-                return redirect('dashboard:NewEmployee')
-            new_employee.employee_name = form.cleaned_data['employee_name']
-            new_employee.father_name = form.cleaned_data['employee_father_name']
-            new_employee.Mobile_No = form.cleaned_data['mobile_no']
-            new_employee.Mobile_No_2 = form.cleaned_data['mobile_no_2']
-            new_employee.Address1 = form.cleaned_data['employee_address']
-            new_employee.Address2 = form.cleaned_data['employee_address_2']
-            new_employee.city = form.cleaned_data['city']
-            new_employee.state = form.cleaned_data['state']
-            new_employee.zipcode = form.cleaned_data['zip_code']
-            new_employee.country = form.cleaned_data['country']
-            new_employee.EmailID = form.cleaned_data['employee_email_address']
-            new_employee.joining_date = form.cleaned_data['joining_date']
-            new_employee.gross_salary = form.cleaned_data['gross_salary']
-            new_employee.gender = form.cleaned_data['gender']
-            new_employee.date_of_birth = form.cleaned_data['date_of_birth']
-            new_employee.extra_Info = form.cleaned_data['extra_info']
-            new_employee.Contact_Person = form.cleaned_data['contact_person']
-            new_employee.employee_designation = form.cleaned_data['employee_designation']
-            new_employee.employee_is_active = form.cleaned_data['employee_is_active']
-            new_employee.Image = form.cleaned_data['employee_img']
-            new_employee.save()
-            messages.success(request,'New Employee Added!')
-            return redirect('dashboard:AdminHome')
-        return render(request, self.template_name, {'form': form})
 
 
 class AllEmployeeView(generic.ListView):
@@ -249,6 +196,7 @@ class AllEmployeeView(generic.ListView):
     template_name = 'dashboard/ViewsAll/all_employees.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        print(context)
         return context
 
 
@@ -291,6 +239,13 @@ class AllCategoriesView(generic.ListView):
     paginate_by = 10
     template_name = 'dashboard/ViewsAll/all_categories.html'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class DetailCategoryView(DetailView):
+    model = Categories
+    template_name = 'dashboard/detail-edit/category-edit.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
@@ -385,15 +340,35 @@ class AllBannerView(generic.ListView):
         context = super().get_context_data(**kwargs)
         return context
 
+
+
+
+
 class AllBanner2View(View):
     def get(self,request):
         return render(request,'dashboard/ViewsAll/all_banner.html')
 
 
     
-from django.views.static import serve
 import os
+
+from django.views.static import serve
+
 
 def download_resume(request, *args, **kwargs):
     filepath = 'sbtdashboard/media/website/JobResumes/dummy_4NwMJgi.pdf'
     return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
+
+
+
+class AllCustomerView(generic.ListView):
+    """
+    Display All Customer From Database
+    """
+    model = Customer
+    paginate_by = 10
+    template_name = 'dashboard/ViewsAll/all_customer.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

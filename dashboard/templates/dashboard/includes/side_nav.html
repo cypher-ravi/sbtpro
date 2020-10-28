@@ -8,12 +8,16 @@
                                     <span class="nav-title">Dashboards</span>
                                </a>
                             </li>
+                            {% if user.is_superuser %}
+                            
                             <li><a class="has-arrow" href="javascript:void(0)" aria-expanded="false"><i class="nav-icon ti ti-calendar"></i><span class="nav-title">Branch</span></a>
                                 <ul aria-expanded="false">
                                     <li> <a href="{% url 'dashboard:NewBranch' %}">New Branch </a> </li>
                                     <li> <a href="{% url 'dashboard:AllBranches' %}">View All Branches</a> </li>
                                 </ul>
                             </li>
+                            {% else %}
+                            {% endif %}
                             <li><a class="has-arrow" href="javascript:void(0)" aria-expanded="false"><i class="nav-icon ti ti-info"></i><span class="nav-title">Categories</span></a>
                                 <ul aria-expanded="false">
                                     <li> <a href="{% url 'dashboard:NewCategory' %}">New Category</a> </li>
@@ -24,9 +28,8 @@
                             <li>
                                 <a class="has-arrow" href="javascript:void(0)" aria-expanded="false"> <i class="nav-icon ti ti-user"></i> <span class="nav-title">Customer</span> <span class="nav-label label label-success">New</span> </a>
                                 <ul aria-expanded="false">
-                                    <li> <a href="widget-chart.html">New Customer</a> </li>
 
-                                    <li> <a href="widget-list.html">View All Customers</a> </li>
+                                    <li> <a href="{% url 'dashboard:AllCustomer' %}">View All Customers</a> </li>
 
                                 </ul>
                             </li>
@@ -34,7 +37,7 @@
                             <li>
                                 <a class="has-arrow" href="javascript:void(0)" aria-expanded="false"><i class="nav-icon ti ti-user"></i> <span class="nav-title">Employees</span></a>
                                 <ul aria-expanded="false">
-                                    <li><a href="{% url 'dashboard:NewEmployee' %}">New Employee</a></li>
+                        
                                     <li><a href="{% url 'dashboard:AllEmployees' %}">View All Employee</a></li>
                                     <li><a href="{% url 'dashboard:EmployeeRequest' %}">Employee Requests</a></li>
 
@@ -49,7 +52,8 @@
 
                                 </ul>
                             </li>
-                            <li class="nav-static-title">Extra Work</li>
+                            {% if user.is_superuser %}
+                             <li class="nav-static-title">Extra Work</li>
                             <li><a href="mail-inbox.html" aria-expanded="false"><i class="nav-icon ti ti-email"></i><span class="nav-title">Mail</span></a> </li>
                             <li>
                                 <a class="has-arrow" href="javascript:void(0)" aria-expanded="false"><i class="nav-icon ti ti-map-alt"></i><span class="nav-title">Resumes</span></a>
@@ -71,6 +75,10 @@
                                     <li> <a href="{% url 'dashboard:AllBanners2' %}">View All Banners</a> </li>
                                 </ul>
                             </li>
+                            
+                            {% else %}
+                            {% endif %}
+                           
                         </ul>
                     </div>
                     <!-- end sidebar-nav -->

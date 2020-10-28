@@ -42,7 +42,7 @@
                         <table class="table mb-0">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">Branch Code</th>
+                                    <th scope="col">Branch user</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">MobileNo.</th>
                                     <th scope="col">Email</th>
@@ -54,7 +54,7 @@
                             <tbody>
                                 {% for branch in object_list %}
                                 <tr>
-                                    <th scope="row">{{ branch.branch_id }}</th>
+                                    <th scope="row">{{ branch.user }}</th>
                                     <td>{{ branch.branch_name }}</td>
                                     <td>{{ branch.Mobile_No }}</td>
                                     <td>{{ branch.EmailID }}</td>

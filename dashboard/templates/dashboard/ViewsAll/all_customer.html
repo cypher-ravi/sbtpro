@@ -1,5 +1,5 @@
 {% extends "dashboard/layout/base.html" %} {% block title %}
-<title>All Categories - Dashboard SBTProfessionals</title>
+<title>All Customers - Dashboard SBTProfessionals</title>
 {% endblock title %} {% block maincontent %}
 
 
@@ -13,7 +13,7 @@
                 <!-- begin page title -->
                 <div class="d-block d-sm-flex flex-nowrap align-items-center">
                     <div class="page-title mb-2 mb-sm-0">
-                        <h1>All Categories</h1>
+                        <h1>All Customers</h1>
                     </div>
                     <div class="ml-auto d-flex align-items-center">
                         <nav>
@@ -22,9 +22,9 @@
                                     <a href="index.html"><i class="ti ti-home"></i></a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    Categories
+                                    Customers
                                 </li>
-                                <li class="breadcrumb-item active text-primary" aria-current="page">View All Categories</li>
+                                <li class="breadcrumb-item active text-primary" aria-current="page">View All Customers</li>
                             </ol>
                         </nav>
                     </div>
@@ -42,23 +42,31 @@
                         <table class="table mb-0">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Desc.</th>
+                                    <th scope="col">User Phone</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Joinig date</th>
+                                    <th scope="col">Active</th>
+                                    <th scope="col">Subscription plan</th>
                                     <th scope="col">Action</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for category in object_list %}
+                                {% for customer in object_list %}
                                 <tr>
-                                    <td style="color: black;"> <strong>{{ category.category_name }}</strong></td>
-                                    <td>{{ category.category_description }}</td>
-                                    <td><a type="button" href="{% url 'dashboard:edit_category' category.category_id %}" class="btn btn-inverse-success">Edit</a></td>
+                                    <td style="color: black;"> <strong>{{ customer.user }}</strong></td>
+                                    <td style="color: black;"> <strong>{{ customer.customer_name }}</strong></td>
+                                    <td style="color: black;"> <strong>{{ customer.Address }}</strong></td>
+                                    <td>{{ customer.joining_date }}</td>
+                                    <td>{{ customer.customer_is_active }}</td>
+                                    <td>{{ customer.subscription_plan_taken }}</td>
+                                    <td><button class="btn btn-inverse-success">Edit</button></td>
                                 </tr>
                                 {% if forloop.counter|divisibleby:1 and forloop.counter > 0 and not forloop.last%}
                                 <tr> </tr>
                                 {% endif %} {% empty %}
-                                <li>No Categories yet.</li>
+                                <li>No Customer yet.</li>
                                 {% endfor %}
                             </tbody>
                         </table>

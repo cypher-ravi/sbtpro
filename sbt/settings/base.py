@@ -147,6 +147,7 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'SBT Professional Team <rk7305758@gmail.com>'
 
 
+
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 

@@ -14,7 +14,7 @@ def check_if_branch_already_exists(branchname):
 
 # Check If a category Already `exists` ,If exists redirect to new category view
 def check_if_category_already_exists(categoryname):
-    category = Categories.objects.filter(category_name=categoryname)
+    category = Categories.objects.filter(category_name__icontains=categoryname)
     if category.exists():
         return HttpResponse('category Already Exists!')
         

@@ -9,11 +9,21 @@
         <!-- begin row -->
         <div class="row">
             <div class="col-md-12 m-b-30">
+                {% for message in messages %}
+                <li class=""></li>
+                <div {% if message.tags %} class="{{ message.tags }}" {% endif %} role="alert">
+                    <strong>OOPs!</strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="ti ti-close"></i>
+                        </button>
+                </div>
+                {% endfor %}
                 <!-- begin page title -->
                 <div class="d-block d-sm-flex flex-nowrap align-items-center">
                     <div class="page-title mb-2 mb-sm-0">
                         <h1>New Branch</h1>
                     </div>
+
                     <div class="ml-auto d-flex align-items-center">
                         <nav>
                             <ol class="breadcrumb p-0 m-b-0">
@@ -42,7 +52,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form method="POST" action="{% url 'dashboard:NewBranch' %}">
+                            {% csrf_token %}
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">@</span>
@@ -82,7 +93,7 @@
                                     <label for="input-mobile2">Mobile No. 2</label> {{ form.mobile_no_2 }}
                                 </div>
                             </div>
-                               <div class="form-row">
+                            <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="input-register">Registration Date</label> {{ form.regsitration_date }}
                                 </div>
@@ -102,7 +113,7 @@
                                 </div>
                             </div>
 
-                         
+
                             <div class="form-group">
                                 <div class="form-check">
                                     {{ form.branch_is_active }}
