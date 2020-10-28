@@ -1,0 +1,191 @@
+{% extends 'website/layout.html'%}
+{% load static %}
+{% block body %}
+
+{% block css %}
+<style>
+  @media screen and (max-width: 768px) {
+
+    .hide-on-phone-only {
+      display: none !important;
+
+    }
+
+  }
+
+  @media only screen and (min-width: 1200px) {
+    .hide-on-desktop-only {
+      display: none !important;
+    }
+  }
+
+  .success3 {
+
+    margin-left: 848px;
+    margin-top: -600px;
+   background-color: whitesmoke;
+  }
+
+
+  .input-container {
+    display: -ms-flexbox;
+    /* IE10 */
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .icon {
+    padding: 14px;
+    background: #fe4c1c;
+    color: white;
+    min-width: 50px;
+    text-align: center;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+  }
+
+  .input-field:focus {
+    border: 2px solid #fe4c1c;
+  }
+
+  /* Set a style for the submit button */
+  .btn {
+
+    background-color: #fe4c1c;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+  }
+
+  .btn:hover {
+    opacity: 1;
+  }
+
+  .success-page {
+    max-width: 300px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    top: 0%;
+    transform: perspective(1px) translateY(50%);
+
+    margin-top: -230px;
+    margin-bottom: 401px;
+  }
+
+  .success-page2 {
+    max-width: 124px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    top: 4%;
+    transform: perspective(1px) translateY(50%);
+    margin-bottom: 228px;
+    margin-top: -77px;
+    width: 109px;
+  }
+
+  .success2 {
+
+    /* top: 15%; */
+    margin-top: -1px;
+    margin-left: 66px;
+    margin-bottom: -189px;
+    background-color: whitesmoke;
+
+    margin: -261px 3px 30px 2px;
+  }
+
+
+
+  .success-page img {
+    max-width: 62px;
+    display: block;
+    margin: 0 auto;
+    height: 90px;
+  }
+
+  .btn-view-orders {
+    display: block;
+    border: 1px solid #fe4c1c;
+    width: 100px;
+    margin: 0 auto;
+    margin-top: 25px;
+    padding: 10px;
+    color: #fff;
+    background-color: #fe4c1c;
+    text-decoration: none;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    color: #fe4c1c;
+    margin-top: 25px;
+
+  }
+
+  a {
+    text-decoration: none;
+  }
+</style>
+{% endblock %}
+
+<div class="success-page2">
+  <img src="{% static 'website/images/check.svg' %}">
+</div>
+<div class="success-page">
+  <h2>Payment Successful!</h2>
+  <p>We are delighted to inform you that we received your payments</p>
+<button> continue...</button>
+</div>
+</div>
+
+<div class="success2 hide-on-desktop-only">
+
+  <form action="/action_page.php" style="max-width:500px;margin:auto">
+    <h3>order status </h3>
+    <div class="input-container">
+      <i class="fa fa-phone icon">+91</i>
+      <input class="input-field" type="text" placeholder="phone no." name="phone" maxlength="10">
+    </div>
+
+    <div class="input-container">
+      <i class="fa fa-envelope icon">....</i>
+      <input class="input-field" type="text" placeholder="order id " name="phone" maxlength="6">
+    </div>
+
+
+    <button type="submit" class="btn">Check status </button>
+  </form>
+</div>
+
+<div class="hide-on-phone-only" style="margin-bottom: 216px;">
+
+  <div class="success3">
+    <form action="/action_page.php" style="max-width:335px;margin:auto;margin-top: 70px;">
+      <h3>order status </h3>
+      <div class="input-container">
+        <i class="fa fa-phone icon">+91</i>
+        <input class="input-field" type="text" placeholder="phone no." name="phone"  maxlength="10">
+      </div>
+
+      <div class="input-container">
+        <i class="fa fa-envelope icon">....</i>
+        <input class="input-field" type="text" placeholder="order id " name="email" maxlength="6">
+      </div>
+      <button type="submit" class="btn">check status  </button>
+    </form>
+  </div>
+
+</div>
+{% endblock body %}

@@ -45,6 +45,9 @@ MID = "VdMxPH61970223458566"  # MERCHANT ID
 MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 
 
+def template_test(request):
+    return render(request, 'website/test-ankit.html')
+
 def index(request):
     category = Categories.objects.all()
     # Logic for services
