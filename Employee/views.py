@@ -29,7 +29,21 @@ class NewEmployeeAPI(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         employee = Employee.objects.filter(employee_name=request.data['employee_name'])
         if employee.exists():
-            return Response({'detail':'Employee already exists'},status=status.HTTP_400_BAD_REQUEST) 
+            employee = Employee.objects.filter(
+            user=request.data['user']).first()
+            if employee != None:
+                partial = kwargs.pop('partial', False)
+                instance = employee
+                serializer = self.get_serializer(instance, data=request.data, partial=partial)
+                serializer.is_valid(raise_exception=True)
+                self.perform_update(serializer)
+
+                if getattr(instance, '_prefetched_objects_cache', None):
+                    # If 'prefetch_related' has been applied to a queryset, we need to
+                    # forcibly invalidate the prefetch cache on the instance.
+                    instance._prefetched_objects_cache = {}
+
+                return Response({'details':'updated'})
         data = request.data
         user_data = request.data['user']
         serializer = EmployeeSerializer(data=data)
@@ -40,6 +54,7 @@ class NewEmployeeAPI(viewsets.ModelViewSet):
                 employee.is_employee_registered = True
                 employee.save()
             user = User.objects.filter(id=request.data['user']).values()
+            #for check if vendor is active
             return Response(user, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
 

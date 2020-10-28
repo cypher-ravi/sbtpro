@@ -33,39 +33,34 @@ class NewCustomerAPI(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     # permission_classes = [permissions.IsAuthenticated]
+    # def update(self, request, *args, **kwargs):
+    #     """
+    #     Update customer by user id
+    #     """
 
+    #     customer = Customer.objects.filter(
+    #         user=request.data['user']).first()
+    #     if customer != None:
+    #         partial = kwargs.pop('partial', False)
+    #         instance = customer
+    #         serializer = self.get_serializer(instance, data=request.data, partial=partial)
+    #         serializer.is_valid(raise_exception=True)
+    #         self.perform_update(serializer)
+
+    #         if getattr(instance, '_prefetched_objects_cache', None):
+    #             # If 'prefetch_related' has been applied to a queryset, we need to
+    #             # forcibly invalidate the prefetch cache on the instance.
+    #             instance._prefetched_objects_cache = {}
+
+    #         return Response({'details':'updated'})
     def create(self, request, *args, **kwargs):
         """
         create customer  by User ID
         """
-        customer = Customer.objects.filter(
-            user=request.data['user'])
-        if customer.exists():
-            return Response({'detail': 'customer already exists'}, status=status.HTTP_306_RESERVED)
-        data = request.data
-        user = User.objects.filter(id=request.data['user'])
-        for i in user:
-            if i.is_customer_registered == True:
-                return Response('this user already a customer')
-        print(user)
-        serializer = CustomerSerializer(data=data)
-        if serializer.is_valid(raise_exception=True):
-            for cust in user:
-                cust.is_customer_registered = True
-                cust.save()
-            serializer.save(customer_is_active=True)
-            user = User.objects.filter(id=request.data['user']).values()
-            return Response(user, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def update(self, request, *args, **kwargs):
-        """
-        Update customer by user id
-        """
 
-        customer = Customer.objects.filter(
-            user=request.data['user']).first()
-        if customer != None:
+        customer = Customer.objects.filter(user=request.data['user']).first()
+
+        if customer != None:            
             partial = kwargs.pop('partial', False)
             instance = customer
             serializer = self.get_serializer(instance, data=request.data, partial=partial)
@@ -78,6 +73,24 @@ class NewCustomerAPI(viewsets.ModelViewSet):
                 instance._prefetched_objects_cache = {}
 
             return Response({'details':'updated'})
+        else:
+            data = request.data
+            user = User.objects.filter(id=request.data['user'])
+            for i in user:
+                if i.is_customer_registered == True:
+                    return Response('this user already a customer')
+            print(user)
+            serializer = CustomerSerializer(data=data)
+            if serializer.is_valid(raise_exception=True):
+                for cust in user:
+                    cust.is_customer_registered = True
+                    cust.save()
+                serializer.save()
+                user = User.objects.filter(id=request.data['user']).values()
+                return Response(user, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
 
         
 

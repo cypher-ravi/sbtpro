@@ -62,18 +62,18 @@ def SendOtp(request, phno, format = None):
         totp = pyotp.TOTP('base64secret6464',interval=300)
         secret = generate_key()
         otp = totp.now()
-        # url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
-        # response = requests.request("GET",url)
-        # print(response)
+        url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
+        response = requests.request("GET",url)
+        print(response)
         print(otp)
         return Response({'sent':True,'OTP':otp})
     else:
         totp = pyotp.TOTP('base64secret6464',interval=300)
         secret = generate_key()
         otp = totp.now()
-        # url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
-        # response = requests.request("GET",url)
-        # print(response)
+        url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
+        response = requests.request("GET",url)
+        print(response)
         return Response({'sent':True,'OTP':otp})
        
     
@@ -96,7 +96,7 @@ def Verify(request, otpFromUser, phno):
             already_verified_user.save()
             request.data.update({'phone':phno,'is_verified':True})
             already_verified_user = User.objects.filter(phone = phno).values()
-            return Response(already_verified_user,status=status.HTTP_200_OK)
+            return Response(already_verified_user[0],status=status.HTTP_200_OK)
         else:
             totp = pyotp.TOTP('base64secret6464')
             resp = totp.verify(otpFromUser)

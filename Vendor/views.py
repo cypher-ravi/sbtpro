@@ -38,7 +38,7 @@ class VendorList(viewsets.ModelViewSet):
             return Vendor.objects.none()
         else:
             category = self.kwargs['pk']
-            return Vendor.objects.filter(Busniess_Type=category)
+            return Vendor.objects.filter(Busniess_Type=category,vendor_is_active=True)
         
 
 class VendorDetail(generics.GenericAPIView):
@@ -79,8 +79,22 @@ class NewVendorAPI(viewsets.ModelViewSet):
         """
         vendor = Vendor.objects.filter(
             user=request.data['user'])
-        if customer.exists():
-            return Response({'detail': 'vendpr already exists'}, status=status.HTTP_306_RESERVED)
+        if vendor.exists():
+            vendor = Vendor.objects.filter(user=request.data['user']).first()
+            print(vendor)
+            partial = kwargs.pop('partial', False)
+            instance = vendor
+            serializer = self.get_serializer(instance, data=request.data, partial=partial)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+
+            if getattr(instance, '_prefetched_objects_cache', None):
+                # If 'prefetch_related' has been applied to a queryset, we need to
+                # forcibly invalidate the prefetch cache on the instance.
+                instance._prefetched_objects_cache = {}
+
+            return Response({'details':'updated'})
+        
         data = request.data
         user = User.objects.filter(id=request.data['user'])
         for i in user:

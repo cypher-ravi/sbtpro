@@ -1,0 +1,128 @@
+ {% extends "dashboard/layout/base.html" %} {% block title %}
+<title>New Branch - Dashboard SBTProfessionals</title>
+{% endblock title %} {% block maincontent %}
+
+<!-- begin app-main -->
+<div class="app-main" id="main">
+    <!-- begin container-fluid -->
+    <div class="container-fluid">
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-md-12 m-b-30">
+                <!-- begin page title -->
+                <div class="d-block d-sm-flex flex-nowrap align-items-center">
+                    <div class="page-title mb-2 mb-sm-0">
+                        <h1>New Branch</h1>
+                    </div>
+                    <div class="ml-auto d-flex align-items-center">
+                        <nav>
+                            <ol class="breadcrumb p-0 m-b-0">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html"><i class="ti ti-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    Dashboard
+                                </li>
+                                <li class="breadcrumb-item active text-primary" aria-current="page">New Branch</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- end page title -->
+            </div>
+        </div>
+        <!-- end row -->
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card card-statistics">
+                    <div class="card-header">
+                        <div class="card-heading">
+                            <h4 class="card-title">Enter Details Below:</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                </div>
+                                {{ form.branch_name }}
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress">Address</label> {{ form.branch_address }}
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress2">Address 2</label> {{ form.branch_address_2 }}
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputCity">City</label> {{ form.branch_city }}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputState">State</label> {{ form.branch_state }}
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputZip">Zip</label> {{ form.zip_code }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-country">Country</label> {{ form.branch_country }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="contact-person">Contact Person</label> {{ form.branch_contact_person }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-mobile">Mobile No.</label> {{ form.mobile_no }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="input-mobile2">Mobile No. 2</label> {{ form.mobile_no_2 }}
+                                </div>
+                            </div>
+                               <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-register">Registration Date</label> {{ form.regsitration_date }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="input-landline-number">Landline No.</label> {{ form.landline_number }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="input-email">Email</label> {{ form.branch_email_address }}
+                                </div>
+                            </div>
+                            <div class="input-group mt-4">
+                                <div class="custom-file">
+                                    {{ form.branch_img }}
+                                    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                </div>
+                            </div>
+
+                         
+                            <div class="form-group">
+                                <div class="form-check">
+                                    {{ form.branch_is_active }}
+                                    <label class="form-check-label" for="active">
+                                                        <strong>Branch Is Active</strong>
+                                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container-fluid -->
+</div>
+<!-- end app-main -->
+</div>
+<!-- end app-container -->
+
+{% endblock maincontent %}

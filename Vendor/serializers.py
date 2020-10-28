@@ -27,7 +27,7 @@ class VendorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
         fields = '__all__'
-        depth = 1
+        
 
 
 class VendordetailSerializer(serializers.ModelSerializer):

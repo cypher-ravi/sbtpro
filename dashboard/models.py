@@ -72,9 +72,8 @@ VALID_STATE_CHOICES = (
 # Create your models here.
 class Branch(models.Model):
 
-    # user = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
+    user = models.OneToOneField(User,on_delete=models.CASCADE,null= True, blank=True)
     # branch_user_type = models.OneToOneField(UserType,related_name='branch_user',on_delete=models.CASCADE,blank=True,null=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE,null= True, blank=True)
     branch_name = models.CharField(max_length=20,default='')
     Mobile_No = PhoneNumberField()
     Mobile_No_2 = PhoneNumberField()
