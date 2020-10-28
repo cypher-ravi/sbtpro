@@ -36,7 +36,7 @@ from .validations import *
     # *change paytm for production
     # *remove mid mkey from code
     # Refund Logic with paytm
-    # * Nedd to add  order_status for what if order is completed 
+    # * Nedd to add  order_status for what if order is completed
 
     # GUI
     # put icon on button of search and discount
@@ -98,8 +98,8 @@ def freelisting(request):
             # teamofprofessionals2015@gmail.com
         )
         # checks on values of form and using django.contrib import message for alert messages
-        if Company_name: 
-    
+        if Company_name:
+
             listing = FreeListing(Company_name=Company_name, location=location, first_name=first_name,
                                   last_name=last_name, city=city, state=state, zip_code=zip_code, mobile=mobile,
                                   email=email)
@@ -226,7 +226,7 @@ def test(request):
         resp = form_validation(request.POST)
         return HttpResponse(f"nahi chala{resp}")
 
-    return render(request, 'website/test.html')
+    return render(request, 'website/auth_and_pass/test.html')
 
 
 """def purchase(request, slug):
@@ -238,13 +238,13 @@ def test(request):
     try:
         if request.user.is_authenticated:
             if request.method == "POST":
-                
+
                 # Validate
                 resp = form_validation(request.POST)
                 if resp != None:
                     return HttpResponse(resp)
 
-                plan = Plan.objects.get(plan_name=slug) 
+                plan = Plan.objects.get(plan_name=slug)
                 order_id = random.randint(1, 9999)
                 email_id = request.POST.get('email', '')
                 name = request.POST.get('name', '')
@@ -305,7 +305,7 @@ def test(request):
             }
 
             return render(request, 'website/forms/purchase_form.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
-        
+
         else: # if User is not Authenticated
             return render(request, 'website/auth_and_pass/login.html',{'slug':slug})
     except Exception as e:
@@ -342,9 +342,9 @@ def req_handler(request):
 
                 # id = models.AutoField(primary_key = True)
                 order = Order.objects.get(order_id = response_dict["ORDERID"])
-                
+
                 order_payment.order_summary = order
-                # paytm responses 
+                # paytm responses
                 order_payment.currency = response_dict["CURRENCY"]
                 order_payment.gateway_name = response_dict["GATEWAYNAME"]
                 order_payment.response_message = response_dict["RESPMSG"] # Txn Success
@@ -370,13 +370,13 @@ def req_handler(request):
             payment_status = Order_Payment.objects.get(order_id = form["ORDERID"])
             # Session should create when order is get successfull
 
-            return render(request, 'website/order_process/order_success.html', {'payment':payment_status}) 
+            return render(request, 'website/order_process/order_success.html', {'payment':payment_status})
     return HttpResponse('Invalid Request <a href="/sbt/"> Go back Home</a>')
 
-def pricing_multiplier(request):    
+def pricing_multiplier(request):
     if request.method =="POST":
 
-        amount = int(request.POST.get('amount')) 
+        amount = int(request.POST.get('amount'))
         try:
             discount = int(request.POST.get('discount'))
         except ValueError:
@@ -391,7 +391,7 @@ def order_status(request, slug):
     try:
         obj = Order_Payment.objects.get(order_id = slug)
         obj2 = obj.order_summary
-        if obj2.user == request.user:            
+        if obj2.user == request.user:
             paytmParams = dict()
 
             paytmParams["MID"]     = MID
@@ -424,7 +424,7 @@ def order_status(request, slug):
                 return HttpResponse("order success fully placed")
 
             return HttpResponse("order is still in pending state")
-        
+
         elif request.user!=None and request.user.is_authenticated :
             return HttpResponse("Please insert correct orderid")
         else:
@@ -440,7 +440,7 @@ def order_id_session(order_id):
     for i in all_order:
         order_id.append(i)
 
-    usr = request.user.username 
+    usr = request.user.username
     request.session['']
 '''
 
@@ -525,8 +525,8 @@ def log_in(request):
                 login(request, user)
                 messages.success(request, 'Login Successful!')
                 return redirect('website:plan-purchase',slug=redirect_slug)
-                
-            if redirect_slug == None: 
+
+            if redirect_slug == None:
                 login(request, user)
                 messages.success(request, 'Login Successful!')
                 return redirect('website:Sbthome')
@@ -619,8 +619,8 @@ def search(request):
     params = {'query': query, 'vendors': vendors, 'location': location,
                 'category': category}
     return render(request, 'website/search/searchtest.html', params)
-        
-    
+
+
 
 
 
@@ -641,6 +641,7 @@ def top(request):
     return render(request, 'website/pages/top2.html', {'vendor': vendor, 'team': team, 'category': category})
 
 
+
 def search_top(request):
     category = Categories.objects.all()
     team = TOP.objects.all()
@@ -651,7 +652,7 @@ def search_top(request):
     else:
         or_lookup = (Q(vendor_name__icontains=query) | Q(Busniess_Type__category_name__icontains=query) | Q( vendor_work_desc__icontains=query))
         filtered_top_vendors = TOP.objects.filter(or_lookup)
-         
+
         print(filtered_top_vendors)
     return render(request, 'website/search/search_top.html',
                   {'filtered_top_vendors': filtered_top_vendors, 'vendor': vendor, 'category': category,'query':query})
@@ -837,5 +838,3 @@ def frenchise(request):
 #error handling view
 def error_404_view(request,exception):
     return render(request,'website/error404.html')
-
-

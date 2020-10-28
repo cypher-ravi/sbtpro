@@ -2,11 +2,30 @@
 {% block title %}Topvendor-SBT Professionals{% endblock %}
 {% block css %}
 <style>
-.img-class-single-team{
-    height: 400px;
-    max-width: 550px;
-}
+    .img-class-single-team {
+        height: 400px;
+        max-width: 550px;
+    }
 
+    #content-desktop {
+        display: block;
+    }
+
+    #content-mobile {
+        display: none;
+    }
+
+    @media screen and (max-width: 768px) {
+
+        #content-desktop {
+            display: none;
+        }
+
+        #content-mobile {
+            display: block;
+        }
+
+    }
 </style>
 {% endblock css %}
 {% block body %}
@@ -23,8 +42,8 @@
                     <h1>{{ vendor.vendor_name }}</h1>
                     <div class="lernen_breadcrumb">
                         <div class="breadcrumbs">
-									<span class="first-item">
-									<a href="index.html">Homepage</a></span>
+                            <span class="first-item">
+                                <a href="index.html">Homepage</a></span>
                             <span class="separator">&gt;</span>
                             <span class="last-item">{{ vendor.vendor_name }}</span>
                         </div>
@@ -42,56 +61,80 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="dreidbgleft">
-                        <img class="img-class-single-team" src="/media/{{ vendor.Image }}" alt="{{ vendor.vendor_name }} Image">
+                        <img class="img-class-single-team" src="/media/{{ vendor.Image }}"
+                            alt="{{ vendor.vendor_name }} Image">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="section-title section-text-left text-left">
-                        <div>
-                            <h3>{{ vendor.vendor_name }}</h3>
-                            <div class="bar"></div>
-                            <p>{{ vendor.vendor_work_desc|safe }}</p>
-                            <div class="row black-text">
-                                <!-- #counter -->
-                                <div class="col-xs-12 col-sm-12 col-md-4">
-                                    <div class="info">
-                                        <!-- 1 -->
-                                        <div class="themeioan_counter text-center"><!-- single counter item -->
-                                            <i class="secondary-color fa fa-user fa-3x"></i>
-                                            <h4>387</h4>
-                                            <p>Clients</p>
-                                        </div><!-- end single counter item -->
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-4">
-                                    <!-- .row -->
-                                    <div class="info">
-                                        <!-- 2 -->
-                                        <div class="themeioan_counter text-center"><!-- single counter item -->
-                                            <i class="secondary-color fas fa-cubes fa-3x"></i>
-                                            <h4>260</h4>
-                                            <p>Sold</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-4">
-                                    <div class="info">
-                                        <!-- 3 -->
-                                        <div class="themeioan_counter text-center"><!-- single counter item -->
-                                            <i class="secondary-color fa fa-user-circle fa-3x"></i>
-                                            <h4>324</h4>
-                                            <p>Team</p>
-                                        </div><!-- end single counter item -->
-                                    </div>
-                                </div>
-                                <!-- .row end -->
-                                <!-- #counter area end -->
-                            </div>
+
+                        <div id=content-mobile>
+                      
+
+
+                            <a href="/sbt/download">
+                                <img src="/static/website/images/download(12).png"
+                                style="width: 215px; height:80px;margin-left: 68  px;">
+                            </a>
+                        </div>
+                        <div id=content-desktop>
+
+
+                            <a href="/sbt/download">
+                                <img src="/static/website/images/download(12).png"
+                                    style="width: 215px; height:80px;margin-left: 179px;">
+
+                            </a>
                         </div>
                     </div>
+                    <h3>{{ vendor.vendor_name }}</h3>
+                    <div class="bar"></div>
+                    <p>{{ vendor.vendor_work_desc|safe }}</p>
+                    <div class="row black-text">
+                        <!-- #counter -->
+                        <div class="col-xs-12 col-sm-12 col-md-4">
+                            <div class="info">
+                                <!-- 1 -->
+
+                                <div class="themeioan_counter text-center">
+                                    <!-- single counter item -->
+                                    <i class="secondary-color fa fa-user fa-3x"></i>
+                                    <h4>387</h4>
+                                    <p>Clients</p>
+                                </div><!-- end single counter item -->
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4">
+                            <!-- .row -->
+                            <div class="info">
+                                <!-- 2 -->
+                                <div class="themeioan_counter text-center">
+                                    <!-- single counter item -->
+                                    <i class="secondary-color fas fa-cubes fa-3x"></i>
+                                    <h4>260</h4>
+                                    <p>Sold</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4">
+                            <div class="info">
+                                <!-- 3 -->
+                                <div class="themeioan_counter text-center">
+                                    <!-- single counter item -->
+                                    <i class="secondary-color fa fa-user-circle fa-3x"></i>
+                                    <h4>324</h4>
+                                    <p>Team</p>
+                                </div><!-- end single counter item -->
+                            </div>
+                        </div>
+                        <!-- .row end -->
+                        <!-- #counter area end -->
+                    </div>
                 </div>
+
             </div>
         </div>
+    </div>
     </div>
     <!-- services area end -->
     <!-- Feature Contact -->
@@ -104,7 +147,7 @@
                         <p>{{ vendor.address }},{{ vendor.city }},{{ vendor.state }}<br>
                             Email: {{ vendor.vendor_email }}<br>
                             Phone: {{ vendor.vendor_mobile_no }}</p>
-                        
+
                     </div>
                 </div>
             </div>
@@ -114,8 +157,8 @@
                         <h3>Gurugram HQ</h3>
                         <p>Plot-505, Phase III, Udyog Vihar III, Sector 20,122016 ,Haryana (India)<br>
                             Email: Contact@sbtprofessionals.com<br>
-                            Phone:  +91-184-7960088 </p>
-                       
+                            Phone: +91-184-7960088 </p>
+
                     </div>
                 </div>
             </div>

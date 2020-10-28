@@ -160,13 +160,6 @@ h6 {
     }
 }
 
-
-p {
-    margin-top: -4px;
-    font-size: 16px;
-    line-height: 1.875;
-}
-
 a {
     color: inherit;
     text-decoration: none;
@@ -1382,7 +1375,7 @@ select:focus {
 }
 
 #header .navbar-brand img {
-    max-height: 67px;
+    max-height: 57px;
     height: auto;
 }
 
@@ -4355,7 +4348,7 @@ select:focus {
 
 @media (min-width: 1200px) {
     .container {
-        max-width: 1200px!important;
+        max-width: 1143px!important;
     }
     .modern-container {
         left: calc((100% - 1170px)/ 2);

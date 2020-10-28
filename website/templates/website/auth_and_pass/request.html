@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <title>Login-SBT Professionals</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{%static 'website/images/favicon.ico'%}" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{%static 'vendor_login/bootstrap/css/bootstrap.min.css'%}" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{%static 'website/css/font-awesome.min.css'%}" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{%static 'website/vendor_login_form/animate/animate.css'%}" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+        href="{%static 'website/vendor_login_form/css-hamburgers/hamburgers.min.css'%}" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{%static 'website/vendor_login_form/select2/select2.min.css'%}" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{%static 'website/css/login_utils.css'%}" />
+    <link rel="stylesheet" type="text/css" href="{%static 'website/css/login_main.css'%}" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+</head>
+
+<body>
+    <div class="limiter">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <strong>Message!</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+        <div class="container-login100">
+
+            <div class="wrap-login100">
+
+                <div class="login100-pic js-tilt" data-tilt>
+                    <img src="{%static 'website/images/favicon.png'%}" alt="IMG" />
+                </div>
+                <form class="login100-form validate-form" action="/sbt/login/" method="post"> {% csrf_token %}
+                    {% if slug %}
+                    <input type="hidden" value="{{ slug }}" name="slug">
+
+
+                    {% endif %}
+                    <input type="hidden" value="{{ request.GET.next }}" name="url">
+
+                    <span class="login100-form-title">
+                        Enter your phone number 
+                    </span>
+
+                    <div class="wrap-input100 validate-input" data-validate="Enter valid username">
+
+                        <input class="input100" type="text" id="login"  name="loginusername"  maxlength="10" placeholder="Enter your moblie number."
+                            required />
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="  " aria-hidden="true">+91</i>
+                        </span>
+                    </div>
+
+
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn" type="submit">
+                            Request OTP
+                        </button>
+                    </div>
+
+                   
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--===============================================================================================-->
+    <script src="{%static 'website/vendor_login_form/jquery/jquery-3.2.1.min.js'%}"></script>
+    <!--===============================================================================================-->
+    <script src="{%static 'website/vendor_login_form/bootstrap/js/popper.js'%}"></script>
+    <script src="{%static 'website/vendor_login_form/bootstrap/js/bootstrap.min.js'%}"></script>
+    <!--===============================================================================================-->
+    <script src="{%static 'website/vendor_login_form/select2/select2.min.js'%}"></script>
+    <!--===============================================================================================-->
+    <script src="{%static 'website/vendor_login_form/tilt/tilt.jquery.min.js'%}"></script>
+    <script>
+        $(".js-tilt").tilt({
+            scale: 1.1,
+        });
+    </script>
+    <!--===============================================================================================-->
+    <script src="{%static 'website/js/login_main.js'%}"></script>
+</body>
+
+</html>
