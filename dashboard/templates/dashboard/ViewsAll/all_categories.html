@@ -53,7 +53,7 @@
                                 <tr>
                                     <td style="color: black;"> <strong>{{ category.category_name }}</strong></td>
                                     <td>{{ category.category_description }}</td>
-                                    <td><a type="button" href="{% url 'dashboard:edit_category' category.category_id %}" class="btn btn-inverse-success">Edit</a></td>
+                                    <td><a type="button" href="{% url 'dashboard:category_detail' category.category_id %}" class="btn btn-inverse-success">View</a></td>
                                 </tr>
                                 {% if forloop.counter|divisibleby:1 and forloop.counter > 0 and not forloop.last%}
                                 <tr> </tr>

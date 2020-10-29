@@ -15,7 +15,7 @@ app_name = 'website'
 urlpatterns = [
 #     path("test/<int:slug>", views.test, name="test"),
     path("test", views.test, name="test"),
-    path('ankit-test', views.template_test, name="ankit-test"),
+    # path('ankit-test', views.template_test, name="ankit-test"),
     
     path("", views.index, name='Sbthome'),
     path("become_a_vendor/", views.freelisting, name='listing'),
