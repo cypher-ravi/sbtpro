@@ -30,7 +30,6 @@ class VendorList(viewsets.ModelViewSet):
     model = Vendor
     serializer_class = VendorListSerializer
     pagination_class = PaginationForVendor
-    allow_empty = False
     # permission_classes = [permissions.IsAuthenticated]
     def get_queryset(self):  # no pk parameter
         key = parameters['key']
@@ -38,7 +37,7 @@ class VendorList(viewsets.ModelViewSet):
             return Vendor.objects.none()
         else:
             category = self.kwargs['pk']
-            return Vendor.objects.filter(Busniess_Type=category,vendor_is_active=True)
+            return Vendor.objects.filter(Busniess_Type=category)
         
 
 class VendorDetail(generics.GenericAPIView):

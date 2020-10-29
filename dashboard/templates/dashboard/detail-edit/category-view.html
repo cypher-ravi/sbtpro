@@ -1,5 +1,5 @@
 {% extends "dashboard/layout/base.html" %} {% block title %}
-<title>All Categories - Dashboard SBTProfessionals</title>
+<title>All Banners - Dashboard SBTProfessionals</title>
 {% endblock title %} {% block maincontent %}
 
 
@@ -13,7 +13,7 @@
                 <!-- begin page title -->
                 <div class="d-block d-sm-flex flex-nowrap align-items-center">
                     <div class="page-title mb-2 mb-sm-0">
-                        <h1>All Categories</h1>
+                        <h1>Category detail</h1>
                     </div>
                     <div class="ml-auto d-flex align-items-center">
                         <nav>
@@ -22,9 +22,9 @@
                                     <a href="index.html"><i class="ti ti-home"></i></a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    Categories
+                                    Category
                                 </li>
-                                <li class="breadcrumb-item active text-primary" aria-current="page">View All Categories</li>
+                                <li class="breadcrumb-item active text-primary" aria-current="page">Category Detail</li>
                             </ol>
                         </nav>
                     </div>
@@ -42,52 +42,30 @@
                         <table class="table mb-0">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">Title</th>
+                                    <th scope="col">Catgory Name</th>
                                     <th scope="col">Desc.</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Active</th>
+                                    <th scope="col">Image</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for category in object_list %}
+
                                 <tr>
-                                    <td style="color: black;"> <strong>{{ category.category_name }}</strong></td>
-                                    <td>{{ category.category_description }}</td>
-                                    <td><a type="button" href="{% url 'dashboard:category_detail' category.category_id %}" class="btn btn-inverse-success">View</a></td>
+                                    <td> <strong>{{ object.category_name }}</strong></td>
+                                    <td> <strong>{{ object.category_description }}</strong></td>
+                                    <td> <strong>{{ object.category_is_active }}</strong></td>
+                                    <td><img src=" /media/{{ object.Image }}" height="100" width="100" alt="No Image" srcset=""></td>
                                 </tr>
-                                {% if forloop.counter|divisibleby:1 and forloop.counter > 0 and not forloop.last%}
                                 <tr> </tr>
-                                {% endif %} {% empty %}
-                                <li>No Categories yet.</li>
-                                {% endfor %}
+
+
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- pagination start -->
-
-        <div class="pagination">
-            <span class="step-links">
-        {% if page_obj.has_previous %}
-        <strong><a href="?page=1">&laquo; first</a></strong>
-       <strong style="color: black;"> <a  href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-backward"></i> Previous</a></strong>
-        {% endif %}
-        
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span> {% if page_obj.has_next %}
-            <strong style="color: black;"><a href="?page={{ page_obj.next_page_number }}">Next <i class="fa fa-forward"></i> </a></strong>
-            <strong><a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> </strong>{% endif %}
-            </span>
-        </div>
-        <!-- pagination end -->
-
-
-
-
-
     </div>
 </div>
 <!-- end row -->

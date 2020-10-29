@@ -1,3 +1,4 @@
+from dashboard.models import Branch
 from django.db import models
 from website.models import Plan
 from django.contrib.auth import get_user_model
@@ -69,6 +70,7 @@ class Customer(models.Model):
     Model for customer, this model uses after API used to create customer
     """
     user = models.ForeignKey(User,on_delete=models.CASCADE,null= True, blank=True)
+    branch = models.ForeignKey(Branch,on_delete=models.CASCADE,null=True,blank=True)
     customer_id = models.AutoField(primary_key=True)
     customer_name = models.CharField(max_length=20,default='',null= True, blank=True)
     last_name = models.CharField(max_length=20,default='',blank=True,null=True)

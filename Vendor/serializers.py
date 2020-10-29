@@ -1,7 +1,24 @@
 
 from rest_framework import serializers
+from restapi.serializers import CategorySerializer
+from .models import Vendor, VendorImages, VendorServices, VendorVideos
 
-from .models import Vendor
+
+class VendorImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VendorImages
+        exclude = []
+
+class VendorVideosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VendorVideos
+        exclude = []
+
+class VendorServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VendorServices
+        exclude = []
+
 
 class VendorListSerializer(serializers.ModelSerializer):
     """
@@ -21,12 +38,16 @@ class VendorListSerializer(serializers.ModelSerializer):
 
       
 class VendorSerializer(serializers.ModelSerializer):
+    vendor_images = VendorImageSerializer(many=True, read_only=True)
+    vendor_services = VendorServiceSerializer(many=True, read_only=True)
+    vendor_video = VendorVideosSerializer(many=False, read_only=True)
     """
     Serializer shows Vendors list, create by ID, retrieve by ID,update by ID
     """
     class Meta:
         model = Vendor
         fields = '__all__'
+        
         
 
 

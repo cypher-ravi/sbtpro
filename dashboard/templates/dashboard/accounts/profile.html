@@ -1,0 +1,170 @@
+ {% extends "dashboard/layout/base.html" %} {% block maincontent %}
+
+<!-- end app-navbar -->
+<!-- begin app-main -->
+<div class="app-main" id="main">
+    <!-- begin container-fluid -->
+    <div class="container-fluid">
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-md-12 m-b-30">
+                {% for message in messages %}
+                <li class=""></li>
+                <div {% if message.tags %} class="{{ message.tags }}" {% endif %} role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <i class="ti ti-close"></i>
+                                                </button>
+                </div>
+                {% endfor %}
+                <!-- begin page title -->
+                <div class="d-block d-sm-flex flex-nowrap align-items-center">
+                    <div class="page-title mb-2 mb-sm-0">
+                        <h1>Profile Settings</h1>
+                    </div>
+                    <div class="ml-auto d-flex align-items-center">
+                        <nav>
+                            <ol class="breadcrumb p-0 m-b-0">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html"><i class="ti ti-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    Pages
+                                </li>
+                                <li class="breadcrumb-item active text-primary" aria-current="page">Profile Settings</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- end page title -->
+            </div>
+        </div>
+        <!-- end row -->
+
+        <!--mail-Compose-contant-start-->
+        <div class="row account-contant">
+            <div class="col-12">
+                <div class="card card-statistics">
+                    <div class="card-body p-0">
+                        <div class="row no-gutters">
+                            <div class="col-xl-3 pb-xl-0 pb-5 border-right">
+                                <div class="page-account-profil pt-5">
+                                    <div class="profile-img text-center rounded-circle">
+                                        <div class="pt-5">
+                                            <div class="bg-img m-auto">
+                                                <img src="/media/{{ object.Image}}" class="img-fluid" style="height: 100%;" alt="users-avatar">
+                                            </div>
+                                            <div class="profile pt-4">
+                                                <h4 class="mb-1">{{ object.user.first_name }}</h4>
+                                                <p style="font-size: large;">{{ object }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="py-5 profile-counter">
+                                        <ul class="nav justify-content-center text-center">
+                                            <li class="nav-item border-right px-3">
+                                                <div>
+                                                    <h4 class="mb-0">90</h4>
+                                                    <p>Post</p>
+                                                </div>
+                                            </li>
+
+                                            <li class="nav-item border-right px-3">
+                                                <div>
+                                                    <h4 class="mb-0">1.5K</h4>
+                                                    <p>Messages</p>
+                                                </div>
+                                            </li>
+
+                                            <li class="nav-item px-3">
+                                                <div>
+                                                    <h4 class="mb-0">4.4K</h4>
+                                                    <p>Members</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="profile-btn text-center">
+                                        <div><button class="btn btn-light text-primary mb-2">Upload New Avatar</button></div>
+                                        <div><button class="btn btn-danger">Delete</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-5 col-md-6 col-12 border-t border-right">
+                                <div class="page-account-form">
+                                    <div class="form-titel border-bottom p-3">
+                                        <h5 class="mb-0 py-2">Edit Branch Profile Settings</h5>
+                                    </div>
+                                    <div class="p-4">
+                                        <form method="POST" action="{% url 'dashboard:branch_update' object.id %}">
+                                            {% csrf_token %}
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="name1">First Name</label>
+                                                    <input type="text" class="form-control" id="name1" readonly value="{{ object.user.first_name }}">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label for="phone">landline No.</label>
+                                                    <input type="text" class="form-control" id="phone" name="phone" value="{{ object.landline_no }}">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label for="email">Email</label>
+                                                    <input type="email" class="form-control" id="email" name="email" value="{{ object.EmailID }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add1">Address</label>
+                                                <input type="text" class="form-control" id="add1" readonly value="{{ object.Address1}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add2">Address 2</label>
+                                                <input type="text" class="form-control" readonly id="add2" value="{{ object.Address1}}">
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="col-12">
+                                                    <label class="mb-1">Regsitration Date</label>
+                                                    <input type="text" readonly class="form-control" value="{{ object.regsitration_date}}">
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="inputState3">City</label>
+                                                        <input type="text" class="form-control" readonly placeholder="{{ object.city }}">
+
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="inputState4">State</label>
+                                                        <input type="text" class="form-control" readonly placeholder="{{ object.state }}">
+
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="inputZip">Zip</label>
+                                                        <input type="text" class="form-control" id="inputZip" readonly value="{{object.zipcode}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <strong><p>If you want to change Address and other info contact to company.</p></strong>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Update Information</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--mail-Compose-contant-end-->
+    </div>
+    <!-- end container-fluid -->
+</div>
+<!-- end app-main -->
+
+<!-- end app-container -->
+<!-- begin footer -->
+
+{% endblock maincontent %}

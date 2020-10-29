@@ -1,84 +1,138 @@
-
-
-
-{% extends "dashboard/layout/base.html" %}
-{% load static %}
-{% block title %}
+ {% extends "dashboard/layout/base.html" %} {% load static %} {% block title %}
 <title>All Employees - Dashboard SBTProfessionals</title>
-{% endblock title %}
-{% block maincontent %}
-                <!-- begin app-main -->
-                <div class="app-main" id="main">
-                    <!-- begin container-fluid -->
-                    <div class="container-fluid">
-                        <!-- begin row -->
-                        <div class="row">
-                            <div class="col-md-12 m-b-30">
-                                <!-- begin page title -->
-                                <div class="d-block d-sm-flex flex-nowrap align-items-center">
-                                    <div class="page-title mb-2 mb-sm-0">
-                                        <h1>All Employees</h1>
-                                    </div>
-                                    <div class="ml-auto d-flex align-items-center">
-                                        <nav>
-                                            <ol class="breadcrumb p-0 m-b-0">
-                                                <li class="breadcrumb-item">
-                                                    <a href="index.html"><i class="ti ti-home"></i></a>
-                                                </li>
-                                                <li class="breadcrumb-item">
-                                                    Employees
-                                                </li>
-                                                <li class="breadcrumb-item active text-primary" aria-current="page">All Employees</li>
-                                            </ol>
-                                        </nav>
-                                    </div>
+{% endblock title %} {% block maincontent %}
+<!-- begin app-main -->
+<div class="app-main" id="main">
+    <!-- begin container-fluid -->
+    <div class="container-fluid">
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-md-12 m-b-30">
+                <!-- begin page title -->
+                <div class="d-block d-sm-flex flex-nowrap align-items-center">
+                    <div class="page-title mb-2 mb-sm-0">
+                        <h1>All Employees</h1>
+                    </div>
+                    <div class="ml-auto d-flex align-items-center">
+                        <nav>
+                            <ol class="breadcrumb p-0 m-b-0">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html"><i class="ti ti-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    Employees
+                                </li>
+                                <li class="breadcrumb-item active text-primary" aria-current="page">All Employees</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- end page title -->
+            </div>
+        </div>
+        <!-- end row -->
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-xl-4 col-sm-6">
+                <div class="card card-statistics employees-contant px-2">
+                    <div class="card-body pb-5 pt-4">
+                        <div class="text-center">
+                            <div class="text-right">
+                                <h4><span class="badge badge-primary badge-pill px-3 py-2">$50/hr</span></h4>
+                            </div>
+                            {% if object_list.0.Image %}
+
+                            <div class="pt-1 bg-img m-auto">
+                                <a href="{% url 'dashboard:employee_detail' object_list.0.employee_id %}"><img src="/media/{{ object_list.0.Image }}" class="img-fluid" alt="employees-img"></a>
+                            </div>
+                            {% else %}
+                            <div class="pt-1 bg-img m-auto">
+                                <a href="{% url 'dashboard:employee_detail' object_list.0.employee_id %}"><img src="{% static 'dashboard/assets/img/dummy_employee.png' %}" class="img-fluid" alt="employees-img"></a>
+                            </div>
+
+                            {% endif %}
+                            <div class="mt-3 employees-contant-inner">
+                                <h4 class="mb-1"><a href="{% url 'dashboard:employee_detail' object_list.0.employee_id %}">{{object_list.0.employee_name}}</a> </h4>
+                                <h5 class="mb-0 text-muted">UX designer</h5>
+                                <div class="mt-3 ">
+                                    <span class="badge badge-pill badge-success-inverse px-3 py-2">UI</span>
+                                    <span class="badge badge-pill badge-primary-inverse px-3 py-2">UX</span>
+                                    <span class="badge badge-pill badge-info-inverse px-3 py-2">Photoshop</span>
+                                    <span class="badge badge-pill badge-warning-inverse px-3 py-2">+7</span>
                                 </div>
-                                <!-- end page title -->
                             </div>
                         </div>
-                        <!-- end row -->
-
-                        <!--start contact contant-->
-                            {% for employee in object_list  %}
-                                {% comment %} {% if employee.employee_is_active in object_list %} {% endcomment %}
-                                    <div class="row">
-                                        <div class="col-xl-4 col-sm-6">
-                                            <div class="card card-statistics employees-contant px-2">
-                                                <div class="card-body pb-5 pt-4">
-                                                    <div class="text-center">
-                                                        <div class="text-right">
-                                                            <h4><span class="badge badge-primary badge-pill px-3 py-2">${{ employee.gross_salary }}</span></h4>
-                                                        </div>
-                                                        <div class="pt-1 bg-img m-auto"><img src="{% static 'dashboard/assets/img/avtar/01.jpg' %}" class="img-fluid" alt="employees-img"></div>
-                                                        <div class="mt-3 employees-contant-inner">
-                                                            <h4 class="mb-1">{{ employee.employee_name  }}</h4>
-                                                            <h5 class="mb-0 text-muted">{{ employee.employee_designation}}</h5>
-                                                            <div class="mt-3 ">
-                                                                <span class="badge badge-pill badge-success-inverse px-3 py-2">UI</span>
-                                                                <span class="badge badge-pill badge-primary-inverse px-3 py-2">UX</span>
-                                                                <span class="badge badge-pill badge-info-inverse px-3 py-2">Photoshop</span>
-                                                                <span class="badge badge-pill badge-warning-inverse px-3 py-2">+7</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                            {% comment %} {% else %}
-                            <h3>No employees yet Active!</h3>
-                            {% endif %} {% endcomment %}
-                        {% endfor %}
-                        
-                        
-                        
-
-                        <!--end employees contant-->
                     </div>
-                    <!-- end container-fluid -->
                 </div>
-                <!-- end app-main -->
             </div>
-            <!-- end app-container -->
+
+
+            {% for employee in object_list|slice:"1:" %}
+            <div class="col-xl-4 col-sm-6">
+                <div class="card card-statistics employees-contant px-2">
+                    <div class="card-body pb-5 pt-4">
+                        <div class="text-center">
+                            <div class="text-right">
+                                <h4><span class="badge badge-primary badge-pill px-3 py-2">$50/hr</span></h4>
+                            </div>
+                            {% if employee.Image %}
+
+                            <div class="pt-1 bg-img m-auto">
+                                <a href="{% url 'dashboard:employee_detail' employee.employee_id %}"><img src="/media/{{ employee.Image }}" class="img-fluid" alt="employees-img"></a>
+                            </div>
+                            {% else %}
+                            <div class="pt-1 bg-img m-auto">
+                                <a href="{% url 'dashboard:employee_detail'  employee.employee_id %}"><img src="{% static 'dashboard/assets/img/dummy_employee.png' %}" class="img-fluid" alt="employees-img"></a>
+                            </div>
+
+                            {% endif %}
+                            <div class="mt-3 employees-contant-inner">
+                                <h4 class="mb-1"><a href="{% url 'dashboard:employee_detail'  employee.employee_id %}">{{ employee.employee_name }}</a></h4>
+                                <h5 class="mb-0 text-muted">Developer</h5>
+                                <div class="mt-3 ">
+                                    <span class="badge badge-pill badge-success-inverse px-3 py-2">Php</span>
+                                    <span class="badge badge-pill badge-primary-inverse px-3 py-2">Android</span>
+                                    <span class="badge badge-pill badge-info-inverse px-3 py-2">ios</span>
+                                    <span class="badge badge-pill badge-warning-inverse px-3 py-2">+5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:0 and forloop.counter > 0 and not forloop.last%}
+            <div class="col-xl-4 col-sm-6">
+            </div>
+            {% endif %} {% endfor %}
+
+        </div>
+        <div class="pagination">
+            <span class="step-links">
+        {% if page_obj.has_previous %}
+        <strong><a href="?page=1">&laquo; first</a></strong>
+                                    <strong style="color: black;"> <a  href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-backward"></i> Previous</a></strong> {% endif %}
+
+                                    <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span> {% if page_obj.has_next %}
+            <strong style="color: black;"><a href="?page={{ page_obj.next_page_number }}">Next <i class="fa fa-forward"></i> </a></strong>
+            <strong><a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> </strong>{% endif %}
+            </span>
+        </div>
+
+
+
+
+        <!--end employees contant-->
+    </div>
+    <!-- end container-fluid -->
+</div>
+<!-- end app-main -->
+</div>
+<!-- end app-container -->
 {% endblock maincontent %}

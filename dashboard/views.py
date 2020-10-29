@@ -1,3 +1,5 @@
+from django.db.models.aggregates import Avg
+from requests.api import request
 from Customer.models import Customer
 import json
 from django.core import exceptions
@@ -59,6 +61,8 @@ def login_view(request):
         user = User.objects.get(phone=loginusername)
         user.check_password(loginpassword)
         if user is not None and user.is_staff:
+            branch_user = Branch.objects.get(user=user)
+            print(branch_user)
             login(request, user)
             messages.success(request, 'Login Successful!')
             return redirect('dashboard:AdminHome')
@@ -79,9 +83,25 @@ def logout_view(request):
 
 @login_required(login_url="/sbtadmin/login/") 
 def index(request):
+    branch_user = Branch.objects.filter(user=request.user).first()
+    customers = Customer.objects.filter(branch=branch_user)
+   
+    c_count =  customers.count()
+    # from django.db.models import Count
+    # branch = Branch.objects.filter(user=request.user)
+    # avg = branch.aggregate(avg_customers=Avg(Count('customer')))
+    # print(avg)
+
+    vendors = Vendor.objects.filter(branch=branch_user)
+    v_count =  vendors.count()
+    
+   
+
+
+    
 
     # if slug == api_key:
-    return render(request, "dashboard/index.html")
+    return render(request, "dashboard/index.html",{'branch':branch_user,'user':request.user,'customers':c_count,'vendors':v_count})
     # else:
         # return HttpResponse('not allowed to access')
 
@@ -102,10 +122,12 @@ class NewBranchView(View):
     form_class = NewBranchForm
     
     def get(self, request, *args, **kwargs):
+        branch_user = Branch.objects.filter(user=request.user).first()
         form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form,'branch':branch_user})
 
     def post(self, request, *args, **kwargs):
+        branch_user = Branch.objects.filter(user=request.user).first()
         form = self.form_class(request.POST)
         if form.is_valid():
             # <process form cleaned data>
@@ -180,10 +202,40 @@ class AllBranchView(generic.ListView):
     model = Branch
     paginate_by = 10
     template_name = 'dashboard/ViewsAll/all_branches.html'
+
     def get_context_data(self, **kwargs):
+        branch_user = Branch.objects.filter(user=self.user).first()
         context = super().get_context_data(**kwargs)
+        context['branch'] = branch_user
         return context
 
+class DetailBranchView(DetailView):
+    model = Branch
+    fields = '__all__'
+    template_name = 'dashboard/accounts/profile.html'
+    def get_context_data(self, **kwargs):
+        branch_user = Branch.objects.filter(user=self.user).first()
+        context = super().get_context_data(**kwargs)
+        context['user'] = branch_user
+        return context
+
+
+class UpdateBranch(View):
+    """
+    docstring
+    """
+    def post(self, request, *args, **kwargs):
+        branch_user = Branch.objects.filter(id= self.kwargs['pk']).first()
+        if branch_user != None:
+            branch_user.landline_no = request.POST['phone']
+            branch_user.EmailID = request.POST['email']
+            branch_user.save()
+            messages.success(request,'Details updated successully')
+            return redirect('dashboard:AdminHome')
+        # messages.info(request,'branch not exists')
+        # return render(request,'dashboard/accounts/profile.html')
+
+    
 
 
 
@@ -192,7 +244,7 @@ class AllEmployeeView(generic.ListView):
     Display All Employees From Database
     """
     model = Employee
-    paginate_by = 10
+    paginate_by = 12
     template_name = 'dashboard/ViewsAll/all_employees.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -203,6 +255,17 @@ class AllEmployeeView(generic.ListView):
 class EmployeeRequestView(View):
     def get(self,request):
         return render(request,'dashboard/Requests/EmployeeRequest.html')
+        
+
+
+class DetailEmployeeView(DetailView):
+    model = Employee
+    template_name = 'dashboard/detail-edit/employee-view.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
 
 class NewcategoryView(View):
     template_name = "dashboard/forms/NewCategoryForm.html"
@@ -211,10 +274,12 @@ class NewcategoryView(View):
     
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form})
+        branch_user = Branch.objects.filter(user=request.user).first()
+        return render(request, self.template_name, {'form': form,'branch':branch_user})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+        branch_user = Branch.objects.filter(user=request.user).first()
         if form.is_valid():
             # <process form cleaned data>
             new_category = Categories()
@@ -229,7 +294,7 @@ class NewcategoryView(View):
             new_category.save()
             messages.success(request,'New Category Created!')
             return redirect('dashboard:NewCategory')
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form,'branch':branch_user})
            
 class AllCategoriesView(generic.ListView):
     """
@@ -245,7 +310,7 @@ class AllCategoriesView(generic.ListView):
 
 class DetailCategoryView(DetailView):
     model = Categories
-    template_name = 'dashboard/detail-edit/category-edit.html'
+    template_name = 'dashboard/detail-edit/category-view.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
@@ -255,7 +320,7 @@ class DetailCategoryView(DetailView):
 class TestView(View):
     def get(self,request):
         form =NewCategoryForm()
-        return render(request,'dashboard/ui/ui-button.html',{'form':form})
+        return render(request,'dashboard/tables/tables-basic.html',{'form':form})
 
 
 
@@ -281,7 +346,16 @@ class AllVendorsView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-    
+
+
+
+class DetailVendorView(DetailView):
+    model = Vendor
+    template_name = 'dashboard/detail-edit/vendor-view.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 class AllResumeView(generic.ListView):
     """
@@ -369,6 +443,13 @@ class AllCustomerView(generic.ListView):
     paginate_by = 10
     template_name = 'dashboard/ViewsAll/all_customer.html'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+class DetailCustomerView(DetailView):
+    model = Customer
+    template_name = 'dashboard/detail-edit/customer-view.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context

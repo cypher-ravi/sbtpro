@@ -371,27 +371,24 @@
                             <div class="bg-gradient px-4 py-3">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="mr-1">
-                                    {% if user.first_name %}
-                                    
+                                        {% if user.first_name %}
+
                                         <h4 class="text-white mb-0">{{ user.first_name }}</h4>
-                                    {% else %}
+                                        {% else %}
                                         <h4 class="text-white mb-0">{{ user.phone }}</h4>
 
-                                    {% endif %}
-                                        <small class="text-white">Henry@example.com</small>
+                                        {% endif %}
+                                        <p class="text-white">{{ branch.EmailID }}</p>
                                     </div>
                                     <a href="{% url 'dashboard:logout' %}" class="text-white font-20 tooltip-wrapper" data-toggle="tooltip" data-placement="top" title="" data-original-title="Logout"> <i class="zmdi zmdi-power"></i></a>
                                 </div>
                             </div>
                             <div class="p-4">
-                                <a class="dropdown-item d-flex nav-link" href="javascript:void(0)">
+                                <a class="dropdown-item d-flex nav-link" href="/sbtadmin/branch_detail/{{ branch.id }}">
                                     <i class="fa fa-user pr-2 text-success"></i> Profile</a>
                                 <a class="dropdown-item d-flex nav-link" href="javascript:void(0)">
                                     <i class="fa fa-envelope pr-2 text-primary"></i> Inbox
                                     <span class="badge badge-primary ml-auto">6</span>
-                                </a>
-                                <a class="dropdown-item d-flex nav-link" href="javascript:void(0)">
-                                    <i class=" ti ti-settings pr-2 text-info"></i> Settings
                                 </a>
                                 <a class="dropdown-item d-flex nav-link" href="javascript:void(0)">
                                     <i class="fa fa-compass pr-2 text-warning"></i> Need help?</a>

@@ -183,7 +183,7 @@ width: 0px;
             </div>
 
 
-            <div class="carousel-slider sponsor-slider">
+            {% comment %} <div class="carousel-slider sponsor-slider">
                 {% for cat in category|slice:"0:" %}
                 <div class="item category-a">
                     <a href="/sbt/categories/{{ cat.category_name }}"><img class="img-class"
@@ -195,7 +195,7 @@ width: 0px;
                 {% if forloop.counter|divisibleby:0 and forloop.counter > 0 and not forloop.last%}
                 <div class="item category-a">
                 </div>
-                {% endif %} {% endfor %}
+                {% endif %} {% endfor %} {% endcomment %}
 
 
 
@@ -505,7 +505,7 @@ width: 0px;
                                 <h4>{{ plan.plan_name }}</h4>
                                 <div class="tbl-prc-price">
                                     <a href="purchase/{{ plan.plan_name }}">
-                                        <img class="market-img" src="/media/{{ plan.plan_img }}" alt=""></a>
+                                        <img class="market-img" src="media/{{ plan.plan_img }}" alt=""></a>
                                     <span class="price" style="margin-top: 32px;">₹{{ plan.plan_amount}}</span>
                                     <span class="month">/ percent</span>
                                 </div>

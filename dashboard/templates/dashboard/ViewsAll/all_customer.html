@@ -61,8 +61,8 @@
                                     <td>{{ customer.joining_date }}</td>
                                     <td>{{ customer.customer_is_active }}</td>
                                     <td>{{ customer.subscription_plan_taken }}</td>
-                                    <td><button class="btn btn-inverse-success">Edit</button></td>
-                                </tr>
+                                    <td><a href="{% url 'dashboard:customer_detail' customer.customer_id %}" class="btn btn-inverse-success">View</a></td>
+                                </tr> 
                                 {% if forloop.counter|divisibleby:1 and forloop.counter > 0 and not forloop.last%}
                                 <tr> </tr>
                                 {% endif %} {% empty %}
@@ -73,6 +73,21 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="pagination">
+            <span class="step-links">
+        {% if page_obj.has_previous %}
+        <strong><a href="?page=1">&laquo; first</a></strong>
+       <strong style="color: black;"> <a  href="?page={{ page_obj.previous_page_number }}"><i class="fa fa-backward"></i> Previous</a></strong>
+        {% endif %}
+        
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span> {% if page_obj.has_next %}
+            <strong style="color: black;"><a href="?page={{ page_obj.next_page_number }}">Next <i class="fa fa-forward"></i> </a></strong>
+            <strong><a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> </strong>{% endif %}
+            </span>
         </div>
     </div>
 </div>

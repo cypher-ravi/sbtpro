@@ -1,0 +1,215 @@
+ {% extends "dashboard/layout/base.html" %} {% block maincontent %}
+
+<!-- begin app-main -->
+<div class="app-main" id="main">
+    <!-- begin container-fluid -->
+    <div class="container-fluid">
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-md-12 m-b-30">
+                <!-- begin page title -->
+                <div class="d-block d-sm-flex flex-nowrap align-items-center">
+                    <div class="page-title mb-2 mb-sm-0">
+                        <h1>Vendor detail</h1>
+                    </div>
+                    <div class="ml-auto d-flex align-items-center">
+                        <nav>
+                            <ol class="breadcrumb p-0 m-b-0">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html"><i class="ti ti-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    Dashboard
+                                </li>
+                                <li class="breadcrumb-item active text-primary" aria-current="page">vendor detail</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- end page title -->
+            </div>
+        </div>
+        <!-- end row -->
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card card-statistics">
+                    <div class="card-header">
+                        <div class="card-heading">
+                            <h4 class="card-title">Vendor Details:</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <label for="basic-addon1"><strong style="color: black;">Name</strong></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{object.Name}}" aria-label="Username" readonly aria-describedby="basic-addon1">
+                            </div>
+                            <label for="basic-addon2"><strong style="color: black;">Company Name</strong></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                </div>
+                                <input type="text" id="basic-addon2" class="form-control" placeholder="{{object.Company_Name}}" aria-label="Username" readonly aria-describedby="basic-addon1">
+                            </div>
+                            <label for="basic-addon3"><strong style="color: black;">Category</strong></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+
+                                </div>
+                                <input type="text" id="basic-addon3" class="form-control" placeholder="{{object.Busniess_Type}}" aria-label="Username" readonly aria-describedby="basic-addon1">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4"><strong style="color: black;">Email</strong></label>
+                                    <input type="email" class="form-control" id="inputEmail4" readonly placeholder="{{object.EmailID}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputCompany"><strong style="color: black;">Company Established date</label></strong>
+                                    <input type="text" readonly class="form-control" id="inputCompany" placeholder="{{ object.established_date }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress"><strong style="color: black;">Address</strong></label>
+                                <input type="text" class="form-control" id="inputAddress" readonly placeholder="{{object.Address1}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress2"><strong style="color: black;">Address2</strong></label>
+                                <input type="text" class="form-control" id="inputAddress2" readonly placeholder="{{object.Address2}}">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputCity"><strong style="color: black;">City</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{ object.city }}" id="inputCity">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputState"><strong style="color: black;">State</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{ object.state }}">
+
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputZip"><strong style="color: black;">Zip</strong></label>
+                                    <input type="text" placeholder="{{ object.PinCode }}" readonly class="form-control" id="inputZip">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4"><strong style="color: black;">Registered Trade Name</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{object.Registered_Trade_Name}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4"><strong style="color: black;">Contact Person</strong></label>
+                                    <input type="text" readonly class="form-control" placeholder="{{ object.Contact_Person }}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="inputGst"><strong style="color: black;">GST No</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{ object.GST_No }}" id="inputGst">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputPan"><strong style="color: black;">Pan No</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{ object.Pan_No }}">
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputTin"><strong style="color: black;">TIN No</strong></label>
+                                    <input type="text" placeholder="{{ object.TIN_No }}" readonly class="form-control" id="inputTin">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="inputfb"><strong style="color: black;">Facebook URL</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{ object.Facebook_URL }}" id="inputfb">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputtwiiter"><strong style="color: black;">Twitter URL</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{ object.Twitter_URL }}">
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputweb"><strong style="color: black;">Website URL</strong></label>
+                                    <input type="text" placeholder="{{ object.website_URL }}" readonly class="form-control" id="inputweb">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="instagram_URL"><strong style="color: black;">Instagram URL</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{object.instagram_URL}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="youtube_URL"><strong style="color: black;">Youtube URL</strong></label>
+                                    <input type="text" readonly class="form-control" placeholder="{{ object.youtube_URL }}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="submit_date"><strong style="color: black;">Form Submit Date</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{object.submit_date}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="Discount_Percentage"><strong style="color: black;">Discount Percentage</strong></label>
+                                    <input type="text" readonly class="form-control" placeholder="{{ object.Discount_Percentage }}">
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="Longitude"><strong style="color: black;">Longitude</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{object.Longitude}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="Latitude"><strong style="color: black;">Latitude</strong></label>
+                                    <input type="text" readonly class="form-control" placeholder="{{ object.Latitude }}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="type_of_commodity_or_business"><strong style="color: black;">Type of Commodity or  Business</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{ object.type_of_commodity_or_business }}" id="inputfb">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="geograpgical_area"><strong style="color: black;">Geograpgical Area</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{ object.geograpgical_area }}">
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="LEGAL_STRUCTURE"><strong style="color: black;">Legal Structure</strong></label>
+                                    <input type="text" placeholder="{{ object.legal_structure }}" readonly class="form-control" id="LEGAL_STRUCTURE">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="business_history_with_sbt"><strong style="color: black;">Business History With Sbt</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{object.business_history_with_sbt}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="registration_fee"><strong style="color: black;">Registration Fee</strong></label>
+                                    <input type="text" readonly class="form-control" placeholder="{{ object.registration_fee }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group col-md-4">
+                                    <label for="inputZip"><strong style="color: black;">vendor is active</strong></label>
+                                    <input type="text" placeholder="{{ object.vendor_is_active }}" readonly class="form-control" id="inputZip">
+                                </div>
+                            </div>
+                            <!-- <button type="submit" class="btn btn-primary">Sign in</button> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container-fluid -->
+</div>
+<!-- end app-main -->
+</div>
+<!-- end app-container -->
+
+{% endblock maincontent %}

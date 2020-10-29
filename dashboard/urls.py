@@ -22,9 +22,13 @@ urlpatterns =[
 #   # class based views url routes
    path('new_branch/',NewBranchView.as_view(),name='NewBranch'), 
    path('all_branches/',AllBranchView.as_view(),name='AllBranches'), 
+   path('branch_detail/<int:pk>/', DetailBranchView.as_view(), name='detail_branch'),
+   path('profile_update/<int:pk>/', UpdateBranch.as_view(), name='branch_update'),
 
    path('all_employees/',AllEmployeeView.as_view(),name='AllEmployees'), 
    path('employee_requests/',EmployeeRequestView.as_view(),name='EmployeeRequest'), 
+   path('employee/<int:pk>/', DetailEmployeeView.as_view(), name='employee_detail'),
+
    
    path('new_category/',NewcategoryView.as_view(),name='NewCategory'), 
    path('all_category/',AllCategoriesView.as_view(),name='AllCategory'), 
@@ -34,8 +38,12 @@ urlpatterns =[
    path('new_vendor/',NewVendorView.as_view(),name='NewVendor'), 
    path('vendor_requests/',VendorRequestView.as_view(),name='VendorRequest'), 
    path('all_vendors/',AllVendorsView.as_view(),name='AllVendors'), 
+   path('vendor/<int:pk>/', DetailVendorView.as_view(), name='vendor_detail'),
+
    
    path('all_customers/',AllCustomerView.as_view(),name='AllCustomer'), 
+   path('customer/<int:pk>/', DetailCustomerView.as_view(), name='customer_detail'),
+
 
    path('all_resumes/',AllResumeView.as_view(),name='AllResumes'), 
    path('new_banner/',NewBannerView.as_view(),name='NewBanner'), 
@@ -54,5 +62,5 @@ urlpatterns =[
 
 ]
 
-# if settings.DEBUG == True:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG == True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

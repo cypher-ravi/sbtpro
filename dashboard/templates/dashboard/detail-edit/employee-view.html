@@ -1,0 +1,164 @@
+ {% extends "dashboard/layout/base.html" %} {% block maincontent %}
+
+<!-- begin app-main -->
+<div class="app-main" id="main">
+    <!-- begin container-fluid -->
+    <div class="container-fluid">
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-md-12 m-b-30">
+                <!-- begin page title -->
+                <div class="d-block d-sm-flex flex-nowrap align-items-center">
+                    <div class="page-title mb-2 mb-sm-0">
+                        <h1>employee detail</h1>
+                    </div>
+                    <div class="ml-auto d-flex align-items-center">
+                        <nav>
+                            <ol class="breadcrumb p-0 m-b-0">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html"><i class="ti ti-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    Dashboard
+                                </li>
+                                <li class="breadcrumb-item active text-primary" aria-current="page">employee detail</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- end page title -->
+            </div>
+        </div>
+        <!-- end row -->
+        <!-- begin row -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card card-statistics">
+                    <div class="card-header">
+                        <div class="card-heading">
+                            <h4 class="card-title">employee Details:</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+
+                            <label for="basic-addon1"><strong style="color: black;">Employee name</strong></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{object.employee_name}}" aria-label="Username" readonly aria-describedby="basic-addon1">
+                            </div>
+                            <label for="basic-addon2"><strong style="color: black;">Employee last name</strong></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{object.last_name}}" aria-label="Username" readonly aria-describedby="basic-addon1">
+                            </div>
+                            <label for="basic-addon3"><strong style="color: black;">Father name</strong></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{object.father_name}}" aria-label="Username" readonly aria-describedby="basic-addon1">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4"><strong style="color: black;">Email</strong></label>
+                                    <input type="email" class="form-control" id="inputEmail4" readonly placeholder="{{object.EmailID}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4"><strong style="color: black;">Joining date</strong></label>
+                                    <input type="text" readonly class="form-control" id="inputPassword4" placeholder="{{ object.joining_date }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress"><strong style="color: black;">Address</strong></label>
+                                <input type="text" class="form-control" id="inputAddress" readonly placeholder="{{object.Address1}}">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputCity"><strong style="color: black;">City</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{ object.city }}" id="inputCity">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputState"><strong style="color: black;">State</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{ object.state }}">
+
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputZip"><strong style="color: black;">Zip</strong></label>
+                                    <input type="text" placeholder="{{ object.zipcode }}" readonly class="form-control" id="inputZip">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4"><strong style="color: black;">Gender</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{object.gender}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4"><strong style="color: black;">Contact Person</strong><strong style="color: black;"></label>
+                                    <input type="text" readonly class="form-control" placeholder="{{ object.Contact_Person }}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="date_of_birth"><strong style="color: black;">Date of birth</strong><strong style="color: black;"></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{object.date_of_birth}}">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="gross_salary"><strong style="color: black;">Gross salary</strong><strong style="color: black;"></label>
+                                    <input type="text" readonly class="form-control" placeholder="{{ object.gross_salary }}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="qualification"><strong style="color: black;">Qualification</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{object.qualification}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="university"><strong style="color: black;">University</strong></label>
+                                    <input type="text" readonly class="form-control" placeholder="{{ object.university }}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="year_of_passing"><strong style="color: black;">Year of passing</strong></label>
+                                    <input type="text" class="form-control" readonly placeholder="{{object.year_of_passing}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="education_percentage"><strong style="color: black;">Education percentage</strong></label>
+                                    <input type="text" readonly class="form-control" placeholder="{{ object.education_percentage }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputdesignation"><strong style="color: black;">Employee Designation</strong></label>
+                                <input type="text" class="form-control" id="inputdesignation" readonly placeholder="{{object.employee_designation}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="info"><strong style="color: black;">Extra Info</strong></label>
+                                <textarea type="text" class="form-control" id="info" readonly aria-valuetext="{{object.extra_Info}}"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group col-md-2">
+                                    <label for="inputZip"><strong style="color: black;">Employee is active</strong></label>
+                                    <input type="textarea" placeholder="{{ object.employee_is_active }}" readonly class="form-control" id="inputZip">
+                                </div>
+                            </div>
+
+
+                            <!-- <button type="submit" class="btn btn-primary">Sign in</button> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container-fluid -->
+</div>
+<!-- end app-main -->
+</div>
+<!-- end app-container -->
+
+{% endblock maincontent %}

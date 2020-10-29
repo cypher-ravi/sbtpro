@@ -1,6 +1,7 @@
 from django.db import models
 from website.models import Categories
 from restapi.models import *
+from dashboard.models import *
 # from dashboard.models import Employee
 from django.db import models
 from django.core.validators import FileExtensionValidator
@@ -119,6 +120,7 @@ class VendorImages(models.Model):
 class Vendor(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null= True, blank=True)
     vendor_id = models.AutoField(primary_key=True)
+    branch = models.ForeignKey(Branch,on_delete=models.CASCADE,null=True,blank=True)
     Name = models.CharField(max_length=50, default='',null= True, blank=True)
     Company_Name = models.CharField(max_length=100, default='',null= True, blank=True)
     Busniess_Type = models.ForeignKey(Categories, on_delete=models.CASCADE,null=True,blank=True)

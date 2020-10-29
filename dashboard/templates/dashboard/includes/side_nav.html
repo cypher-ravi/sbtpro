@@ -46,7 +46,7 @@
                             <li>
                                 <a class="has-arrow" href="javascript:void(0)" aria-expanded="false"><i class="nav-icon ti ti-user"></i> <span class="nav-title">Vendors</span></a>
                                 <ul aria-expanded="false">
-                                    <li><a href="{% url 'dashboard:NewVendor' %}">New Vendor</a></li>
+                                    {% comment %} <li><a href="{% url 'dashboard:NewVendor' %}">New Vendor</a></li> {% endcomment %}
                                     <li><a href="{% url 'dashboard:AllVendors' %}">View All Vendors</a></li>
                                     <li><a href="{% url 'dashboard:VendorRequest' %}">Vendor Requests</a></li>
 
