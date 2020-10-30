@@ -41,6 +41,7 @@ class VendorSerializer(serializers.ModelSerializer):
     vendor_images = VendorImageSerializer(many=True, read_only=True)
     vendor_services = VendorServiceSerializer(many=True, read_only=True)
     vendor_video = VendorVideosSerializer(many=False, read_only=True)
+
     """
     Serializer shows Vendors list, create by ID, retrieve by ID,update by ID
     """
@@ -48,7 +49,15 @@ class VendorSerializer(serializers.ModelSerializer):
         model = Vendor
         fields = '__all__'
         
-        
+class VendorSearchSerializer(serializers.ModelSerializer):
+    """
+    Serializer can CRUD on category model
+    """
+    queryset = Vendor.objects.all()
+    class Meta:
+        model = Vendor
+        fields = '__all__'
+
 
 
 class VendordetailSerializer(serializers.ModelSerializer):

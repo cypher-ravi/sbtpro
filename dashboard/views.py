@@ -1,3 +1,4 @@
+from os import access
 from django.db.models.aggregates import Avg
 from requests.api import request
 from Customer.models import Customer
@@ -7,6 +8,7 @@ from django.core import exceptions
 import requests
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
+
 
 # from django.views.generic.edit import FormView
 from django.contrib import messages
@@ -87,21 +89,20 @@ def index(request):
     customers = Customer.objects.filter(branch=branch_user)
    
     c_count =  customers.count()
-    # from django.db.models import Count
-    # branch = Branch.objects.filter(user=request.user)
-    # avg = branch.aggregate(avg_customers=Avg(Count('customer')))
-    # print(avg)
 
     vendors = Vendor.objects.filter(branch=branch_user)
     v_count =  vendors.count()
     
    
+    active_vendors = Vendor.objects.filter(branch=branch_user,vendor_is_active=True)
+    active_vendor_count = active_vendors.count()
 
-
+    active_customers = Customer.objects.filter(branch=branch_user,customer_is_active=True)
+    active_customer_count = active_customers.count()
     
 
     # if slug == api_key:
-    return render(request, "dashboard/index.html",{'branch':branch_user,'user':request.user,'customers':c_count,'vendors':v_count})
+    return render(request, "dashboard/index.html",{'active_customers':active_customer_count,'active_vendors':active_vendor_count,'branch':branch_user,'user':request.user,'customers':c_count,'vendors':v_count})
     # else:
         # return HttpResponse('not allowed to access')
 
@@ -214,9 +215,9 @@ class DetailBranchView(DetailView):
     fields = '__all__'
     template_name = 'dashboard/accounts/profile.html'
     def get_context_data(self, **kwargs):
-        branch_user = Branch.objects.filter(user=self.user).first()
+        # branch_user = Branch.objects.filter(user=self.user)
         context = super().get_context_data(**kwargs)
-        context['user'] = branch_user
+        # context['branch'] = branch_user
         return context
 
 
@@ -426,7 +427,7 @@ class AllBanner2View(View):
     
 import os
 
-from django.views.static import serve
+from django.views.static import serve, template_translatable
 
 
 def download_resume(request, *args, **kwargs):
@@ -453,3 +454,53 @@ class DetailCustomerView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class BranchReportView(View):
+    template_name = 'dashboard/forms/branch_report_form.html'
+    initial = {'key': 'value'}
+    form_class = BranchReportForm
+    
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name,{'form':form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            branch_report = BranchReport()
+            branch_report.branch = Branch.objects.filter(user=request.user).first()
+            branch_report.title = form.cleaned_data['title']
+            branch_report.report_detail = form.cleaned_data['description']
+            branch_report.save()
+            messages.success(request,'Report Submitted!')
+            return redirect('dashboard:AdminHome')
+        return render(request, self.template_name, {'form': form})
+
+
+
+class ContactUsView(View):
+    template_name = 'dashboard/forms/contact_us_form.html'
+    initial = {'key': 'value'}
+    form_class = ContactForm
+    
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name,{'form':form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            branch_user_msg = BranchContact()
+            branch_user_msg.branch = Branch.objects.filter(user=request.user).first()
+            branch_user_msg.email = form.cleaned_data['email']
+            branch_user_msg.desc = form.cleaned_data['description']
+            branch_user_msg.save()
+            url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={8683827398}&route=TA&msgtype=1&sms=Branch { branch_user_msg.branch} wants to contact you\n email is {branch_user_msg.email}\n message is {branch_user_msg.desc}"
+            response = requests.request("GET",url)
+            print(response)
+            messages.success(request,'Message sent! Company executive will contact you as soon as possible')
+            return redirect('dashboard:AdminHome')
+        return render(request, self.template_name, {'form': form})

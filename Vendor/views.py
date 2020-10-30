@@ -81,7 +81,7 @@ class NewVendorAPI(viewsets.ModelViewSet):
         if vendor.exists():
             vendor = Vendor.objects.filter(user=request.data['user']).first()
             print(vendor)
-            partial = kwargs.pop('partial', False)
+            partial = kwargs.pop('partial', True)
             instance = vendor
             serializer = self.get_serializer(instance, data=request.data, partial=partial)
             serializer.is_valid(raise_exception=True)

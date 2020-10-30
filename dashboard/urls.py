@@ -24,6 +24,7 @@ urlpatterns =[
    path('all_branches/',AllBranchView.as_view(),name='AllBranches'), 
    path('branch_detail/<int:pk>/', DetailBranchView.as_view(), name='detail_branch'),
    path('profile_update/<int:pk>/', UpdateBranch.as_view(), name='branch_update'),
+   path('branch_report/', BranchReportView.as_view(), name='branch_report'),
 
    path('all_employees/',AllEmployeeView.as_view(),name='AllEmployees'), 
    path('employee_requests/',EmployeeRequestView.as_view(),name='EmployeeRequest'), 
@@ -51,6 +52,11 @@ urlpatterns =[
    path('all_banners/',AllBannerView.as_view(),name='AllBanners'), 
    path('all_banners_2/',AllBanner2View.as_view(),name='AllBanners2'), 
    path('download/',download_resume,name='Download'), 
+
+
+   #for contact
+   path('contact/',ContactUsView.as_view(),name='contact'), 
+   
 
   # for template testing
    path('test_view/',TestView.as_view(),name='NewTest'),

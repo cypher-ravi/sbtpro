@@ -4,6 +4,7 @@ License: MIT
 Copyright (c) 2019 - present AppSeed.us
 """
 
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -800,5 +801,59 @@ class NewBanner2Form(forms.Form):
                 "aria-describedby" : "inputGroupFileAddon04",
             }
         ))
+        
+    
+class BranchReportForm(forms.Form):
+    """
+    form for submittion of branch report
+
+    """
+    title = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder" : "title",
+                "class" : "form-control ",
+                "type" : "text",
+                "id" : "title",
+            }
+        ))
+    description = forms.CharField(
+        required=True,
+        widget=forms.Textarea(
+            attrs={
+                "placeholder" : "description",
+                "class" : "form-control ",
+                "type" : "text",
+                "id" : "description",
+            }
+        ))
+    
+        
+class ContactForm(forms.Form):
+    """
+    form for submittion of branch report
+
+    """
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder" : "Enter Email",
+                "class" : "form-control ",
+                "type" : "email",
+                "id" : "Email",
+            }
+        ))
+    description = forms.CharField(
+        required=True,
+        widget=forms.Textarea(
+            attrs={
+                "placeholder" : "Message",
+                "class" : "form-control ",
+                "type" : "text",
+                "id" : "description",
+            }
+        ))
+    
         
     

@@ -490,8 +490,6 @@ label:before {
     border: 4px solid Floralwhite;
     padding: 16px;
     background-color: white;
-
-    
 }
 
 .feedback {
@@ -642,13 +640,14 @@ label:before {
     padding: 18px;
     width: 100%;
     border: none;
-    text-align: left;   
+    text-align: left;
     outline: none;
     font-size: 15px;
     transition: 0.4s;
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
 
 /* .active,
 .accordion:hover {
@@ -664,5 +663,4 @@ label:before {
 
 .container-top {
     margin-top: 135px;
-  
 }

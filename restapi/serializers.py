@@ -40,3 +40,7 @@ class FrenchiseRequestSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class AppFeedBackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppFeedBack
+        fields = '__all__' 

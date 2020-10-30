@@ -25,9 +25,10 @@ urlpatterns = [
     path('<str:slug>/plan_detail/<int:pk>',PlanDetail.as_view({'get':'retrieve'})),
     path('<str:slug>/banners_list',BannersList.as_view({'get':'list'}),name='banners_list'),
     path('franchise_request', FrenchiseRequestAPIView.as_view(),name='frenchise_request'),
+    path('app_feedback/', AppFeedBackAPIView.as_view(),name='app_feedback'),
     
     #for search in vendors
-    path('<str:slug>/vendors_search',VendorList.as_view(),name='search_api'),
+    path('<str:slug>/<str:category_id>/vendors_search',VendorSearchView.as_view(),name='search_api'),
     path('<str:slug>/categories',CategorySearchView.as_view(),name='category_search_api'),
 
     

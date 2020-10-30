@@ -1,3 +1,4 @@
+from dashboard.forms import ContactForm
 from website.models import *
 
 from django.db import models
@@ -118,3 +119,22 @@ class Banner2(models.Model):
         return self.banner_name
     
 
+class BranchReport(models.Model):
+    branch = models.ForeignKey(Branch,on_delete=models.CASCADE)
+    submit_time = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100)
+    report_detail = models.TextField(max_length=5000)
+
+
+    def __str__(self):
+        return str(self.branch) + ' branch submit report at ' + str(self.submit_time)
+
+class BranchContact(models.Model):
+    branch = models.ForeignKey(Branch,on_delete=models.CASCADE)
+    submit_time = models.DateTimeField(auto_now_add=True)
+    email = models.CharField(max_length=100)
+    desc = models.TextField(max_length=5000)
+
+
+    def __str__(self):
+        return str(self.branch) + ' contacts at ' + str(self.submit_time)

@@ -12,8 +12,9 @@ from rest_framework.metadata import SimpleMetadata
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from Vendor.models import Vendor
-from Vendor.serializers import VendorListSerializer, VendorSerializer
+from Vendor.serializers import *
 from website.models import Categories, Plan
+from Vendor.pagination import PaginationForVendor
 
 from .serializers import *
 
@@ -26,27 +27,31 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 
-class VendorList(generics.ListAPIView):
-    """
-    API search filter Vendors by Category,Company Service decsription ,vendor services
-    Use these fields for search Busniess_Type Service_decsription vendor_services
-    """
-    queryset = Vendor.objects.all()
-    serializer_class = VendorSerializer
-    metadata_class = SimpleMetadata
-    filter_backends = [DjangoFilterBackend]
-    # pagination_class = PaginationForVendorAndCategory
-    filterset_fields = ['Busniess_Type', 'Service_decsription','vendor_services','Address1','city','state','Company_Name','Name']
+
     
 class CategorySearchView(generics.ListAPIView):
     """
     Search API for categroies 
     """
     queryset = Categories.objects.all()
+    pagination_class = PaginationForVendorAndCategory
     serializer_class = CategorySerializer
-    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
-    search_fields = ['category_name','category_description']
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['category_name']
 
+class VendorSearchView(generics.ListAPIView):
+    """
+    Search API for vendors + category_id
+    """
+    
+    pagination_class = PaginationForVendor
+    serializer_class = VendorSearchSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['Company_Name']
+
+    def get_queryset(self):
+        vendors = Vendor.objects.filter(Busniess_Type=self.kwargs['category_id'])
+        return vendors
 
 
 
@@ -77,6 +82,22 @@ class FrenchiseRequestAPIView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         
+class AppFeedBackAPIView(generics.CreateAPIView):
+    """
+    This API accepts post requests for Feedback 
+    """
+    queryset = AppFeedBack.objects.all()
+    serializer_class = AppFeedBackSerializer
+    metadata_class = SimpleMetadata
+
+    def post(self, request, format=None):
+        key = parameters['key']
+        # if slug == key:
+        serializer = AppFeedBackSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({'sent':'True'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
