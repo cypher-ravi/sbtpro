@@ -60,7 +60,6 @@ def discount_validation(plan_id, discount, amount):
             total = discount * amount
             return ({'discount_applied': discount,'total':total ,'error': None})
         else:
-            return ({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
+            return ({'discount_applied':'' ,'total':'' ,'error': 'entered discount is invalid'})
     else:
         return ({'discount_applied':'' ,'total':'' ,'error': 'Plan Amount is Invalid'})
-    return ({'error':'Invalid Request'})

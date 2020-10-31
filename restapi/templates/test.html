@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<form method="POST" action="/customer/purchase_customer_card/{{}}">
+    {% csrf_token%} plan_id
+    <input type="text"> userid
+    <input type="text"> discount
+    <input type="text"> amount
+    <input type="text">
+
+    <Button id="submit">Submit</Button>
+</form>
+
+<body>
+
+</body>
+<script>
+    // $("#submit").click(function() {
+    //     var plan = 1
+    //     var userid = 27
+    //     var amount = 1000
+    //     var discount = 25
+    //     event.preventDefault();
+
+    //     $.ajax({
+    //         url: '/customer/purchase_customer_card/1',
+    //         type: "POST",
+    //         data: {
+
+    //             'plan': plan,
+    //             'userid': userid,
+    //             'amount': amount,
+    //             'discount': discount,
+    //             'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').attr('value')
+    //         },
+
+    //         dataType: 'json',
+    //         success: function(data) {
+    //             if (data) {
+    //                 alert('GET the data', data)
+    //             } else {
+    //                 alert('Data is not here')
+    //             }
+
+    //         }
+    //     });
+
+    // });
+</script>
+
+</html>

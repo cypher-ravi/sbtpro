@@ -1,0 +1,22 @@
+{% extends 'website/layout.html'%}
+{% load static %}
+{% block body %}
+<main>
+<div class="container">
+<br>
+<br>
+<br>
+<br>
+<br>
+<img src="{% static '/website/images/tick.svg' %}">
+
+
+Your Payment Status = {{payment.response_message}} <br>
+Your Order ID = {{payment.order_id}} 
+<br>
+If your transaction is in pending state you can check your payment status by clicking <a href="{% url 'customer:Order_Status' payment.order_id%}">Here</a>
+
+
+</div>
+</main>
+{% endblock %}

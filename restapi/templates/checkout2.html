@@ -205,14 +205,22 @@
             <!-- <img src="https://www.flaticon.com/svg/static/icons/svg/2331/2331924.svg" alt="" height="50px" width="50px" srcset=""> -->
             <h2>Checkout</h2>
         </center>
-        <form action="{% url 'customer:confirm-purchase' plan.plan_id customer.customer_id user  %}" method="POST">
+        {% if role == 'customer'  %}
+        <form action="{% url 'rest_api:confirm-purchase' role plan.plan_id customer.customer_id user  %}" method="POST">
+        {% else %}
+        <form action="{% url 'rest_api:confirm-purchase' role plan.plan_id vendor.vendor_id user  %}" method="POST">
+        {% endif %}
             {% csrf_token %}
             <div class="receipt">
                 <div class="col">
                     <p>Cost:</p>
                     <h2 class="cost">{{ total }}</h2>
                     <p>Name:</p>
-                    <h2 class="seller">{{ customer.customer_name }}</h2>
+                    {% if role == 'customer'  %}
+                    <h2 class="seller">{{ customer.customer_name }}</h2> 
+                    {% else %}
+                    <h2 class="seller">{{ vendor.Company_Name }}</h2> 
+                    {% endif %}
                 </div>
                 <div class="col">
                     <p>Description</p>

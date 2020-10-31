@@ -13,6 +13,15 @@ from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
 
+BRANCH_TYPE_CHOICES = (
+    ("state", "state"),
+    ("district", "district"),
+    ("tehsil", "tehsil"),
+    ("village", "village"),
+
+)
+
+
 class LoginForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(
@@ -190,6 +199,18 @@ class NewBranchForm(forms.Form):
                 "class" : "form-control form-control-alternative",
             },
         choices=VALID_STATE_CHOICES
+        )
+        
+    )
+    branch_type = forms.CharField(
+        required=True,
+        widget=forms.Select(
+            attrs={
+                "type" : "text",
+                "id" : "inputtype",
+                "class" : "form-control form-control-alternative",
+            },
+        choices=BRANCH_TYPE_CHOICES
         )
         
     )

@@ -101,21 +101,22 @@ class VendorVideos(models.Model):
     def __str__(self):
         return self.video_url
 
+
+
 class VendorImages(models.Model):
     """
     Store vendor images
     """
     image_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=20,default='')
-    image_url = models.ImageField(upload_to="website/images/vendors/VendorImages", default="")
+    title = models.CharField(max_length=20,default='',blank=True,null=True)
+    image_url = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
+    image = models.TextField(max_length=16383,blank=True, null=True, default='')
 
     class Meta:
         verbose_name_plural = "Vendor images"
 
     def __str__(self):
-        return self.title
-
-
+        return self.image
 
 class Vendor(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null= True, blank=True)
@@ -132,10 +133,10 @@ class Vendor(models.Model):
     Address2 = models.CharField(max_length=100, blank=True, null=True, default='')
     city = models.CharField(max_length=100, default='',null= True, blank=True)
     state = models.CharField(max_length=100, choices=VALID_STATE_CHOICES, default='Please Select',null= True, blank=True)
-    PinCode = models.IntegerField(null= True, blank=True)
+    PinCode = models.CharField(max_length=100,null= True, blank=True)
     Contact_Person = models.CharField(max_length=100, default='', blank=True, null=True)
-    EmailID = models.EmailField(null=True, blank=True)
-    Landline = PhoneNumberField(null=True,blank=True)
+    EmailID = models.CharField(max_length=50,null=True, blank=True)
+    Landline = models.CharField(max_length=50,null=True, blank=True)
     GST_No = models.CharField(max_length=15,null=True, blank=True)
     Pan_No = models.CharField(max_length=11,null=True, blank=True)
     TIN_No = models.CharField(max_length=11,null=True, blank=True)
@@ -148,11 +149,11 @@ class Vendor(models.Model):
     established_date = models.CharField(max_length=200, blank=True, null=True)
     Status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='New',null= True, blank=True)
     Other_Info = models.CharField(max_length=200, blank=True, null=True)
-    Discount_Percentage = models.IntegerField(null= True, blank=True)
-    Longitude = models.FloatField(null=True, blank=True)
-    Latitude = models.FloatField(null=True, blank=True)
+    Discount_Percentage = models.CharField(max_length=100, null= True, blank=True)
+    Longitude = models.CharField(max_length=100, null=True, blank=True)
+    Latitude = models.CharField(max_length=100, null=True, blank=True)
     submit_date = models.DateTimeField(auto_now_add=True)
-    Image = models.ImageField(upload_to="website/images/vendors", default="")
+    Image = models.ImageField(upload_to="website/images/vendors", default="",null=True,blank=True)
     vendor_services = models.ManyToManyField(VendorServices,blank=True)
     vendor_video = models.ForeignKey(VendorVideos,on_delete=models.CASCADE,null=True,blank=True)
     vendor_images = models.ManyToManyField(VendorImages,blank=True)
@@ -170,7 +171,7 @@ class Vendor(models.Model):
     ("trader", "trader"),
     ("other", "other"),
     )
-    type_of_commodity_or_business = models.CharField(max_length=100, choices=TYPE_OF_BUSINESS, default='service provider')
+    type_of_commodity_or_business = models.CharField(max_length=100, choices=TYPE_OF_BUSINESS, default='service provider',null= True, blank=True)
 
     SERVICE_AREA =  (
     ("none", "Please Select"),
@@ -179,7 +180,7 @@ class Vendor(models.Model):
     ("tehsil", "tehsil"),
     ("state", "state"),
     )
-    geograpgical_area = models.CharField(max_length=20, choices=SERVICE_AREA, default='none')
+    geograpgical_area = models.CharField(max_length=20, choices=SERVICE_AREA, default='none',null= True, blank=True)
     BUSINESS_HISTORY =  (
     ("none", "Please Select"),
     ("YES", "YES"),
@@ -193,17 +194,12 @@ class Vendor(models.Model):
         ("joint venture", "joint venture"),
         ("non-profit", "non-profit"),
     )
-    legal_structure =  models.CharField(max_length=20, choices=LEGAL_STRUCTURE, default='none')
-    business_history_with_sbt = models.CharField(max_length=20, choices=BUSINESS_HISTORY, default='none')
-    REGISTRATION_FEE =  (
-    ("none", "Please Select"),
-    ("1200/month", "1200/month"),
-    ("12000/year", "12000/year"),
-    ("365/year", "365/year"),
-    ("Sbt marketing concept", "Sbt marketing concept"),
-    )
-    registration_fee = models.CharField(max_length=100, choices=REGISTRATION_FEE, default='none')
-    vendor_is_active = models.BooleanField(default=False)
+    legal_structure =  models.CharField(max_length=20, choices=LEGAL_STRUCTURE, default='none',null= True, blank=True)
+    business_history_with_sbt = models.CharField(max_length=20, choices=BUSINESS_HISTORY, default='none',null= True, blank=True)
+    
+    registration_fee = models.ForeignKey(Plan,on_delete=models.CASCADE,null=True,blank=True)
+    vendor_is_active = models.BooleanField(default=False,blank=True,null=True)
+   
     # employee = models.ForeignKey(Employee,on_delete=models.CASCADE)
     class Meta:
         ordering = ['vendor_id']

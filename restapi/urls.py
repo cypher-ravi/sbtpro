@@ -31,7 +31,13 @@ urlpatterns = [
     path('<str:slug>/<str:category_id>/vendors_search',VendorSearchView.as_view(),name='search_api'),
     path('<str:slug>/categories',CategorySearchView.as_view(),name='category_search_api'),
 
-    
-    
+    # user payment status
+    path('<str:slug>/user/<int:pk>',UserPaymentStatus.as_view(),name='user_detail_after_payment'),
+
+    path("purchase_customer_card/<str:role>/<str:plan_id>/<str:user>/<int:amount>/<int:discount>", purchase, name="plan-purchase"),
+    path("purchase/<str:role>/<int:plan_id>/<int:customer_id>/<str:user>", customer_card_purchase, name="confirm-purchase"),
+    path('req_handler', req_handler, name='Request Handler'),
+    path('order_status/<str:slug>', order_status, name='Order_Status'),
+
 ]
 urlpatterns += router.urls

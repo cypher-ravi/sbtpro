@@ -69,15 +69,23 @@ VALID_STATE_CHOICES = (
     is_vendor = models.BooleanField(default=False)
     is_employee = models.BooleanField(default=False)"""
 
+BRANCH_TYPE_CHOICES = (
+    ("state", "state"),
+    ("district", "district"),
+    ("tehsil", "tehsil"),
+    ("village", "village"),
+
+)
+
 
 # Create your models here.
 class Branch(models.Model):
 
     user = models.OneToOneField(User,on_delete=models.CASCADE,null= True, blank=True)
-    # branch_user_type = models.OneToOneField(UserType,related_name='branch_user',on_delete=models.CASCADE,blank=True,null=True)
+    branch_type = models.CharField(max_length=100,choices=BRANCH_TYPE_CHOICES,blank=True, null=True)
     branch_name = models.CharField(max_length=20,default='')
-    Mobile_No = PhoneNumberField()
-    Mobile_No_2 = PhoneNumberField()
+    Mobile_No = models.CharField(max_length=20,blank=True, null=True)
+    Mobile_No_2 = models.CharField(max_length=20,blank=True, null=True)
     Address1 = models.CharField(max_length=100, default='')
     Address2 = models.CharField(max_length=100, blank=True, null=True, default='')
     city = models.CharField(max_length=100, default='')
@@ -86,7 +94,7 @@ class Branch(models.Model):
     country = CountryField()
     EmailID = models.EmailField(null=True, blank=True)
     regsitration_date = models.DateTimeField(auto_now_add=True)
-    landline_no = PhoneNumberField()
+    landline_no = models.CharField(max_length=15,null=True, blank=True)
     Longitude = models.FloatField(null=True, blank=True)
     Latitude = models.FloatField(null=True, blank=True)
     extra_Info = models.TextField(max_length=200, blank=True, null=True)

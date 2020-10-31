@@ -2,9 +2,11 @@
 from rest_framework import serializers
 from restapi.serializers import CategorySerializer
 from .models import Vendor, VendorImages, VendorServices, VendorVideos
+from drf_extra_fields.fields import Base64ImageField 
 
 
 class VendorImageSerializer(serializers.ModelSerializer):
+    image_url = Base64ImageField()
     class Meta:
         model = VendorImages
         exclude = []
@@ -48,6 +50,7 @@ class VendorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
         fields = '__all__'
+        # depth = 1
         
 class VendorSearchSerializer(serializers.ModelSerializer):
     """

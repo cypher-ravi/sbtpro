@@ -9,7 +9,7 @@ from rest_framework import generics, mixins, permissions, status, viewsets
 from rest_framework.response import Response
 from sbt.settings.base import REST_FRAMEWORK
 
-from .models import Vendor, VendorServices, VendorVideos
+from .models import Vendor, VendorImages, VendorServices, VendorVideos
 from .pagination import PaginationForVendor
 from .serializers import (VendordetailSerializer, VendorListSerializer,
                           VendorSerializer)
@@ -82,6 +82,7 @@ class NewVendorAPI(viewsets.ModelViewSet):
             vendor = Vendor.objects.filter(user=request.data['user']).first()
             print(vendor)
             partial = kwargs.pop('partial', True)
+
             instance = vendor
             serializer = self.get_serializer(instance, data=request.data, partial=partial)
             serializer.is_valid(raise_exception=True)

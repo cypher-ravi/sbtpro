@@ -140,6 +140,7 @@ class NewBranchView(View):
                 return redirect('dashboard:NewBranch')
              
             new_branch.branch_name = form.cleaned_data['branch_name']
+            new_branch.branch_type = form.cleaned_data['branch_type']
             new_branch.Mobile_No = form.cleaned_data['mobile_no']
             new_branch.Mobile_No_2 = form.cleaned_data['mobile_no_2']
             new_branch.Address1 = form.cleaned_data['branch_address']
@@ -165,6 +166,8 @@ class NewBranchView(View):
                     branch_user.is_branch_user = True
                     branch_group = Group.objects.get(name='branch')
                     branch_group.user_set.add(branch_user) 
+                    # district_group = Group.objects.get(name='district')
+                    # district_group.user_set.add(district_group) 
                     branch_user.save()
                     new_branch.user = branch_user
                     new_branch.save()  
@@ -500,7 +503,6 @@ class ContactUsView(View):
             branch_user_msg.save()
             url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={8683827398}&route=TA&msgtype=1&sms=Branch { branch_user_msg.branch} wants to contact you\n email is {branch_user_msg.email}\n message is {branch_user_msg.desc}"
             response = requests.request("GET",url)
-            print(response)
             messages.success(request,'Message sent! Company executive will contact you as soon as possible')
             return redirect('dashboard:AdminHome')
         return render(request, self.template_name, {'form': form})
