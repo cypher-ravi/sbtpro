@@ -14,6 +14,7 @@ app_name = 'dashboard'
 
 urlpatterns =[
    path('', index, name = 'AdminHome'),
+   path('search', search),
    path('login/', login_view, name="login"),
    # path('register/', register_user, name="register"),
    path("logout/", logout_view, name="logout"),

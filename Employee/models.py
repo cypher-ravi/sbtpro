@@ -1,3 +1,4 @@
+from dashboard.models import Branch
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
@@ -71,6 +72,7 @@ class Employee(models.Model):
     this model create employee after form fill up by user role panel in APP
     """
     user = models.ForeignKey(User,on_delete=models.CASCADE,null= True, blank=True)
+    branch = models.ForeignKey(Branch,on_delete=models.CASCADE,null=True,blank=True)
     employee_id = models.AutoField(primary_key=True)
     employee_name = models.CharField(max_length=20,default='',blank=True,null=True)
     last_name = models.CharField(max_length=20,default='',blank=True,null=True)

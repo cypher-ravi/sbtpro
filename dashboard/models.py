@@ -70,6 +70,7 @@ VALID_STATE_CHOICES = (
     is_employee = models.BooleanField(default=False)"""
 
 BRANCH_TYPE_CHOICES = (
+    ("root", "root"),
     ("state", "state"),
     ("district", "district"),
     ("tehsil", "tehsil"),

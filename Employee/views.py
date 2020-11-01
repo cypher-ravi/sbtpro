@@ -1,3 +1,4 @@
+from Employee.functions import assign_branch_to_employee
 import json
 from datetime import datetime
 
@@ -55,6 +56,7 @@ class NewEmployeeAPI(viewsets.ModelViewSet):
                 employee.save()
             user = User.objects.filter(id=request.data['user']).values()
             #for check if vendor is active
+            assign_branch_to_employee(request.data['city'],request.data['state'],request.data['user'])
             return Response(user, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
 

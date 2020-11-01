@@ -1,33 +1,31 @@
-from os import access
-from django.db.models.aggregates import Avg
-from requests.api import request
-from Customer.models import Customer
 import json
-from django.core import exceptions
+from os import access
 
 import requests
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView
-
-
+from Customer.models import Customer
 # from django.views.generic.edit import FormView
 from django.contrib import messages
-# from website.models import *
-from django.contrib.auth import login,logout
-# #from app
-from django.contrib.auth import get_user_model,authenticate
 # #from authentication app
-from django.contrib.auth import authenticate, login
+# #from app
+# from website.models import *
+from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import Group
+from django.core import exceptions
+from django.db.models import Q
+from django.db.models.aggregates import Avg
 # from django.forms.utils import ErrorList
 from django.http import HttpResponse
+from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 # from django.views.generic import TemplateView
 from django.views import View, generic
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
 from Employee.models import Employee
+from requests.api import request
 from Vendor.models import Vendor
-from django.contrib.auth.hashers import check_password
 
 from .forms import *
 # #functions
@@ -51,7 +49,29 @@ with open('config.json', mode='r') as file:
 
 api_key = parameters['key']
 
+def search(request):
+    if request.is_ajax():
+        query = request.GET.get('query')
+        obj = Branch.objects.filter(Q(branch_name__icontains = query) | Q(user__phone__icontains = query))
+        data = list()
+        for branch in obj:
+            data.append({
+               'phone': branch.user.phone,
+               'branch_name': branch.branch_name,
+               'Mobile_No': branch.Mobile_No,
+               'city': branch.city,
+               'state': branch.state,
+               'EmailID': branch.EmailID,
+            })
+        data = json.dumps(data)
+        print(data)
+        return JsonResponse({'rv':query, 'obj':data})
 
+    
+        
+            
+        
+        
 def login_view(request):
     print('......POST')
     if request.method == "POST":
@@ -86,18 +106,18 @@ def logout_view(request):
 @login_required(login_url="/sbtadmin/login/") 
 def index(request):
     branch_user = Branch.objects.filter(user=request.user).first()
-    customers = Customer.objects.filter(branch=branch_user)
+    customers = Customer.objects.all()
    
     c_count =  customers.count()
 
-    vendors = Vendor.objects.filter(branch=branch_user)
+    vendors = Vendor.objects.all()
     v_count =  vendors.count()
     
    
-    active_vendors = Vendor.objects.filter(branch=branch_user,vendor_is_active=True)
+    active_vendors = Vendor.objects.filter(vendor_is_active=True)
     active_vendor_count = active_vendors.count()
 
-    active_customers = Customer.objects.filter(branch=branch_user,customer_is_active=True)
+    active_customers = Customer.objects.filter(customer_is_active=True)
     active_customer_count = active_customers.count()
     
 
@@ -208,9 +228,7 @@ class AllBranchView(generic.ListView):
     template_name = 'dashboard/ViewsAll/all_branches.html'
 
     def get_context_data(self, **kwargs):
-        branch_user = Branch.objects.filter(user=self.user).first()
         context = super().get_context_data(**kwargs)
-        context['branch'] = branch_user
         return context
 
 class DetailBranchView(DetailView):

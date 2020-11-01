@@ -10,12 +10,18 @@
         <!-- begin row -->
         <div class="row">
             <div class="col-md-12 m-b-30">
+            
                 <!-- begin page title -->
                 <div class="d-block d-sm-flex flex-nowrap align-items-center">
+               
                     <div class="page-title mb-2 mb-sm-0">
                         <h1>All Branches</h1>
                     </div>
+                    
                     <div class="ml-auto d-flex align-items-center">
+                     <div class="md-form mt-0 mr-2">
+  <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="query">
+</div>
                         <nav>
                             <ol class="breadcrumb p-0 m-b-0">
                                 <li class="breadcrumb-item">
@@ -62,10 +68,9 @@
                                     <td><button class="btn btn-inverse-success">Edit</button></td>
                                     <td>Send Message</td>
                                 </tr>
-                                {% if forloop.counter|divisibleby:1 and forloop.counter > 0 and not forloop.last%}
-                                <tr> </tr>
-                                {% endif %} {% empty %}
+                                {% if forloop.counter|divisibleby:0 and forloop.counter > 0 and not forloop.last%}
                                 <li>No branches yet.</li>
+                                {% endif %}
                                 {% endfor %}
 
 

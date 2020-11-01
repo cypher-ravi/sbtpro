@@ -1,3 +1,4 @@
+from Vendor.functions import assign_branch_to_vendor
 import json
 
 from django.contrib.auth import get_user_model
@@ -108,6 +109,7 @@ class NewVendorAPI(viewsets.ModelViewSet):
                 cust.save()
             serializer.save()
             user = User.objects.filter(id=request.data['user']).values()
+            assign_branch_to_vendor(request.data['city'],request.data['state'],request.data['user'])
             return Response(user, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

@@ -18,5 +18,9 @@ def assign_branch_to_customer(customer_city,customer_state,user):
         customer_obj.branch = branch_filter_by_state[0]
         customer_obj.save()
         return HttpResponse('assign_branch_to_customer by state')
-    else: return HttpResponse('not assigned branch')
+    else: 
+        branch = Branch.objects.filter(branch_type__icontains='root')
+        customer_obj.branch = branch[0]
+        customer_obj.save()
+        return HttpResponse('root_branch_assign_to_customer')
            
