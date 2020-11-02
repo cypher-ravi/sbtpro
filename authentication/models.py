@@ -74,6 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     is_customer_registered = models.BooleanField(default=False)
     is_customer_paid = models.BooleanField(default=False)
+    customer_discount = models.IntegerField(blank=True, null=True)
 
   
     is_employee_registered =  models.BooleanField(default=False)

@@ -103,20 +103,20 @@ class VendorVideos(models.Model):
 
 
 
-class VendorImages(models.Model):
-    """
-    Store vendor images
-    """
-    image_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=20,default='',blank=True,null=True)
-    image_url = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
-    image = models.TextField(max_length=16383,blank=True, null=True, default='')
+# class VendorImages(models.Model):
+#     """
+#     Store vendor images
+#     """
+#     image_id = models.AutoField(primary_key=True)
+#     # title = models.CharField(max_length=20,default='',blank=True,null=True)
+#     image_url = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
+#     image = models.TextField(max_length=16383,blank=True, null=True, default='')
 
-    class Meta:
-        verbose_name_plural = "Vendor images"
+#     class Meta:
+#         verbose_name_plural = "Vendor images"
 
-    def __str__(self):
-        return self.image
+#     def __str__(self):
+#         return self.image
 
 class Vendor(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null= True, blank=True)
@@ -156,7 +156,7 @@ class Vendor(models.Model):
     Image = models.ImageField(upload_to="website/images/vendors", default="",null=True,blank=True)
     vendor_services = models.ManyToManyField(VendorServices,blank=True)
     vendor_video = models.ForeignKey(VendorVideos,on_delete=models.CASCADE,null=True,blank=True)
-    vendor_images = models.ManyToManyField(VendorImages,blank=True)
+    vendor_images = models.TextField(blank=True,null=True)
     TYPE_OF_BUSINESS =  (
     ("none", "Please Select"),
     ("retailer", "retailer"),
@@ -198,11 +198,27 @@ class Vendor(models.Model):
     business_history_with_sbt = models.CharField(max_length=20, choices=BUSINESS_HISTORY, default='none',null= True, blank=True)
     
     registration_fee = models.ForeignKey(Plan,on_delete=models.CASCADE,null=True,blank=True)
+
+    budget = models.CharField(max_length=100,default='', blank=True,)
     vendor_is_active = models.BooleanField(default=False,blank=True,null=True)
-   
+    
+    vendor_images_1 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
+    vendor_images_2 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
+    vendor_images_3 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
+    vendor_images_4 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
+    vendor_images_5 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
+    vendor_images_6 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
+
+
+
+
+
+
+
     # employee = models.ForeignKey(Employee,on_delete=models.CASCADE)
     class Meta:
         ordering = ['vendor_id']
+    
 
     def __str__(self):
         return self.Company_Name

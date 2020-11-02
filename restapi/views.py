@@ -18,7 +18,7 @@ from rest_framework import generics, status, viewsets
 from rest_framework.metadata import SimpleMetadata
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from Vendor.models import Vendor
+# from Vendor.models import Vendor
 from Vendor.serializers import *
 from website.models import Categories, Order, Order_Payment, Plan
 from Vendor.pagination import PaginationForVendor
@@ -317,7 +317,7 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
             print(user)
             print(type(user))
             order = Order(name=name, user=user, email_id=email_id, phone=phone, address=address, city=city,
-                            state=state, zip_code=zip_code, amount=amount, order_id=order_id, plan_id=plan, order_completed=False)
+                            state=state, zip_code=zip_code, amount=amount, discount=discount,order_id=order_id, plan_id=plan, order_completed=False,role=role)
             order.save()
 
             # sending details to paytm gateway in form of dict
@@ -341,6 +341,7 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
 
             return HttpResponse('Either amount or Discount not Matched')
         elif role == 'vendor':
+            discount = int(request.POST.get('discount'))
             user_plus_vendor = Vendor.objects.get(vendor_id=customer_id)
             user = User.objects.filter(id=user).first()
             phone = user.phone
@@ -367,8 +368,9 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
             print(user)
             print(type(user))
             order = Order(name=name, user=user, email_id=email_id, phone=phone, address=address, city=city,
-                            state=state, zip_code=zip_code, amount=user_amount, order_id=order_id, plan_id=plan, order_completed=False)
+                            state=state, zip_code=zip_code, amount=user_amount,discount=discount, order_id=order_id, plan_id=plan, order_completed=False,role=role)
             order.save()
+            print('..................',order)
 
             # sending details to paytm gateway in form of dict
             detail_dict = {
@@ -379,7 +381,7 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
                 "CHANNEL_ID": "WEB",
                 "ORDER_ID": str(order_id),
                 "TXN_AMOUNT": str(user_amount),
-                "CALLBACK_URL": f"http://192.168.29.249:8000/api/req_handler/{role}",
+                "CALLBACK_URL": f"http://192.168.29.249:8000/api/req_handler",
             }
 
             param_dict = detail_dict
@@ -429,6 +431,7 @@ def req_handler(request):
                 usr = User
                 # id = models.AutoField(primary_key = True)
                 order = Order.objects.get(order_id=response_dict["ORDERID"])
+               
 
                 order_payment.order_summary = order
                 # paytm responses
@@ -455,9 +458,12 @@ def req_handler(request):
                 order_payment.save()
                 payment_status = Order_Payment.objects.get(
                     order_id=response_dict["ORDERID"])
-                if role == 'customer':
+                
+                print('00.........',order.discount)
+                if order.role == 'customer':
                     user = order_payment.order_summary.user
                     user.is_customer_paid =True 
+                    user.customer_discount = order.discount
                     user.save()   
                     customer = Customer.objects.filter(user=user).first()
                     customer.subscription_plan_taken = order_payment.order_summary.plan_id

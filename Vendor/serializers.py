@@ -1,15 +1,20 @@
 
+import base64
+import io
+
+from django.core.files.base import File
+from website.models import VALID_STATE_CHOICES
 from rest_framework import serializers
 from restapi.serializers import CategorySerializer
-from .models import Vendor, VendorImages, VendorServices, VendorVideos
+from .models import Vendor, VendorServices, VendorVideos
 from drf_extra_fields.fields import Base64ImageField 
 
 
-class VendorImageSerializer(serializers.ModelSerializer):
-    image_url = Base64ImageField()
-    class Meta:
-        model = VendorImages
-        exclude = []
+# class VendorImageSerializer(serializers.ModelSerializer):
+#     image = Base64ImageField()
+#     class Meta:
+#         model = VendorImages
+#         exclude = []
 
 class VendorVideosSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,7 +45,7 @@ class VendorListSerializer(serializers.ModelSerializer):
 
       
 class VendorSerializer(serializers.ModelSerializer):
-    vendor_images = VendorImageSerializer(many=True, read_only=True)
+    # vendor_images = VendorImageSerializer(many=True)
     vendor_services = VendorServiceSerializer(many=True, read_only=True)
     vendor_video = VendorVideosSerializer(many=False, read_only=True)
 
@@ -51,7 +56,33 @@ class VendorSerializer(serializers.ModelSerializer):
         model = Vendor
         fields = '__all__'
         # depth = 1
-        
+
+    # def create(self, validated_data):
+    #     img_base64 = validated_data.pop('vendor_images',None)
+    #     base64_img_bytes = img_base64.encode('utf-8')
+    #     if base64_img_bytes is not None:
+    #        with io.BytesIO() as file_to_save:
+    #             decoded_image_data = base64.decodebytes(base64_img_bytes)
+    #             file_to_save.write(decoded_image_data)
+    #             # file_to_save.read()
+    #             from PIL import Image
+    #             img = Image.open(file_to_save)
+    #             img.show()
+    #             validated_data['vendor_images_1'] = File(img)
+    #             return Vendor.objects.create(**validated_data)
+    #     else:
+    #         raise ValueError('hurr')
+
+
+    # def update(self,instance, validated_data):
+    #     image_data = validated_data.pop('vendor_images',None)
+    #     instance = super().update(instance, validated_data)
+    #     if image_data is not None:
+    #         for image in image_data:
+    #             instance.vendor_images.add(image_data)
+    #         instance.save()
+    #     return instance
+
 class VendorSearchSerializer(serializers.ModelSerializer):
     """
     Serializer can CRUD on category model
@@ -75,3 +106,6 @@ class VendordetailSerializer(serializers.ModelSerializer):
                   'Service_decsription','vendor_video','vendor_images',
                   'vendor_services',]
         depth = 1
+
+
+        

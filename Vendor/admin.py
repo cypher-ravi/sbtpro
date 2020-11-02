@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Vendor,VendorServices,VendorVideos,VendorImages
+from .models import Vendor,VendorServices,VendorVideos
 from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 # admin.site.register(Vendor)
@@ -16,7 +16,6 @@ from import_export.admin import ImportExportModelAdmin
 
 admin.site.register(VendorServices)
 admin.site.register(VendorVideos)
-admin.site.register(VendorImages)
 
 class VendorAdminForPanel(admin.ModelAdmin):
     list_display = ('vendor_id', 'Company_Name','user')

@@ -136,6 +136,8 @@ class Order(models.Model):
     zip_code = models.CharField(max_length=8)
     amount = models.IntegerField(null=False)
     plan_id = models.ForeignKey(Plan, on_delete=models.CASCADE)
+    discount = models.IntegerField(default=0,null=True,blank=True)
+    role = models.CharField(max_length=100,blank=True, null=True)
     order_completed = models.BooleanField()
 
     def __str__(self):
