@@ -1,6 +1,7 @@
 import base64
 import io
-from Vendor.functions import assign_branch_to_vendor, convert_to_image
+from Vendor.functions import assign_branch_to_vendor
+#  convert_to_image_and_save_to_VendorImages
 import json
 
 from django.contrib.auth import get_user_model
@@ -13,9 +14,9 @@ from rest_framework.response import Response
 from sbt.settings.base import REST_FRAMEWORK
 from rest_framework.parsers import FormParser ,MultiPartParser 
 
-from .models import Vendor, VendorServices, VendorVideos
+from .models import Vendor, VendorImages, VendorServices, VendorVideos
 from .pagination import PaginationForVendor
-from .serializers import (VendordetailSerializer, VendorListSerializer,
+from .serializers import (VendorImageAPISerializer, VendorImagesListSerializer, VendorServiceAPISerializer, VendorServiceListSerializer, VendordetailSerializer, VendorListSerializer,
                           VendorSerializer)
 
 User = get_user_model()
@@ -61,6 +62,8 @@ class VendorDetail(generics.GenericAPIView):
             if slug == key:   
                 serializer = VendordetailSerializer(vendor[0],many=False)
                 return Response(serializer.data,status=status.HTTP_200_OK)
+
+                    
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -87,46 +90,145 @@ class NewVendorAPI(viewsets.ModelViewSet):
             vendor = Vendor.objects.filter(user=request.data['user']).first()
             print(vendor)
             partial = kwargs.pop('partial', True)
-
             instance = vendor
             serializer = self.get_serializer(instance, data=request.data, partial=partial)
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
-
             if getattr(instance, '_prefetched_objects_cache', None):
                 # If 'prefetch_related' has been applied to a queryset, we need to
                 # forcibly invalidate the prefetch cache on the instance.
                 instance._prefetched_objects_cache = {}
-
             return Response({'details':'updated'})
-            #TODO: Add photo in update
-
         data = request.data
         user = User.objects.filter(id=request.data['user'])
-        for i in user:
-            if i.is_vendor_registered == True:
+        for check_vendor in user:
+            if check_vendor.is_vendor_registered == True:
                 return Response('this user already a vendor')
         print(user)
-        serializer = VendorSerializer(data=data,partial=False)
+        serializer = VendorSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
-            images = json.loads(request.data['vendor_images'])
-            print(len(images))
-            for img in images:
-                base64_img_bytes = img['image'].encode('utf-8')
-                print(user)
-                var = user[0].phone+str(images.index(img))
-                with open(f'media/website/images/vendors/VendorImages/{var}.png', 'wb') as file_to_save:
-                    decoded_image_data = base64.decodebytes(base64_img_bytes)
-                    file_to_save.write(decoded_image_data)     
             serializer.save()
             for cust in user:
                 cust.is_vendor_registered = True
                 cust.save()
             user = User.objects.filter(id=request.data['user']).values()
-
-
-           
             assign_branch_to_vendor(request.data['city'],request.data['state'],request.data['user'])
             return Response(user, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+
+
+class VendorImageAPIView(viewsets.ModelViewSet):
+    """
+    Image Upload by user Id
+    """
+    queryset = VendorImages.objects.all()
+    serializer_class = VendorImageAPISerializer
+
+    def create(self,request, *args, **kwargs):
+        vendor = Vendor.objects.filter(user=request.data['user'])
+        print(vendor)
+        serializer = VendorImageAPISerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(vendor=vendor[0])
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+
+
+class VendorImageDetailView(generics.GenericAPIView,mixins.DestroyModelMixin):
+    """
+    Vendor Image Detail By user ID
+
+    """
+    queryset = VendorImages.objects.all()
+    serializer_class = VendorImagesListSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request,slug,pk, format=None):
+        vendor_images = VendorImages.objects.filter(user=pk)
+        print(vendor_images)
+        if vendor_images.exists():
+            key = parameters['key']
+            if slug == key:   
+                serializer = VendorImagesListSerializer(vendor_images,many=True)
+                return Response(serializer.data,status=status.HTTP_200_OK)           
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'detail':'user not exists'})
+
+
+
+class VendorServiceAPIView(viewsets.ModelViewSet):
+    """
+    Post API for vendor services
+    """
+    queryset = VendorServices.objects.all()
+    serializer_class = VendorServiceAPISerializer
+
+    def create(self,request, *args, **kwargs):
+        vendor = Vendor.objects.filter(user=request.data['user'])
+        print(vendor)
+        if vendor.exists():
+            serializer = VendorServiceAPISerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(vendor=vendor[0])
+                return Response(serializer.data,status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'vendor not found'})
+
+class VendorServiceDetailView(generics.GenericAPIView,mixins.DestroyModelMixin):
+    """
+    Vendor Service Detail By user ID
+
+    """
+    queryset = VendorServices.objects.all()
+    serializer_class = VendorServiceListSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request,slug,pk, format=None):
+        vendor_services = VendorServices.objects.filter(user=pk)
+        print(vendor_services)
+        if vendor_services.exists():
+            key = parameters['key']
+            if slug == key:   
+                serializer = VendorServiceListSerializer(vendor_services,many=True)
+                return Response(serializer.data,status=status.HTTP_200_OK)
+
+                    
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'detail':'vendor not exists'})
+
+
+
+class VendorImagesByVendorID(generics.GenericAPIView):
+    queryset = VendorServices.objects.all()
+    serializer_class = VendorImagesListSerializer
+
+    def get(self, request,slug,pk, format=None):
+        print(pk)
+        vendor_images= VendorImages.objects.filter(vendor__vendor_id=pk)
+        print(vendor_images)
+        if vendor_images.exists():
+            key = parameters['key']
+            if slug == key:   
+                serializer = VendorImagesListSerializer(vendor_images,many=True)
+                return Response(serializer.data,status=status.HTTP_200_OK)
+
+                    
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'detail':'vendor images not exists'})
+
     

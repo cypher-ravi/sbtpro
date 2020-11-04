@@ -3,11 +3,14 @@
 import base64
 
 from PIL import Image
-import cv2
+from django.contrib.auth import get_user_model
+
 
 from django.http.response import HttpResponse
 from Vendor.models import Vendor
 from dashboard.models import Branch
+
+
 
 
 def assign_branch_to_vendor(vendor_city,vendor_state,user):
@@ -29,10 +32,12 @@ def assign_branch_to_vendor(vendor_city,vendor_state,user):
         return HttpResponse('root_branch_assign_to_vendor')           
 
 
-def convert_to_image(image):
-
-   from django.core.files.base import ContentFile
-   format, imgstr = data.split(';base64,') 
-   ext = format.split('/')[-1] 
-
-   data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+# def convert_to_image_and_save_to_VendorImages(images,user):
+#    images_received = json.loads(request.data['vendor_images'])
+            # print(len(images_received))
+            # images=list()
+            # for i in range(0,6):
+            #     if i<len(images_received):
+            #         images.append(images_received[i]['image'])
+            #     else:
+            #         # images.append(None)
