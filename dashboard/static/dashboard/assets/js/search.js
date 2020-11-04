@@ -1,5 +1,10 @@
+function remove(element) {
+    element.parenetElement.remove(element);
+}
+
 
 document.getElementById('query').addEventListener('input', search)
+
 function search() {
     $.ajax({
         type: 'GET',

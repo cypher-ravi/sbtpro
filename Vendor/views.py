@@ -1,5 +1,7 @@
 import base64
 import io
+
+from django.http.response import JsonResponse
 from Vendor.functions import assign_branch_to_vendor
 #  convert_to_image_and_save_to_VendorImages
 import json
@@ -126,17 +128,22 @@ class VendorImageAPIView(viewsets.ModelViewSet):
     """
     queryset = VendorImages.objects.all()
     serializer_class = VendorImageAPISerializer
+    parser_class = (MultiPartParser,FormParser)
 
     def create(self,request, *args, **kwargs):
         vendor = Vendor.objects.filter(user=request.data['user'])
-        print(vendor)
-        serializer = VendorImageAPISerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(vendor=vendor[0])
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        if vendor.exists():
+            print(vendor)
+            serializer = VendorImageAPISerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(vendor=vendor[0])
+                print(serializer.data)
+                return JsonResponse(serializer.data)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-    
+            return Response([])
+        
 
 
 
@@ -161,7 +168,7 @@ class VendorImageDetailView(generics.GenericAPIView,mixins.DestroyModelMixin):
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'detail':'user not exists'})
+            return Response([])
 
 
 
@@ -173,17 +180,24 @@ class VendorServiceAPIView(viewsets.ModelViewSet):
     serializer_class = VendorServiceAPISerializer
 
     def create(self,request, *args, **kwargs):
-        vendor = Vendor.objects.filter(user=request.data['user'])
+        try:
+            vendor = Vendor.objects.filter(user=request.data['user'])
+        except:
+            return Response([])
         print(vendor)
         if vendor.exists():
             serializer = VendorServiceAPISerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save(vendor=vendor[0])
+                print(serializer.data)      
                 return Response(serializer.data,status=status.HTTP_201_CREATED)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'vendor not found'})
+            return Response([])
+        
+  
+
 
 class VendorServiceDetailView(generics.GenericAPIView,mixins.DestroyModelMixin):
     """
@@ -207,11 +221,12 @@ class VendorServiceDetailView(generics.GenericAPIView,mixins.DestroyModelMixin):
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'detail':'vendor not exists'})
+            return Response([])
 
 
 
 class VendorImagesByVendorID(generics.GenericAPIView):
+
     queryset = VendorServices.objects.all()
     serializer_class = VendorImagesListSerializer
 
@@ -229,6 +244,32 @@ class VendorImagesByVendorID(generics.GenericAPIView):
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'detail':'vendor images not exists'})
+            return Response([])
 
+
+
+class VendorServicesByVendorID(generics.GenericAPIView):
+    """
+    Vendor services by vendor ID
+    """
     
+    queryset = VendorServices.objects.all()
+    serializer_class = VendorServiceListSerializer
+
+    def get(self, request,slug,pk, format=None):
+        print(pk)
+        vendor_service= VendorServices.objects.filter(vendor__vendor_id=pk)
+        print(vendor_service)
+        if vendor_service.exists():
+            key = parameters['key']
+            if slug == key:   
+                serializer = VendorServiceListSerializer(vendor_service,many=True)
+                return Response(serializer.data,status=status.HTTP_200_OK)
+
+                    
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response([])
+
+

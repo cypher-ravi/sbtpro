@@ -172,7 +172,7 @@ class VendorImageAPISerializer(serializers.ModelSerializer):
     image = Base64ImageField(required=False)
     class Meta:
         model = VendorImages
-        exclude = ['id','vendor']
+        exclude = ['vendor']
 
 
 
@@ -180,7 +180,7 @@ class VendorImagesListSerializer(serializers.ModelSerializer):
     image =serializers.SerializerMethodField()
     class Meta:
         model = VendorImages
-        exclude = ['id','vendor']
+        exclude = ['vendor']
 
     def get_image(self,obj):
         try:                  
@@ -196,12 +196,12 @@ class VendorImagesListSerializer(serializers.ModelSerializer):
 class VendorServiceAPISerializer(serializers.ModelSerializer):
     class Meta:
         model = VendorServices
-        exclude = ['id','vendor']
+        exclude = ['vendor']
 
 
 class VendorServiceListSerializer(serializers.ModelSerializer):
     class Meta:
         model = VendorServices
-        exclude = ['id','user']
+        exclude = ['user','vendor']
 
    

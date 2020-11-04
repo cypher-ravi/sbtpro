@@ -53,13 +53,77 @@ class UserCreateView(viewsets.ModelViewSet):
             
 
 
+# @api_view(['GET']) # Used for apllying api capability in function based view as above is class based!
+# def SendOtp(request, phno, format = None):
+#     """
+#     Functional API used for send OTP using Phone number
+#     """
+#     if not User.objects.filter(phone = phno).exists(): # there is also you can verify otp via runtime but search it out is it good or not for memory!
+#         totp = pyotp.TOTP('base32secret3232',interval=300)
+#         secret = generate_key()
+#         otp = totp.now()
+#         url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
+#         response = requests.request("GET",url)
+#         print(response)
+#         print(otp)
+#         return Response({'sent':True,'OTP':otp})
+#     else:
+#         totp = pyotp.TOTP('base32secret3232',interval=300)
+#         secret = generate_key()
+#         otp = totp.now()
+#         url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
+#         response = requests.request("GET",url)
+#         print(response)
+#         return Response({'sent':True,'OTP':otp})
+       
+    
+
+# @api_view(['GET'])
+# def Verify(request, otpFromUser, phno):
+#     """
+#     Functional API for verifying OTP using OTP from user and Phone number
+#     """
+#     if User.objects.filter(phone = phno).exists():
+#         already_verified_user = User.objects.filter(phone__iexact = phno).first()
+#         print('...............',already_verified_user)
+#         count = already_verified_user.otp_count
+#         if count == None:
+#             count = 0
+#             totp = pyotp.TOTP('base32secret3232')
+#             resp = totp.verify(otpFromUser)
+#             print(resp)
+#             already_verified_user.otp_count = count + 1
+#             already_verified_user.is_verified = True
+#             already_verified_user.save()
+#             request.data.update({'phone':phno,'is_verified':True})
+#             already_verified_user = User.objects.filter(phone = phno).values()
+#             return Response(already_verified_user[0],status=status.HTTP_200_OK)
+#         else:
+#             totp = pyotp.TOTP('base32secret3232')
+#             resp = totp.verify(otpFromUser)
+#             print(resp)
+#             already_verified_user.otp_count = count + 1
+#             already_verified_user.is_verified = True
+#             already_verified_user.save()
+#             request.data.update({'phone':phno,'is_verified':True})
+#             already_verified_user = User.objects.filter(phone = phno).values()
+#             return Response(already_verified_user[0],status=status.HTTP_200_OK)
+#     totp = pyotp.TOTP('base64secret6464')
+#     resp = totp.verify(otpFromUser)
+#     user = UserCreateView()
+#     request.data.update({'phone':phno,'is_verified':True})
+#     return user.create(request)
+            
+
+         
+
 @api_view(['GET']) # Used for apllying api capability in function based view as above is class based!
 def SendOtp(request, phno, format = None):
     """
     Functional API used for send OTP using Phone number
     """
     if not User.objects.filter(phone = phno).exists(): # there is also you can verify otp via runtime but search it out is it good or not for memory!
-        totp = pyotp.TOTP('base64secret6464',interval=300)
+        totp = pyotp.TOTP('base32secret3232',interval=300)
         secret = generate_key()
         otp = totp.now()
         url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
@@ -68,7 +132,7 @@ def SendOtp(request, phno, format = None):
         print(otp)
         return Response({'sent':True,'OTP':otp})
     else:
-        totp = pyotp.TOTP('base64secret6464',interval=300)
+        totp = pyotp.TOTP('base32secret3232',interval=300)
         secret = generate_key()
         otp = totp.now()
         url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
@@ -87,26 +151,34 @@ def Verify(request, otpFromUser, phno):
         already_verified_user = User.objects.filter(phone__iexact = phno).first()
         print('...............',already_verified_user)
         count = already_verified_user.otp_count
-        if count is None:
+        if count == None:
             count = 0
-            totp = pyotp.TOTP('base64secret6464')
+            totp = pyotp.TOTP('base32secret3232')
             resp = totp.verify(otpFromUser)
-            already_verified_user.otp_count = count + 1
-            already_verified_user.is_verified = True
-            already_verified_user.save()
-            request.data.update({'phone':phno,'is_verified':True})
-            already_verified_user = User.objects.filter(phone = phno).values()
-            return Response(already_verified_user[0],status=status.HTTP_200_OK)
+            print(resp)
+            if resp == True:
+                already_verified_user.otp_count = count + 1
+                already_verified_user.is_verified = True
+                already_verified_user.save()
+                request.data.update({'phone':phno,'is_verified':True})
+                already_verified_user = User.objects.filter(phone = phno).values()
+                return Response(already_verified_user[0],status=status.HTTP_200_OK)
+            else:
+                return Response({'verify':False},status=status.HTTP_400_BAD_REQUEST)
         else:
-            totp = pyotp.TOTP('base64secret6464')
+            totp = pyotp.TOTP('base32secret3232')
             resp = totp.verify(otpFromUser)
-            already_verified_user.otp_count = count + 1
-            already_verified_user.is_verified = True
-            already_verified_user.save()
-            request.data.update({'phone':phno,'is_verified':True})
-            already_verified_user = User.objects.filter(phone = phno).values()
-            return Response(already_verified_user[0],status=status.HTTP_200_OK)
-    totp = pyotp.TOTP('base64secret6464')
+            print(resp)
+            if resp == True:
+                already_verified_user.otp_count = count + 1
+                already_verified_user.is_verified = True
+                already_verified_user.save()
+                request.data.update({'phone':phno,'is_verified':True})
+                already_verified_user = User.objects.filter(phone = phno).values()
+                return Response(already_verified_user[0],status=status.HTTP_200_OK)
+            else:
+                return Response({'verify':False},status=status.HTTP_400_BAD_REQUEST)
+    totp = pyotp.TOTP('base32secret3232')
     resp = totp.verify(otpFromUser)
     user = UserCreateView()
     request.data.update({'phone':phno,'is_verified':True})
@@ -114,6 +186,3 @@ def Verify(request, otpFromUser, phno):
             
 
          
-
-    
-    

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import VendorImageDetailView, VendorImagesByVendorID, VendorList ,NewVendorAPI,VendorDetail,VendorImageAPIView, VendorServiceAPIView, VendorServiceDetailView
+from .views import VendorImageDetailView, VendorImagesByVendorID, VendorList ,NewVendorAPI,VendorDetail,VendorImageAPIView, VendorServiceAPIView, VendorServiceDetailView, VendorServicesByVendorID
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -17,7 +17,8 @@ urlpatterns = [
     path('<str:slug>/vendor_detail/<int:pk>',VendorDetail.as_view()),    
     path('<str:slug>/vendor_images/<int:pk>',VendorImageDetailView.as_view()),    
     path('<str:slug>/vendor_images_by_vendor/<int:pk>',VendorImagesByVendorID.as_view()),    
-    path('<str:slug>/vendor_service/<int:pk>',VendorServiceDetailView.as_view()),    
+    path('<str:slug>/vendor_services_by_vendor/<int:pk>',VendorServicesByVendorID.as_view()),    
+    path('<str:slug>/vendor_service_by_user/<int:pk>',VendorServiceDetailView.as_view()),    
 ]
 
 urlpatterns += router.urls

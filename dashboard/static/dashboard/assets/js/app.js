@@ -2629,10 +2629,9 @@
                         width: 140,
                         type: 'donut',
                     },
-                    // alert("{{active_customers}}");
-                    colors: ['#8E54E9', '#f7b731'],
-                    labels: ['Active Vendors', 'Active Customers'],
-                    series: [456, 45],
+                    colors: ['#8E54E9', '#f7b731', '#45aaf2'],
+                    labels: ['Redirect Visists', 'New Visits', 'Direct Visits'],
+                    series: [456, 256, 128],
                     legend: {
                         show: false
                     },
@@ -14260,6 +14259,5 @@
     $('.mobile-toggle').on('click', function() {
         $('body').toggleClass('sidebar-toggled');
     });
-
 
 })(window, document, window.jQuery);
