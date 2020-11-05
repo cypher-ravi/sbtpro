@@ -10,7 +10,8 @@ class BranchAdmin(admin.ModelAdmin):
     inlines = [
         BranchReportAdmin
     ]
-
+    list_display = ['id','user','branch_type','branch_name','branch_is_active']
+    list_filter = ['branch_type','branch_is_active']
 
 admin.site.register(Branch,BranchAdmin)
 admin.site.register(BranchReport)

@@ -1,4 +1,11 @@
 from django.contrib import admin
 from .models import *
 
-admin.site.register(AppFeedBack)
+
+class AppFeedAdmim(admin.ModelAdmin):
+    list_display = ['description','rating','submit_date']
+    list_filter = ['submit_date']
+
+
+
+admin.site.register(AppFeedBack,AppFeedAdmim)

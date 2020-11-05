@@ -105,7 +105,7 @@ class Vendor(models.Model):
     Address1 = models.CharField(max_length=100, default='',null= True, blank=True)
     Address2 = models.CharField(max_length=100, blank=True, null=True, default='')
     city = models.CharField(max_length=100, default='',null= True, blank=True)
-    state = models.CharField(max_length=100, choices=VALID_STATE_CHOICES, default='Please Select',null= True, blank=True)
+    state = models.CharField(max_length=100, default='Please Select',null= True, blank=True)
     PinCode = models.CharField(max_length=100,null= True, blank=True)
     Contact_Person = models.CharField(max_length=100, default='', blank=True, null=True)
     EmailID = models.CharField(max_length=50,null=True, blank=True)
@@ -171,18 +171,6 @@ class Vendor(models.Model):
 
     budget = models.CharField(max_length=100,default='', blank=True,)
     vendor_is_active = models.BooleanField(default=False,blank=True,null=True)
-    
-    vendor_images_1 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
-    vendor_images_2 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
-    vendor_images_3 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
-    vendor_images_4 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
-    vendor_images_5 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
-    vendor_images_6 = models.ImageField(upload_to="website/images/vendors/VendorImages", default="",blank=True,null=True)
-
-
-
-
-
 
 
     # employee = models.ForeignKey(Employee,on_delete=models.CASCADE)

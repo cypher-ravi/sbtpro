@@ -4,25 +4,29 @@ from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 # admin.site.register(Vendor)
 
-# class VendorServices(admin.StackedInline):
-#     model = VendorServices
+class VendorServicesAdmin(admin.StackedInline):
+    model = VendorServices
 
-# class VendorImages(admin.StackedInline):
-#     model = VendorImages
+class VendorImagesAdmin(admin.StackedInline):
+    model = VendorImages
 
-# class VendorVideos(admin.StackedInline):
-#     model = VendorVideos
+
 
 
 admin.site.register(VendorServices)
-admin.site.register(VendorVideos)
+# admin.site.register(VendorVideos)
 admin.site.register(VendorImages)
 
 class VendorAdminForPanel(admin.ModelAdmin):
+    inlines = [
+        VendorImagesAdmin,
+        VendorServicesAdmin, 
+       
+    ]
     list_display = ('vendor_id', 'Company_Name','user')
     search_fields = ['vendor_id', 'user']
     list_per_page = 50
-    # list_filter = ['customer_is_active','subscription_plan_taken']
+    list_filter = ['branch','city','state','Discount_Percentage','submit_date']
 
 class VendorAdmin(ImportExportModelAdmin):
     pass

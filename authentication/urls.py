@@ -11,6 +11,9 @@ app_name = 'authentication'
 urlpatterns = [
     path('send_sms_code/<str:phno>', SendOtp,name='SendOtp'),
     path('verify/<str:otpFromUser>/<str:phno>', Verify,name='Verify'),
+  
+    # path("<str:ph >/", getPhoneNumberRegistered.as_view(), name="OTP Gen"),
+
 
 
 ]

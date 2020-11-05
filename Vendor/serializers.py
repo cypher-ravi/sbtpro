@@ -76,91 +76,22 @@ class VendordetailSerializer(serializers.ModelSerializer):
     """
     Serializer shows Vendors list, create by ID, retrieve by ID,update by ID
     """
-    vendor_images_1 = serializers.SerializerMethodField()
-    vendor_images_2 = serializers.SerializerMethodField()
-    vendor_images_3 = serializers.SerializerMethodField()
-    vendor_images_4 = serializers.SerializerMethodField()
-    vendor_images_5 = serializers.SerializerMethodField()
-    vendor_images_6 = serializers.SerializerMethodField()
+
 
     class Meta:
         model = Vendor
-        fields = ['Company_Name','Address1','city',
-                  'state','PinCode','EmailID',
-                  'website_URL','Longitude','Latitude',
-                  'Service_decsription',
-                  'vendor_images_1','vendor_images_2',
-                  'vendor_images_3','vendor_images_4','vendor_images_5',
-                  'vendor_images_6',]
-        depth = 1
+        fields = ['Address1','Address2','Company_Name',
+                'Contact_Person','Discount_Percentage','EmailID',
+                'Facebook_URL','GST_No','Landline','Latitude',
+                'Longitude','Mobile_No','Mobile_No_2','Name',
+                'Other_Info','Pan_No','PinCode','Registered_Trade_Name',
+                'Service_decsription','Status','TIN_No','Twitter_URL','budget',
+                'business_history_with_sbt','city','established_date','geograpgical_area',
+                'instagram_URL','legal_structure','registration_fee','state',
+                'type_of_commodity_or_business','user','website_URL','youtube_URL']
+       
    
-    def get_vendor_images_1(self,obj):
-        try:                  
-            img = open(obj.vendor_images_1.path, "rb") 
-            data = img.read() 
-            base64_encoded_data = base64.b64encode(data)
-            base64_message = base64_encoded_data.decode('utf-8')
-            return base64_message
-        except:
-            return None 
-   
-        
-
     
-    def get_vendor_images_2(self,obj):
-        try:
-            img = open(obj.vendor_images_2.path, "rb") 
-            data = img.read() 
-            base64_encoded_data = base64.b64encode(data)
-            base64_message = base64_encoded_data.decode('utf-8')
-
-            return base64_message
-        except:
-            return None
-    
-    def get_vendor_images_3(self,obj):
-        try:
-            img = open(obj.vendor_images_3.path, "rb") 
-            data = img.read() 
-            base64_encoded_data = base64.b64encode(data)
-            base64_message = base64_encoded_data.decode('utf-8')
-
-            return base64_message
-        except:
-            return None
-    
-    def get_vendor_images_4(self,obj):
-        try:
-            img = open(obj.vendor_images_4.path, "rb") 
-            data = img.read() 
-            base64_encoded_data = base64.b64encode(data)
-            base64_message = base64_encoded_data.decode('utf-8')
-        except:
-            return None
-
-        return base64_message
-
-    def get_vendor_images_5(self,obj):
-        try:
-            img = open(obj.vendor_images_5.path, "rb") 
-            data = img.read() 
-            base64_encoded_data = base64.b64encode(data)
-            base64_message = base64_encoded_data.decode('utf-8')
-
-            return base64_message
-        except:
-            return None
-
-    def get_vendor_images_6(self,obj):
-        try:
-            img = open(obj.vendor_images_6.path, "rb") 
-            data = img.read() 
-            base64_encoded_data = base64.b64encode(data)
-            base64_message = base64_encoded_data.decode('utf-8')
-
-            return base64_message
-        except:
-            return None
 
    
 
