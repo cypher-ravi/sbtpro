@@ -859,7 +859,8 @@ def verify(request):
 
         url = f'{base_url}/auth/{phno}/'
         data = {
-            'otp':otp
+            'otp':otp,
+            'phone':phno
         }
         response = requests.post(url,data=data)
         print(response)
