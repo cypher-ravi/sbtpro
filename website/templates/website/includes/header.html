@@ -22,7 +22,7 @@
           <div class="col-lg-5 text-right">
             <div class="custom-page-top">
               <a href="/sbt/download" class="search-ico-btn ico-btn">Download App</a>
-              <a href="https://app.sbtprofessionals.com/sbtadmin/login.aspx" target="_blank">Employee/Branch Portal</a>
+              <a href="{% url 'dashboard:login' %}" target="_blank">Branch Portal</a>
             </div>
             <!--
               <div class="social_top_header">
@@ -74,12 +74,8 @@
 
               <a class="cursor-on-pointer" style="margin-left: 30px;" href="/sbt/login" role="button"><i
                   class="fa fa-user"></i>
-                Login |
+                Login/Register
               </a>
-              <a class="cursor-on-pointer" href="/sbt/signup" role="button">
-                Register
-             </a>
- 
               {% endif %}
 
 
@@ -152,12 +148,8 @@
               <div>
                 <a class="cursor-on-pointer mt-4" style="margin-left: 30px;" href="/sbt/login" role="button"><i
                     class="fa fa-user"></i>
-                  Login |
+                  Login/Register
                 </a>
-                <a class="cursor-on-pointer" href="/sbt/signup" role="button">
-                  Register
-                </a>
-
                 {% endif %}
               </div>
             </div>
