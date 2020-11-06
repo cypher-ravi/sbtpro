@@ -2,18 +2,25 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import send_mail
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import HttpResponse, redirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-
+from geopy.geocoders import Nominatim
+from Vendor.models import KeyWord, Vendor, VendorServices
+from Customer.models import *
+from .DummyData import DummyData
 # To import for login,Signup
 """
 from django.contrib.auth.models import User
 """
+
 import json
+import math
 import random
+
 
 import requests
 from django.contrib.auth import authenticate, login, logout
@@ -29,20 +36,12 @@ from .models import *
 from .PayTm import CheckSum
 from .validations import *
 
-# FOR PAYTM End-------------------------------------
+# FOR PAYTM End-----------------------------------
+# TODO
+    # Need to create a function which change configuration of backend as well as frontend using our config.json
+    # Nedd to add a order id function
 
 
-# TODO ! Important !
-    # *change paytm for production
-    # *remove mid mkey from code
-    # Refund Logic with paytm
-    # * Nedd to add  order_status for what if order is completed
-
-    # GUI
-    # put icon on button of search and discount
-    # form checks
-    # mail send functions
-# Create your views here.
 # ! NEVER SHOW MERCHANT ID AND KEY !
 MID = "VdMxPH61970223458566"  # MERCHANT ID
 MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
@@ -541,9 +540,318 @@ def log_in(request):
 # return redirect(index)
 
 
+
+
+def purchase(request, slug):# plan_id, user, amount,discount,role):
+        vendor = TOP.objects.all()
+        category = Categories.objects.all()
+
+
+        plan = Plan.objects.get(plan_id =slug)
+        dict_for_review = {
+            'id' : plan.plan_id,
+            'name': plan.plan_name,
+            'amount': plan.plan_amount,
+            'description_1': plan.description_1,
+            'description_2': plan.description_2,
+            'description_3': plan.description_3,
+            'description_4': plan.description_4,
+        }
+        return render(request, 'website/forms/purchase_form.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
+
+def customer_card_purchase(request, plan_id):
+    # assuming coming from purchase form but for instance taking from purchase button from index.html
+    # about paytm implimentation will here
+    # discount won't work if empty
+        # if request.user.is_authenticated:
+    discount = request.POST.get('discount')
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            plan = Plan.objects.get(plan_id = plan_id)
+
+            print('..........',request.user)
+            customer = Customer()
+            customer.user = request.user
+            # customer.customer_id = models.
+            # 
+            # 
+            # 
+            # (primary_key=True)
+            customer.customer_name = request.POST.get('name')
+            customer.last_name = 'Paliwal'
+            customer.Address = request.POST.get('address')
+            customer.city = request.POST.get('city')
+            customer.state = request.POST.get('state')
+            customer.zipcode = request.POST.get('zip_code')
+            customer.EmailID = request.POST.get('email_id')
+            customer.joining_date = timezone.datetime.now()
+            customer.gender = 'Alpha Male'
+            customer.extra_Info = 'got need a card to swipe'
+            customer.Contact_Person = 'GEAZY'
+            customer.customer_is_active = True
+            customer.subscription_plan_taken = plan
+
+            customer.save()
+            user = User.objects.filter(id=request.user.id).first()
+            phone = user.phone
+            try:
+                plan = Plan.objects.get(plan_id=plan_id)
+            except:
+                return HttpResponse('Please enter a valid Plan Id')
+
+            try:
+                discount = int(request.POST.get('discount'))
+            except ValueError:
+                return HttpResponse('Please select a valid discount value')
+
+            user_amount= plan.plan_amount
+            if discount != "" and discount != None:
+                response_dict = discount_validation(plan_id, discount, user_amount)
+                if response_dict['error'] != None:
+                    return HttpResponse(response_dict['error'])
+                amount = discount * plan.plan_amount
+            else:
+                amount = plan.plan_amount
+
+            print('aya..........')
+            order_id = random.randint(1, 999999)
+            email_id = request.POST.get('email_id')
+            name = request.POST.get('name')
+            address =request.POST.get('address')
+            state =  request.POST.get('state')
+            city = request.POST.get('city')
+            zip_code = request.POST.get('zip_code')
+            plan_id = plan.plan_id
+
+            # Check if user not provide any discount value
+
+            print(user)
+            print(type(user))
+            order = Order(name=name, user=user, phone=phone, address=address, city=city,
+                            state=state, zip_code=zip_code, amount=amount, discount=discount,order_id=order_id, plan_id=plan, order_completed=False,role='customer')
+            order.save()
+
+            # sending details to paytm gateway in form of dict
+            detail_dict = {
+                "MID": parameters['merchant_id'],
+                "WEBSITE": "WEBSTAGING",
+                "INDUSTRY_TYPE_ID": "Retail",
+                "CUST_ID": str(email_id),
+                "CHANNEL_ID": "WEB",
+                "ORDER_ID": str(order_id),
+                "TXN_AMOUNT": str(amount),
+                "CALLBACK_URL": f'{parameters["BASE_URL"]}/api/req_handler',
+            }
+
+            param_dict = detail_dict
+            CheckSum.generateSignature
+            param_dict['CHECKSUMHASH'] = CheckSum.generateSignature(
+                detail_dict, parameters['merchant_key'])
+            # print('.................', param_dict)
+            return render(request, 'redirect.html', {'detail_dict': param_dict})
+
+        return HttpResponse('Either amount or Discount not Matched')
+    return render(request, 'checkout2.html', {'plan': plan})  # for checkout
+    # except Exception as e:
+    #     print("An Exception occur \n", e)
+    #     return HttpResponse(e)
+
+
+@csrf_exempt
+def req_handler(request):
+    if request.method == 'POST':
+        response_dict = dict()
+        form = request.POST
+        print(form["ORDERID"])
+        role = {
+        'customer': 'customer',
+        'vendor': 'vendor',
+            }
+
+        # another if to handle if user load refresh
+        is_order_exist = Order_Payment.objects.filter(
+            order_id=form["ORDERID"]).exists()
+        print('............................order', is_order_exist)
+        if is_order_exist == False:
+            # FOR ALL VALUES
+            for i in form.keys():
+                response_dict[i] = form[i]
+                print(i, form[i])
+
+                if i == "CHECKSUMHASH":
+                    response_check_sum = form[i]
+
+            verify = CheckSum.verifySignature(
+                response_dict, parameters['merchant_key'], response_check_sum)
+            print(verify)
+            # response_dict["STATUS"] = "PENDING"
+            print('.........response_dict["STATUS"]', response_dict["STATUS"])
+            print("..................", verify)
+            if verify and response_dict["STATUS"] != "TXN_FAILURE" or response_dict["STATUS"] == "PENDING":
+                order_payment = Order_Payment()
+                usr = User
+                # id = models.AutoField(primary_key = True)
+                order = Order.objects.get(order_id=response_dict["ORDERID"])
+               
+
+                order_payment.order_summary = order
+                # paytm responses
+                order_payment.currency = response_dict["CURRENCY"]
+                order_payment.gateway_name = response_dict["GATEWAYNAME"]
+                # Txn Success
+                order_payment.response_message = response_dict["RESPMSG"]
+                # order_payment.bank_name = response_dict["BANKNAME"] # WALLET
+                # PPI
+                order_payment.Payment_mode = response_dict["PAYMENTMODE"]
+                # MID = models.CharField(max_length=8) # VdMxPH61970223458566
+                order_payment.response_code = response_dict["RESPCODE"]  # 01
+                # 20200905111212800110168406201874634
+                order_payment.txn_id = response_dict["TXNID"]
+                # 2400.00
+                order_payment.txn_amount = response_dict["TXNAMOUNT"]
+                order_payment.order_id = response_dict["ORDERID"]  # 6556
+                order_payment.status = response_dict["STATUS"]  # TXN_SUCCESS
+                # 63209779
+                order_payment.bank_txn_id = response_dict["BANKTXNID"]
+                # 2020-09-05 18:51:59.0
+                order_payment.txn_date = response_dict["TXNDATE"]
+                # order_payment.refund_amount =  #  0.00
+                order_payment.save()
+                payment_status = Order_Payment.objects.get(
+                    order_id=response_dict["ORDERID"])
+                
+                print('00.........',order.discount)
+                if order.role == 'customer':
+                    user = order_payment.order_summary.user
+                    user.is_customer_paid =True 
+                    user.customer_discount = order.discount
+                    user.save()   
+                    customer = Customer.objects.filter(user=user).first()
+                    customer.subscription_plan_taken = order_payment.order_summary.plan_id
+                    customer.save()
+                else:
+                    user = order_payment.order_summary.user
+                    user.is_vendor_paid = True 
+                    user.save()   
+                    vendor = Vendor.objects.filter(user=user).first()
+                    vendor.registration_fee = order_payment.order_summary.plan_id
+                    vendor.save()
+                print('Order payment..............................',order_payment.order_summary.user)
+                print('Order payment..............................',type(order_payment))
+              
+                return render(request, 'ordersucess.html', {'payment': payment_status})
+            else:
+                Order.objects.filter(
+                    order_id=response_dict["ORDERID"]).delete()
+                return HttpResponse('Order is not Placed Because of some error. Please <a href="/sbt/">Try Again </a>')
+        else:
+            payment_status = Order_Payment.objects.get(
+                order_id=form["ORDERID"])
+            # Session should create when order is get successfull
+
+            return HttpResponse('Your payment  failed')
+    return HttpResponse('Invalid Request')
+
+
+def pricing_multiplier(request):
+    if request.method == "POST":
+
+        amount = int(request.POST.get('amount'))
+        try:
+            discount = int(request.POST.get('discount'))
+        except ValueError:
+            return JsonResponse({'discount_applied': '', 'total': '', 'error': 'Expected integer'})
+        plan_id = int(request.POST.get('plan_id'))
+        response = discount_validation(plan_id, discount, amount)
+        # response_dict = json.loads(response.getvalue().decode('utf-8'))
+        # print(response_dict)
+        return JsonResponse(response)
+
+
+def order_status(request, slug):
+    try:
+        obj = Order_Payment.objects.get(order_id=slug)
+        obj2 = obj.order_summary
+        if obj2.user == request.user:
+            paytmParams = dict()
+
+            paytmParams["MID"] = parameters['merchant_id']
+            paytmParams["ORDERID"] = slug
+
+            checksum = CheckSum.generateSignature(paytmParams, parameters['merchant_key'])
+
+            paytmParams["CHECKSUMHASH"] = checksum
+
+            post_data = json.dumps(paytmParams)
+
+            # for Staging
+            url = "https://securegw-stage.paytm.in/order/status"
+
+            # for Production
+            # url = "https://securegw.paytm.in/order/status"
+
+            response = requests.post(url, data=post_data, headers={
+                                     "Content-type": "application/json"}).json()
+            print(response)
+
+            if response["STATUS"] == "TXN_SUCCESS":
+                print("Updating Status")
+                obj = Order_Payment.objects.get(order_id=slug)
+                obj.status = response["STATUS"]
+                obj.response_code = response["RESPCODE"]
+                obj.response_message = response["RESPMSG"]
+                obj.txn_date = response["TXNDATE"]
+                obj.bank_name = response["BANKNAME"]
+                obj.save()
+                return HttpResponse("order success fully placed")
+
+            return HttpResponse("order is still in pending state")
+
+        elif request.user != None and request.user.is_authenticated:
+            return HttpResponse("Please insert correct orderid")
+        else:
+            return HttpResponse('Please Login <a href="/sbt/login"> Here First</a>')
+    except Exception as e:
+        return HttpResponse(f"Requested Order Not Found - {e}")  # form to type in order id"""
+
+
+
+
+def log_in(request):
+    if request.method == 'POST':
+        phno = request.POST.get('phonenumber')
+        base_url = parameters["BASE_URL"]
+
+        url = f'{base_url}/auth/send_sms_code/{phno}'
+        response = requests.get(url)
+        return render(request, 'website/auth_and_pass/type-otp.html', {'phone': phno})
+
+    return render(request, 'website/auth_and_pass/login-otp.html')
+
+def verify(request):
+    if request.method == "POST":
+        print('..........post')
+        phno = request.POST.get('phonenumber')
+        otp = request.POST.get('otp')
+        base_url = parameters["BASE_URL"]
+
+        url = f'{base_url}/auth/verify/{otp}/{phno}'
+        response = requests.get(url)
+        if response.status_code == 408 or response.status_code == 404: # 408 - Request Time Out
+            messages.error(request, 'Login Failed')
+            return redirect('website:verify')
+
+        user = authenticate(request, phone=phno)
+        if user is not None:
+            login(request, user)
+        messages.success(request, 'Login Successfull')
+        return redirect('website:Sbthome')
+
+
+
 def logout_view(request):
     logout(request)
-    messages.success(request, 'Logged Out Successfully!')
+    messages.success(request, 'Logged Out!')
     return redirect('website:Sbthome')
 
 """
@@ -832,7 +1140,163 @@ def frenchise(request):
     return render(request, 'website/forms/frenchise.html', {'category': category})
 
 
+def suggestions(request):
+    if request.is_ajax():
+        if 'term' in request.GET:
+            obj = KeyWord.objects.filter(name__istartswith = request.GET.get('term'))
 
+        keyword = list()
+        for i in obj:
+            print(i.name)
+            keyword.append(i.name)
+        return JsonResponse(keyword, safe=False)
+
+def query(request):
+
+    """
+        How Search Works :
+            Initially it takes the location using Mozilla Navigator and Geocode it to Coordinates.
+            After that the Coordinates is added with km to search on range (To add km we define haver_sine_formula() function)
+            Which take current latitutde and longitude as first two arguments respectively and km range as 3rd argumnet.
+
+            * Infinity Scroll : 
+                It uses paginator provided by django and with that simple js code with some imports all things are set to go.
+                
+                // Those impors are  -Waypoint CDN
+                // - Infinite
+                var infinite = new Waypoint.Infinite({
+                    element: $('.infinite-container')[0],
+                    onBeforePageLoad: function () {
+                        $('.loading').show();
+                    },
+                    onAfterPageLoad: function ($items) {
+                        $('.loading').hide();
+                    }
+                });
+
+                the loader will laod the data inside the class="infinite-item" 
+            !!THERE IS WORK NEEDED 
+    """
+    pagination = 10
+    locator = Nominatim(user_agent='myGeocoder')
+    loc = locator.geocode(request.POST.get('location'))
+    
+    # Also we can put a infinity loader which fetch more vendor by quering this and increasing this range value !Man Awesome.
+    # This also increase optimizations
+    # TODO
+        # Need to add Relevancy of search which enable smart search
+        # It work on two params i.e. keyword and coordinates.
+        # We need the one which match with keyword as well as  location in range
+        # Need to add GIF for reloading
+    range = 10
+    lat_p, lng_p = haver_sine_formula(loc.latitude, loc.longitude, range)
+    lat_n, lng_n = haver_sine_formula(loc.latitude, loc.longitude, -range)
+    print(loc.latitude)
+    print(lat_p)
+    print('loc.lng',loc.longitude)
+    print('lng_p',lng_p)
+
+    # lte -> less then equal
+    # gte -> greater then equal
+
+    vendor_in_pos_range2 = Vendor.objects.filter(Latitude__gte = loc.latitude, Latitude__lte = lat_p).\
+        filter(Longitude__gte = loc.longitude, Longitude__lte = lng_p).\
+            filter(keywords__name = request.POST.get('search'))
+
+    all_vendor = Vendor.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_vendor, 10)
+    try:
+        vendor = paginator.page(page)
+    except PageNotAnInteger:
+        vendor = paginator.page(1)
+    except EmptyPage:
+        vendor = paginator.page(paginator.num_pages)
+
+    return render(request, 'website/search/searchtest.html', {'vendors': vendor, 'query':query, 'location': location} )
+
+
+
+
+def location(request):
+    locator = Nominatim(user_agent='myGeocoder')
+    loc = locator.reverse(f"{request.GET.get('lat')},{request.GET.get('lng')}")
+    # >>> l = obj.reverse('57 29.687624800000002 76.9988556')
+    # >>> l
+    # Location(Sector 13, Model Town, Karnal, Haryana, 132001, India, (29.68744057560696, 76.99884150262069, 0.0))
+    # >>> type(l)
+    # <class 'geopy.location.Location'>
+    # >>> l[0] 
+    # 'Sector 13, Model Town, Karnal, Haryana, 132001, India'
+    # >>> l[1] 
+    # (29.68744057560696, 76.99884150262069)
+    # >>> l[0] 
+    # 'Sector 13, Model Town, Karnal, Haryana, 132001, India'
+    print('loc[0]')
+    return JsonResponse({'reverse_geoenc':loc[0]})
+
+def search(request):
+    category = Categories.objects.all()
+    # try:
+    query = request.GET['query']
+    location = request.GET['location']
+    print(location)
+    if len(query) > 80 and len(location) > 20:
+        vendor = Vendor.objects.none()
+    else:
+        or_lookup = (Q(city__icontains=location) & Q(Busniess_Type__category_name__icontains=query))
+        vendors = Vendor.objects.filter(or_lookup)
+        print(vendors)
+    params = {'query': query, 'vendors': vendors, 'location': location,
+                'category': category}
+    return render(request, 'website/search/searchtest.html', params)
+
+# Dummy Data add function
+def create(request):
+    obj = DummyData()
+    obj.create(80)
+    return HttpResponse('operation completed succesfully')
+
+def format(request):
+    obj = DummyData()
+    obj.format()
+    return HttpResponse('Data Deleted Successfully')
+
+def test(request):
+    locator = Nominatim(user_agent='myGeocoder')
+    address = 'Sector 4, Model Town, Karnal, Haryana, 132001, India'
+    coords = locator.geocode(address)
+    lat_list_pos = []
+    lng_list_pos = []
+    lat_list_neg = []
+    lng_list_neg = []
+
+    lat = coords.latitude
+    lng = coords.longitude
+
+    for i in range(0, 40):
+        lat2, lng2 = haver_sine_formula(lat, lng, i)
+        lat_list_pos.append(lat2)
+        lng_list_pos.append(lng2)
+
+    for i in range(40, 0, -1):
+        lat2, lng2 = haver_sine_formula(lat, lng, i)
+        lat_list_neg.append(lat2)
+        lng_list_neg.append(lng2)
+
+    print(f'{lat2}, {lng2}')
+    
+    # queryset = Location.objects.filter(current_lat__gte=lat1, current_lat__lte=lat2)\
+    #     .filter(current_long__gte=long1, current_long__lte=long2)
+
+    return HttpResponse(f'{lat_list_pos} <br> {lat_list_neg} <br> {lng_list_pos} <br> {lng_list_neg}')
+
+def vendor_review(request):
+    if request.method == 'POST':
+        comment = request.POST.get('comment')
+        
+    return render(request, 'website/vendor_review_test.html')
+    
 
 
 #error handling view

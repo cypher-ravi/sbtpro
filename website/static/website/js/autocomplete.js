@@ -42,6 +42,7 @@ function fillInAddress() {
 
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.
+
 function geolocate() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -53,8 +54,27 @@ function geolocate() {
             //   center: geolocation,
             //   radius: position.coords.accuracy
             // });
-            alert($ `lat-{geolocation.lat}, lng-{geolocation.lng}`);
-            autocomplete.setBounds(circle.getBounds());
+            // autocomplete.setBounds(circle.getBounds());
+            console.log(geolocation.lat);
+
+            // document.getElementById('autocomplete').value = geolocation.lat;
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/sbt/loc',
+                data: {
+                    csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
+                    lat: geolocation['lat'],
+                    lng: geolocation['lng'],
+                },
+                success: function(data) {
+                    if (data) {
+                        document.getElementById('autocomplete').value = data.reverse_geoenc;
+
+
+                    }
+                }
+            });
         });
     }
 }

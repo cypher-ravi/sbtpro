@@ -141,7 +141,7 @@ class Order(models.Model):
     order_completed = models.BooleanField()
 
     def __str__(self):
-        return self.email_id
+        return 'obj'
 
 class Order_Payment(models.Model):
     id = models.AutoField(primary_key = True)

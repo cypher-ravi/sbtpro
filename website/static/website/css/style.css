@@ -453,6 +453,7 @@ label:before {
     width: 100%;
     height: 100%;
     background: #fff url(../images/load.gif) no-repeat center;
+    background: #fff url() no-repeat center;
     -webkit-animation: spin 300s linear infinite;
     /* Safari */
     animation: spin 500s linear infinite;

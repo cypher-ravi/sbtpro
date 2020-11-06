@@ -24,7 +24,7 @@ MIDDLEWARE += [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sbtauth',
+        'NAME': 'sbtauth2',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
