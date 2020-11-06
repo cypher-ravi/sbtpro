@@ -50,7 +50,12 @@ MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 with open("config.json", "r") as params:
     parameters = json.load(params)
 
+# def vendor_profile(request):
+#     return render(request, 'template_name.html')
 
+
+def vendor_profile(request):
+    return render(request, 'website/vendor-profile.html')
 
 def index(request):
     category = Categories.objects.all()
