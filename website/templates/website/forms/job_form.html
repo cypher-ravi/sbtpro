@@ -1,16 +1,22 @@
-{% extends 'website/layout.html' %} {% block title %}Resume-SBT Professionals {% endblock %} {% load static %} {% block css %}
-<style>
+{% extends 'website/layout.html' %} {% block title %}Resume-SBT Professionals {% endblock %} {% load static %}
+{% block css %}
 
+<style>
+      .btn-custom:hover {
+  background-color: #343a40;
+  color: white;
+  border-color: #343a40;
+}
     .wrap-top {
         margin-top: 30px;
     }
-    
+
     .upload-btn-wrapper {
         position: relative;
         overflow: hidden;
         display: inline-block;
     }
-    
+
     .btn {
         color: white;
         background-color: #fe4c1c;
@@ -20,7 +26,7 @@
         font-weight: bold;
         cursor: pointer;
     }
-    
+
     .upload-btn-wrapper input[type=file] {
         font-size: 100px;
         position: absolute;
@@ -30,7 +36,7 @@
         cursor: pointer;
         opacity: 0;
     }
-    
+
     .regular-checkbox {
         -webkit-appearance: none;
         background-color: #fafafa;
@@ -42,19 +48,19 @@
         display: inline-block;
         position: relative;
     }
-    
+
     .regular-checkbox:active,
     .regular-checkbox:checked:active {
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px 1px 3px rgba(0, 0, 0, 0.1);
     }
-    
+
     .regular-checkbox:checked {
         background-color: #e9ecee;
         border: 1px solid black;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1);
         color: #99a1a7;
     }
-    
+
     .regular-checkbox:checked:after {
         content: '\2714';
         font-size: 25px;
@@ -63,11 +69,11 @@
         left: 13px;
         color: black;
     }
-    
+
     .color-terms {
         color: #fe4c1c
     }
-    
+
     h3 {
         width: 100%;
         text-align: center;
@@ -75,7 +81,7 @@
         line-height: 0.1em;
         margin: 10px 0 20px;
     }
-    
+
     h3 span {
         background: #fff;
         padding: 0 10px;
@@ -84,7 +90,8 @@
 
 {% endblock %} {% block body %}
 <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v8.0" nonce="xVLFd7uI"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v8.0"
+    nonce="xVLFd7uI"></script>
 
 <main>
 
@@ -112,40 +119,85 @@
                 </div>
                 <div class="col-md-12 col-lg-6">
                     <form action="/sbt/upload_resume/" method="post" enctype="multipart/form-data">{% csrf_token %}
-                        <input class="input-text required-field" type="text" name="contactName" placeholder="Mention your full name before uploading resume" minlength="4" maxlength="15" title="Your Full Name" />
+                        <input class="input-text required-field" type="text" name="contactName"
+                            placeholder="Mention your full name before uploading resume" minlength="4" maxlength="15"
+                            title="Your Full Name" />
                         <div class="form-row">
 
                             <div class="upload-btn-wrapper col-md-5">
-                                <img src="/static/website/images/file.svg" style="width: 26px;top: 87px;margin-top: -113px;">
-                                <input type="file" name="myfile" accept=".doc,.docx,.pdf,.word" style="width: 196px;top: -5px;">
+                                <img src="/static/website/images/file.svg"
+                                    style="width: 26px;top: 87px;margin-top: -113px;">
+                                <input type="file" name="myfile" accept=".doc,.docx,.pdf,.word"
+                                    style="width: 196px;top: -5px;">
                                 <p style="margin-left: 37px;margin-top: -167px;">Upload your resume</p>
                                 <p style="margin-top: 5px;">doc,docx,pdf(max-2mb),word</p>
                             </div>
 
                         </div>
+                        
+                        <form>
+                            <h5>Create Resume:</h5>
+                            <input type="hidden" name="itemsJson" id="itemsJson">
+                            <input type="hidden" name="amount" id="amount">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    
+                                        <input type="text" class="form-control" id="firstname" name="name" required
+                                            minlength="3" placeholder="Name">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="phone" class="form-control" name="phone" id="phone" required
+                                        maxlength="10" placeholder="mobile no.">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6" id="div_phone">
+                                    <input type="text" class="form-control" id="contact Education" minlength="5"
+                                        name="contact Education " required placeholder="Education">
+                                </div>
 
-                        <input class="color-two" type="submit" value="Submit" style="width: 100px;height: 40px; padding: 8px;">
+
+                                <div class="form-group col-md-6">
+                                    <input type="text" class="form-control" name="contactExperience"
+                                        id="contactExperience" required minlength="3"
+                                        placeholder="Any Work Experience.../frasher       ">
+                                  
+                                </div>
+                                <button type="submit" class="color-two btn-custom">Submit</button>
+                            </div>
+                        </form>
+                        {% comment %} <input class="color-two" type="submit" value="Submit"
+                            style="width: 100px;height: 40px; padding: 8px;">
                     </form>
                     <form action="{% url 'website:jobs' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
                         <input type="hidden" name="job_form" id="job_form" value="form_for_jobs">
                         <div>
                             <h3><span>or</span></h3>
                             <h4>Create Resume:</h4>
-                            <input class="input-text required-field" type="text" name="contactName" id="contactName" placeholder="Name" title="Your Full Name" required="Full Name" minlength="4" maxlength="15" />
+                            <input class="input-text required-field" type="text" name="contactName" id="contactName"
+                                placeholder="Name" title="Your Full Name" required="Full Name" minlength="4"
+                                maxlength="15" />
                         </div>
                         <div id="div_phone">
-                            <input class="input-text required-field" type="text" name="contactmobile" id="mobile" placeholder="Mobile no." title="Your number" maxlength="12" minlength="10" required="Enter a Number" />
+                            <input class="input-text required-field" type="text" name="contactmobile" id="mobile"
+                                placeholder="Mobile no." title="Your number" maxlength="12" minlength="10"
+                                required="Enter a Number" />
 
                         </div>
                         <div>
-                            <input class="input-text required-field" type="text" name="contactEducation" id="contactEducation" placeholder="Education" title="Your Subject" maxlength="50" minlength="5" required="Enter your education" />
+                            <input class="input-text required-field" type="text" name="contactEducation"
+                                id="contactEducation" placeholder="Education" title="Your Subject" maxlength="50"
+                                minlength="5" required="Enter your education" />
                         </div>
                         <div>
-                            <input class="input-text required-field" type="text" name="contactexperience" id="contactExperience" placeholder="Any Work Experience...                                                                                (If any)" title="Your Subject" minlength="10"
-                                maxlength="50" />
-                            <input class="color-two" type="submit" value="Submit" style="width: 100px;height: 40px; padding: 8px;">
+                            <input class="input-text required-field" type="text" name="contactexperience"
+                                id="contactExperience"
+                                placeholder="Any Work Experience...                                                                                (If any)"
+                                title="Your Subject" minlength="10" maxlength="50" />
+                            <input class="color-two" type="submit" value="Submit"
+                                style="width: 100px;height: 40px; padding: 8px;">
 
-                        </div>
+                        </div> {% endcomment %}
                         <!-- contact area end -->
 
 </main>
