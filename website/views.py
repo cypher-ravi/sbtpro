@@ -181,7 +181,7 @@ def upload_resume(request):
             messages.error(request, 'Before submit resume Enter your name')
 
     return render(request, 'website/job_form.html', {'category': category})
-  
+
 def download(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
@@ -543,42 +543,62 @@ def log_in(request):
 # return redirect(index)
 
 
-
-# @login_required(login_url="{% url 'website:login' %}")
-def purchase(request, slug):# plan_id, user, amount,discount,role):
-        vendor = TOP.objects.all()
-        category = Categories.objects.all()
+def purchase_vendor(request, slug):# plan_id, user, amount,discount,role):
+    vendor = TOP.objects.all()
+    category = Categories.objects.all()
 
 
-        plan = Plan.objects.get(plan_id =slug)
-        dict_for_review = {
-            'id' : plan.plan_id,
-            'name': plan.plan_name,
-            'amount': plan.plan_amount,
-            'description_1': plan.description_1,
-            'description_2': plan.description_2,
-            'description_3': plan.description_3,
-            'description_4': plan.description_4,
-        }
-        return render(request, 'website/forms/purchase_form.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
+    plan = Plan.objects.get(plan_id =slug)
+    dict_for_review = {
+        'id' : plan.plan_id,
+        'name': plan.plan_name,
+        'amount': plan.plan_amount,
+        'description_1': plan.description_1,
+        'description_2': plan.description_2,
+        'description_3': plan.description_3,
+        'description_4': plan.description_4,
+    }
+    return render(request, 'website/forms/purchase_form_customer.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
+
+
+
+def purchase_customer(request, slug):# plan_id, user, amount,discount,role):
+    vendor = TOP.objects.all()
+    category = Categories.objects.all()
+
+
+    plan = Plan.objects.get(plan_id =slug)
+    dict_for_review = {
+        'id' : plan.plan_id,
+        'name': plan.plan_name,
+        'amount': plan.plan_amount,
+        'description_1': plan.description_1,
+        'description_2': plan.description_2,
+        'description_3': plan.description_3,
+        'description_4': plan.description_4,
+    }
+    return render(request, 'website/forms/purchase_form_customer.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
 
 def customer_card_purchase(request, plan_id):
     # assuming coming from purchase form but for instance taking from purchase button from index.html
     # about paytm implimentation will here
     # discount won't work if empty
         # if request.user.is_authenticated:
-    discount = request.POST.get('discount')
+
     if request.method == 'POST':
+
         if request.user.is_authenticated:
+            is_vendor = request.POST.get('is_vendor')
+            discount = request.POST.get('discount')
             plan = Plan.objects.get(plan_id = plan_id)
 
             print('..........',request.user)
             customer = Customer()
             customer.user = request.user
             # customer.customer_id = models.
-            # 
-            # 
-            # 
+            #
+            #
+            #
             # (primary_key=True)
             customer.customer_name = request.POST.get('name')
             customer.last_name = 'Paliwal'
@@ -609,7 +629,7 @@ def customer_card_purchase(request, plan_id):
 
             user_amount= plan.plan_amount
             if discount != "" and discount != None:
-                response_dict = discount_validation(plan_id, discount, user_amount)
+                response_dict = discount_validation(plan_id, discount, user_amount, is_vendor)
                 if response_dict['error'] != None:
                     return HttpResponse(response_dict['error'])
                 amount = discount * plan.plan_amount
@@ -672,8 +692,7 @@ def req_handler(request):
             }
 
         # another if to handle if user load refresh
-        is_order_exist = Order_Payment.objects.filter(
-            order_id=form["ORDERID"]).exists()
+        is_order_exist = Order_Payment.objects.filter(order_id=form["ORDERID"]).exists()
         print('............................order', is_order_exist)
         if is_order_exist == False:
             # FOR ALL VALUES
@@ -695,7 +714,7 @@ def req_handler(request):
                 usr = User
                 # id = models.AutoField(primary_key = True)
                 order = Order.objects.get(order_id=response_dict["ORDERID"])
-               
+
 
                 order_payment.order_summary = order
                 # paytm responses
@@ -722,26 +741,26 @@ def req_handler(request):
                 order_payment.save()
                 payment_status = Order_Payment.objects.get(
                     order_id=response_dict["ORDERID"])
-                
+
                 print('00.........',order.discount)
                 if order.role == 'customer':
                     user = order_payment.order_summary.user
-                    user.is_customer_paid =True 
+                    user.is_customer_paid =True
                     user.customer_discount = order.discount
-                    user.save()   
+                    user.save()
                     customer = Customer.objects.filter(user=user).first()
                     customer.subscription_plan_taken = order_payment.order_summary.plan_id
                     customer.save()
                 else:
                     user = order_payment.order_summary.user
-                    user.is_vendor_paid = True 
-                    user.save()   
+                    user.is_vendor_paid = True
+                    user.save()
                     vendor = Vendor.objects.filter(user=user).first()
                     vendor.registration_fee = order_payment.order_summary.plan_id
                     vendor.save()
                 print('Order payment..............................',order_payment.order_summary.user)
                 print('Order payment..............................',type(order_payment))
-              
+
                 return render(request, 'ordersucess.html', {'payment': payment_status})
             else:
                 Order.objects.filter(
@@ -758,14 +777,14 @@ def req_handler(request):
 
 def pricing_multiplier(request):
     if request.method == "POST":
-
+        is_vendor = request.POST.get('is_vendor')
         amount = int(request.POST.get('amount'))
         try:
             discount = int(request.POST.get('discount'))
         except ValueError:
             return JsonResponse({'discount_applied': '', 'total': '', 'error': 'Expected integer'})
         plan_id = int(request.POST.get('plan_id'))
-        response = discount_validation(plan_id, discount, amount)
+        response = discount_validation(plan_id, discount, amount, is_vendor)
         # response_dict = json.loads(response.getvalue().decode('utf-8'))
         # print(response_dict)
         return JsonResponse(response)
@@ -1172,9 +1191,9 @@ def query(request):
             After that the Coordinates is added with km to search on range (To add km we define haver_sine_formula() function)
             Which take current latitutde and longitude as first two arguments respectively and km range as 3rd argumnet.
 
-            * Infinity Scroll : 
+            * Infinity Scroll :
                 It uses paginator provided by django and with that simple js code with some imports all things are set to go.
-                
+
                 // Those impors are  -Waypoint CDN
                 // - Infinite
                 var infinite = new Waypoint.Infinite({
@@ -1187,13 +1206,13 @@ def query(request):
                     }
                 });
 
-                the loader will laod the data inside the class="infinite-item" 
-            !!THERE IS WORK NEEDED 
+                the loader will laod the data inside the class="infinite-item"
+            !!THERE IS WORK NEEDED
     """
     pagination = 10
     locator = Nominatim(user_agent='myGeocoder')
     loc = locator.geocode(request.POST.get('location'))
-    
+
     # Also we can put a infinity loader which fetch more vendor by quering this and increasing this range value !Man Awesome.
     # This also increase optimizations
     # TODO
@@ -1239,11 +1258,11 @@ def location(request):
     # Location(Sector 13, Model Town, Karnal, Haryana, 132001, India, (29.68744057560696, 76.99884150262069, 0.0))
     # >>> type(l)
     # <class 'geopy.location.Location'>
-    # >>> l[0] 
+    # >>> l[0]
     # 'Sector 13, Model Town, Karnal, Haryana, 132001, India'
-    # >>> l[1] 
+    # >>> l[1]
     # (29.68744057560696, 76.99884150262069)
-    # >>> l[0] 
+    # >>> l[0]
     # 'Sector 13, Model Town, Karnal, Haryana, 132001, India'
     print('loc[0]')
     return JsonResponse({'reverse_geoenc':loc[0]})
@@ -1298,7 +1317,7 @@ def test(request):
         lng_list_neg.append(lng2)
 
     print(f'{lat2}, {lng2}')
-    
+
     # queryset = Location.objects.filter(current_lat__gte=lat1, current_lat__lte=lat2)\
     #     .filter(current_long__gte=long1, current_long__lte=long2)
 
@@ -1307,9 +1326,9 @@ def test(request):
 def vendor_review(request):
     if request.method == 'POST':
         comment = request.POST.get('comment')
-        
+
     return render(request, 'website/vendor_review_test.html')
-    
+
 
 
 #error handling view

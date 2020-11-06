@@ -57,7 +57,8 @@ urlpatterns = [
 
 
     # Payment, Purchase, Order Urls
-    path("purchase/<int:slug>", views.purchase, name="plan-purchase"),
+    path("purchase_customer/<int:slug>", views.purchase_customer, name="plan-purchase"),
+    # path("purchase_vendor/<int:slug>", views.purchase_vendor, name="vendor-purchase"),
     path("customer_card_purchase/<int:plan_id>", views.customer_card_purchase, name='card-purchase'),
     path('pricing-multiplier/', views.pricing_multiplier, name ="PM"),
     path('req_handler', views.req_handler, name='Request Handler'),
