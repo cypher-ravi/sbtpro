@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         depth=1
-        exclude = ('is_branch_user' ,'is_staff','is_superuser','otp_count','is_verified','first_name','key','last_login','groups','user_permissions','password','is_active')
+        exclude = ('is_branch_user' ,'is_staff','is_superuser','otp_count','first_name','key','last_login','groups','user_permissions','password','is_active')
 
 class UserCreateSerializer(serializers.ModelSerializer):
     """
@@ -17,7 +17,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        exclude = ('is_branch_user' ,'is_staff','is_superuser','otp_count','is_verified','first_name','key','last_login','groups','user_permissions','password','is_active')
+        exclude = ('is_branch_user' ,'is_staff','is_superuser','otp_count','first_name','key','last_login','groups','user_permissions','password','is_active')
 
 
 

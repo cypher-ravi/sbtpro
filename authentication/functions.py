@@ -1,5 +1,8 @@
 from .models import User
 import pyotp
+import math
+import random
+
 
 def generate_key():
     """ User otp key generator """
@@ -14,3 +17,16 @@ def generate_key():
 #         return True
 #     return False
 
+def generateOTP() : 
+  
+    # Declare a digits variable   
+    # which stores all digits  
+    digits = "0123456789"
+    OTP = "" 
+  
+   # length of password can be chaged 
+   # by changing value in range 
+    for i in range(6) : 
+        OTP += digits[math.floor(random.random() * 10)] 
+  
+    return OTP

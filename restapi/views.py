@@ -252,7 +252,7 @@ def purchase(request, plan_id, user,amount,discount,role):
                 if customer_user != None:
                     return render(request, 'checkout2.html', {'role':role, 'plan': plan[0], 'customer': customer_user, 'total': total,'amount':amount, 'discount': discount,'user':user})
                 else:
-                    return HttpResponse('invalid customer')
+                    return HttpResponse('Please sign up for customer first')
             else:
                 return HttpResponse('Invalid plan and user')
         else:
