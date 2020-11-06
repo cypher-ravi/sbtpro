@@ -1,12 +1,21 @@
 from .models import Plan
 import requests
 import math 
+import json
+
+
+with open("config.json", "r") as params:
+    parameters = json.load(params)
+
+phone = parameters['admin_phone']
+app_url = parameters['app_link']
 
 def send_sms_message(number):
     #url = API for sending message for download link
-    message = f"Thank you for your great interest \nDownload Our App For\n Discount and Exciting offers {app_link_for_playstore}"
-    app_link_for_playstore = requests.get("https://rb.gy/teh3kc")
-    
+    app_link_for_playstore = app_url
+    message = f"Thank you for your great interest ,Download Our App For Discount and Exciting offers"
+    url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={number}&route=TA&msgtype=1&sms={message} \n {app_link_for_playstore}"
+    response = requests.request("GET",url)
     return number
 
 def haver_sine_formula(lat, lng, distance):
