@@ -1,14 +1,23 @@
-{% extends 'website/layout.html' %} {% block title %}Search-SBT Professionals{%endblock %} {% block css %}
-<style>
-    .search-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 40px;
-    }
-</style>
-{% endblock %} {% block body %} {% load static %}
-<div class="container">
+{% extends 'website/layout.html' %}
+
+{% block js %}
+  <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
+{% endblock %}
+
+{% block body %}
+
+
+  <div class="container ">
     <h2 style="text-transform: lowercase; margin-top: 140px;font-size: larger;text-align: left; margin-left:-10px;">
         Results near you :
     </h2>
@@ -27,34 +36,43 @@
         </ul>
       {% endif %}
 
-        <div class="row mt-4">
-
+        <div class="row mt-4 infinite-container">
             {% for vendor in vendors %} {% if vendor %}
-            <div class="col-md-3 mt-4">
-                <img src="/media/{{ vendor.Image }}" class="img-fluid top-img" alt="...">
-            </div>
-            <div class="col-md-9">
-                <div class="media mt-4">
-                    <div class="media-body">
-                        <h5 class="mt-0">{{ vendor.Company_Name}}</h5>
-                        <h6 class="mt-0">- {{ vendor.Busniess_Type }}</h6>
-                        <p class="mb-0"> {{ vendor.Service_decsription|safe }}</p>
-                        <ul>
-                            <li><b>Address:</b> {{ vendor.Address1 }} {{ vendor.city }} {{ vendor.state }} </li>
-                            <li><b>Contact:</b> {{ vendor.Mobile_No }} </li>
-                        </ul>
-                    </div>
+              <div class="col-md-3 mt-4 infinite-item">
+                  <img src="/media/{{ vendor.Image }}" class="img-fluid top-img " alt="...">
+              </div>
+              <div class="col-md-9 infinite-item">
+                  <div class="media mt-4">
+                      <div class="media-body">
+                          <h5 class="mt-0 ">{{ vendor.Company_Name}}</h5>
+                          <h6 class="mt-0">- {{ vendor.Busniess_Type }}</h6>
+                          <p class="mb-0"> {{ vendor.Service_decsription|safe }}</p>
+                          <ul>
+                              <li><b>Address:</b> {{ vendor.Address1 }} {{ vendor.city }} {{ vendor.state }} </li>
+                              <li><b>Contact:</b> {{ vendor.Mobile_No }} </li>
+                          </ul>
+                      </div>
 
-                    {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
-                    <div class="media"> </div>
-                    {% endif %}
-                </div>
-            </div>
+                  </div>
+              </div>
+            
 
             {% else %}
             <p><em>No entries in{{ location }}</em></p>
             {% endif %} {% endfor %}
     </section>
+    </div>
 
 
-    {% endblock %}
+
+  <div class="loading" style="display: none;">
+      <center>
+        <!-- <img src="‪C:\Users\User3\Desktop\800.gif"> -->
+        <h1>Loading...</h1>
+      </center>
+  </div>
+
+  {% if vendors.has_next %}
+    <a class="infinite-more-link" href="?page={{ vendors.next_page_number }}"></a>
+  {% endif %}
+{% endblock %}

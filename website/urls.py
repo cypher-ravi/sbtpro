@@ -13,11 +13,25 @@ admin.site.index_title = "Welcome To SBT Professionals"
 app_name = 'website'
 
 urlpatterns = [
-#     path("test/<int:slug>", views.test, name="test"),
+
+    
+
+
+    # path('inf_scroll', views.ArticlesView.as_view()),
+    # path("test/<int:slug>", views.test, name="test"),
+    
     path("test", views.test, name="test"),
     # path('ankit-test', views.template_test, name="ankit-test"),
-    
+
+    path('loc', views.location, name='location'),
+
+    path('suggestions', views.suggestions, name='suggestions'),
+    path('query', views.query, name='query'),
+    path('create', views.create, name = "create"),
+    path('format', views.format, name='format'),
     path("", views.index, name='Sbthome'),
+    path("vendor_review_test", views.vendor_review),
+
     path("become_a_vendor/", views.freelisting, name='listing'),
     path("top/", views.top, name='top'),
     path("membership/", views.customer_membership, name='membership'),
@@ -41,12 +55,18 @@ urlpatterns = [
     path('TermsCondition/', views.tac, name='Terms_and_condition'),
 #     path('username_validator', views.username_validator, name="uv"),"""
 
+  
     # Payment, Purchase, Order Urls
-#     path("purchase/<str:slug>", views.purchase, name="plan-purchase"),
-#     path('pricing-multiplier/', views.pricing_multiplier, name ="PM"),
-#     path('req_handler', views.req_handler, name='Request Handler'),
-#     path('order_status/<str:slug>', views.order_status, name='Order_Status'),
+    path("purchase/<int:slug>", views.purchase, name="plan-purchase"),
+    path("customer_card_purchase/<int:plan_id>", views.customer_card_purchase, name='card-purchase'),
+    path('pricing-multiplier/', views.pricing_multiplier, name ="PM"),
+    path('req_handler', views.req_handler, name='Request Handler'),
+    path('order_status/<str:slug>', views.order_status, name='Order_Status'),
     # Authentication Urls
+#     path('signup/', views.sign_up, name='SignUp'),
+    path('login/', views.log_in, name='login'),
+    path('verify/', views.verify, name='verify'),
+    path('logout/', views.logout_view, name='Logout'),
 #     path('signup/', views.sign_up, name='SignUp'),
 #     path('login/', views.log_in, name='Login'),
 #     path('logout/', views.logout_view, name='Logout')

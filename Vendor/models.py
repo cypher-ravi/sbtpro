@@ -91,6 +91,10 @@ class VendorVideos(models.Model):
 
 
 
+class KeyWord(models.Model):
+    id = models.AutoField(primary_key = True)
+    name = models.CharField(max_length=50)
+
 class Vendor(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,null= True, blank=True)
     vendor_id = models.AutoField(primary_key=True)
@@ -127,6 +131,7 @@ class Vendor(models.Model):
     Latitude = models.CharField(max_length=100, null=True, blank=True)
     submit_date = models.DateTimeField(auto_now_add=True)
     Image = models.ImageField(upload_to="website/images/vendors", default="",null=True,blank=True)
+    keywords = models.ManyToManyField(KeyWord)
     TYPE_OF_BUSINESS =  (
     ("none", "Please Select"),
     ("retailer", "retailer"),
@@ -202,8 +207,8 @@ class VendorServices(models.Model):
     """
     Store vendor services
     """
-    user = models.ForeignKey(User,on_delete=models.CASCADE,null= True, blank=True)
-    vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE,null=True, blank=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE, null= True, blank=True)
+    vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=20,default='')
     description = models.TextField(max_length=200,default='')
 
