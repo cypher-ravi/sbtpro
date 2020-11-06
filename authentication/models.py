@@ -61,6 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=23, blank=True)
     otp_count = models.IntegerField(blank=True,null=True)
     last_otp = models.CharField(max_length=6,null=True, blank=True)
+    
     key = models.ForeignKey(Key,on_delete=models.CASCADE,null=True,blank=True)
     is_active = models.BooleanField(default = True)# to check wheather a user is subscribed or not
     is_staff = models.BooleanField(default=False)

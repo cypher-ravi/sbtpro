@@ -1,6 +1,7 @@
-from django.http import HttpResponse
-from Employee.models import Employee
 from dashboard.models import Branch
+from django.http import HttpResponse
+
+from Employee.models import Employee
 
 
 def assign_branch_to_employee(employee_city,employee_state,user):

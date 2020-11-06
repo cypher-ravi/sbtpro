@@ -9,13 +9,7 @@ def generate_key():
     key = pyotp.random_base32()
     return key
 
-    
-# def is_unique(key):
-#     try:
-#         User.objects.get(key=key)
-#     except User.DoesNotExist:
-#         return True
-#     return False
+
 
 def generateOTP() : 
   
@@ -30,3 +24,6 @@ def generateOTP() :
         OTP += digits[math.floor(random.random() * 10)] 
   
     return OTP
+
+
+

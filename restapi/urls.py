@@ -1,19 +1,15 @@
 from django.urls import path
-from restapi.views import *
 from rest_framework.routers import DefaultRouter
 from rest_framework_swagger.views import get_swagger_view
+
+from restapi.views import *
 
 schema_view = get_swagger_view(title='SBT Pro API')
 
 
 
-
-
-
 router = DefaultRouter()
 router.register("CategoryAPI",NewCategoryAPI)
-# router.register("EmployeeAPI",NewEmployeeAPI)
-# router.register("EmployeeAttendanceAPI/employee_id",DailyAttendanceAPI)
 
 
 app_name = 'rest_api'
@@ -27,7 +23,7 @@ urlpatterns = [
     path('franchise_request', FrenchiseRequestAPIView.as_view(),name='frenchise_request'),
     path('app_feedback/', AppFeedBackAPIView.as_view(),name='app_feedback'),
     
-    #for search in vendors
+    #for search in vendors and categories
     path('<str:slug>/<str:category_id>/vendors_search',VendorSearchView.as_view(),name='search_api'),
     path('<str:slug>/categories',CategorySearchView.as_view(),name='category_search_api'),
 

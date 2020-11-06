@@ -1,9 +1,10 @@
 
 
 
-from django.http.response import HttpResponse
-from Customer.models import Customer
 from dashboard.models import Branch
+from django.http.response import HttpResponse
+
+from Customer.models import Customer
 
 
 def assign_branch_to_customer(customer_city,customer_state,user):

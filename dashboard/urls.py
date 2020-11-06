@@ -57,13 +57,9 @@ urlpatterns =[
    
 
   # for template testing
-   path('test_view/',TestView.as_view(),name='NewTest'),
+   # path('test_view/',TestView.as_view(),name='NewTest'),
 
   
-
-
-
-
 ]
 
 if settings.DEBUG == True:

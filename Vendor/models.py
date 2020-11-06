@@ -1,17 +1,10 @@
-from django.db import models
-from website.models import Categories
-from restapi.models import *
 from dashboard.models import *
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 # from dashboard.models import Employee
 from django.db import models
-from django.core.validators import FileExtensionValidator
-from phonenumber_field.modelfields import PhoneNumberField
-from django.contrib.auth.models import User
-from django.utils import timezone
-from django import forms
-from django.contrib import messages
-from django.core.exceptions import ValidationError
-from django.contrib.auth import get_user_model
+from restapi.models import *
+from website.models import Categories
 
 User = get_user_model()
 # Create your models here.
@@ -31,46 +24,7 @@ STATUS_CHOICES = (
 
 )
 
-VALID_STATE_CHOICES = (
-    ("Please Select", "Please Select"),
-    ("Andra Pradesh", "Andra Pradesh"),
-    ("Arunachal Pradesh", "Arunachal Pradesh"),
-    ("Assam", "Assam"),
-    ("Bihar", "Bihar"),
-    ("Chhattisgarh", "Chhattisgarh"),
-    ("Chandigarh", "Chandigarh"),
-    ("Dadar and Nagar Haveli", "Dadar and Nagar Haveli"),
-    ("Daman and Diu", "Daman and Diu"),
-    ("Delhi", "Delhi"),
-    ("Goa", "Goa"),
-    ("Gujarat", "Gujarat"),
-    ("Haryana", "Haryana"),
-    ("Himachal Pradesh", "Himachal Pradesh"),
-    ("Jammu and Kashmir", "Jammu and Kashmir"),
-    ("Jharkhand", "Jharkhand"),
-    ("Karnataka", "Karnataka"),
-    ("Kerala", "Kerala"),
-    ("Lakshadeep", "Lakshadeep"),
-    ("Madya Pradesh", "Madya Pradesh"),
-    ("Maharashtra", "Maharashtra"),
-    ("Manipur", "Manipur"),
-    ("Meghalaya", "Meghalaya"),
-    ("Mizoram", "Mizoram"),
-    ("Nagaland", "Nagaland"),
-    ("Orissa", "Orissa"),
-    ("Punjab", "Punjab"),
-    ("Pondicherry", "Pondicherry"),
-    ("Rajasthan", "Rajasthan"),
-    ("Sikkim", "Sikkim"),
-    ("Tamil Nadu", "Tamil Nadu"),
-    ("Telagana", "Telagana"),
-    ("Tripura", "Tripura"),
-    ("Uttaranchal", "Uttaranchal"),
-    ("Uttar Pradesh", "Uttar Pradesh"),
-    ("West Bengal", "West Bengal"),
-    ("Andaman and Nicobar Island", "Andaman and Nicobar Island"),
 
-)
 
 
     

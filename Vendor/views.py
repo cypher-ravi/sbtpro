@@ -7,16 +7,13 @@ from Vendor.functions import assign_branch_to_vendor
 import json
 
 from django.contrib.auth import get_user_model
-from django.shortcuts import (HttpResponse, get_list_or_404, get_object_or_404,
-                              render)
-from django.views.generic import ListView
-from django_filters.rest_framework import DjangoFilterBackend
+
 from rest_framework import generics, mixins, permissions, status, viewsets
 from rest_framework.response import Response
 from sbt.settings.base import REST_FRAMEWORK
 from rest_framework.parsers import FormParser ,MultiPartParser 
 
-from .models import Vendor, VendorImages, VendorServices, VendorVideos
+from .models import Vendor, VendorImages, VendorServices
 from .pagination import PaginationForVendor
 from .serializers import (VendorImageAPISerializer, VendorImagesListSerializer, VendorServiceAPISerializer, VendorServiceListSerializer, VendordetailSerializer, VendorListSerializer,
                           VendorSerializer)
@@ -63,9 +60,7 @@ class VendorDetail(generics.GenericAPIView):
             key = parameters['key']
             if slug == key:   
                 serializer = VendordetailSerializer(vendor[0],many=False)
-                return Response(serializer.data,status=status.HTTP_200_OK)
-
-                    
+                return Response(serializer.data,status=status.HTTP_200_OK)          
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -215,9 +210,7 @@ class VendorServiceDetailView(generics.GenericAPIView,mixins.DestroyModelMixin):
             key = parameters['key']
             if slug == key:   
                 serializer = VendorServiceListSerializer(vendor_services,many=True)
-                return Response(serializer.data,status=status.HTTP_200_OK)
-
-                    
+                return Response(serializer.data,status=status.HTTP_200_OK)          
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -238,9 +231,7 @@ class VendorImagesByVendorID(generics.GenericAPIView):
             key = parameters['key']
             if slug == key:   
                 serializer = VendorImagesListSerializer(vendor_images,many=True)
-                return Response(serializer.data,status=status.HTTP_200_OK)
-
-                    
+                return Response(serializer.data,status=status.HTTP_200_OK)                
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -264,9 +255,7 @@ class VendorServicesByVendorID(generics.GenericAPIView):
             key = parameters['key']
             if slug == key:   
                 serializer = VendorServiceListSerializer(vendor_service,many=True)
-                return Response(serializer.data,status=status.HTTP_200_OK)
-
-                    
+                return Response(serializer.data,status=status.HTTP_200_OK)        
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:

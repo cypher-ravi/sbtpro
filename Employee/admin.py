@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Employee,DailyAttendance
+
+from .models import DailyAttendance, Employee
+
 # Register your models here.
 
 class DailyAttendanceInline(admin.StackedInline):

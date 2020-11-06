@@ -352,10 +352,10 @@ class DetailCategoryView(DetailView):
 
 
 
-class TestView(View):
-    def get(self,request):
-        form =NewCategoryForm()
-        return render(request,'dashboard/tables/tables-basic.html',{'form':form})
+# class TestView(View):
+#     def get(self,request):
+#         form =NewCategoryForm()
+#         return render(request,'dashboard/tables/tables-basic.html',{'form':form})
 
 
 

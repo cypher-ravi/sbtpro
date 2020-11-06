@@ -32,8 +32,6 @@ class SubCategorySerializer(serializers.ModelSerializer):
 
 
 
-
-
 class FrenchiseRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model =  FrenchiseContact

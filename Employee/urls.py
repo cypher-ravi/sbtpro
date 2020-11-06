@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import *
 from rest_framework.routers import DefaultRouter
+
+from .views import *
 
 router = DefaultRouter()
 router.register("EmployeeAPI",NewEmployeeAPI,basename='EmployeeApi')
-# router.register("EmployeeAttendanceAPI",EmployeeDailyAttendanceDetail,basename='AttendaceAPI')
 
 
 app_name = 'employee'

@@ -1,11 +1,11 @@
-from Employee.functions import assign_branch_to_employee
 import json
 from datetime import datetime
 
 from django.contrib.auth import get_user_model
-from django.shortcuts import render
-from rest_framework import generics, permissions, status, viewsets,mixins
+from rest_framework import generics, mixins, permissions, status, viewsets
 from rest_framework.response import Response
+
+from Employee.functions import assign_branch_to_employee
 
 from .models import DailyAttendance, Employee
 from .serializers import DailyAttendanceSerializer, EmployeeSerializer
@@ -46,8 +46,6 @@ class NewEmployeeAPI(viewsets.ModelViewSet):
 
                 return Response({'details':'updated'})
         data = request.data
-        
-        user_data = request.data['user']
         serializer = EmployeeSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -127,8 +125,6 @@ class AttendanceList(generics.ListCreateAPIView):
     queryset = DailyAttendance.objects.all()
     serializer_class = DailyAttendanceSerializer
     
-
-
 
 
 

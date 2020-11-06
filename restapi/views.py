@@ -1,27 +1,25 @@
-import random
-from website.PayTm import CheckSum
-from website.validations import discount_validation
-from django.http.response import HttpResponse, JsonResponse
-from Customer.models import Customer
-from authentication.serializers import UserSerializer
 import json
-from django.contrib.auth import get_user_model
-from django.views.decorators.csrf import csrf_exempt
+import random
+
 import requests
+from authentication.serializers import UserSerializer
+from Customer.models import Customer
 from Customer.serializers import CustomerPlanSerializer
 from dashboard.models import Banner
 from dashboard.serializers import AllBannerSerializer
-from django.conf import settings
-from django.http import Http404, HttpResponseServerError
-from django.shortcuts import get_object_or_404, render
+from django.contrib.auth import get_user_model
+from django.http.response import HttpResponse, JsonResponse
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, status, viewsets
 from rest_framework.metadata import SimpleMetadata
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from Vendor.pagination import PaginationForVendor
 # from Vendor.models import Vendor
 from Vendor.serializers import *
 from website.models import Categories, Order, Order_Payment, Plan
-from Vendor.pagination import PaginationForVendor
+from website.PayTm import CheckSum
+from website.validations import discount_validation
 
 from .serializers import *
 
@@ -30,9 +28,7 @@ with open("config.json", "r") as params:
 
 from authentication.pagination import PaginationForVendorAndCategory
 from django_filters import rest_framework as filters
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-
 
 User = get_user_model()
     
@@ -225,12 +221,6 @@ class UserPaymentStatus(generics.GenericAPIView):
 
 
 
-
-
-
-
-
-
 """
 ----------------------------------------------Payment Part------------------------------------------------------------
 
@@ -364,7 +354,6 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
             plan_id = plan.plan_id
 
             # Check if user not provide any discount value
-
             print(user)
             print(type(user))
             order = Order(name=name, user=user, email_id=email_id, phone=phone, address=address, city=city,
@@ -502,8 +491,6 @@ def pricing_multiplier(request):
             return JsonResponse({'discount_applied': '', 'total': '', 'error': 'Expected integer'})
         plan_id = int(request.POST.get('plan_id'))
         response = discount_validation(plan_id, discount, amount)
-        # response_dict = json.loads(response.getvalue().decode('utf-8'))
-        # print(response_dict)
         return JsonResponse(response)
 
 

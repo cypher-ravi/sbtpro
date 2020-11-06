@@ -1,7 +1,8 @@
-from .models import Employee,DailyAttendance
 from rest_framework import serializers
 
-  
+from .models import DailyAttendance, Employee
+
+
 class EmployeeSerializer(serializers.ModelSerializer):
     """
     Serializer used to serialize data by post request and save it to db,

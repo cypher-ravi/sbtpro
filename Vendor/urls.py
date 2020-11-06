@@ -1,6 +1,10 @@
 from django.urls import path
-from .views import VendorImageDetailView, VendorImagesByVendorID, VendorList ,NewVendorAPI,VendorDetail,VendorImageAPIView, VendorServiceAPIView, VendorServiceDetailView, VendorServicesByVendorID
 from rest_framework.routers import DefaultRouter
+
+from .views import (NewVendorAPI, VendorDetail, VendorImageAPIView,
+                    VendorImageDetailView, VendorImagesByVendorID, VendorList,
+                    VendorServiceAPIView, VendorServiceDetailView,
+                    VendorServicesByVendorID)
 
 router = DefaultRouter()
 router.register("VendorAPI",NewVendorAPI,basename='vendor')

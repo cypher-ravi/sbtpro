@@ -1,7 +1,7 @@
-from .models import Customer
-from website.models import Plan
 from rest_framework import serializers
+from website.models import Plan
 
+from .models import Customer
 
 
 class CustomerSerializer(serializers.ModelSerializer):

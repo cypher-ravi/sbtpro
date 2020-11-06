@@ -1,22 +1,12 @@
 
 import base64
-import io
 
-from django.core.files.base import File
-from website.models import VALID_STATE_CHOICES
+from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from restapi.serializers import CategorySerializer
+from website.models import VALID_STATE_CHOICES
+
 from .models import Vendor, VendorImages, VendorServices, VendorVideos
-from drf_extra_fields.fields import Base64ImageField 
-
-
-
-# class VendorVideosSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = VendorVideos
-#         exclude = []
-
-
 
 
 class VendorListSerializer(serializers.ModelSerializer):
@@ -32,22 +22,10 @@ class VendorListSerializer(serializers.ModelSerializer):
         ]
         depth = 1
 
-    
-        # depth = 1
-        # read_only_fields = ('vendor_id','Name','Mobile_No_2','Address2',
-        #                     'Landline','Status','submit_date','Facebook_URL','Twitter_URL','website_URL','Other_Info')
-
       
 class VendorSerializer(serializers.ModelSerializer):
-    # vendor_images = Base64ImageField(required=False)
-    vendor_images_1 = Base64ImageField(required=False)
-    vendor_images_2 = Base64ImageField(required=False)
-    vendor_images_3 = Base64ImageField(required=False)
-    vendor_images_4 = Base64ImageField(required=False)
-    vendor_images_5 = Base64ImageField(required=False)
-    vendor_images_6 = Base64ImageField(required=False)
-    # vendor_services = VendorServiceSerializer(many=True,read_only=True)
-    # vendor_video = VendorVideosSerializer(many=False, read_only=True)
+
+  
 
     """
     Serializer shows Vendors list, create by ID, retrieve by ID,update by ID
@@ -56,8 +34,6 @@ class VendorSerializer(serializers.ModelSerializer):
         model = Vendor
         fields = '__all__'
         # depth = 1
-
-    
 
 
 
@@ -96,7 +72,7 @@ class VendordetailSerializer(serializers.ModelSerializer):
    
 
 """------------------------------------------------------------------------------------------------------------
-    Vendor Image API
+    Vendor Image and Service API
 """
 
 class VendorImageAPISerializer(serializers.ModelSerializer):

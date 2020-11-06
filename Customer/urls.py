@@ -10,6 +10,5 @@ app_name = 'customer'
 
 urlpatterns = [
     path('<str:slug>/customer_detail/<str:pk>',CustomerDetail.as_view()),
-   
 ]
 urlpatterns += router.urls
