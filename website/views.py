@@ -540,33 +540,53 @@ def log_in(request):
 # return redirect(index)
 
 
+def purchase_vendor(request, slug):# plan_id, user, amount,discount,role):
+    vendor = TOP.objects.all()
+    category = Categories.objects.all()
 
 
-def purchase(request, slug):# plan_id, user, amount,discount,role):
-        vendor = TOP.objects.all()
-        category = Categories.objects.all()
+    plan = Plan.objects.get(plan_id =slug)
+    dict_for_review = {
+        'id' : plan.plan_id,
+        'name': plan.plan_name,
+        'amount': plan.plan_amount,
+        'description_1': plan.description_1,
+        'description_2': plan.description_2,
+        'description_3': plan.description_3,
+        'description_4': plan.description_4,
+    }
+    return render(request, 'website/forms/purchase_form_customer.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
 
 
-        plan = Plan.objects.get(plan_id =slug)
-        dict_for_review = {
-            'id' : plan.plan_id,
-            'name': plan.plan_name,
-            'amount': plan.plan_amount,
-            'description_1': plan.description_1,
-            'description_2': plan.description_2,
-            'description_3': plan.description_3,
-            'description_4': plan.description_4,
-        }
-        return render(request, 'website/forms/purchase_form.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
+
+def purchase_customer(request, slug):# plan_id, user, amount,discount,role):
+    vendor = TOP.objects.all()
+    category = Categories.objects.all()
+
+
+    plan = Plan.objects.get(plan_id =slug)
+    dict_for_review = {
+        'id' : plan.plan_id,
+        'name': plan.plan_name,
+        'amount': plan.plan_amount,
+        'description_1': plan.description_1,
+        'description_2': plan.description_2,
+        'description_3': plan.description_3,
+        'description_4': plan.description_4,
+    }
+    return render(request, 'website/forms/purchase_form_customer.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
 
 def customer_card_purchase(request, plan_id):
     # assuming coming from purchase form but for instance taking from purchase button from index.html
     # about paytm implimentation will here
     # discount won't work if empty
         # if request.user.is_authenticated:
-    discount = request.POST.get('discount')
+
     if request.method == 'POST':
+       
         if request.user.is_authenticated:
+            is_vendor = request.POST.get('is_vendor')
+            discount = request.POST.get('discount')
             plan = Plan.objects.get(plan_id = plan_id)
 
             print('..........',request.user)
@@ -606,7 +626,7 @@ def customer_card_purchase(request, plan_id):
 
             user_amount= plan.plan_amount
             if discount != "" and discount != None:
-                response_dict = discount_validation(plan_id, discount, user_amount)
+                response_dict = discount_validation(plan_id, discount, user_amount, is_vendor)
                 if response_dict['error'] != None:
                     return HttpResponse(response_dict['error'])
                 amount = discount * plan.plan_amount
@@ -669,8 +689,7 @@ def req_handler(request):
             }
 
         # another if to handle if user load refresh
-        is_order_exist = Order_Payment.objects.filter(
-            order_id=form["ORDERID"]).exists()
+        is_order_exist = Order_Payment.objects.filter(order_id=form["ORDERID"]).exists()
         print('............................order', is_order_exist)
         if is_order_exist == False:
             # FOR ALL VALUES
@@ -755,14 +774,14 @@ def req_handler(request):
 
 def pricing_multiplier(request):
     if request.method == "POST":
-
+        is_vendor = request.POST.get('is_vendor')
         amount = int(request.POST.get('amount'))
         try:
             discount = int(request.POST.get('discount'))
         except ValueError:
             return JsonResponse({'discount_applied': '', 'total': '', 'error': 'Expected integer'})
         plan_id = int(request.POST.get('plan_id'))
-        response = discount_validation(plan_id, discount, amount)
+        response = discount_validation(plan_id, discount, amount, is_vendor)
         # response_dict = json.loads(response.getvalue().decode('utf-8'))
         # print(response_dict)
         return JsonResponse(response)

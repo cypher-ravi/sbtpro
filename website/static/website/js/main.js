@@ -353,6 +353,7 @@ window.jQuery(document).ready(function($) {
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
                     discount: $('#discount_val').val(),
                     amount: $('#real_val').val(),
+                    is_vendor : $('#is_vendor').val(),
                 },
                 success: function(data) {
                     if (data.error != null) {
@@ -382,6 +383,7 @@ window.jQuery(document).ready(function($) {
                     plan_id: $('#discount_id').val(),
                     discount: $('#discount_val').val(),
                     amount: $('#real_val').val(),
+                    is_vendor : $('#is_vendor').val(),
                 },
                 success: function(data) {
                     if (data.error != null) {

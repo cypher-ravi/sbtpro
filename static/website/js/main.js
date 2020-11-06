@@ -350,6 +350,7 @@ window.jQuery(document).ready(function($) {
                 dataType: 'json',
                 data: {
                     plan_id: $('#discount_id').val(),
+                    is_vendor:$('#is_vendor').val(),
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
                     discount: $('#discount_val').val(),
                     amount: $('#real_val').val(),
@@ -379,6 +380,7 @@ window.jQuery(document).ready(function($) {
                 dataType: 'json',
                 data: {
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").attr("value"),
+                    is_vendor:$('#is_vendor').val(),
                     plan_id: $('#discount_id').val(),
                     discount: $('#discount_val').val(),
                     amount: $('#real_val').val(),

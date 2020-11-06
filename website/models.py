@@ -107,6 +107,7 @@ class FreeListing(models.Model):
 
 
 class Plan(models.Model):
+
     plan_id = models.AutoField(primary_key=True)
     plan_name = models.CharField(max_length=25, null=False)
     plan_amount = models.IntegerField(null=False)
@@ -117,7 +118,7 @@ class Plan(models.Model):
     description_3 = models.CharField(max_length=50, null=True)
     description_4 = models.CharField(max_length=50, null=True)
     plan_img = models.ImageField(upload_to="website/membershipcard", default="",blank=True,null=True)
-    
+    is_vendor = models.BooleanField(default = False)
     def __str__(self):
         return self.plan_name
 
@@ -141,7 +142,7 @@ class Order(models.Model):
     order_completed = models.BooleanField()
 
     def __str__(self):
-        return 'obj'
+        return self.phone
 
 class Order_Payment(models.Model):
     id = models.AutoField(primary_key = True)

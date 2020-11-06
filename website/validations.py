@@ -41,14 +41,13 @@ def form_validation(form):
 
 
 
-def discount_validation(plan_id, discount, amount):
+def discount_validation(plan_id, discount, amount, is_vendor):
     # to do make secure multiplier in purchase view
     # change the dict passing for plan_review
-    try:
-        id = plan_id
-        plan = Plan.objects.get(plan_id = id)
-    except Exception as e:  
-        return ({'discount_applied':'' ,'total':'' ,'error': 'entered amount is invalid'})
+    print('is_vendor .....................', is_vendor)
+    plan = Plan.objects.filter(plan_id = plan_id).filter(is_vendor = is_vendor).first()
+    if plan == None:
+        return ({'discount_applied':'' ,'total':'' ,'error': 'Invlaid Request'})
     if plan.plan_amount == amount:
         if  discount == 0:
             return ({'discount_applied':'' ,'total':'' ,'error': 'Value should not be 0'})
