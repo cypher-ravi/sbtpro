@@ -46,6 +46,7 @@ class NewEmployeeAPI(viewsets.ModelViewSet):
 
                 return Response({'details':'updated'})
         data = request.data
+        
         user_data = request.data['user']
         serializer = EmployeeSerializer(data=data)
         if serializer.is_valid(raise_exception=True):

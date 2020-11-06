@@ -28,7 +28,6 @@ urlpatterns =[
    path('branch_report/', BranchReportView.as_view(), name='branch_report'),
 
    path('all_employees/',AllEmployeeView.as_view(),name='AllEmployees'), 
-   path('employee_requests/',EmployeeRequestView.as_view(),name='EmployeeRequest'), 
    path('employee/<int:pk>/', DetailEmployeeView.as_view(), name='employee_detail'),
 
    
@@ -37,8 +36,6 @@ urlpatterns =[
    path('<int:pk>/', DetailCategoryView.as_view(), name='category_detail'),
   
 
-   path('new_vendor/',NewVendorView.as_view(),name='NewVendor'), 
-   path('vendor_requests/',VendorRequestView.as_view(),name='VendorRequest'), 
    path('all_vendors/',AllVendorsView.as_view(),name='AllVendors'), 
    path('vendor/<int:pk>/', DetailVendorView.as_view(), name='vendor_detail'),
 

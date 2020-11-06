@@ -1,5 +1,6 @@
 import json
 from os import access
+from django.db import reset_queries
 
 import requests
 from Customer.models import Customer
@@ -268,15 +269,18 @@ class AllEmployeeView(generic.ListView):
     model = Employee
     paginate_by = 12
     template_name = 'dashboard/ViewsAll/all_employees.html'
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(context)
+        branch_user = Branch.objects.filter(user=context['view'].request.user).first()
+        context['branch'] = branch_user
         return context
 
 
-class EmployeeRequestView(View):
-    def get(self,request):
-        return render(request,'dashboard/Requests/EmployeeRequest.html')
+# class EmployeeRequestView(View):
+#     def get(self,request):
+#         return render(request,'dashboard/Requests/EmployeeRequest.html')
         
 
 
@@ -285,6 +289,8 @@ class DetailEmployeeView(DetailView):
     template_name = 'dashboard/detail-edit/employee-view.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        branch_user = Branch.objects.filter(user=context['view'].request.user).first()
+        context['branch'] = branch_user
         return context
 
 
@@ -326,15 +332,22 @@ class AllCategoriesView(generic.ListView):
     paginate_by = 10
     template_name = 'dashboard/ViewsAll/all_categories.html'
     
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        branch_user = Branch.objects.filter(user=context['view'].request.user).first()
+        context['branch'] = branch_user
         return context
 
 class DetailCategoryView(DetailView):
     model = Categories
     template_name = 'dashboard/detail-edit/category-view.html'
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        branch_user = Branch.objects.filter(user=context['view'].request.user).first()
+        context['branch'] = branch_user
         return context
 
 
@@ -347,15 +360,15 @@ class TestView(View):
 
 
 
-class NewVendorView(View):
-    def get(self,request):
-        form = NewVendorForm()
-        return render(request,'dashboard/forms/NewVendorForm.html',{'form':form})
+# class NewVendorView(View):
+#     def get(self,request):
+#         form = NewVendorForm()
+#         return render(request,'dashboard/forms/NewVendorForm.html',{'form':form})
 
 
-class VendorRequestView(View):
-    def get(self,request):
-        return render(request,'dashboard/Requests/VendorRequest.html')
+# class VendorRequestView(View):
+#     def get(self,request):
+#         return render(request,'dashboard/Requests/VendorRequest.html')
 
 class AllVendorsView(generic.ListView):
     """
@@ -364,9 +377,13 @@ class AllVendorsView(generic.ListView):
     model = Vendor
     paginate_by = 10
     template_name = 'dashboard/ViewsAll/all_vendors.html'
+
+
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        branch_user = Branch.objects.filter(user=context['view'].request.user).first()
+        context['branch'] = branch_user
         return context
 
 
@@ -374,8 +391,13 @@ class AllVendorsView(generic.ListView):
 class DetailVendorView(DetailView):
     model = Vendor
     template_name = 'dashboard/detail-edit/vendor-view.html'
+
+ 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        branch_user = Branch.objects.filter(user=context['view'].request.user).first()
+        context['branch'] = branch_user
         return context
 
 
@@ -387,8 +409,12 @@ class AllResumeView(generic.ListView):
     paginate_by = 10
     template_name = 'dashboard/ViewsAll/all_resumes.html'
     
+  
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        branch_user = Branch.objects.filter(user=context['view'].request.user).first()
+        context['branch'] = branch_user
         return context
 
     
@@ -434,6 +460,8 @@ class AllBannerView(generic.ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        branch_user = Branch.objects.filter(user=context['view'].request.user).first()
+        context['branch'] = branch_user
         return context
 
 
@@ -464,9 +492,13 @@ class AllCustomerView(generic.ListView):
     model = Customer
     paginate_by = 10
     template_name = 'dashboard/ViewsAll/all_customer.html'
-    
+
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        branch_user = Branch.objects.filter(user=context['view'].request.user).first()
+        context['branch'] = branch_user
         return context
 
 class DetailCustomerView(DetailView):
@@ -474,6 +506,8 @@ class DetailCustomerView(DetailView):
     template_name = 'dashboard/detail-edit/customer-view.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        branch_user = Branch.objects.filter(user=context['view'].request.user).first()
+        context['branch'] = branch_user
         return context
 
 

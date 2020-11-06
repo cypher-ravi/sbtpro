@@ -101,6 +101,9 @@ class FaqAdmin(admin.ModelAdmin):
         js = ('website/js/tinyinject.js',)
 
 
+class FrenchiseAdmin(admin.ModelAdmin):
+    list_filter = ['submit_time']
+
 
 # Register your models here.
 admin.site.register(FreeListing, FreelistingAdmin)
