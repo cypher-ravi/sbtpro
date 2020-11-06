@@ -3,11 +3,15 @@
 
 {% block css %}
 <style>
-  .container-top{
-  margin-top:135px;
-  width:
-  }
-  
+    .container-top {
+        margin-top: 135px;
+        
+    }
+    .btn-custom:hover {
+  background-color: #343a40;
+  color: white;
+  border-color: #343a40;
+}
 </style>
 {% endblock %}
 {% block body %}
@@ -15,66 +19,75 @@
 
 <div class="container container-top">
     <!--    alert-->
-<!--    alert-->
-  <div class="col my-4">
-  <br>
+    <!--    alert-->
+    <div class="col my-4">
+        <br>
         <h3>
-List your business with India's leading search engine</h3>
-    <p>Enter your details below:</p><br>
+            List your business with India's leading search engine</h3>
+        <p>Enter your details below:</p><br>
         <form action="/sbt/become_a_vendor/" method="post">{% csrf_token %}
-        <input type="hidden" name="freelisting_form" id="freelisting_form" value="form_for_freelisting">
+            <input type="hidden" name="freelisting_form" id="freelisting_form" value="form_for_freelisting">
             <input type="hidden" name="itemsJson" id="itemsJson">
             <input type="hidden" name="amount" id="amount">
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="companyname" name="companyname" required minlength="5" placeholder="Business Name">
+                    <input type="text" class="form-control" id="companyname" name="companyname" required minlength="5"
+                        placeholder="Business Name">
                 </div>
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" id="location" name="location" required minlength="3" placeholder="Location">
+                    <input type="text" class="form-control" id="location" name="location" required minlength="3"
+                        placeholder="Location">
                 </div>
             </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="firstname" name="firstname" required minlength="4" placeholder="First Name">
-            </div>
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" name="lastname" id="lastname" required minlength="4" placeholder="Last Name">
-            </div>
-          </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" name="city" id="city" required minlength="3" placeholder="City">
+                    <input type="text" class="form-control" id="firstname" name="firstname" required minlength="4"
+                        placeholder="First Name">
                 </div>
-                <div class="form-group col-md-4">
-                    <input type="text" class="form-control" name="state" id="state"  required minlength="3" placeholder="State">
-                </div>
-                <div class="form-group col-md-2" id="div_zip">
-                    <input type="text" class="form-control" name="zip_code" id="zip_code" required minlength="4" placeholder="Zip code">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" name="lastname" id="lastname" required minlength="4"
+                        placeholder="Last Name">
                 </div>
             </div>
-              <div class="form-row" >
-            <div class="form-group col-md-4" id="div_phone">
-                <input type="text" class="form-control" id="phone" minlength="10" name="phone" required placeholder="Mobile Number">
-                            </div>
-
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" name="city" id="city" required minlength="3"
+                        placeholder="City">
+                </div>
                 <div class="form-group col-md-4">
-                <input type="email" class="form-control" id="email" name="email" minlength="12" required placeholder="Email">
+                    <input type="text" class="form-control" name="state" id="state" required minlength="3"
+                        placeholder="State">
+                </div>
+                <div class="form-group col-md-2" id="div_zip">
+                    <input type="text" class="form-control" name="zip_code" id="zip_code" required minlength="4"
+                        placeholder="Zip code">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4" id="div_phone">
+                    <input type="text" class="form-control" id="phone" minlength="10" name="phone" required
+                        placeholder="Mobile Number">
                 </div>
 
-          </div>
+                <div class="form-group col-md-4">
+                    <input type="email" class="form-control" id="email" name="email" minlength="12" required
+                        placeholder="Email">
+                </div>
 
-            <input class="color-two" type="submit" value="Submit" style="width: 100px;height: 40px; padding: 8px;">
-            
+            </div>
+
+            <button type="submit" class="color-two btn-custom">Submit</button>
+
         </form>
     </div>
 
 
 </div>
-  {% block js %}
-  
-    
+{% block js %}
 
-  
-  {% endblock %}
+
+
+
+{% endblock %}
 
 {% endblock %}

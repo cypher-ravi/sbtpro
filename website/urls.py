@@ -14,12 +14,12 @@ app_name = 'website'
 
 urlpatterns = [
 
-    
+
 
 
     # path('inf_scroll', views.ArticlesView.as_view()),
     # path("test/<int:slug>", views.test, name="test"),
-    
+
     path("test", views.test, name="test"),
     # path('ankit-test', views.template_test, name="ankit-test"),
 
@@ -55,7 +55,7 @@ urlpatterns = [
     path('TermsCondition/', views.tac, name='Terms_and_condition'),
 #     path('username_validator', views.username_validator, name="uv"),"""
 
-  
+
     # Payment, Purchase, Order Urls
     path("purchase/<int:slug>", views.purchase, name="plan-purchase"),
     path("customer_card_purchase/<int:plan_id>", views.customer_card_purchase, name='card-purchase'),
@@ -70,7 +70,7 @@ urlpatterns = [
 #     path('signup/', views.sign_up, name='SignUp'),
 #     path('login/', views.log_in, name='Login'),
 #     path('logout/', views.logout_view, name='Logout')
-    
+
     # Password Reset Urls
 #     path('reset_password/',
 #          auth_views.PasswordResetView.as_view

@@ -1,0 +1,850 @@
+﻿{% extends 'website/layout.html'%}
+{% block body %}
+
+<style>
+    .h6,
+    h6 {
+        font-size: .75rem !important;
+        font-weight: 500;
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.5em;
+        text-transform: uppercase;
+    }
+
+    .name h6 {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+
+
+    a .material-icons {
+        vertical-align: middle;
+    }
+
+    .fixed-top {
+        position: fixed;
+        z-index: 1030;
+        left: 0;
+        right: 0;
+    }
+
+    .profile-page .page-header {
+        height: 500px;
+        background-position: center;
+    }
+
+    .page-header {
+        height: 100vh;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .header-filter:after,
+    .header-filter:before {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        display: block;
+        left: 0;
+        top: 0;
+        content: "";
+    }
+
+    .header-filter::before {
+        background: rgba(0, 0, 0, .5);
+    }
+
+    .main-raised {
+        margin: -60px 30px 0;
+        border-radius: 6px;
+        box-shadow: 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .2);
+    }
+
+    .main {
+        background: #FFF;
+        position: relative;
+        z-index: 3;
+    }
+
+    .profile-page .profile {
+        text-align: center;
+    }
+
+    .profile-page .profile img {
+        max-width: 160px;
+        width: 100%;
+        margin: 0 auto;
+        -webkit-transform: translate3d(0, -50%, 0);
+        -moz-transform: translate3d(0, -50%, 0);
+        -o-transform: translate3d(0, -50%, 0);
+        -ms-transform: translate3d(0, -50%, 0);
+        transform: translate3d(0, -50%, 0);
+    }
+
+    .img-raised {
+        box-shadow: 0 5px 15px -8px rgba(0, 0, 0, .24), 0 8px 10px -5px rgba(0, 0, 0, .2);
+    }
+
+    .rounded-circle {
+        border-radius: 50% !important;
+    }
+
+    .img-fluid,
+    .img-thumbnail {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .title {
+        margin-top: 30px;
+        margin-bottom: 25px;
+        min-height: 32px;
+        color: #3C4858;
+        font-weight: 700;
+        font-family: "Roboto Slab", "Times New Roman", serif;
+    }
+
+    .profile-page .description {
+        margin: 1.071rem auto 0;
+        max-width: 600px;
+        color: #999;
+        font-weight: 300;
+    }
+
+    p {
+        font-size: 14px;
+        margin: 0 0 10px;
+    }
+
+    .profile-page .profile-tabs {
+        margin-top: 4.284rem;
+    }
+
+
+    .tab-space {
+        padding: 20px 0 50px;
+    }
+
+    .profile-page .gallery {
+        margin-top: 3.213rem;
+        padding-bottom: 50px;
+    }
+
+    .profile-page .gallery img {
+        width: 100%;
+        margin-bottom: 2.142rem;
+    }
+
+    .profile-page .profile .name {
+        margin-top: -80px;
+    }
+
+    img.rounded {
+        border-radius: 6px !important;
+    }
+
+    .tab-content>.active {
+        display: block;
+    }
+
+    /*buttons*/
+    .btn {
+        position: relative;
+        padding: 12px 30px;
+        margin: .3125rem 1px;
+        font-size: .75rem;
+        font-weight: 400;
+        line-height: 1.428571;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0;
+        border: 0;
+        border-radius: .2rem;
+        outline: 0;
+        transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1);
+        will-change: box-shadow, transform;
+    }
+
+    .btn.btn-just-icon {
+        font-size: 20px;
+        height: 41px;
+        min-width: 41px;
+        width: 41px;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        line-height: 41px;
+    }
+
+    .btn.btn-just-icon fa {
+        margin-top: 0;
+        position: absolute;
+        width: 100%;
+        transform: none;
+        left: 0;
+        top: 0;
+        height: 100%;
+        line-height: 41px;
+        font-size: 20px;
+    }
+
+    .btn.btn-link {
+        background-color: transparent;
+        color: #999;
+    }
+
+    /* dropdown */
+
+
+    .ADD {
+        font-weight: 700;
+        font-family: "quicksand";
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        font-size: 1.25rem;
+        margin: 20px auto 0;
+    }
+
+
+
+    .card {
+
+
+        height: 179px;
+    }
+
+    .rate {
+
+        height: 46px;
+        padding: 0 10px;
+        float: left;
+    }
+
+    .rate2 {
+        margin-top: -161px;
+
+    }
+
+    .rate:not(:checked)>input {
+        position: absolute;
+        left: -1000px;
+    }
+
+    .rate:not(:checked)>label {
+        float: right;
+        width: 1.2em;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 30px;
+        color: #ccc;
+    }
+
+    .rate:not(:checked)>label:before {
+        content: '★ ';
+    }
+
+    .rate>input:checked~label {
+        color: #ffc700;
+    }
+
+    .rate:not(:checked)>label:hover,
+    .rate:not(:checked)>label:hover~label {
+        color: #deb217;
+    }
+
+    .rate>input:checked+label:hover,
+    .rate>input:checked+label:hover~label,
+    .rate>input:checked~label:hover,
+    .rate>input:checked~label:hover~label,
+    .rate>label:hover~input:checked~label {
+        color: #c59b08;
+    }
+
+    .set_centre_feedback_form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .avatar {
+    height: 70px;}
+
+    .color {
+        background-color: whitesmoke;
+        padding-left: 26px;
+    }
+
+    @media only screen and (max-width: 600px) {
+        .hide-on-mobile-only {
+            display: none !important;
+        }
+
+        @media only screen and (min-width: 1200px) {
+            .hide-on-desktop-only {
+                display: none !important;
+            }
+        }
+
+        /* footer */
+</style>
+
+<head>
+
+</head>
+
+<body class="profile-page">
+
+    <div class="page-header header-filter" data-parallax="true"
+        style="background-image:url('https://source.unsplash.com/collection/190727/1600x900');"></div>
+    <div class="main main-raised">
+        <div class="profile-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 ml-auto mr-auto">
+                        <div class="profile">
+                            <div class="hide-on-desktop-only">
+                                <div class="avatar">
+                                    <img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU0NjQzOTk4OTQ4OTkyMzQy/ansel-elgort-poses-for-a-portrait-during-the-baby-driver-premiere-2017-sxsw-conference-and-festivals-on-march-11-2017-in-austin-texas-photo-by-matt-winkelmeyer_getty-imagesfor-sxsw-square.jpg"
+                                        alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                                </div>
+                            </div>
+                            <div class="hide-on-mobile-only">
+                                <div class=" avatar ">
+                                    <img src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTU0NjQzOTk4OTQ4OTkyMzQy/ansel-elgort-poses-for-a-portrait-during-the-baby-driver-premiere-2017-sxsw-conference-and-festivals-on-march-11-2017-in-austin-texas-photo-by-matt-winkelmeyer_getty-imagesfor-sxsw-square.jpg"
+                                        alt="Circle Image" class="img-raised rounded-circle img-fluid"
+                                        style=" margin-left: -710px;">
+                            
+                            
+                           
+                                <div class="rate">
+                                    <input type="radio" id="star5" name="rate" value="5" />
+                                    <label for="star5" title="text">. </label>
+                                    <input type="radio" id="star4" name="rate" value="4" />
+                                    <label for="star4" title="text">. </label>
+                                    <input type="radio" id="star3" name="rate" value="3" />
+                                    <label for="star3" title="text">. </label>
+                                    <input type="radio" id="star2" name="rate" value="2" />
+                                    <label for="star2" title="text"> . </label>
+                                    <input type="radio" id="star1" name="rate" value="1" />
+                                    <label for="star1" title="text">. </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="name">
+                        <div>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quia ullam ipsa
+                            corporis id maiores velit suscipit modi aliquid aperiam, laudantium ad incidunt
+                            dolores obcaecati qui sunt est consequuntur vel!
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, animi omnis sit natus debitis esse harum minima quia perspiciatis facilis aliquam ex maiores iste. Quaerat pariatur rerum beatae eos aspernatur.
+
+                        </div>
+                        <h3 class="title">our main servies </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+
+        <!--Controls-->
+        <div class="controls-top" data-aos="fade">
+            <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fas fa-chevron-left"></i></a>
+            <a class="btn-floating" href="#multi-item-example" data-slide="next"><i
+                    class="fas fa-chevron-right"></i></a>
+        </div>
+        <!--/.Controls-->
+
+        <!--Indicators-->
+
+        <p style="
+            font-weight: 600;
+            margin-left: 40px;
+            margin-top: -29px;
+        "> scroll trending services</p>
+        <!--/.Indicators-->
+
+        <!--Slides-->
+        <div class="carousel-inner " role="listbox" id="scrol" data-aos="fade">
+
+            <!--First slide-->
+            <div class="carousel-item active">
+
+                <div class="col-md-3" style="float:left">
+                    <div class="card mb-2">
+                        <img class="card-img-top"
+                            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
+                            alt="Card image cap">
+
+                    </div>
+                </div>
+
+                <div class="col-md-3" style="float:left">
+                    <div class="card mb-2">
+                        <img class="card-img-top"
+                            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
+                            alt="Card image cap">
+
+                    </div>
+                </div>
+
+                <div class="col-md-3" style="float:left">
+                    <div class="card mb-2">
+                        <img class="card-img-top"
+                            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
+                            alt="Card image cap">
+
+                    </div>
+                </div>
+
+                <div class="col-md-3" style="float:left">
+                    <div class="card mb-2">
+                        <img class="card-img-top"
+                            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
+                            alt="Card image cap">
+
+                    </div>
+                </div>
+
+            </div>
+            <!--/.First slide-->
+
+            <!--Second slide-->
+            <div class="carousel-item   ">
+
+                <div class="col-md-3" style="float:left">
+                    <div class="card mb-2">
+                        <img class="card-img-top"
+                            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
+                            alt="Card image cap">
+
+                    </div>
+                </div>
+
+                <div class="col-md-3" style="float:left">
+                    <div class="card mb-2">
+                        <img class="card-img-top"
+                            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(47).jpg"
+                            alt="Card image cap">
+
+                    </div>
+                </div>
+
+                <div class="col-md-3" style="float:left">
+                    <div class="card mb-2">
+                        <img class="card-img-top"
+                            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg"
+                            alt="Card image cap">
+
+                    </div>
+                </div>
+
+                <div class="col-md-3" style="float:left">
+                    <div class="card mb-2">
+                        <img class="card-img-top"
+                            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(47).jpg"
+                            alt="Card image cap">
+
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Second slide-->
+
+
+
+        </div>
+        <!--/.Slides-->
+
+    </div>
+    <!-- <section class="text-gray-700 body-font overflow-hidden">
+                <div class="container px-5 py-24 mx-auto">
+                    <div class="lg:w-4/5 mx-auto flex flex-wrap">
+                        <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400" style="
+                        width: 326px;
+                        height: 242px;
+                        margin: 25px;
+                        margin-left: 482px;
+                    ">
+                     <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0" style="
+                     margin-top: -279px;
+                     position: absolute;
+                 ">
+                            <h1 class="text-gray-900 text-3xl title-font font-medium mb-1"> Address</h1>
+                            
+                            <address>
+
+                               <h5> Shiv Colony, gali no. 13 <br>
+                                Sector-12 <br>
+                                Karnal,(132001) <br>
+                                haryana <br>    
+                                India</h5>
+                            </address>
+
+
+                        </div>
+                    </div>
+                </div>
+            </section> -->
+
+    <div class="container" style="
+            margin-bottom: 62px;
+            margin-top: 58px;">
+        <span class="border border-white">
+            <hr>
+            <h4 style="TEXT-ALIGN: center;margin-left: -85px;">contact us <i class="far fa-address-card"></i>
+
+            </h4>
+            <div class="row">
+                <div class="col-sm  " style="
+                    margin-left: 50px;
+                ">
+                    <div class="ADD"> ADDRESS <i class="fa fa-map-marker" aria-hidden="true"></i></div>
+                    716/ Sector-14<br>
+                    Karnal<br>
+                    haryana (India )
+                </div>
+                <div class="col-sm  " style="
+                    margin-left: 50px;
+                ">
+                    <div class="ADD"> NUMBER <i class="fas fa-phone"></i> </div>
+                    8607691917
+                </div>
+                <div class="col-sm  " style="
+                    margin-left: 50px;
+                ">
+                    <div class="ADD"> EMAIL <i class="far fa-envelope-open"></i></div>
+                    <contact@gmil class="com"></contact@gmil>contact@gmail.com
+                </div>
+            </div>
+            <hr>
+    </div>
+
+    <div class="row set_centre_feedback_form" style="margin-top: -148px;">
+
+        <div class="col-md-5 col-md-offset-3 form-container my-5 ml-2 mr-3">
+            <div class="color">
+                <h3 class="mt-5">Please rate your experience </h3>
+
+                <form role="form" method="post" action="/sbt/feedback/">{% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-12 form-group">
+                            <label>How do you rate your overall experience?</label><br>
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-10 form-group pr-5">
+                            <label for="comments">
+                            </label>
+                            <textarea class="form-control " type="textarea" name="comments" id="comments"
+                                placeholder="  WRITE YOUR REVIEW......." maxlength="6000" rows="7"></textarea>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-sm-6 form-group pr-5">
+                            <label for="name">
+                                Your Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="col-sm-6 form-group pr-5">
+                            <label for="email">
+                                Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <button class="bt2"
+                            style="width: 152px;background: #fe4c1c;border-radius: 43px;color: white;">Post<i
+                                class="fas fa-arrow-right"></i> </button>
+                    </div>
+            </div>
+        </div>
+
+        </form>
+        <div id="success_message" style="width:100%; height:100%; display:none; ">
+            <h3>Posted your feedback successfully!</h3>
+        </div>
+        <div id="error_message" style="width:100%; height:100%; display:none; ">
+            <h3>Error</h3>
+            Sorry there was an error sending your form.
+
+        </div>
+    </div>
+    </div>
+    </span>
+
+    </div>
+    </div>
+    </div>
+
+
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+        integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+        integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+        crossorigin="anonymous"></script>
+
+
+    <script>
+        var big_image;
+
+        $(document).ready(function () {
+            BrowserDetect.init();
+
+            // Init Material scripts for buttons ripples, inputs animations etc, more info on the next link https://github.com/FezVrasta/bootstrap-material-design#materialjs
+            $('body').bootstrapMaterialDesign();
+
+            window_width = $(window).width();
+
+            $navbar = $('.navbar[color-on-scroll]');
+            scroll_distance = $navbar.attr('color-on-scroll') || 500;
+
+            $navbar_collapse = $('.navbar').find('.navbar-collapse');
+
+            //  Activate the Tooltips
+            $('[data-toggle="tooltip"], [rel="tooltip"]').tooltip();
+
+            // Activate Popovers
+            $('[data-toggle="popover"]').popover();
+
+            if ($('.navbar-color-on-scroll').length != 0) {
+                $(window).on('scroll', materialKit.checkScrollForTransparentNavbar);
+            }
+
+            materialKit.checkScrollForTransparentNavbar();
+
+            if (window_width >= 768) {
+                big_image = $('.page-header[data-parallax="true"]');
+                if (big_image.length != 0) {
+                    $(window).on('scroll', materialKit.checkScrollForParallax);
+                }
+
+            }
+
+
+        });
+
+        $(document).on('click', '.navbar-toggler', function () {
+            $toggle = $(this);
+
+            if (materialKit.misc.navbar_menu_visible == 1) {
+                $('html').removeClass('nav-open');
+                materialKit.misc.navbar_menu_visible = 0;
+                $('#bodyClick').remove();
+                setTimeout(function () {
+                    $toggle.removeClass('toggled');
+                }, 550);
+
+                $('html').removeClass('nav-open-absolute');
+            } else {
+                setTimeout(function () {
+                    $toggle.addClass('toggled');
+                }, 580);
+
+
+                div = '<div id="bodyClick"></div>';
+                $(div).appendTo("body").click(function () {
+                    $('html').removeClass('nav-open');
+
+                    if ($('nav').hasClass('navbar-absolute')) {
+                        $('html').removeClass('nav-open-absolute');
+                    }
+                    materialKit.misc.navbar_menu_visible = 0;
+                    $('#bodyClick').remove();
+                    setTimeout(function () {
+                        $toggle.removeClass('toggled');
+                    }, 550);
+                });
+
+                if ($('nav').hasClass('navbar-absolute')) {
+                    $('html').addClass('nav-open-absolute');
+                }
+
+                $('html').addClass('nav-open');
+                materialKit.misc.navbar_menu_visible = 1;
+            }
+        });
+
+        materialKit = {
+            misc: {
+                navbar_menu_visible: 0,
+                window_width: 0,
+                transparent: true,
+                fixedTop: false,
+                navbar_initialized: false,
+                isWindow: document.documentMode || /Edge/.test(navigator.userAgent)
+            },
+
+            initFormExtendedDatetimepickers: function () {
+                $('.datetimepicker').datetimepicker({
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-chevron-up",
+                        down: "fa fa-chevron-down",
+                        previous: 'fa fa-chevron-left',
+                        next: 'fa fa-chevron-right',
+                        today: 'fa fa-screenshot',
+                        clear: 'fa fa-trash',
+                        close: 'fa fa-remove'
+                    }
+                });
+            },
+
+            initSliders: function () {
+                // Sliders for demo purpose
+                var slider = document.getElementById('sliderRegular');
+
+                noUiSlider.create(slider, {
+                    start: 40,
+                    connect: [true, false],
+                    range: {
+                        min: 0,
+                        max: 100
+                    }
+                });
+
+                var slider2 = document.getElementById('sliderDouble');
+
+                noUiSlider.create(slider2, {
+                    start: [20, 60],
+                    connect: true,
+                    range: {
+                        min: 0,
+                        max: 100
+                    }
+                });
+            },
+
+            checkScrollForParallax: function () {
+                oVal = ($(window).scrollTop() / 3);
+                big_image.css({
+                    'transform': 'translate3d(0,' + oVal + 'px,0)',
+                    '-webkit-transform': 'translate3d(0,' + oVal + 'px,0)',
+                    '-ms-transform': 'translate3d(0,' + oVal + 'px,0)',
+                    '-o-transform': 'translate3d(0,' + oVal + 'px,0)'
+                });
+            },
+
+            checkScrollForTransparentNavbar: debounce(function () {
+                if ($(document).scrollTop() > scroll_distance) {
+                    if (materialKit.misc.transparent) {
+                        materialKit.misc.transparent = false;
+                        $('.navbar-color-on-scroll').removeClass('navbar-transparent');
+                    }
+                } else {
+                    if (!materialKit.misc.transparent) {
+                        materialKit.misc.transparent = true;
+                        $('.navbar-color-on-scroll').addClass('navbar-transparent');
+                    }
+                }
+            }, 17)
+        };
+
+        // Returns a function, that, as long as it continues to be invoked, will not
+        // be triggered. The function will be called after it stops being called for
+        // N milliseconds. If `immediate` is passed, trigger the function on the
+        // leading edge, instead of the trailing.
+
+        function debounce(func, wait, immediate) {
+            var timeout;
+            return function () {
+                var context = this,
+                    args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(function () {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                }, wait);
+                if (immediate && !timeout) func.apply(context, args);
+            };
+        };
+
+        var BrowserDetect = {
+            init: function () {
+                this.browser = this.searchString(this.dataBrowser) || "Other";
+                this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "Unknown";
+            },
+            searchString: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var dataString = data[i].string;
+                    this.versionSearchString = data[i].subString;
+
+                    if (dataString.indexOf(data[i].subString) !== -1) {
+                        return data[i].identity;
+                    }
+                }
+            },
+            searchVersion: function (dataString) {
+                var index = dataString.indexOf(this.versionSearchString);
+                if (index === -1) {
+                    return;
+                }
+
+                var rv = dataString.indexOf("rv:");
+                if (this.versionSearchString === "Trident" && rv !== -1) {
+                    return parseFloat(dataString.substring(rv + 3));
+                } else {
+                    return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
+                }
+            },
+
+            dataBrowser: [{
+                string: navigator.userAgent,
+                subString: "Chrome",
+                identity: "Chrome"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "MSIE",
+                identity: "Explorer"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "Trident",
+                identity: "Explorer"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "Firefox",
+                identity: "Firefox"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "Safari",
+                identity: "Safari"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "Opera",
+                identity: "Opera"
+            }
+            ]
+
+        };
+    </script>
+
+</body>
+
+
+{% endblock %}

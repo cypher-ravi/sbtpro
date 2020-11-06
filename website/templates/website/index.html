@@ -1,18 +1,20 @@
 {% extends 'website/layout.html' %} {% block title %}SBT Professionals - Best Customer Service Provider{% endblock %}
 {% block css %}
 <style>
-    .carousel-item{
+    .carousel-item {
         overflow-x: auto;
     }
-    .carousel-item::-webkit-scrollbar{
-width: 0px;
+
+    .carousel-item::-webkit-scrollbar {
+        width: 0px;
     }
+
     p {
-    margin-top: -6px;
-   
-    line-height: 1.875;
-    margin-left: 23px;
-}
+        margin-top: -6px;
+
+        line-height: 1.875;
+        margin-left: 23px;
+    }
 
     address {
         margin-left: 23px;
@@ -49,9 +51,6 @@ width: 0px;
     textarea {
         width: 223px;
     }
-
-
-   
 </style>
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 {% endblock css %} {% block body %} {% load static %}
@@ -61,7 +60,7 @@ width: 0px;
 
     <!-- Slider Start -->
     <div class="relative">
-                                      
+
         <!-- slider item 1 -->
 
         <div class="item">
@@ -126,8 +125,8 @@ width: 0px;
                             <span class="welcome">Welcome to SBT Professionals</span>
                             <div><span class="subtitle" style="font-size: 43PX;">Grow Your Business We provide <br><b
                                         class="underline-small">Vendors,Custmers,services.</b></span></div>
-                            <h2 class="title" style="font-size: 43PX;margin-left: -410px; 
-                            
+                            <h2 class="title" style="font-size: 43PX;margin-left: -410px;
+
                                     <span id=" typed" class="underline-large"></span>
                                 </h1>
                                 <div class="header">
@@ -144,7 +143,15 @@ width: 0px;
                                             <i style="margin-left: 4px;" class="fas fa-globe icon"> </i>
 
 
-                                            <input list="browsers" name="search" id="query" placeholder="search" style="border-radius: 42px;height: 45px;border-color: #fe4c1c;padding-left: 38px;font-weight: 600;width: 222px;margin-bottom: 4px;">
+                                            <input list="browsers" name="browser" id="browser" placeholder="search"
+                                                style="border-radius: 42px;height: 45px;border-color: #fe4c1c;padding-left: 38px;font-weight: 600;width: 222px;margin-bottom: 4px;">
+                                            <datalist id="browsers">
+                                                <option value="location">
+                                                <option value="product">
+                                                <option value="category">
+                                                <option value="serveris">
+                                                <option value="data">
+                                            </datalist>
                                             <i class="fas fa-hand-point-right icon" style="
     margin-top: -2px;
 "></i>
@@ -161,7 +168,7 @@ width: 0px;
                 </div>
             </div>
         </div>
-       
+
     </div>
     </div>
     <!-- Slider End-->
@@ -253,14 +260,14 @@ width: 0px;
             </div>
         </div>
     </div> {% endcomment %}
-<hr>
+    <hr>
 
     <!-- services carousel end -->
 
     <!-- services carousel end -->
     <!-- why-us area start -->
     <!--Carousel Wrapper-->
-    <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel" >
+    <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
 
         <!--Controls-->
         <div class="controls-top" data-aos="fade">
@@ -271,8 +278,8 @@ width: 0px;
         <!--/.Controls-->
 
         <!--Indicators-->
-        
-         <p style="
+
+        <p style="
     font-weight: 600;
     margin-left: 40px;
     margin-top: -29px;
@@ -280,7 +287,7 @@ width: 0px;
         <!--/.Indicators-->
 
         <!--Slides-->
-        <div class="carousel-inner" role="listbox" id="scrol"  data-aos="fade">
+        <div class="carousel-inner " role="listbox" id="scrol" data-aos="fade">
 
             <!--First slide-->
             <div class="carousel-item active">
@@ -320,7 +327,7 @@ width: 0px;
                             <div class="section-title">
                                 <div>
                                     <h3>
-                                        We Can Help You To Promote Your Business
+                                        We Can Help You To Promote Your <a href="/sbt/"> Business </a>
                                     </h3>
                                     <div class="bar"></div>
                                 </div>
@@ -371,7 +378,7 @@ width: 0px;
                 </div>
             </div>
             <!-- .tbl-pricing -->
-            <div class="tbl-pricing" >
+            <div class="tbl-pricing">
                 <div class="row">
 
                     {% for plan in plans|slice:3 %}
@@ -418,7 +425,7 @@ width: 0px;
                 </div>
                 <!-- pricing area end -->
                 <!-- widget-call area start -->
-                <div id="widget-call" class="call-to-action-area bg-cta image-overly-dark-opacity" >
+                <div id="widget-call" class="call-to-action-area bg-cta image-overly-dark-opacity">
                     <div class="container opac">
                         <div class="row justify-content-xl-between justify-content-lg-center justify-content-center">
                             <div class="col-xl-7 col-lg-8 col-md-10 cta-center">
@@ -444,9 +451,8 @@ width: 0px;
                 <!-- widget-call area end -->
 
                 <!-- services image area start -->
-                <div id="services_image" class="wrap-bg wrap-bg-light"   data-aos="flip-left"
-                data-aos-easing="ease-out-cubic"
-                data-aos-duration="2000" >
+                <div id="services_image" class="wrap-bg wrap-bg-light" data-aos="flip-left"
+                    data-aos-easing="ease-out-cubic" data-aos-duration="2000">
                     <div class="container">
                         <div class="row justify-content-center text-center">
                             <div class="col-lg-8">
@@ -547,7 +553,7 @@ width: 0px;
                 <!-- services image area end -->
 
                 <!-- why-us area start -->
-                <div id="why-us" class="wrap-bg-second" >
+                <div id="why-us" class="wrap-bg-second">
                     <div class="row">
                         <div
                             class="col-xs-12 col-sm-12 col-md-12 col-xl-6 col-lg-5 services-detail-why why-us-left-bg2">
@@ -620,12 +626,12 @@ width: 0px;
                     <div class="cover">
                         <!-- End Video -->
                         <!-- Container for title and button -->
-                        <div id="testimonials" class="video-play-content wrap-bg">
+                        <!-- <div id="testimonials" class="video-play-content wrap-bg">
                             <div class="container clearfix">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12 col-lg-8 center-column">
-                                        <div class="carousel-slider general-slider">
-
+                                        <div class="carousel-slider general-slider"> -->
+                                            &nbsp
                                             {% for test in testimonials %}
                                             <div class="col-sm-3">
                                                 <!-- 1 -->
@@ -676,7 +682,7 @@ width: 0px;
         });
     });
 </script>
-<!-- 
+<!--
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmd00x9I5t_lJ-P-C2yAa5hnkIyKRhVow&callback=initMap"
     type="text/javascript"></script> -->
@@ -727,7 +733,7 @@ $(function(){
 
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
-  AOS.init(  {  offset: 200,});
+    AOS.init({ offset: 200, });
 </script>
 
 {% endblock %}
