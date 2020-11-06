@@ -1,3 +1,4 @@
+from Customer.models import *
 from django.conf import settings
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
@@ -10,8 +11,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from geopy.geocoders import Nominatim
 from Vendor.models import KeyWord, Vendor, VendorServices
-from Customer.models import *
+
 from .DummyData import DummyData
+
 # To import for login,Signup
 """
 from django.contrib.auth.models import User
@@ -20,7 +22,6 @@ from django.contrib.auth.models import User
 import json
 import math
 import random
-
 
 import requests
 from django.contrib.auth import authenticate, login, logout
@@ -151,34 +152,31 @@ def jobs(request):
 
 def upload_resume(request):
     category = Categories.objects.all()
-    try:
-        if request.method == "POST":
-            name = request.POST.get('contactName', '')
-            uploaded_resume = request.FILES['myfile']
-            if name:
-                resume = Upload_resume(name=name, Resume=uploaded_resume)
-                resume.save()
-                fs = FileSystemStorage()
-                fs.save(uploaded_resume.name, uploaded_resume)
-                messages.success(request,
-                                 'Resume submission successful. SBT Professional team Contact You within 24 hours.')
-                try:
-                    file = settings.MEDIA_URL[1:] + str(uploaded_resume)
-                    from django.core.mail import EmailMessage
-                    msg = EmailMessage('New job Seeker on your website', 'name =' + name, parameters['from_email'],
-                                       [parameters['to_email']])
-                    msg.attach_file(file)
-                    msg.send()
-                except Exception as e:
-                    messages.error(request,'Failed to uplaod Resume! Try Again.')
-                    return redirect('website:Sbthome')
-            else:
-                messages.error(request, 'Before submit resume Enter your name')
+    if request.method == "POST":
+        name = request.POST.get('contactName', '')
+        uploaded_resume = request.FILES['myfile']
+        if name:
+            resume = Upload_resume(name=name, Resume=uploaded_resume)
+            resume.save()
+            fs = FileSystemStorage()
+            fs.save(uploaded_resume.name, uploaded_resume)
+            messages.success(request,
+                                'Resume submission successful. SBT Professional team Contact You within 24 hours.')
+            try:
+                file = settings.MEDIA_URL[1:] + str(uploaded_resume)
+                from django.core.mail import EmailMessage
+                msg = EmailMessage('New job Seeker on your website', 'name =' + name, parameters['from_email'],
+                                    [parameters['to_email']])
+                msg.attach_file(file)
+                msg.send()
+            except Exception as e:
+                messages.error(request,'Failed to uplaod Resume! Try Again.')
+                return redirect('website:Sbthome')
+        else:
+            messages.error(request, 'Before submit resume Enter your name')
 
-        return render(request, 'website/job_form.html', {'category': category})
-    except:
-        return render(request, 'website/404.html')
-
+    return render(request, 'website/job_form.html', {'category': category})
+  
 def download(request):
     category = Categories.objects.all()
     vendor = TOP.objects.all()
@@ -541,7 +539,7 @@ def log_in(request):
 
 
 
-
+# @login_required(login_url="{% url 'website:login' %}")
 def purchase(request, slug):# plan_id, user, amount,discount,role):
         vendor = TOP.objects.all()
         category = Categories.objects.all()
@@ -822,7 +820,7 @@ def log_in(request):
         phno = request.POST.get('phonenumber')
         base_url = parameters["BASE_URL"]
 
-        url = f'{base_url}/auth/send_sms_code/{phno}'
+        url = f'{base_url}/auth/{phno}'
         response = requests.get(url)
         return render(request, 'website/auth_and_pass/type-otp.html', {'phone': phno})
 
@@ -835,17 +833,27 @@ def verify(request):
         otp = request.POST.get('otp')
         base_url = parameters["BASE_URL"]
 
-        url = f'{base_url}/auth/verify/{otp}/{phno}'
-        response = requests.get(url)
+        url = f'{base_url}/auth/{phno}/'
+        data = {
+            'otp':otp
+        }
+        response = requests.post(url,data=data)
+        print(response)
         if response.status_code == 408 or response.status_code == 404: # 408 - Request Time Out
             messages.error(request, 'Login Failed')
             return redirect('website:verify')
 
-        user = authenticate(request, phone=phno)
-        if user is not None:
+        print(phno)
+        print(otp)
+        user = User.objects.get(phone__iexact=phno)
+        print(user)
+        if user != None:
             login(request, user)
-        messages.success(request, 'Login Successfull')
-        return redirect('website:Sbthome')
+            messages.success(request, 'Login Successfull')
+            return redirect('website:Sbthome')
+        else:
+            messages.error(request, 'error')
+            return redirect('website:login')
 
 
 

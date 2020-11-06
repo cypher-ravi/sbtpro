@@ -1,119 +1,113 @@
-{% extends 'website/layout.html' %}
-    {% block title %}Download App-SBT Professionals {% endblock %}
-
-{% load static %}
-{% block css %}
+{% extends 'website/layout.html' %} {% block title %}Download App-SBT Professionals {% endblock %} {% load static %} {% block css %}
 <style>
-  h4{
-  color:white;
-  margin-left:27px;
-  }
- input[type=tel] {
- max-width:140%;
-  padding: 12px 20px;
-  margin: 2px 0;
-  border-radius:50px;
-  border: none;
-  box-sizing: border-box;
-}
- input[type=number]:hover {
-  border-color:#fe4c1c;
-}
-button{
-margin-left:20px;
-}
-.slider-clean1 {
-    background: url("{%static 'website/images/content/slider/mobile6.png'%}") no-repeat;
-        background-position-x:190%;
-        background-position-y:-30%;
+    h4 {
+        color: white;
+        margin-left: 27px;
+    }
+    
+    input[type=tel] {
+        max-width: 140%;
+        padding: 12px 20px;
+        margin: 2px 0;
+        border-radius: 50px;
+        border: none;
+        box-sizing: border-box;
+    }
+    
+    input[type=number]:hover {
+        border-color: #fe4c1c;
+    }
+    
+    button {
+        margin-left: 20px;
+    }
+    
+    .slider-clean1 {
+        background: url("{%static 'website/images/content/slider/mobile6.png'%}") no-repeat;
+        background-position-x: 190%;
+        background-position-y: -30%;
         background-repeat: no-repeat;
-        background-size: auto;}
-
+        background-size: auto;
+    }
 </style>
-{% endblock %}
-
-{% block body %}
- <!-- Slider Start -->
-      <div class="relative">
-        <div class="owl-navigation owl-carousel owl-theme">
-          <!-- slider item 1 -->
-          <div class="item">
-            <div
-              class="image-overly-dark-opacity header-content slider-clean1"
-              role="banner"
-            >
-              <div class="container opac">
-                <div class="col-xs-12 col-sm-12 header-area">
-                  <div class="header-area-inner header-text">
-                    <!-- single content header -->
-                    <span class="welcome">To get the app link via SMS, type your mobile number below<br>
+{% endblock %} {% block body %}
+<!-- Slider Start -->
+<div class="relative">
+    <div class="owl-navigation owl-carousel owl-theme">
+        <!-- slider item 1 -->
+        <div class="item">
+            <div class="image-overly-dark-opacity header-content slider-clean1" role="banner">
+                <div class="container opac">
+                    <div class="col-xs-12 col-sm-12 header-area">
+                        <div class="header-area-inner header-text">
+                            <!-- single content header -->
+                            <span class="welcome">To get the app link via SMS, type your mobile number below<br>
 </span>
-                    <div><span class="subtitle">SBT Professional App</span></div>
-                    <h1 class="title">
-                      Get
-                      <span id="typed-strings">
+                            <div><span class="subtitle">SBT Professional App</span></div>
+                            <h1 class="title">
+                                Get
+                                <span id="typed-strings">
                         <span>Vendors</span>
-                        <span>Customers</span>
-                        <span>Services</span>
-                      </span>
-                      <span id="typed" class="underline-large"></span>
-                    </h1>
-                    <div class="header">
-                    <h4>Enter your moblie no.</h4>
-                    <div class="text-input">
-                        <strong><span >+91</span></strong>
-                        <input name="number"  type="tel" id="txtmobnum" placeholder="Enter Number">
-                        <i class="error-ic"></i>
-                    </div>
-                    <button class="color-two mt-2">Send link</button>
+                                <span>Customers</span>
+                                <span>Services</span>
+                                </span>
+                                <span id="typed" class="underline-large"></span>
+                            </h1>
+                            <div class="header">
+                                <h4>Enter your moblie no.</h4>
+                                <form action="{% url 'website:download' %}" method="post">
+                                    {% csrf_token %}
 
+                                    <div class="text-input">
+                                        <strong><span >+91</span></strong>
+                                        <input name="number" type="tel" id="txtmobnum" placeholder="Enter Number">
+                                        <i class="error-ic"></i>
+                                    </div>
+                                    <button class="color-two mt-2">Send link</button>
+                                </form>
 
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <!-- end slider item 1 -->
-
         </div>
+        <!-- end slider item 1 -->
 
-        <section>
-          <h4>Scan and Download our App</h4>
-          <div class="container">
+    </div>
+
+    <section>
+        <h4>Scan and Download our App</h4>
+        <div class="container">
             <div class="row">
-              <div class="col-md-4 col-sm-10">
-                <img src="{%static 'website/images/content/slider/qrcode.jpeg'%}" alt="">
-              </div>
-              <div class="col-md-8 col-sm-10">
-                <h2 style="text-align: left;">Scan and Download our App</h2>
-                <ul class="themeioan_ul_icon">
-                  <li>
-                    <i class="fas fa-check-circle"></i> High Impact methods for Promote
-                    Business
-                  </li>
-                  <li>
-                    <i class="fas fa-check-circle"></i> Every method included
-                    in package
-                  </li>
-                  <li>
-                    <i class="fas fa-check-circle"></i> We have best support
-                    community
-                  </li>
-                  <li>
-                    <i class="fas fa-check-circle"></i> Call us 24/7 we are
-                    Online
-                  </li>
-                  <li>
-                    <i class="fas fa-check-circle"></i> Fast Quality Services
-                  </li>
-                 
-                </ul>
+                <div class="col-md-4 col-sm-10">
+                    <img src="{%static 'website/images/content/slider/qrcode.jpeg'%}" alt="">
+                </div>
+                <div class="col-md-8 col-sm-10">
+                    <h2 style="text-align: left;">Scan and Download our App</h2>
+                    <ul class="themeioan_ul_icon">
+                        <li>
+                            <i class="fas fa-check-circle"></i> High Impact methods for Promote Business
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i> Every method included in package
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i> We have best support community
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i> Call us 24/7 we are Online
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i> Fast Quality Services
+                        </li>
 
-              </div>
+                    </ul>
+
+                </div>
             </div>
-          </div>
-        </section>
-        <!-- Slider End-->
-      </div>
+        </div>
+    </section>
+    <!-- Slider End-->
+</div>
 {% endblock %}
