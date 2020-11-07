@@ -2,7 +2,10 @@
 from .base import *
 import json
 
-with open("/sbtproject/config.json", "r") as params:
+from pathlib import Path
+
+path = Path(__file__).parent / "../sbtproject/SBTProlive/config.json"
+with path.open() as params:
     parameters = json.load(params)
 
 
