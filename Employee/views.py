@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+import pathlib
 
 from django.contrib.auth import get_user_model
 from rest_framework import generics, mixins, permissions, status, viewsets
@@ -13,9 +14,9 @@ from .serializers import DailyAttendanceSerializer, EmployeeSerializer
 User = get_user_model()
 # Create your views here.
 
-with open("config.json", "r") as params:
+fn = pathlib.Path(__file__).parent.parent / 'config.json'
+with open(fn,"r") as params:
     parameters = json.load(params)
-
 
 
 class NewEmployeeAPI(viewsets.ModelViewSet):
