@@ -314,7 +314,7 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
                 "CHANNEL_ID": "WEB",
                 "ORDER_ID": str(order_id),
                 "TXN_AMOUNT": str(amount),
-                "CALLBACK_URL": "http://192.168.29.249:8000/api/req_handler",
+                "CALLBACK_URL": "https://www.sbtprofessionals.com/api/req_handler",
             }
 
             param_dict = detail_dict
