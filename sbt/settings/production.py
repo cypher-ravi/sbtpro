@@ -7,7 +7,7 @@ import pathlib
 # path = Path(__file__).parent / ../"config.json"
 # / "../sbtproject/SBTProlive/config.json"
 
-fn = pathlib.Path(__file__).parent / 'config.json'
+fn = pathlib.Path(__file__).parent.parent.parent / 'config.json'
 with open(fn,"r") as params:
     parameters = json.load(params)
 
