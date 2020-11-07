@@ -1,5 +1,6 @@
 import base64
 import io
+import pathlib
 
 from django.http.response import JsonResponse
 from Vendor.functions import assign_branch_to_vendor
@@ -19,9 +20,9 @@ from .serializers import (VendorImageAPISerializer, VendorImagesListSerializer, 
                           VendorSerializer)
 
 User = get_user_model()
-with open("config.json", "r") as params:
+fn = pathlib.Path(__file__).parent.parent / 'config.json'
+with open(fn,"r") as params:
     parameters = json.load(params)
-
 
 # Create your views here.
 # class VendorList(generics.GenericAPIView):
