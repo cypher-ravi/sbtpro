@@ -2,13 +2,13 @@
 from .base import *
 import json
 
-from pathlib import Path
+import pathlib 
 
 # path = Path(__file__).parent / ../"config.json"
 # / "../sbtproject/SBTProlive/config.json"
 
-abs_pathname = os.path.abspath("config.json")
-with open(abs_pathname,"r") as params:
+fn = pathlib.Path(__file__).parent.parent / 'config.json'
+with open(fn,"r") as params:
     parameters = json.load(params)
 
 
