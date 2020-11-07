@@ -130,31 +130,21 @@
                                     <span id=" typed" class="underline-large"></span>
                                 </h1>
                                 <div class="header">
-                                    <form autocomplete="off" action="{% url 'website:query' %}" method="POST">
+                                    <form autocomplete="off" action="{% url 'website:query' %}" method="GET">
                                         {% csrf_token %}
                                         <!-- <h1>Find Everything Near You</h1> -->
                                         <div class="form-box input-icons">
                                             <i style="margin-left: 4px;" class="fas fa-street-view icon"></i>
                                             <input type="text" class="search-field location_search" required=""
-                                                placeholder="Your Location" name="location" onfocus="geolocate()" `=""
-                                                id="autocomplete" style="height: 45px;">
+                                                placeholder="Your Location" name="location" onfocus="geolocate()" id="autocomplete" style="height: 45px;">
                                             <!-- <label> -->
 
                                             <i style="margin-left: 4px;" class="fas fa-globe icon"> </i>
 
 
-                                            <input list="browsers" name="browser" id="browser" placeholder="search"
+                                            <input list="browsers" name="query" id="query" placeholder="search"
                                                 style="border-radius: 42px;height: 45px;border-color: #fe4c1c;padding-left: 38px;font-weight: 600;width: 222px;margin-bottom: 4px;">
-                                            <datalist id="browsers">
-                                                <option value="location">
-                                                <option value="product">
-                                                <option value="category">
-                                                <option value="serveris">
-                                                <option value="data">
-                                            </datalist>
-                                            <i class="fas fa-hand-point-right icon" style="
-    margin-top: -2px;
-"></i>
+                                            <i class="fas fa-hand-point-right icon" style="margin-top: -2px;"></i>
                                             <button
                                                 style="height: 44px;padding-top: 0%;width: 106px;/* margin-top: 11px; */padding: 12px;"
                                                 type="submit">search </button>
@@ -182,7 +172,7 @@
             </div>
 
 
-            {% comment %} <div class="carousel-slider sponsor-slider">
+            <div class="carousel-slider sponsor-slider">
                 {% for cat in category|slice:"0:" %}
                 <div class="item category-a">
                     <a href="/sbt/categories/{{ cat.category_name }}"><img class="img-class"
@@ -194,7 +184,7 @@
                 {% if forloop.counter|divisibleby:0 and forloop.counter > 0 and not forloop.last%}
                 <div class="item category-a">
                 </div>
-                {% endif %} {% endfor %} {% endcomment %}
+                {% endif %} {% endfor %}
 
 
 
@@ -282,12 +272,11 @@
         <p style="
     font-weight: 600;
     margin-left: 40px;
-    margin-top: -29px;
-"> scroll trending services</p>
+    margin-top: -29px;" id="trendingservice"> scroll trending services</p>
         <!--/.Indicators-->
 
         <!--Slides-->
-        <div class="carousel-inner " role="listbox" id="scrol" data-aos="fade">
+        <div class="carousel-inner " role="listbox" id="scrol" data-aos="fade" >
 
             <!--First slide-->
             <div class="carousel-item active">
@@ -301,7 +290,7 @@
                         <div class="card-body">
                             <h4 class="card-title">{{ service.service_title}}</h4>
                             <p class="card-text"> {{ service.service_desc|safe}}</p>
-                            <a class="color-two btn-custom" style="color: white;">Button</a>
+                            <a class="color-two btn-custom" href="{% url 'website:service_detail' service.service_name %}" style="color: white;">Get Service</a>
                         </div>
                     </div>
                 </div>
@@ -389,7 +378,7 @@
                             <div class="tbl-prc-heading">
                                 <h4>{{ plan.plan_name }}</h4>
                                 <div class="tbl-prc-price">
-                                    <a href="purchase/{{ plan.plan_name }}">
+                                    <a href="{% url 'website:plan-purchase' plan.plan_id %}">
                                         <img class="market-img" src="media/{{ plan.plan_img }}" alt=""></a>
                                     <span class="price" style="margin-top: 32px;">₹{{ plan.plan_amount}}</span>
                                     <span class="month">/ percent</span>
@@ -402,7 +391,7 @@
                                 <li>{{ plan.description_4 }}</li>
                             </ul>
                             <div class="tbl-prc-footer">
-                                <a href="purchase/{{ plan.plan_id }}" class="color-two btn-custom">Purchase</a>
+                                <a href="{% url 'website:plan-purchase' plan.plan_id %}" class="color-two btn-custom">Purchase</a>
                             </div>
                         </div>
                         <!-- end single price plan -->
@@ -441,7 +430,7 @@
                                     </p>
                                     <div class="call-to-action-btn">
 
-                                        <a href="/sbt/freelisting" class="color-two btn-custom">Start Today</a>
+                                        <a href="#" class="color-two btn-custom">Start Today</a>
                                     </div>
                                 </div>
                             </div>
@@ -484,7 +473,7 @@
                                                 conversion rate optimization. Best Services.
                                             </p>
                                             <div class="mt-25">
-                                                <a href="services-detail.html" class="button-light"><i
+                                                <a href="#services-detail" class="button-light"><i
                                                         class="fas fa-arrow-right"></i> Read
                                                     More</a>
                                             </div>
@@ -508,7 +497,7 @@
                                                 conversion rate optimization. Best Services.
                                             </p>
                                             <div class="mt-25">
-                                                <a href="services-detail.html" class="button-light"><i
+                                                <a href="#services-detail" class="button-light"><i
                                                         class="fas fa-arrow-right"></i> Read
                                                     More</a>
                                             </div>
@@ -525,15 +514,15 @@
                                         <div class="blog-content">
 
                                             <h5 class="title">
-                                                <a href="services-detail.html">Thinking Creative</a>
+                                                <a href="#services-detail">Thinking Creative</a>
                                             </h5>
                                             <p>
                                                 Open a beautiful store &amp; increase your conversion rates. Deploy a
                                                 conversion rate optimization. Best Services.
                                             </p>
-                                            <div class="mt-25">
-                                                More
-                                            </div>
+                                           <a href="#services-detail" class="button-light"><i
+                                                        class="fas fa-arrow-right"></i> Read
+                                                    More</a>
                                         </div>
                                     </article>
                                     <!-- end single services -->
@@ -553,71 +542,7 @@
                 <!-- services image area end -->
 
                 <!-- why-us area start -->
-                <div id="why-us" class="wrap-bg-second">
-                    <div class="row">
-                        <div
-                            class="col-xs-12 col-sm-12 col-md-12 col-xl-6 col-lg-5 services-detail-why why-us-left-bg2">
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-xl-6 col-lg-7 wrap-padding text-left">
-                            <div class="section-title">
-                                <div>
-                                    <h3>
-                                        We are the first and trusted Business Consulting company in your city. The best
-                                        service is our goal.
-                                    </h3>
-                                    <div class="bar"></div>
-                                </div>
-                                <p>
-                                    We’re also experts at finding the sweet spot between Google’s guidelines and what is
-                                    commercially right for you. We have progressive theories on search as a tool for
-                                    retention of customers, not just for acquisition. <br /><br />
-                                </p>
-                                <div class="row">
-                                    <!-- #counter -->
-                                    <div class="col-xs-12 col-sm-12 col-md-4">
-                                        <div class="info">
-                                            <!-- 1 -->
-                                            <div class="themeioan_counter text-center">
-                                                <!-- single counter item -->
-                                                <i class="secondary-color fas fa-user fa-3x"></i>
-                                                <h4>1000</h4>
-                                                <p>Happy Clients</p>
-                                            </div>
-                                            <!-- end single counter item -->
-                                        </div>
-
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-4">
-                                        <!-- .row -->
-                                        <div class="info">
-                                            <!-- 2 -->
-                                            <div class="themeioan_counter text-center">
-                                                <!-- single counter item -->
-                                                <i class="secondary-color fas fa-cubes fa-3x"></i>
-                                                <h4>450</h4>
-                                                <p>Recently sold</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-4">
-                                        <div class="info">
-                                            <!-- 3 -->
-                                            <div class="themeioan_counter text-center">
-                                                <!-- single counter item -->
-                                                <i class="secondary-color  fa fa-check-circle fa-3x   "></i>
-                                                <h4>324</h4>
-                                                <p>Expert Team</p>
-                                            </div>
-                                            <!-- end single counter item -->
-                                        </div>
-                                    </div>
-                                    <!-- .row end -->
-                                    <!-- #counter area end -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              
                 <!-- why-us area end -->
 
                 <!-- testimonials area start -->
@@ -722,7 +647,6 @@ $(function(){
     $('#query').autocomplete({
         source:"{% url 'website:suggestions' %}",
     });
-
 });
 
 

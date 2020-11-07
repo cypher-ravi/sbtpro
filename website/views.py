@@ -1,6 +1,7 @@
 from Customer.models import *
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -22,7 +23,7 @@ from django.contrib.auth.models import User
 import json
 import math
 import random
-
+import re
 import requests
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ValidationError
@@ -53,7 +54,9 @@ with open("config.json", "r") as params:
 
 # def vendor_profile(request):
 #     return render(request, 'template_name.html')
-
+def menu_top(request):
+    tops = TOP.objects.all()
+    return {'TOPS': tops}
 
 def vendor_profile(request):
     return render(request, 'website/vendor-profile.html')
@@ -66,17 +69,13 @@ def index(request):
     # testimonials
     testimonials = AddTestimonial.objects.all()
 
-    # Another section started
-    vendor = TOP.objects.all()
-
     plans = Plan.objects.all()
     return render(request, 'website/index.html',
-                  {'plans': plans, 'category': category, 'services': services, 'vendor': vendor,'testimonials':testimonials})
+                  {'plans': plans, 'category': category, 'services': services,'testimonials':testimonials})
 
 # Function to take input from form and send it through email
 def freelisting(request):
     category = Categories.objects.all()
-    vendor = TOP.objects.all()
     if request.method == 'POST':
         # Validate
         resp = form_validation(request.POST)
@@ -112,7 +111,7 @@ def freelisting(request):
             messages.success(request, 'Form submission successful. SBT Professional team Contact You within 24'
                                       'hours.')
             return redirect('website:Sbthome')
-    return render(request, 'website/forms/freelisting.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/forms/freelisting.html', {'category': category})
 
 
 def customer_membership(request):
@@ -120,14 +119,12 @@ def customer_membership(request):
     redirect1 = '/sbt/purchase'
 
     plans = Plan.objects.all()
-    vendor = TOP.objects.all()
 
-    return render(request, 'website/pages/membership.html', {'plans': plans, 'vendor': vendor, 'category': category,'redirect':redirect1})
+    return render(request, 'website/pages/membership.html', {'plans': plans, 'category': category,'redirect':redirect1})
 
 
 def jobs(request):
     category = Categories.objects.all()
-    vendor = TOP.objects.all()
     if request.method == "POST":
         name = request.POST.get('contactName', '')
         mobile = request.POST.get('contactmobile', '')
@@ -150,9 +147,9 @@ def jobs(request):
             # contact@sbtprofessionals.com
             # teamofprofessionals2015@gmail.com
         )
-        return render(request, 'website/forms/job_form.html', {'vendor': vendor, 'category': category})
+        return render(request, 'website/forms/job_form.html', {'category': category})
 
-    return render(request, 'website/forms/job_form.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/forms/job_form.html', {'category': category})
 
 
 def upload_resume(request):
@@ -184,7 +181,6 @@ def upload_resume(request):
 
 def download(request):
     category = Categories.objects.all()
-    vendor = TOP.objects.all()
     if request.method == 'POST':
         number = request.POST.get('number')
         if number.isnumeric():
@@ -193,22 +189,20 @@ def download(request):
             return redirect('website:Sbthome')
         else:
             messages.warning(request,'Enter a number!')
-            return render(request, 'website/pages/downloadapp.html', {'vendor': vendor, 'category': category})
+            return render(request, 'website/pages/downloadapp.html', {'category': category})
     return render(request, 'website/pages/downloadapp.html', {'vendor': vendor, 'category': category})
 
 
 def categories(request, slug):
-    vendor = TOP.objects.all()
     category = Categories.objects.all()
     filtered_categories = Categories.objects.filter(category_name=slug)
     related_sub_category = Subcategory.objects.all().filter(category_name__in=filtered_categories)
     return render(request, 'website/pages/category.html',
                   {'filtered_categories': filtered_categories, 'sub_category': related_sub_category,
-                   'category': category,'vendor':vendor})
+                   'category': category})
 
 
 def sub_to_sub_category(request, slug):
-    vendor = TOP.objects.all()
     category = Categories.objects.all()
     related_sub_category = Subcategory.objects.all().filter(sub_category_name=slug)
     related_sub_sub_category = Sub_sub_category.objects.all().filter(sub_category_name__in=related_sub_category)
@@ -218,10 +212,9 @@ def sub_to_sub_category(request, slug):
                       {'sub_category': related_sub_category, 'related_sub_sub_category': related_sub_sub_category,
                        'category': category,'vendor':vendor})
     else:
-        return render(request, 'website/forms/contact_via_category.html', {'slug': slug, 'category': category,'vendor':vendor})
+        return render(request, 'website/forms/contact_via_category.html', {'slug': slug, 'category': category})
 
 
-# A's here  ------------------
 
 def test(request):
     if request.method =="POST":
@@ -230,325 +223,11 @@ def test(request):
 
     return render(request, 'website/auth_and_pass/test.html')
 
-
-"""def purchase(request, slug):
-    vendor = TOP.objects.all()
+@login_required(login_url="website:login")
+def purchase_vendor(request, slug):
     category = Categories.objects.all()
-    # assuming coming from purchase form but for instance taking from purchase button from index.html
-    # about paytm implimentation will here
-    # discount won't work if empty
-    try:
-        if request.user.is_authenticated:
-            if request.method == "POST":
-
-                # Validate
-                resp = form_validation(request.POST)
-                if resp != None:
-                    return HttpResponse(resp)
-
-                plan = Plan.objects.get(plan_name=slug)
-                order_id = random.randint(1, 9999)
-                email_id = request.POST.get('email', '')
-                name = request.POST.get('name', '')
-                phone = request.POST.get('phone', '')
-                address = request.POST.get('address1', '') + " " + request.POST.get('address2', '')
-                state = request.POST.get('state', '')
-                city = request.POST.get('city', '')
-                zip_code = request.POST.get('zip_code', '')
-                plan_id = plan.plan_id
-                print('..........',request.POST.get('discount'))
-                try:
-                    discount = int(request.POST.get('discount'))
-                except ValueError:
-                    return HttpResponse('Please select a valid discount value')
-                # It checks that discount given according to card amount
-                response_dict  = discount_validation(plan_id, discount, plan.plan_amount)
-                if response_dict['error'] != None:
-                    return HttpResponse(response_dict['error'])
-                # only disocunt 0 to 30
-                if discount != "":
-                    amount = discount * plan.plan_amount
-                else:
-                    amount = plan.plan_amount
-
-                order = Order(name=name, user = request.user, email_id=email_id, address=address, city=city, state=state, zip_code=zip_code,
-                              phone=phone, amount=amount, order_id=order_id, plan_id=plan, order_completed = False)
-                order.save()
-
-                # sending details to paytm gateway in form of dict
-                detail_dict = {
-                    "MID": MID,
-                    "WEBSITE": "WEBSTAGING",
-                    "INDUSTRY_TYPE_ID": "Retail",
-                    "CUST_ID": str(email_id),
-                    "CHANNEL_ID": "WEB",
-                    "ORDER_ID": str(order_id),
-                    "TXN_AMOUNT": str(amount),
-                    "CALLBACK_URL": "http://127.0.0.1:8000/sbt/req_handler",
-                }
-
-                param_dict = detail_dict
-                CheckSum.generateSignature
-                param_dict['CHECKSUMHASH'] = CheckSum.generateSignature(
-                    detail_dict, MKEY)
-                # print('.................', param_dict)
-                return render(request, 'website/order_process/redirect.html', {'detail_dict': param_dict})
-
-
-            plan = Plan.objects.get(plan_name=slug)
-            dict_for_review = {
-                'id' : plan.plan_id,
-                'name': plan.plan_name,
-                'amount': plan.plan_amount,
-                'description_1': plan.description_1,
-                'description_2': plan.description_2,
-                'description_3': plan.description_3,
-                'description_4': plan.description_4,
-            }
-
-            return render(request, 'website/forms/purchase_form.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
-
-        else: # if User is not Authenticated
-            return render(request, 'website/auth_and_pass/login.html',{'slug':slug})
-    except Exception as e:
-        print("An Exception occur \n", e)
-        return HttpResponse("There is an error")
-
-@csrf_exempt
-def req_handler(request):
-    if request.method == 'POST':
-        response_dict = dict()
-        form = request.POST
-        print(form["ORDERID"])
-
-        # another if to handle if user load refresh
-        is_order_exist = Order_Payment.objects.filter(order_id = form["ORDERID"]).exists()
-        print('............................order', is_order_exist)
-        if is_order_exist == False:
-            # FOR ALL VALUES
-            for i in form.keys():
-                response_dict[i] = form[i]
-                print(i, form[i])
-
-                if i == "CHECKSUMHASH":
-                    response_check_sum = form[i]
-
-            verify = CheckSum.verifySignature(response_dict, MKEY, response_check_sum)
-            print(verify)
-            # response_dict["STATUS"] = "PENDING"
-            print('.........response_dict["STATUS"]', response_dict["STATUS"])
-            print("..................", verify)
-            if verify and response_dict["STATUS"] != "TXN_FAILURE" or response_dict["STATUS"] == "PENDING":
-                order_payment = Order_Payment()
-                usr = User()
-
-                # id = models.AutoField(primary_key = True)
-                order = Order.objects.get(order_id = response_dict["ORDERID"])
-
-                order_payment.order_summary = order
-                # paytm responses
-                order_payment.currency = response_dict["CURRENCY"]
-                order_payment.gateway_name = response_dict["GATEWAYNAME"]
-                order_payment.response_message = response_dict["RESPMSG"] # Txn Success
-                # order_payment.bank_name = response_dict["BANKNAME"] # WALLET
-                order_payment.Payment_mode = response_dict["PAYMENTMODE"]# PPI
-                # MID = models.CharField(max_length=8) # VdMxPH61970223458566
-                order_payment.response_code = response_dict["RESPCODE"] # 01
-                order_payment.txn_id = response_dict["TXNID"]#  20200905111212800110168406201874634
-                order_payment.txn_amount = response_dict["TXNAMOUNT"]#  2400.00
-                order_payment.order_id = response_dict["ORDERID"]#  6556
-                order_payment.status = response_dict["STATUS"]# TXN_SUCCESS
-                order_payment.bank_txn_id = response_dict["BANKTXNID"] #  63209779
-                order_payment.txn_date = response_dict["TXNDATE"] #  2020-09-05 18:51:59.0
-                # order_payment.refund_amount =  #  0.00
-                order_payment.save()
-                payment_status = Order_Payment.objects.get(order_id = response_dict["ORDERID"])
-
-                return render(request, 'website/order_process/order_success.html', {'payment':payment_status})
-            else:
-                Order.objects.filter(order_id= response_dict["ORDERID"]).delete()
-                return HttpResponse('Order is not Placed Because of some error. Please <a href="/sbt/">Try Again </a>')
-        else:
-            payment_status = Order_Payment.objects.get(order_id = form["ORDERID"])
-            # Session should create when order is get successfull
-
-            return render(request, 'website/order_process/order_success.html', {'payment':payment_status})
-    return HttpResponse('Invalid Request <a href="/sbt/"> Go back Home</a>')
-
-def pricing_multiplier(request):
-    if request.method =="POST":
-
-        amount = int(request.POST.get('amount'))
-        try:
-            discount = int(request.POST.get('discount'))
-        except ValueError:
-            return JsonResponse({'discount_applied':'' ,'total':'', 'error': 'Expected integer'})
-        plan_id = int(request.POST.get('plan_id'))
-        response = discount_validation(plan_id, discount, amount)
-        # response_dict = json.loads(response.getvalue().decode('utf-8'))
-        # print(response_dict)
-        return JsonResponse(response)
-
-def order_status(request, slug):
-    try:
-        obj = Order_Payment.objects.get(order_id = slug)
-        obj2 = obj.order_summary
-        if obj2.user == request.user:
-            paytmParams = dict()
-
-            paytmParams["MID"]     = MID
-            paytmParams["ORDERID"] = slug
-
-            checksum = CheckSum.generateSignature(paytmParams, MKEY)
-
-            paytmParams["CHECKSUMHASH"] = checksum
-
-            post_data = json.dumps(paytmParams)
-
-            # for Staging
-            url = "https://securegw-stage.paytm.in/order/status"
-
-            # for Production
-            # url = "https://securegw.paytm.in/order/status"
-
-            response = requests.post(url, data = post_data, headers = {"Content-type": "application/json"}).json()
-            print(response)
-
-            if response["STATUS"]=="TXN_SUCCESS":
-                print("Updating Status")
-                obj = Order_Payment.objects.get(order_id = slug)
-                obj.status = response["STATUS"]
-                obj.response_code = response["RESPCODE"]
-                obj.response_message = response["RESPMSG"]
-                obj.txn_date = response["TXNDATE"]
-                obj.bank_name = response["BANKNAME"]
-                obj.save()
-                return HttpResponse("order success fully placed")
-
-            return HttpResponse("order is still in pending state")
-
-        elif request.user!=None and request.user.is_authenticated :
-            return HttpResponse("Please insert correct orderid")
-        else:
-            return HttpResponse('Please Login <a href="/sbt/login"> Here First</a>')
-    except Exception as e:
-        return HttpResponse(f"Requested Order Not Found - {e}") # form to type in order id"""
-
-''' Need to complete this function
-def order_id_session(order_id):
-    order = Order.objects.get(order_id = order_id)
-    all_order = Order.objects.filter(user = order.user)
-    order_ids = []
-    for i in all_order:
-        order_id.append(i)
-
-    usr = request.user.username
-    request.session['']
-'''
-
-
-# --------------------------payment/purchase end -----------------------
-
-
-
-
-"""def sign_up(request):
-    # have exception of geting same user name
-    if request.method == "POST":
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['create_password']
-        confirm_password = request.POST['confirm_password']
-
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already exists Please Consider Login')
-            return redirect('website:SignUp')
-
-        if User.objects.filter(email=email).exists():
-            messages.error(request, 'Email already exists Please consider Login')
-            return redirect('website:SignUp')
-
-        # username validation stuff ----------------
-        if len(username) > 15:
-            messages.error(request, 'Username must be unique!!')
-            return redirect('website:SignUp')
-
-        if not username.isalnum():
-            messages.error(
-                request, 'Username should contain letters and numbers!!')
-            return redirect('website:SignUp')
-
-        # Email Validation
-        try:
-            validate_email(email)
-        except ValidationError:
-            messages.error(request, 'Email is not valid')
-            return redirect('website:SignUp')
-        # Password valdation
-        if password != confirm_password:
-            messages.error(request, 'Password do not match')
-            return redirect('website:SignUp')
-        # username should contain numbers and letters
-
-        # create the user
-        newuser = User.objects.create_user(username=username, email=email, password=password)
-        if newuser.is_staff:
-            print('yes')
-        else:
-            print('no')
-        newuser.save()
-
-        messages.success(request, "Your SBT Professionals account has been successfully created")
-        return redirect('website:Login')
-    else:
-        return render(request, 'website/auth_and_pass/register.html')
-
-
-def log_in(request):
-    if request.method == "POST":
-        loginusername = request.POST['loginusername']
-        loginpass = request.POST['loginpass']
-        redirect_url = request.POST['url']
-        try:
-            redirect_slug = request.POST['slug']
-            flag = True
-        except:
-            redirect_slug=None
-        print('slug.........',redirect_slug)
-        print('url.........',redirect_url)
-        if User.objects.filter(email=loginusername).exists():
-            usr_by_email = User.objects.get(email=loginusername)
-            loginusername = usr_by_email.username
-
-        user = authenticate(request, username=loginusername,
-                            password=loginpass)  # checks if user is exist
-        if user is not None :  # if user exist than create a session using login function
-            if  redirect_slug !=None :
-                login(request, user)
-                messages.success(request, 'Login Successful!')
-                return redirect('website:plan-purchase',slug=redirect_slug)
-
-            if redirect_slug == None:
-                login(request, user)
-                messages.success(request, 'Login Successful!')
-                return redirect('website:Sbthome')
-
-        else:
-            print('....................user->', user)
-            messages.error(request, 'Invalid credentials,Please Try Again!')
-            return redirect(log_in)
-    return render(request, 'website/auth_and_pass/login.html')
-
-"""
-# return redirect(index)
-
-
-def purchase_vendor(request, slug):# plan_id, user, amount,discount,role):
-    vendor = TOP.objects.all()
-    category = Categories.objects.all()
-
-
     plan = Plan.objects.get(plan_id =slug)
+
     dict_for_review = {
         'id' : plan.plan_id,
         'name': plan.plan_name,
@@ -558,12 +237,11 @@ def purchase_vendor(request, slug):# plan_id, user, amount,discount,role):
         'description_3': plan.description_3,
         'description_4': plan.description_4,
     }
-    return render(request, 'website/forms/purchase_form_customer.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
+    return render(request, 'website/forms/purchase_form_customer.html', {'plan_review': dict_for_review, 'category': category})
 
 
-
+@login_required(login_url="website:login")
 def purchase_customer(request, slug):# plan_id, user, amount,discount,role):
-    vendor = TOP.objects.all()
     category = Categories.objects.all()
 
 
@@ -577,13 +255,9 @@ def purchase_customer(request, slug):# plan_id, user, amount,discount,role):
         'description_3': plan.description_3,
         'description_4': plan.description_4,
     }
-    return render(request, 'website/forms/purchase_form_customer.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category,'vendor':vendor})
+    return render(request, 'website/forms/purchase_form_customer.html', {'plan': plan, 'plan_review': dict_for_review, 'category': category})
 
 def customer_card_purchase(request, plan_id):
-    # assuming coming from purchase form but for instance taking from purchase button from index.html
-    # about paytm implimentation will here
-    # discount won't work if empty
-        # if request.user.is_authenticated:
 
     if request.method == 'POST':
 
@@ -842,10 +516,11 @@ def order_status(request, slug):
 def log_in(request):
     if request.method == 'POST':
         phno = request.POST.get('phonenumber')
+        # regex= r'^[6-9]\d{9,14}$'
+        # tre.search(regex, phno)
         base_url = parameters["BASE_URL"]
-
         url = f'{base_url}/auth/{phno}'
-        response = requests.get(url)
+        requests.get(url)
         return render(request, 'website/auth_and_pass/type-otp.html', {'phone': phno})
 
     return render(request, 'website/auth_and_pass/login-otp.html')
@@ -864,21 +539,21 @@ def verify(request):
         }
         response = requests.post(url,data=data)
         print(response)
-        if response.status_code == 408 or response.status_code == 404: # 408 - Request Time Out
-            messages.error(request, 'Login Failed')
-            return redirect('website:verify')
+        # if response.status_code == 408 or response.status_code == 404: # 408 - Request Time Out
+        #     messages.error(request, 'Login Failed')
+        #     return redirect('website:verify')
 
-        print(phno)
-        print(otp)
-        user = User.objects.get(phone__iexact=phno)
-        print(user)
-        if user != None:
-            login(request, user)
-            messages.success(request, 'Login Successfull')
-            return redirect('website:Sbthome')
-        else:
-            messages.error(request, 'error')
-            return redirect('website:login')
+        if response.json()['verified'] == True:
+            user = User.objects.get(phone__iexact=phno)
+            if user != None:
+                login(request, user)
+                messages.success(request, 'Login Successfull')
+                return redirect('website:Sbthome')
+
+        messages.success(request, 'Wrong OTP')
+        return redirect('website:login')
+       
+        
 
 
 
@@ -902,14 +577,18 @@ def username_validator(request):
 
 # A done here -------------------------------------
 
+def top_vendor_details(request, slug):
+    category = Categories.objects.all()
+    top = TOP.objects.filter(vendor_name=slug)
+    return render(request, 'website/pages/top-detail.html', {'top': top, 'category': category})
 
 
 # For displaying Single TOP Info
 def single_vendor(request, slug):
-    vendor = TOP.objects.all()
     category = Categories.objects.all()
+    vendors_detail =  Vendor.objects.filter(Company_Name=slug)
     vendors = TOP.objects.filter(vendor_name=slug)
-    return render(request, 'website/pages/team-single.html', {'vendors': vendors, 'category': category,'vendor':vendor})
+    return render(request, 'website/pages/team-single.html', {'vendors': vendors_detail, 'category': category})
 
 
 def service_detail(request, slug):
@@ -940,9 +619,9 @@ def service_detail(request, slug):
         else:
             messages.error(request, 'Form Not Submitted Try Again!!', {
                 'services': services})
-            return redirect(request, 'website/services-detail.html', {'services': services, 'category': category})
+            return redirect(request, 'website/pages/services-detail.html', {'services': services, 'category': category})
 
-    return render(request, 'website/services-detail.html', {'services': services, 'category': category})
+    return render(request, 'website/pages/services-detail.html', {'services': services, 'category': category})
 
 
 def search(request):
@@ -969,24 +648,21 @@ def search(request):
 # function for define process of organisation
 def process(request):
     category = Categories.objects.all()
-    vendor = TOP.objects.all()
 
-    return render(request, 'website/pages/process.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/pages/process.html', {'category': category})
 
 
 # for list all team of professionals
 def top(request):
     category = Categories.objects.all()
-    vendor = TOP.objects.all()
     team = TOP.objects.all()
-    return render(request, 'website/pages/top2.html', {'vendor': vendor, 'team': team, 'category': category})
+    return render(request, 'website/pages/top2.html', {'team': team, 'category': category})
 
 
 
 def search_top(request):
     category = Categories.objects.all()
     team = TOP.objects.all()
-    vendor = TOP.objects.all()
     query = request.GET['query']
     if len(query) > 80:
         filtered_top_vendors = TOP.objects.none()
@@ -996,12 +672,11 @@ def search_top(request):
 
         print(filtered_top_vendors)
     return render(request, 'website/search/search_top.html',
-                  {'filtered_top_vendors': filtered_top_vendors, 'vendor': vendor, 'category': category,'query':query})
+                  {'filtered_top_vendors': filtered_top_vendors, 'category': category,'query':query})
 
 
 def trading(request):
     category = Categories.objects.all()
-    vendor = TOP.objects.all()
     if request.method == 'POST':
         customer_name = request.POST.get('name', '')
         product_name = request.POST.get('product_name', '')
@@ -1023,17 +698,16 @@ def trading(request):
             # teamofprofessionals2015@gmail.com
             messages.success(request,
                              'Order successful.')
-            return render(request, 'website/pages/trading-info.html', {'vendor': vendor, 'category': category})
+            return render(request, 'website/pages/trading-info.html', {'category': category})
         else:
             messages.error(request, 'Failed to Order Try Again!')
-            return render(request, 'website/pages/trading-info.html', {'vendor': vendor, 'category': category})
-    return render(request, 'website/pages/trading-info.html', {'vendor': vendor, 'category': category})
+            return render(request, 'website/pages/trading-info.html', {'category': category})
+    return render(request, 'website/pages/trading-info.html', {'category': category})
 
 
 def faq(request):
     category = Categories.objects.all()
     faq_query = Faq.objects.all()
-    vendor = TOP.objects.all()
     if request.method == 'POST':
         resp = form_validation(request.POST)
         if resp != None:
@@ -1055,28 +729,25 @@ def faq(request):
             # teamofprofessionals2015@gmail.com
             messages.success(request,
                              'Query Submittion successful.')
-            return render(request, 'website/forms/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
+            return render(request, 'website/forms/faq.html', {'faqs': faq_query,'category': category})
         else:
             messages.error(request, 'Failed to submit Try Again!')
             return render(request, 'website/forms/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
-    return render(request, 'website/forms/faq.html', {'faqs': faq_query, 'vendor': vendor, 'category': category})
+    return render(request, 'website/forms/faq.html', {'faqs': faq_query,'category': category})
 
 
 def newsletter(request):
     category = Categories.objects.all()
-    vendor = TOP.objects.all()
-    return render(request, 'website/pages/coming-soon.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/pages/coming-soon.html', {'category': category})
 
 
 def tac(request):
     category = Categories.objects.all()
-    vendor = TOP.objects.all()
-    return render(request, 'website/pages/Terms_and_condition.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/pages/Terms_and_condition.html', {'category': category})
 
 
 def feedback(request):
     category = Categories.objects.all()
-    vendor = TOP.objects.all()
     if request.method == 'POST':
         email = request.POST.get('email')
         try:
@@ -1104,7 +775,7 @@ def feedback(request):
             messages.error(request, 'Form not submitted! TRY AGAIN')
             return render(request, 'website/forms/feedback.html', {'vendor': vendor, 'category': category})
 
-    return render(request, 'website/forms/feedback.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/forms/feedback.html', {'category': category})
 
 
 
@@ -1210,44 +881,46 @@ def query(request):
                 the loader will laod the data inside the class="infinite-item"
             !!THERE IS WORK NEEDED
     """
-    pagination = 10
-    locator = Nominatim(user_agent='myGeocoder')
-    loc = locator.geocode(request.POST.get('location'))
-
-    # Also we can put a infinity loader which fetch more vendor by quering this and increasing this range value !Man Awesome.
-    # This also increase optimizations
-    # TODO
-        # Need to add Relevancy of search which enable smart search
-        # It work on two params i.e. keyword and coordinates.
-        # We need the one which match with keyword as well as  location in range
-        # Need to add GIF for reloading
-    range = 10
-    lat_p, lng_p = haver_sine_formula(loc.latitude, loc.longitude, range)
-    lat_n, lng_n = haver_sine_formula(loc.latitude, loc.longitude, -range)
-    print(loc.latitude)
-    print(lat_p)
-    print('loc.lng',loc.longitude)
-    print('lng_p',lng_p)
-
-    # lte -> less then equal
-    # gte -> greater then equal
-
-    vendor_in_pos_range2 = Vendor.objects.filter(Latitude__gte = loc.latitude, Latitude__lte = lat_p).\
-        filter(Longitude__gte = loc.longitude, Longitude__lte = lng_p).\
-            filter(keywords__name = request.POST.get('search'))
-
-    all_vendor = Vendor.objects.all()
-    page = request.GET.get('page', 1)
-    paginator = Paginator(all_vendor, 10)
     try:
-        vendor = paginator.page(page)
-    except PageNotAnInteger:
-        vendor = paginator.page(1)
-    except EmptyPage:
-        vendor = paginator.page(paginator.num_pages)
 
-    return render(request, 'website/search/searchtest.html', {'vendors': vendor, 'query':query, 'location': location} )
+        locator = Nominatim(user_agent='myGeocoder')
+        loc = locator.geocode(request.POST.get('location'))
 
+        # Also we can put a infinity loader which fetch more vendor by quering this and increasing this range value !Man Awesome.
+        # This also increase optimizations
+        # TODO
+            # Need to add Relevancy of search which enable smart search
+            # It work on two params i.e. keyword and coordinates.
+            # We need the one which match with keyword as well as  location in range
+            # Need to add GIF for reloading
+        range = 10
+        lat_p, lng_p = haver_sine_formula(loc.latitude, loc.longitude, range)
+        lat_n, lng_n = haver_sine_formula(loc.latitude, loc.longitude, -range)
+        print(loc.latitude)
+        print(lat_p)
+        print('loc.lng',loc.longitude)
+        print('lng_p',lng_p)
+
+        # lte -> less then equal
+        # gte -> greater then equal
+
+        vendor_in_pos_range2 = Vendor.objects.filter(Latitude__gte = loc.latitude, Latitude__lte = lat_p).\
+            filter(Longitude__gte = loc.longitude, Longitude__lte = lng_p).\
+                filter(keywords__name = request.POST.get('search'))
+
+        all_vendor = Vendor.objects.all()
+        page = request.GET.get('page', 1)
+        paginator = Paginator(vendor_in_pos_range2, 10)
+        try:
+            vendor = paginator.page(page)
+        except PageNotAnInteger:
+            vendor = paginator.page(1)
+        except EmptyPage:
+            vendor = paginator.page(paginator.num_pages)
+
+        return render(request, 'website/search/searchtest.html', {'vendors': vendor, 'query':query, 'location': location} )
+    except:
+        return HttpResponse('some error occured')
 
 
 

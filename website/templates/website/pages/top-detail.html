@@ -32,20 +32,20 @@
 {% load static %}
 
 <main>
-    {% for vendor in vendors %}
+    {% for vendor in top %}
 
     <!-- breadcrumb banner content area start -->
     <div class="lernen_banner large bg-about">
         <div class="container">
             <div class="row">
                 <div class="lernen_banner_title">
-                    <h1>{{ vendor.Company_Name }}</h1>
+                    <h1>{{ vendor.vendor_name }}</h1>
                     <div class="lernen_breadcrumb">
                         <div class="breadcrumbs">
                             <span class="first-item">
                                 <a href="index.html">Homepage</a></span>
                             <span class="separator">&gt;</span>
-                            <span class="last-item">{{ vendor.Company_Name }}</span>
+                            <span class="last-item">{{ vendor.vendor_name }}</span>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                 <div class="col-md-6">
                     <div class="dreidbgleft">
                         <img class="img-class-single-team" src="/media/{{ vendor.Image }}"
-                            alt="{{ vendor.Name }} Image">
+                            alt="{{ vendor.vendor_name }} Image">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -87,9 +87,9 @@
                             </a>
                         </div>
                     </div>
-                    <h3>{{ vendor.Company_Name }}</h3>
+                    <h3>{{ vendor.vendor_name }}</h3>
                     <div class="bar"></div>
-                    <p>{{ vendor.Service_decsription|safe }}</p>
+                    <p>{{ vendor.vendor_work_desc|safe }}</p>
                     <div class="row black-text">
                         <!-- #counter -->
                         <div class="col-xs-12 col-sm-12 col-md-4">
@@ -144,9 +144,9 @@
                 <div class="feature_contact_item fc_bg2 ">
                     <div class="opac">
                         <h3>India</h3>
-                        <p>{{ vendor.Address1 }},{{ vendor.city }},{{ vendor.state }}<br>
-                            Email: {{ vendor.EmailID }}<br>
-                            Phone: {{ vendor.Mobile_No }}</p>
+                        <p>{{ vendor.address }},{{ vendor.city }},{{ vendor.state }}<br>
+                            Email: {{ vendor.vendor_email }}<br>
+                            Phone: {{ vendor.vendor_mobile_no }}</p>
 
                     </div>
                 </div>

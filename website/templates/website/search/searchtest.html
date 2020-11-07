@@ -1,23 +1,19 @@
-{% extends 'website/layout.html' %}
-
-{% block js %}
-  <script>
+{% extends 'website/layout.html' %} {% block js %}
+<script>
     var infinite = new Waypoint.Infinite({
-      element: $('.infinite-container')[0],
-      onBeforePageLoad: function () {
-        $('.loading').show();
-      },
-      onAfterPageLoad: function ($items) {
-        $('.loading').hide();
-      }
+        element: $('.infinite-container')[0],
+        onBeforePageLoad: function() {
+            $('.loading').show();
+        },
+        onAfterPageLoad: function($items) {
+            $('.loading').hide();
+        }
     });
-  </script>
-{% endblock %}
-
-{% block body %}
+</script>
+{% endblock %} {% block body %}
 
 
-  <div class="container ">
+<div class="container ">
     <h2 style="text-transform: lowercase; margin-top: 140px;font-size: larger;text-align: left; margin-left:-10px;">
         Results near you :
     </h2>
@@ -30,32 +26,36 @@
 
     {% endif %}
     <section class="container" style="margin-top: 10px;margin-bottom: 100px;">
-      {% if vendors %}
-         <ul class="list-group">
+        {% if vendors %}
+        <ul class="list-group">
             <li class="list-group-item active">Your search for {{ location }}</li>
         </ul>
-      {% endif %}
+        {% endif %}
 
         <div class="row mt-4 infinite-container">
             {% for vendor in vendors %} {% if vendor %}
-              <div class="col-md-3 mt-4 infinite-item">
-                  <img src="/media/{{ vendor.Image }}" class="img-fluid top-img " alt="...">
-              </div>
-              <div class="col-md-9 infinite-item">
-                  <div class="media mt-4">
-                      <div class="media-body">
-                          <h5 class="mt-0 ">{{ vendor.Company_Name}}</h5>
-                          <h6 class="mt-0">- {{ vendor.Busniess_Type }}</h6>
-                          <p class="mb-0"> {{ vendor.Service_decsription|safe }}</p>
-                          <ul>
-                              <li><b>Address:</b> {{ vendor.Address1 }} {{ vendor.city }} {{ vendor.state }} </li>
-                              <li><b>Contact:</b> {{ vendor.Mobile_No }} </li>
-                          </ul>
-                      </div>
 
-                  </div>
-              </div>
-            
+            <div class="col-md-3 mt-4 infinite-item">
+                <a href="{% url 'website:single_vendor' vendor.Company_Name %}">
+                    <img src="/media/{{ vendor.Image }}" class="img-fluid top-img " alt="...">
+
+            </div>
+            <div class="col-md-9 infinite-item">
+                <div class="media mt-4">
+                    <div class="media-body">
+                        <h5 class="mt-0 ">{{ vendor.Company_Name}}</h5>
+                        <h6 class="mt-0">- {{ vendor.Busniess_Type }}</h6>
+                        <p class="mb-0"> {{ vendor.Service_decsription|safe }}</p>
+                        <ul>
+                            <li><b>Address:</b> {{ vendor.Address1 }} {{ vendor.city }} {{ vendor.state }} </li>
+                            <li><b>Contact:</b> {{ vendor.Mobile_No }} </li>
+                        </ul>
+                    </div>
+
+                </div>
+                </a>
+            </div>
+
 
             {% else %}
             <p><em>No entries in{{ location }}</em></p>
@@ -65,14 +65,13 @@
 
 
 
-  <div class="loading" style="display: none;">
-      <center>
-        <!-- <img src="‪C:\Users\User3\Desktop\800.gif"> -->
-        <h1>Loading...</h1>
-      </center>
-  </div>
+    <div class="loading" style="display: none;">
+        <center>
+            <!-- <img src="‪C:\Users\User3\Desktop\800.gif"> -->
+            <h1>Loading...</h1>
+        </center>
+    </div>
 
-  {% if vendors.has_next %}
+    {% if vendors.has_next %}
     <a class="infinite-more-link" href="?page={{ vendors.next_page_number }}"></a>
-  {% endif %}
-{% endblock %}
+    {% endif %} {% endblock %}

@@ -32,6 +32,7 @@ urlpatterns = [
     path("", views.index, name='Sbthome'),
     path("vendor_review_test", views.vendor_review),
 
+    path('top_vendor_details/<str:slug>', views.top_vendor_details, name='top-details'),
     path("become_a_vendor/", views.freelisting, name='listing'),
     path("top/", views.top, name='top'),
     path("membership/", views.customer_membership, name='membership'),
@@ -45,7 +46,7 @@ urlpatterns = [
     path("top/", views.top, name='top'),
     path("search_top/", views.search_top, name='search_top'),
     path("frenchise/", views.frenchise, name='frenchise'),
-    path("Topvendor/<str:slug>", views.single_vendor, name='single_vendor'),
+    path("topvendors/<str:slug>", views.single_vendor, name='single_vendor'),
     path("categories/<str:slug>", views.categories, name='categories'),
     path("subcategories/<str:slug>", views.sub_to_sub_category, name='sub_to_sub_category'),
     path("contactservice/<str:slug>", views.contact_via_service, name="contactservice"),
