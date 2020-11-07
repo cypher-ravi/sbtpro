@@ -1,4 +1,5 @@
 import json
+import pathlib
 
 from django.contrib.auth import get_user_model
 from rest_framework import generics, mixins, permissions, status, viewsets
@@ -12,8 +13,9 @@ from .serializers import CustomerPlanSerializer, CustomerSerializer
 
 User = get_user_model()
 
-with open('config.json', mode='r') as file:
-    parameters = json.load(file)
+fn = pathlib.Path(__file__).parent.parent / 'config.json'
+with open(fn,"r") as params:
+    parameters = json.load(params)
 
 
 
