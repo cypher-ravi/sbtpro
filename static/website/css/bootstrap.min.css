@@ -2302,8 +2302,8 @@ fieldset:disabled a.btn {
 }
 .btn-primary {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #fe4c1c;
+  border-color: #fe4c1c;
 }
 .btn-primary:hover {
   color: #fff;
@@ -4311,6 +4311,7 @@ input[type="submit"].btn-block {
   width: 100%;
   border-top-left-radius: calc(0.25rem - 1px);
   border-top-right-radius: calc(0.25rem - 1px);
+  height: 184px;
 }
 .card-img-bottom {
   width: 100%;
@@ -5719,6 +5720,7 @@ a.close.disabled {
   position: relative;
   width: 100%;
   overflow: hidden;
+  top: -1px;
 }
 .carousel-inner::after {
   display: block;

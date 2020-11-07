@@ -160,13 +160,6 @@ h6 {
     }
 }
 
-
-p {
-    margin-top: -4px;
-    font-size: 16px;
-    line-height: 1.875;
-}
-
 a {
     color: inherit;
     text-decoration: none;
@@ -964,7 +957,6 @@ button:disabled {
     margin-bottom: 25px;
     border: 0px;
     box-shadow: 0px 35px 30px 0px rgba(0, 0, 0, 0.06);
-    height: 400px;
 }
 
 .card-header {
@@ -1382,7 +1374,7 @@ select:focus {
 }
 
 #header .navbar-brand img {
-    max-height: 67px;
+    max-height: 57px;
     height: auto;
 }
 
@@ -1542,6 +1534,7 @@ select:focus {
 .slider-clean3 {
     background: url("../images/content/slider/slider-clean3.jpg") no-repeat;
 }
+
 .projectdetail1 {
     background: url("../images/content/projectdetail/1.jpg") no-repeat;
 }
@@ -4355,7 +4348,7 @@ select:focus {
 
 @media (min-width: 1200px) {
     .container {
-        max-width: 1200px!important;
+        max-width: 1143px!important;
     }
     .modern-container {
         left: calc((100% - 1170px)/ 2);
@@ -4524,7 +4517,6 @@ select:focus {
 }
 
 #contact input[type=submit] {
-    
     color: #fff;
     border: 2px solid #fe4c1c;
     background: #fe4c1c;
