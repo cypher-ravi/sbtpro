@@ -62,7 +62,7 @@ class NewCustomerAPI(viewsets.ModelViewSet):
                 for cust in user:
                     cust.is_customer_registered = True
                     cust.save()
-                serializer.save()
+                serializer.save(customer_is_active=True)
                 user = User.objects.filter(id=request.data['user']).values()
                 assign_branch_to_customer(request.data['city'],request.data['state'],request.data['user'])
                 return Response(user, status=status.HTTP_201_CREATED)
