@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import json
 
 # config.json
-with open("../config.json", "r") as params:
-    parameters = json.load(params)
+# with open("../config.json", "r") as params:
+#     parameters = json.load(params)
 
 import os
 from django.contrib.messages import constants as messages
@@ -144,7 +144,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'rk7305758@gmail.com'
-EMAIL_HOST_PASSWORD = parameters['EMAIL_HOST_PASSWORD']
+EMAIL_HOST_PASSWORD = 'ztupoklvzybovgtd'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'SBT Professional Team <rk7305758@gmail.com>'
