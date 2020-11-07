@@ -957,7 +957,6 @@ button:disabled {
     margin-bottom: 25px;
     border: 0px;
     box-shadow: 0px 35px 30px 0px rgba(0, 0, 0, 0.06);
-    height: 400px;
 }
 
 .card-header {
@@ -1535,6 +1534,7 @@ select:focus {
 .slider-clean3 {
     background: url("../images/content/slider/slider-clean3.jpg") no-repeat;
 }
+
 .projectdetail1 {
     background: url("../images/content/projectdetail/1.jpg") no-repeat;
 }
@@ -4517,7 +4517,6 @@ select:focus {
 }
 
 #contact input[type=submit] {
-    
     color: #fff;
     border: 2px solid #fe4c1c;
     background: #fe4c1c;

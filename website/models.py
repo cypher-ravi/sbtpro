@@ -129,7 +129,7 @@ class Order(models.Model):
     order_id = models.IntegerField(null=False)
     email_id = models.CharField(max_length=45)
     name = models.CharField(max_length=20)
-    phone = PhoneNumberField()
+    phone = models.CharField(max_length=14,blank=True,null=True)
     address = models.CharField(max_length=111)
     state = models.CharField(max_length=111, choices=VALID_STATE_CHOICES)
     city = models.CharField(max_length=111)
@@ -255,7 +255,7 @@ class TOP(models.Model):
     address = models.CharField(max_length=100, default='')
     state = models.CharField(max_length=100, default='')
     city = models.CharField(max_length=100, default='')
-    vendor_mobile_no = PhoneNumberField()
+    vendor_mobile_no = models.CharField(max_length=100, default='',blank=True,null=True)
     vendor_email = models.EmailField(null=True, blank=True)
     Image = models.ImageField(upload_to="website/images/TOPvendors", default="")
     APP_CHOICES = (
@@ -276,7 +276,7 @@ class ServiceContact(models.Model):
     registrant_id = models.AutoField(primary_key=True)
     registrant_id = models.AutoField(primary_key=True)
     registrant_name = models.CharField(max_length=50, default='')
-    registrant_mobile_no = PhoneNumberField()
+    registrant_mobile_no = models.CharField(max_length=50, default='',blank=True, null=True)
     submit_date =  models.DateTimeField(auto_now_add=True)
     registrant_interest = models.CharField(max_length=50, default='')
     registrant_query = models.TextField()
@@ -297,7 +297,7 @@ class Trading(models.Model):
     address_to = models.CharField(max_length=50)
     submit_date = models.DateTimeField(auto_now_add=True)
     zip_code = models.IntegerField(default='')
-    mobile = PhoneNumberField()
+    mobile = models.CharField(max_length=14,blank=True,null=True)
 
     def __str__(self):
         return self.customer_name
@@ -318,7 +318,7 @@ class Faq(models.Model):
 class QueryContact(models.Model):
     query_id = models.AutoField(primary_key=True)
     customer_name = models.CharField(max_length=50)
-    mobile = PhoneNumberField()
+    mobile = models.CharField(max_length=14,blank=True,null=True,default='')
     submit_date =  models.DateTimeField(auto_now_add=True)
     message = models.CharField(max_length=500)
 
@@ -341,7 +341,7 @@ class Feedback(models.Model):
 class Contactviacategory(models.Model):
     registrant_id = models.AutoField(primary_key=True)
     registrant_name = models.CharField(max_length=50, default='')
-    registrant_mobile_no = PhoneNumberField()
+    registrant_mobile_no = models.CharField(max_length=14,blank=True,null=True,default='')
     calling_time = models.CharField(max_length=50, default='')
     submit_date =  models.DateTimeField(auto_now_add=True)
     service_name = models.ForeignKey(to=Subcategory, on_delete=models.CASCADE, default='', blank=True, null=True)

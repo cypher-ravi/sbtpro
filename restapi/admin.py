@@ -4,7 +4,7 @@ from .models import *
 
 
 class AppFeedAdmim(admin.ModelAdmin):
-    list_display = ['description','rating','submit_date']
+    list_display = ['rating','description','submit_date']
     list_filter = ['submit_date']
 
 

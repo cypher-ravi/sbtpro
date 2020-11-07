@@ -44,7 +44,6 @@ def form_validation(form):
 def discount_validation(plan_id, discount, amount, is_vendor):
     # to do make secure multiplier in purchase view
     # change the dict passing for plan_review
-    print('is_vendor .....................', is_vendor)
     plan = Plan.objects.filter(plan_id = plan_id).filter(is_vendor = is_vendor).first()
     if plan == None:
         return ({'discount_applied':'' ,'total':'' ,'error': 'Invlaid Request'})

@@ -97,14 +97,18 @@
 
              
               <ul class="sub-menu">
-                {% for vend in vendor|slice:"0:" %}
+                {% comment %} {% for vend in vendor|slice:"0:" %}
                 <li>
                   <a href="/sbt/Topvendor/{{ vend.vendor_name }}">{{ vend.vendor_name }}</a>
                   {% if forloop.counter|divisibleby:0 and forloop.counter > 0 and not forloop.last%}
                 </li> <a href=""></a>
                 {% endif %}
+                {% endfor %} {% endcomment %}
+                {% for top in TOPS%}
+                  <li>
+                    <a href="{% url 'website:top-details' top.vendor_name%}">{{ top.vendor_name }}</a>
+                  </li>
                 {% endfor %}
-
 
 
               </ul>

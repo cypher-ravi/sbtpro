@@ -32,7 +32,7 @@
   <div class="limiter">
     {% for message in messages %}
     <div class="alert alert-alert-dismissible fade show" role="alert">
-      <strong>Message!</strong> 
+      <strong></strong>{{message}} 
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -43,7 +43,7 @@
       <div class="wrap-login100">
 
         <div class="login100-pic js-tilt" data-tilt>
-          <img src="" alt="IMG" />
+          <img src="/media/ed.png" alt="IMG" />
         </div>
         <form class="login100-form validate-form" action="{% url 'website:login' %}" method="post">
           {% csrf_token %}
@@ -55,12 +55,11 @@
           <input type="hidden" value="" name="url">
 
           <span class="login100-form-title">
-            Signin using Phone Number
+            Signin
           </span>
 
           <div class="wrap-input100 validate-input" data-validate="Enter valid username">
-
-            <input class="input100" type="text" id="login" name="phonenumber" placeholder="Enter your Phone Number" required />
+              <input class="input100" type="text" id="mobile" name="phonenumber" placeholder="Enter your Phone Number" required />
             <span class="focus-input100"></span>
             <span class="symbol-input100">
               <i class="fa fa-phone" aria-hidden="true"></i>
@@ -119,4 +118,30 @@
   <script src=""></script>
 </body>
 
+<script>
+function isNumeric(){
+  
+  var numbers = /^[7-9]+$/;
+  if ($('#error_div_phone').length >= 1) {
+            $('#error_div_phone').remove()
+        }
+        var x = document.getElementById('mobile').value
+        var div = document.createElement('p');
+        div.classList.add('error-msg');
+        div.setAttribute('id', 'error_div_phone')
+     
+        if (!x.match(numbers)) {
+            alert("alphabets and number Starting From 0 to 6 are not Allowed!");
+        } else {
+            if (x.length < 10) {
+              alert("Phone number should not be less then 10 digits");
+
+            }
+            if (x.length > 10) {
+              alert("Phone number should not be greater then 10 digits");
+            }
+        }
+}
+document.getElementById('mobile').addEventListener('change', isNumeric);
+</script>
 </html>
