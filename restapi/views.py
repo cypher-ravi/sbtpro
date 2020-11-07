@@ -235,7 +235,6 @@ def purchase(request, plan_id, user,amount,discount,role):
     if request.method == 'GET':
         if role == 'customer':
             customer_user = Customer.objects.filter(user=user).first()
-            print(customer_user)
             plan = Plan.objects.filter(plan_id=plan_id)
             total = discount * plan[0].plan_amount
             if plan != None:
@@ -247,7 +246,6 @@ def purchase(request, plan_id, user,amount,discount,role):
                 return HttpResponse('Invalid plan and user')
         else:
             vendor_user = Vendor.objects.filter(user=user).first()
-            print(vendor_user)
             plan = Plan.objects.filter(plan_id=plan_id)
             total = plan[0].plan_amount
             if plan != None:
@@ -272,7 +270,6 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
             user_plus_customer = Customer.objects.get(customer_id=customer_id)
             user = User.objects.filter(id=user).first()
             phone = user.phone
-            print(user_plus_customer)
             try:
                 plan = Plan.objects.get(plan_id=plan_id)
             except:
@@ -285,14 +282,12 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
 
             user_amount = request.POST.get('amount')
             if discount != "" and discount != None:
-                response_dict = discount_validation(plan_id, discount, int(user_amount))
+                response_dict = discount_validation(plan_id, discount, int(user_amount),False)
                 if response_dict['error'] != None:
                     return HttpResponse(response_dict['error'])
                 amount = discount * plan.plan_amount
             else:
                 amount = plan.plan_amount
-
-            print('aya..........')
             order_id = random.randint(1, 999999)
             email_id = user_plus_customer.EmailID
             name = user_plus_customer.customer_name
@@ -303,9 +298,6 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
             plan_id = plan.plan_id
 
             # Check if user not provide any discount value
-
-            print(user)
-            print(type(user))
             order = Order(name=name, user=user, email_id=email_id, phone=phone, address=address, city=city,
                             state=state, zip_code=zip_code, amount=amount, discount=discount,order_id=order_id, plan_id=plan, order_completed=False,role=role)
             order.save()
@@ -326,7 +318,6 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
             CheckSum.generateSignature
             param_dict['CHECKSUMHASH'] = CheckSum.generateSignature(
                 detail_dict, parameters['merchant_key'])
-            # print('.................', param_dict)
             return render(request, 'redirect.html', {'detail_dict': param_dict})
 
             return HttpResponse('Either amount or Discount not Matched')
@@ -335,7 +326,6 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
             user_plus_vendor = Vendor.objects.get(vendor_id=customer_id)
             user = User.objects.filter(id=user).first()
             phone = user.phone
-            print(user_plus_vendor)
             try:
                 plan = Plan.objects.get(plan_id=plan_id)
             except:
@@ -343,7 +333,6 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
 
             user_amount = int(request.POST.get('amount'))
 
-            print('aya..........')
             order_id = random.randint(1, 999999)
             email_id = user_plus_vendor.EmailID
             name = user_plus_vendor.Company_Name
@@ -354,13 +343,9 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
             plan_id = plan.plan_id
 
             # Check if user not provide any discount value
-            print(user)
-            print(type(user))
             order = Order(name=name, user=user, email_id=email_id, phone=phone, address=address, city=city,
                             state=state, zip_code=zip_code, amount=user_amount,discount=discount, order_id=order_id, plan_id=plan, order_completed=False,role=role)
             order.save()
-            print('..................',order)
-
             # sending details to paytm gateway in form of dict
             detail_dict = {
                 "MID": parameters['merchant_id'],
@@ -377,7 +362,6 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
             CheckSum.generateSignature
             param_dict['CHECKSUMHASH'] = CheckSum.generateSignature(
                 detail_dict, parameters['merchant_key'])
-            # print('.................', param_dict)
             return render(request, 'redirect.html', {'detail_dict': param_dict})
         return render(request, 'checkout2.html', {'plan': plan})  # for checkout
     # except Exception as e:
@@ -390,7 +374,6 @@ def req_handler(request):
     if request.method == 'POST':
         response_dict = dict()
         form = request.POST
-        print(form["ORDERID"])
         role = {
         'customer': 'customer',
         'vendor': 'vendor',
@@ -399,22 +382,16 @@ def req_handler(request):
         # another if to handle if user load refresh
         is_order_exist = Order_Payment.objects.filter(
             order_id=form["ORDERID"]).exists()
-        print('............................order', is_order_exist)
         if is_order_exist == False:
             # FOR ALL VALUES
             for i in form.keys():
                 response_dict[i] = form[i]
-                print(i, form[i])
-
                 if i == "CHECKSUMHASH":
                     response_check_sum = form[i]
 
             verify = CheckSum.verifySignature(
                 response_dict, parameters['merchant_key'], response_check_sum)
-            print(verify)
             # response_dict["STATUS"] = "PENDING"
-            print('.........response_dict["STATUS"]', response_dict["STATUS"])
-            print("..................", verify)
             if verify and response_dict["STATUS"] != "TXN_FAILURE" or response_dict["STATUS"] == "PENDING":
                 order_payment = Order_Payment()
                 usr = User
@@ -447,8 +424,6 @@ def req_handler(request):
                 order_payment.save()
                 payment_status = Order_Payment.objects.get(
                     order_id=response_dict["ORDERID"])
-                
-                print('00.........',order.discount)
                 if order.role == 'customer':
                     user = order_payment.order_summary.user
                     user.is_customer_paid =True 
@@ -464,13 +439,12 @@ def req_handler(request):
                     vendor = Vendor.objects.filter(user=user).first()
                     vendor.registration_fee = order_payment.order_summary.plan_id
                     vendor.save()
-                print('Order payment..............................',order_payment.order_summary.user)
-                print('Order payment..............................',type(order_payment))
-              
+
                 return render(request, 'ordersucess.html', {'payment': payment_status})
             else:
                 Order.objects.filter(
                     order_id=response_dict["ORDERID"]).delete()
+
                 return HttpResponse('Order is not Placed Because of some error. Please <a href="/sbt/">Try Again </a>')
         else:
             payment_status = Order_Payment.objects.get(
@@ -516,12 +490,9 @@ def order_status(request, slug):
             # for Production
             # url = "https://securegw.paytm.in/order/status"
 
-            response = requests.post(url, data=post_data, headers={
-                                     "Content-type": "application/json"}).json()
-            print(response)
+            response = requests.post(url, data=post_data, headers={"Content-type": "application/json"}).json()
 
             if response["STATUS"] == "TXN_SUCCESS":
-                print("Updating Status")
                 obj = Order_Payment.objects.get(order_id=slug)
                 obj.status = response["STATUS"]
                 obj.response_code = response["RESPCODE"]

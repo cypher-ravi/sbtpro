@@ -118,21 +118,16 @@ class getPhoneNumberRegistered(APIView):
     def get(request, phno):
         if not User.objects.filter(phone = phno).exists(): # there is also you can verify otp via runtime but search it out is it good or not for memory!
             totp = pyotp.TOTP('base32secret3232',interval=300)
-            print('...................TOTP in send',totp)
             otp = totp.now()
-            print(otp)
             url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
             response = requests.request("GET",url)
-            print(response)
-            print(otp)
             return Response({'sent':True,'OTP':otp})
         else:
             totp = pyotp.TOTP('base32secret3232',interval=300)
-            print('...................TOTP in send else',totp)
             otp = totp.now()
             url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
             response = requests.request("GET",url)
-            print(response)
+            
             return Response({'sent':True,'OTP':otp})
         
 
@@ -142,41 +137,32 @@ class getPhoneNumberRegistered(APIView):
 
         if User.objects.filter(phone = phno).exists():
             already_verified_user = User.objects.filter(phone__iexact = phno).first()
-            print('...............',already_verified_user)
             count = already_verified_user.otp_count
             if count == None:
                 count = 0
                 totp = pyotp.TOTP('base32secret3232',interval=300)
-                print("otp now",type(request.data['otp']))
                 resp = totp.verify(request.data['otp'])  
                 if resp == True:
                     already_verified_user.otp_count = count + 1
                     already_verified_user.is_verified = True
                     already_verified_user.save()
                     already_verified_user = User.objects.filter(phone = phno).values()
-                   
-                    print(already_verified_user[0])
                     return Response({'verified':True,'user':already_verified_user[0]},status=status.HTTP_200_OK)
                 else:
                     return Response({'verified':False},status=status.HTTP_200_OK)
             else:
                 totp = pyotp.TOTP('base32secret3232',interval=300)
                 resp = totp.verify(request.data['otp'])
-                print("otp now",type(request.data['otp']))
-                print(resp)
                 if resp == True:
                     already_verified_user.otp_count = count + 1
                     already_verified_user.is_verified = True
                     already_verified_user.save()
                     already_verified_user = User.objects.filter(phone = phno).values()
-                    print(already_verified_user[0])
                     serializer = UserSerializer(already_verified_user[0])
-                    print(serializer.data)
                     return Response({'verified':True,'user':already_verified_user[0]},status=status.HTTP_200_OK)
                 else:
                     return Response({'verified':False},status=status.HTTP_200_OK)
         totp = pyotp.TOTP('base32secret3232',interval=300)
-        print("otp now.................",request.data['otp'])
         resp = totp.verify(request.data['otp'])
         if resp == True:
             data = {
@@ -184,7 +170,6 @@ class getPhoneNumberRegistered(APIView):
             }
             serializer = UserCreateSerializer(data =data )
             if serializer.is_valid(raise_exception=True):
-                print('inside if.....')
                 serializer.save(is_verified=True)
                 return Response({'verified':True,'user':serializer.data}, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

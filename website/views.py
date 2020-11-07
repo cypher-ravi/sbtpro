@@ -130,7 +130,6 @@ def jobs(request):
         mobile = request.POST.get('contactmobile', '')
         education = request.POST.get('contactEducation', '')
         experience = request.POST.get('contactexperience', '')
-        print(experience)
 
         # checks on values of form and using django.contrib import message for alert messages
         resume = Job(name=name, mobile=mobile,
@@ -265,8 +264,6 @@ def customer_card_purchase(request, plan_id):
             is_vendor = request.POST.get('is_vendor')
             discount = request.POST.get('discount')
             plan = Plan.objects.get(plan_id = plan_id)
-
-            print('..........',request.user)
             customer = Customer()
             customer.user = request.user
             # customer.customer_id = models.
@@ -310,7 +307,6 @@ def customer_card_purchase(request, plan_id):
             else:
                 amount = plan.plan_amount
 
-            print('aya..........')
             order_id = random.randint(1, 999999)
             email_id = request.POST.get('email_id')
             name = request.POST.get('name')
@@ -321,9 +317,6 @@ def customer_card_purchase(request, plan_id):
             plan_id = plan.plan_id
 
             # Check if user not provide any discount value
-
-            print(user)
-            print(type(user))
             order = Order(name=name, user=user, phone=phone, address=address, city=city,
                             state=state, zip_code=zip_code, amount=amount, discount=discount,order_id=order_id, plan_id=plan, order_completed=False,role='customer')
             order.save()
@@ -359,7 +352,6 @@ def req_handler(request):
     if request.method == 'POST':
         response_dict = dict()
         form = request.POST
-        print(form["ORDERID"])
         role = {
         'customer': 'customer',
         'vendor': 'vendor',
@@ -367,22 +359,18 @@ def req_handler(request):
 
         # another if to handle if user load refresh
         is_order_exist = Order_Payment.objects.filter(order_id=form["ORDERID"]).exists()
-        print('............................order', is_order_exist)
         if is_order_exist == False:
             # FOR ALL VALUES
             for i in form.keys():
                 response_dict[i] = form[i]
-                print(i, form[i])
+               
 
                 if i == "CHECKSUMHASH":
                     response_check_sum = form[i]
 
             verify = CheckSum.verifySignature(
                 response_dict, parameters['merchant_key'], response_check_sum)
-            print(verify)
             # response_dict["STATUS"] = "PENDING"
-            print('.........response_dict["STATUS"]', response_dict["STATUS"])
-            print("..................", verify)
             if verify and response_dict["STATUS"] != "TXN_FAILURE" or response_dict["STATUS"] == "PENDING":
                 order_payment = Order_Payment()
                 usr = User
@@ -416,7 +404,6 @@ def req_handler(request):
                 payment_status = Order_Payment.objects.get(
                     order_id=response_dict["ORDERID"])
 
-                print('00.........',order.discount)
                 if order.role == 'customer':
                     user = order_payment.order_summary.user
                     user.is_customer_paid =True
@@ -432,8 +419,6 @@ def req_handler(request):
                     vendor = Vendor.objects.filter(user=user).first()
                     vendor.registration_fee = order_payment.order_summary.plan_id
                     vendor.save()
-                print('Order payment..............................',order_payment.order_summary.user)
-                print('Order payment..............................',type(order_payment))
 
                 return render(request, 'ordersucess.html', {'payment': payment_status})
             else:
@@ -488,10 +473,8 @@ def order_status(request, slug):
 
             response = requests.post(url, data=post_data, headers={
                                      "Content-type": "application/json"}).json()
-            print(response)
 
             if response["STATUS"] == "TXN_SUCCESS":
-                print("Updating Status")
                 obj = Order_Payment.objects.get(order_id=slug)
                 obj.status = response["STATUS"]
                 obj.response_code = response["RESPCODE"]
@@ -527,7 +510,6 @@ def log_in(request):
 
 def verify(request):
     if request.method == "POST":
-        print('..........post')
         phno = request.POST.get('phonenumber')
         otp = request.POST.get('otp')
         base_url = parameters["BASE_URL"]
@@ -538,7 +520,6 @@ def verify(request):
             'phone':phno
         }
         response = requests.post(url,data=data)
-        print(response)
         # if response.status_code == 408 or response.status_code == 404: # 408 - Request Time Out
         #     messages.error(request, 'Login Failed')
         #     return redirect('website:verify')
@@ -629,13 +610,11 @@ def search(request):
     # try:
     query = request.GET['query']
     location = request.GET['location']
-    print(location)
     if len(query) > 80 and len(location) > 20:
-        vendor = Vendor.objects.none()
+        vendors = Vendor.objects.none()
     else:
         or_lookup = (Q(city__icontains=location) & Q(Busniess_Type__category_name__icontains=query))
         vendors = Vendor.objects.filter(or_lookup)
-        print(vendors)
     params = {'query': query, 'vendors': vendors, 'location': location,
                 'category': category}
     return render(request, 'website/search/searchtest.html', params)
@@ -669,8 +648,6 @@ def search_top(request):
     else:
         or_lookup = (Q(vendor_name__icontains=query) | Q(Busniess_Type__category_name__icontains=query) | Q( vendor_work_desc__icontains=query))
         filtered_top_vendors = TOP.objects.filter(or_lookup)
-
-        print(filtered_top_vendors)
     return render(request, 'website/search/search_top.html',
                   {'filtered_top_vendors': filtered_top_vendors, 'category': category,'query':query})
 
@@ -824,8 +801,8 @@ def frenchise(request):
         address = request.POST.get('address')
         frenchise_option = request.POST['Interest']
         if frenchise_option:
-            obj = FrenchiseContact(customer_name=customer_name, email=email, mobile_no=mobile_no, address=address,
-                                   frenchise_option=frenchise_option)
+            obj = FrenchiseContact(name=customer_name, email=email, mobile_no=mobile_no, address=address,
+                                   franchise_option=frenchise_option)
             obj.save()
             send_mail(
                 subject='New Frenchise customer',
@@ -851,7 +828,6 @@ def suggestions(request):
 
         keyword = list()
         for i in obj:
-            print(i.name)
             keyword.append(i.name)
         return JsonResponse(keyword, safe=False)
 
@@ -896,11 +872,6 @@ def query(request):
         range = 10
         lat_p, lng_p = haver_sine_formula(loc.latitude, loc.longitude, range)
         lat_n, lng_n = haver_sine_formula(loc.latitude, loc.longitude, -range)
-        print(loc.latitude)
-        print(lat_p)
-        print('loc.lng',loc.longitude)
-        print('lng_p',lng_p)
-
         # lte -> less then equal
         # gte -> greater then equal
 
@@ -938,7 +909,6 @@ def location(request):
     # (29.68744057560696, 76.99884150262069)
     # >>> l[0]
     # 'Sector 13, Model Town, Karnal, Haryana, 132001, India'
-    print('loc[0]')
     return JsonResponse({'reverse_geoenc':loc[0]})
 
 def search(request):
@@ -946,13 +916,11 @@ def search(request):
     # try:
     query = request.GET['query']
     location = request.GET['location']
-    print(location)
     if len(query) > 80 and len(location) > 20:
-        vendor = Vendor.objects.none()
+        vendors = Vendor.objects.none()
     else:
         or_lookup = (Q(city__icontains=location) & Q(Busniess_Type__category_name__icontains=query))
         vendors = Vendor.objects.filter(or_lookup)
-        print(vendors)
     params = {'query': query, 'vendors': vendors, 'location': location,
                 'category': category}
     return render(request, 'website/search/searchtest.html', params)
@@ -990,7 +958,6 @@ def test(request):
         lat_list_neg.append(lat2)
         lng_list_neg.append(lng2)
 
-    print(f'{lat2}, {lng2}')
 
     # queryset = Location.objects.filter(current_lat__gte=lat1, current_lat__lte=lat2)\
     #     .filter(current_long__gte=long1, current_long__lte=long2)

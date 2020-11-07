@@ -15,7 +15,7 @@ User = get_user_model()
 with open('config.json', mode='r') as file:
     parameters = json.load(file)
 
-print(parameters['key'])
+
 
 # Create your views here.
 
@@ -55,7 +55,6 @@ class NewCustomerAPI(viewsets.ModelViewSet):
             for i in user:
                 if i.is_customer_registered == True:
                     return Response('this user already a customer')
-            print(user)
             serializer = CustomerSerializer(data=data)
             if serializer.is_valid(raise_exception=True):
                 for cust in user:
@@ -79,7 +78,6 @@ class CustomerDetail(generics.GenericAPIView):
 
     def get(self, request,slug,pk, format=None):
         customer = Customer.objects.filter(user=pk)
-        print(customer)
         if customer.exists():
             key = parameters['key']
             if slug == key:   

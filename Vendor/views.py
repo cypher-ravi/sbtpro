@@ -55,7 +55,6 @@ class VendorDetail(generics.GenericAPIView):
 
     def get(self, request,slug,pk, format=None):
         vendor = Vendor.objects.filter(user=pk)
-        print(vendor)
         if vendor.exists():
             key = parameters['key']
             if slug == key:   
@@ -85,7 +84,6 @@ class NewVendorAPI(viewsets.ModelViewSet):
             user=request.data['user'])
         if vendor.exists():
             vendor = Vendor.objects.filter(user=request.data['user']).first()
-            print(vendor)
             partial = kwargs.pop('partial', True)
             instance = vendor
             serializer = self.get_serializer(instance, data=request.data, partial=partial)
@@ -101,7 +99,6 @@ class NewVendorAPI(viewsets.ModelViewSet):
         for check_vendor in user:
             if check_vendor.is_vendor_registered == True:
                 return Response('this user already a vendor')
-        print(user)
         serializer = VendorSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -128,11 +125,9 @@ class VendorImageAPIView(viewsets.ModelViewSet):
     def create(self,request, *args, **kwargs):
         vendor = Vendor.objects.filter(user=request.data['user'])
         if vendor.exists():
-            print(vendor)
             serializer = VendorImageAPISerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save(vendor=vendor[0])
-                print(serializer.data)
                 return JsonResponse(serializer.data)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -154,7 +149,6 @@ class VendorImageDetailView(generics.GenericAPIView,mixins.DestroyModelMixin):
 
     def get(self, request,slug,pk, format=None):
         vendor_images = VendorImages.objects.filter(user=pk)
-        print(vendor_images)
         if vendor_images.exists():
             key = parameters['key']
             if slug == key:   
@@ -179,12 +173,10 @@ class VendorServiceAPIView(viewsets.ModelViewSet):
             vendor = Vendor.objects.filter(user=request.data['user'])
         except:
             return Response([])
-        print(vendor)
         if vendor.exists():
             serializer = VendorServiceAPISerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save(vendor=vendor[0])
-                print(serializer.data)      
                 return Response(serializer.data,status=status.HTTP_201_CREATED)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -205,7 +197,6 @@ class VendorServiceDetailView(generics.GenericAPIView,mixins.DestroyModelMixin):
 
     def get(self, request,slug,pk, format=None):
         vendor_services = VendorServices.objects.filter(user=pk)
-        print(vendor_services)
         if vendor_services.exists():
             key = parameters['key']
             if slug == key:   
@@ -224,9 +215,7 @@ class VendorImagesByVendorID(generics.GenericAPIView):
     serializer_class = VendorImagesListSerializer
 
     def get(self, request,slug,pk, format=None):
-        print(pk)
         vendor_images= VendorImages.objects.filter(vendor__vendor_id=pk)
-        print(vendor_images)
         if vendor_images.exists():
             key = parameters['key']
             if slug == key:   
@@ -248,9 +237,7 @@ class VendorServicesByVendorID(generics.GenericAPIView):
     serializer_class = VendorServiceListSerializer
 
     def get(self, request,slug,pk, format=None):
-        print(pk)
         vendor_service= VendorServices.objects.filter(vendor__vendor_id=pk)
-        print(vendor_service)
         if vendor_service.exists():
             key = parameters['key']
             if slug == key:   

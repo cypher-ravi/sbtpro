@@ -139,7 +139,6 @@ class EmployeeDetail(generics.GenericAPIView):
 
     def get(self, request,slug,pk, format=None):
         employee = Employee.objects.filter(user=pk)
-        print(employee)
         if employee.exists():
             key = parameters['key']
             if slug == key:   
