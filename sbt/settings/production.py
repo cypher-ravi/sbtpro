@@ -4,7 +4,8 @@ import json
 
 from pathlib import Path
 
-path = Path(__file__).parent / "../sbtproject/SBTProlive/config.json"
+path = Path(__file__).parent 
+# / "../sbtproject/SBTProlive/config.json"
 with path.open() as params:
     parameters = json.load(params)
 
