@@ -15,7 +15,7 @@ router.register("CategoryAPI",NewCategoryAPI)
 app_name = 'rest_api'
 
 urlpatterns = [
-    path('api_doc/',schema_view),
+    # path('api_doc/',schema_view),
     path('<str:slug>/plan_list',PlanList.as_view({'get':'list'}),name='plan_list'),
     path('<str:slug>/tops_list',ToptList.as_view({'get':'list'}),name='tops_list'),
     path('<str:slug>/plan_detail/<int:pk>',PlanDetail.as_view({'get':'retrieve'})),
