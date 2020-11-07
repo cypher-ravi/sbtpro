@@ -7,12 +7,7 @@ from pathlib import Path
 # path = Path(__file__).parent / ../"config.json"
 # / "../sbtproject/SBTProlive/config.json"
 
-current_working_dir = os.getcwd()
-
-
-print(current_working_dir)
-
-abs_pathname = os.path.join(current_working_dir, "config.json")
+abs_pathname = os.path.abspath("config.json")
 with open(abs_pathname,"r") as params:
     parameters = json.load(params)
 
