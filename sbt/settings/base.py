@@ -9,11 +9,6 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-import json
-
-# config.json
-# with open("../config.json", "r") as params:
-#     parameters = json.load(params)
 
 import os
 from django.contrib.messages import constants as messages

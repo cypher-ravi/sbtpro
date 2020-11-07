@@ -2,6 +2,11 @@ from .base import *
 
 
 from .base import *
+import json
+
+
+with open("config.json", "r") as params:
+    parameters = json.load(params)
 
 DEBUG = True
 
