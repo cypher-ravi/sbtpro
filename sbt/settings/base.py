@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import json
 
-with open("config.json", "r") as params:
+# config.json
+with open("./config.json", "r") as params:
     parameters = json.load(params)
 
 import os
