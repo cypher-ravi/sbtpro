@@ -1,4 +1,5 @@
 import json
+import pathlib
 import random
 
 import requests
@@ -23,8 +24,10 @@ from website.validations import discount_validation
 
 from .serializers import *
 
-with open("config.json", "r") as params:
+fn = pathlib.Path(__file__).parent.parent.parent / 'config.json'
+with open(fn,"r") as params:
     parameters = json.load(params)
+
 
 from authentication.pagination import PaginationForVendorAndCategory
 from django_filters import rest_framework as filters
