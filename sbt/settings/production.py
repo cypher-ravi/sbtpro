@@ -28,9 +28,9 @@ MIDDLEWARE += [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sbtdbnew',
-        'USER': 'sbtadmin',
-        'PASSWORD': '2020@SBTadmin',
+        'NAME': 'sbt',
+        'USER': 'sbtliveadmin',
+        'PASSWORD': 'XWZ@3Blqwertsbt',
         'HOST': 'localhost',
         'PORT': '',
         'OPTIONS': {
