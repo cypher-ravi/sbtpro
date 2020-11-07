@@ -452,7 +452,7 @@ label:before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #fff url(../images/load.gif) no-repeat center;
+    background: #fff url(../images/sbtpro.gif) no-repeat center;
     background: #fff url() no-repeat center;
     -webkit-animation: spin 300s linear infinite;
     /* Safari */
