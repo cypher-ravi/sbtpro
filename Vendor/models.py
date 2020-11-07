@@ -87,7 +87,7 @@ class Vendor(models.Model):
     Latitude = models.CharField(max_length=100, null=True, blank=True)
     submit_date = models.DateTimeField(auto_now_add=True)
     Image = models.ImageField(upload_to="website/images/vendors", default="",null=True,blank=True)
-    keywords = models.ManyToManyField(KeyWord)
+    keywords = models.ManyToManyField(KeyWord,blank=True)
     TYPE_OF_BUSINESS =  (
     ("none", "Please Select"),
     ("retailer", "retailer"),

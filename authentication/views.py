@@ -119,12 +119,14 @@ class getPhoneNumberRegistered(APIView):
         if not User.objects.filter(phone = phno).exists(): # there is also you can verify otp via runtime but search it out is it good or not for memory!
             totp = pyotp.TOTP('base32secret3232',interval=300)
             otp = totp.now()
+            print(otp)
             url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
             response = requests.request("GET",url)
             return Response({'sent':True,'OTP':otp})
         else:
             totp = pyotp.TOTP('base32secret3232',interval=300)
             otp = totp.now()
+            print(otp)
             url = f"http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={phno}&route=TA&msgtype=1&sms=Your verifying code is {otp}"
             response = requests.request("GET",url)
             
