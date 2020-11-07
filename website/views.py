@@ -48,8 +48,8 @@ from .validations import *
 MID = "VdMxPH61970223458566"  # MERCHANT ID
 MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
 
-
-with open("config.json", "r") as params:
+fn = pathlib.Path(__file__).parent.parent / 'config.json'
+with open(fn,"r") as params:
     parameters = json.load(params)
 
 # def vendor_profile(request):
