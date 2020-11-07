@@ -2,7 +2,6 @@
 from .base import *
 import json
 
-config.json
 with open("/sbtproject/config.json", "r") as params:
     parameters = json.load(params)
 
