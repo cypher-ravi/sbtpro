@@ -1,5 +1,6 @@
 import json
 from os import access
+import pathlib
 from django.db import reset_queries
 
 import requests
@@ -45,9 +46,9 @@ from .models import *
 User = get_user_model()
 
 
-with open('config.json', mode='r') as file:
-    parameters = json.load(file)
-
+fn = pathlib.Path(__file__).parent.parent / 'config.json'
+with open(fn,"r") as params:
+    parameters = json.load(params)
 api_key = parameters['key']
 
 def search(request):
