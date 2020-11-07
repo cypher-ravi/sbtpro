@@ -1,10 +1,13 @@
+import pathlib
 from .models import Plan
 import requests
 import math 
 import json
 
 
-with open("config.json", "r") as params:
+
+fn = pathlib.Path(__file__).parent.parent / 'config.json'
+with open(fn,"r") as params:
     parameters = json.load(params)
 
 phone = parameters['admin_phone']
