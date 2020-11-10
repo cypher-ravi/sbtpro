@@ -189,7 +189,7 @@ def download(request):
         else:
             messages.warning(request,'Enter a number!')
             return render(request, 'website/pages/downloadapp.html', {'category': category})
-    return render(request, 'website/pages/downloadapp.html', {'vendor': vendor, 'category': category})
+    return render(request, 'website/pages/downloadapp.html', {'category': category})
 
 
 def categories(request, slug):
@@ -209,7 +209,7 @@ def sub_to_sub_category(request, slug):
     if related_sub_sub_category.exists():
         return render(request, 'website/pages/subcategory.html',
                       {'sub_category': related_sub_category, 'related_sub_sub_category': related_sub_sub_category,
-                       'category': category,'vendor':vendor})
+                       'category': category})
     else:
         return render(request, 'website/forms/contact_via_category.html', {'slug': slug, 'category': category})
 
