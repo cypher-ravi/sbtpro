@@ -50,13 +50,7 @@ function geolocate() {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
             };
-            // var circle = new google.maps.Circle({
-            //   center: geolocation,
-            //   radius: position.coords.accuracy
-            // });
-            // autocomplete.setBounds(circle.getBounds());
 
-            // document.getElementById('autocomplete').value = geolocation.lat;
             $.ajax({
                 type: 'GET',
                 dataType: 'json',

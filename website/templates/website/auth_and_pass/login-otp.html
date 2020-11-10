@@ -120,28 +120,30 @@
 
 <script>
 function isNumeric(){
+  var x = document.getElementById('mobile').value  
+  var error_str = x[0] + x[1]
+  var letters = /^[A-Za-z]+$/;
+   if(x.match(letters))
+    {
+      error_str +='\n Alphabet is not Valid';
+    } 
   
-  var numbers = /^[7-9]+$/;
-  if ($('#error_div_phone').length >= 1) {
-            $('#error_div_phone').remove()
-        }
-        var x = document.getElementById('mobile').value
-        var div = document.createElement('p');
-        div.classList.add('error-msg');
-        div.setAttribute('id', 'error_div_phone')
-     
-        if (!x.match(numbers)) {
-            alert("alphabets and number Starting From 0 to 6 are not Allowed!");
-        } else {
-            if (x.length < 10) {
-              alert("Phone number should not be less then 10 digits");
+  if(!(x[0] >= 7 && x[0] <= 9)){
+    // length check
+    if(!(x.length >= 10 && x.length <= 12)){
+      error_str +='\n length is not valid';
+    }
+    error_str += '\n Starting Number Should Be in Range 7 - 12';  
+  }
 
-            }
-            if (x.length > 10) {
-              alert("Phone number should not be greater then 10 digits");
-            }
-        }
+
+
+  if(error_str != ''){
+    alert(error_str);
+  }
+
 }
 document.getElementById('mobile').addEventListener('change', isNumeric);
+
 </script>
 </html>
