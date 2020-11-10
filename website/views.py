@@ -330,7 +330,7 @@ def customer_card_purchase(request, plan_id):
                 "CHANNEL_ID": "WEB",
                 "ORDER_ID": str(order_id),
                 "TXN_AMOUNT": str(amount),
-                "CALLBACK_URL": f'{parameters["BASE_URL"]}/api/req_handler',
+                "CALLBACK_URL": f'{parameters["BASE_URL"]}/sbt/req_handler',
             }
 
             param_dict = detail_dict
@@ -356,20 +356,16 @@ def req_handler(request):
         'customer': 'customer',
         'vendor': 'vendor',
             }
-
         # another if to handle if user load refresh
         is_order_exist = Order_Payment.objects.filter(order_id=form["ORDERID"]).exists()
         if is_order_exist == False:
             # FOR ALL VALUES
             for i in form.keys():
                 response_dict[i] = form[i]
-               
-
                 if i == "CHECKSUMHASH":
                     response_check_sum = form[i]
 
-            verify = CheckSum.verifySignature(
-                response_dict, parameters['merchant_key'], response_check_sum)
+            verify = CheckSum.verifySignature(response_dict, parameters['merchant_key'], response_check_sum)
             # response_dict["STATUS"] = "PENDING"
             if verify and response_dict["STATUS"] != "TXN_FAILURE" or response_dict["STATUS"] == "PENDING":
                 order_payment = Order_Payment()
@@ -495,12 +491,9 @@ def order_status(request, slug):
 
 
 
-
 def log_in(request):
     if request.method == 'POST':
         phno = request.POST.get('phonenumber')
-        # regex= r'^[6-9]\d{9,14}$'
-        # tre.search(regex, phno)
         base_url = parameters["BASE_URL"]
         url = f'{base_url}/auth/{phno}'
         requests.get(url)
