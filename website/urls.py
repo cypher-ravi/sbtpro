@@ -73,6 +73,8 @@ urlpatterns = [
 #     path('login/', views.log_in, name='Login'),
 #     path('logout/', views.logout_view, name='Logout')
 
+    path('refund_policy', views.refund_policy, name = 'refund-policy'),
+    path('privacy_policy', views.privacy_policy, name = 'privacy-policy'),
     # Password Reset Urls
 #     path('reset_password/',
 #          auth_views.PasswordResetView.as_view
