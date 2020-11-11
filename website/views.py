@@ -964,6 +964,11 @@ def vendor_review(request):
     return render(request, 'website/vendor_review_test.html')
 
 
+def refund_policy(request):
+    return render(request, 'website/pages/refund-policy.html')
+
+def privacy_policy(request):
+    return render(request, 'website/pages/privacy-policy.html')
 
 #error handling view
 def error_404_view(request,exception):

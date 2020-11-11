@@ -107,7 +107,10 @@
                 <label for="phone">Phone Number</label>
                 <input type="text" class="form-control" placeholder="Where company contacts you" name="phone" id="phone" required>
             </div>
-
+            <div class="form-group " id="div_phone" >
+                <input type="checkbox" class="" required placeholder="Where company contacts you" name="phone" id="phone" required>
+                <label for="phone">Before Continue Please Read Our <a href="{% url 'website:Terms_and_condition'%}">Terms and Conditions</a></label>
+            </div>
             <button type="submit" class="color-two">Place Order</button>
         </form>
     </div>
