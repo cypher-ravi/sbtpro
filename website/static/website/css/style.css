@@ -3,6 +3,24 @@
     padding: 0;
 } */
 
+/* separator for adding text between line */
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.separator::before, .separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #000;
+}
+.separator::before {
+    margin-right: .25em;
+}
+.separator::after {
+    margin-left: .25em;
+}
+
 .header_search {
     height: 100vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.5)), url(https://source.unsplash.com/random);
