@@ -12,7 +12,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from geopy.geocoders import Nominatim
 from Vendor.models import KeyWord, Vendor, VendorServices
-
+from django.core.mail import EmailMessage
 from .DummyData import DummyData
 
 # To import for login,Signup
@@ -130,10 +130,10 @@ def jobs(request):
         mobile = request.POST.get('contactmobile', '')
         education = request.POST.get('contactEducation', '')
         experience = request.POST.get('contactexperience', '')
-
         # checks on values of form and using django.contrib import message for alert messages
         resume = Job(name=name, mobile=mobile,
                      education=education, experience=experience)
+
         resume.save()
         messages.success(request, 'Form submission successful. SBT Professional team Contact You within '
                                   '24 hours.')
@@ -165,18 +165,18 @@ def upload_resume(request):
                                 'Resume submission successful. SBT Professional team Contact You within 24 hours.')
             try:
                 file = settings.MEDIA_URL[1:] + str(uploaded_resume)
-                from django.core.mail import EmailMessage
+                
                 msg = EmailMessage('New job Seeker on your website', 'name =' + name, parameters['from_email'],
                                     [parameters['to_email']])
                 msg.attach_file(file)
                 msg.send()
-            except Exception as e:
+            except:
                 messages.error(request,'Failed to uplaod Resume! Try Again.')
                 return redirect('website:Sbthome')
         else:
-            messages.error(request, 'Before submit resume Enter your name')
+            messages.error(request, 'Before submit Resume Please Enter your name')
 
-    return render(request, 'website/job_form.html', {'category': category})
+    return render(request, 'website/forms/job_form.html', {'category': category})
 
 def download(request):
     category = Categories.objects.all()
