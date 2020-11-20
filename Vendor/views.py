@@ -257,9 +257,11 @@ def add_user_to_vendor(request):
     vendor = []
     for i in vendors:
         vendor.append(i.Mobile_No)
-        user = User.objects.create(phone=i.Mobile_No,is_vendor_registered=True)
-        user.save()
+        try:
+            user = User.objects.get(phone=i.Mobile_No)
+        except User.DoesNotExist:
+            user = User(phone=i.Mobile_No,is_vendor_registered=True,is_vendor_paid=True)
+            user.save()
         i.user = user
         i.save()
-    return HttpResponse(vendor)
-
+    return HttpResponse('added')
