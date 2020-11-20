@@ -379,7 +379,7 @@
                                 <h4>{{ plan.plan_name }}</h4>
                                 <div class="tbl-prc-price">
                                     <a href="{% url 'website:plan-purchase' plan.plan_id %}">
-                                        <img class="market-img" src="media/{{ plan.plan_img }}" alt=""></a>
+                                        <img class="market-img" src="/media/{{ plan.plan_img }}" alt=""></a>
                                     <span class="price" style="margin-top: 32px;">₹{{ plan.plan_amount}}</span>
                                     <span class="month">/ percent</span>
                                 </div>
