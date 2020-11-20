@@ -2,7 +2,7 @@ import base64
 import io
 import pathlib
 
-from django.http.response import JsonResponse
+from django.http.response import HttpResponse, JsonResponse
 from Vendor.functions import assign_branch_to_vendor
 #  convert_to_image_and_save_to_VendorImages
 import json
@@ -249,4 +249,17 @@ class VendorServicesByVendorID(generics.GenericAPIView):
         else:
             return Response([])
 
+
+
+
+def add_user_to_vendor(request):
+    vendors = Vendor.objects.all()
+    vendor = []
+    for i in vendors:
+        vendor.append(i.Mobile_No)
+        user = User.objects.create(phone=i.Mobile_No,is_vendor_registered=True)
+        user.save()
+        i.user = user
+        i.save()
+    return HttpResponse(vendor)
 

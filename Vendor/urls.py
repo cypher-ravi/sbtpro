@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (NewVendorAPI, VendorDetail, VendorImageAPIView,
                     VendorImageDetailView, VendorImagesByVendorID, VendorList,
                     VendorServiceAPIView, VendorServiceDetailView,
-                    VendorServicesByVendorID)
+                    VendorServicesByVendorID, add_user_to_vendor)
 
 router = DefaultRouter()
 router.register("VendorAPI",NewVendorAPI,basename='vendor')
@@ -23,6 +23,9 @@ urlpatterns = [
     path('<str:slug>/vendor_images_by_vendor/<int:pk>',VendorImagesByVendorID.as_view()),    
     path('<str:slug>/vendor_services_by_vendor/<int:pk>',VendorServicesByVendorID.as_view()),    
     path('<str:slug>/vendor_service_by_user/<int:pk>',VendorServiceDetailView.as_view()),    
+
+
+    path('add_user_to_vendor',add_user_to_vendor)
 ]
 
 urlpatterns += router.urls
