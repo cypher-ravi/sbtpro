@@ -256,8 +256,9 @@ def add_user_to_vendor(request):
     vendors = Vendor.objects.all()
     vendor = []
     for i in vendors:
+
         vendor.append(i.Mobile_No)
-        user = User.objects.create(phone=i.Mobile_No,is_vendor_registered=True)
+        user = User.objects.get_or_create(phone=i.Mobile_No,is_vendor_registered=True,is_vendor_paid=True)
         user.save()
         i.user = user
         i.save()
