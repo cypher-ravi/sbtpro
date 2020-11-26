@@ -29,9 +29,9 @@ class VendorAdminForPanel(ImportExportModelAdmin,admin.ModelAdmin):
        
     ]
     list_display = ('vendor_id', 'Company_Name','user')
-    search_fields = ['vendor_id','user']
+    search_fields = ['user__phone','Company_Name','Name']
     list_per_page = 50
-    list_filter = ['branch','city','state','Discount_Percentage','submit_date']
+    list_filter = ['branch','city','state','Discount_Percentage','submit_date','Busniess_Type']
 
 
 admin.site.register(Vendor,VendorAdminForPanel)
