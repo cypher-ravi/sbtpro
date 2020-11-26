@@ -35,5 +35,9 @@ urlpatterns = [
     path('req_handler', req_handler, name='Request Handler'),
     path('order_status/<str:slug>', order_status, name='Order_Status'),
 
+
+    path('appformer_data/', appformer_data),
+
+
 ]
 urlpatterns += router.urls
