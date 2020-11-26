@@ -3,6 +3,7 @@ import pathlib
 import random
 
 import requests
+from django.core.mail import send_mail
 from authentication.serializers import UserSerializer
 from Customer.models import Customer
 from Customer.serializers import CustomerPlanSerializer
@@ -10,7 +11,7 @@ from dashboard.models import Banner
 from dashboard.serializers import AllBannerSerializer
 from django.contrib.auth import get_user_model
 from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, status, viewsets
 from rest_framework.metadata import SimpleMetadata
@@ -513,3 +514,24 @@ def order_status(request, slug):
             return HttpResponse('Please Login <a href="/sbt/login"> Here First</a>')
     except Exception as e:
         return HttpResponse(f"Requested Order Not Found - {e}")  # form to type in order id"""
+
+
+
+
+@csrf_exempt
+def appformer_data(request):
+    if request.method == 'POST':
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        message = request.POST.get('message')
+        send_mail(
+            subject='New customer contacts you!',
+            from_email='contactus@appformers.com',
+            recipient_list=['contactus@appformers.com',],
+            fail_silently=True,
+            message=f"customer name = {first_name} +{last_name}\nphone number = {phone}\nemail = {email}\nmessage = {message}"
+        )
+        return redirect('http://www.appformers.com')
+    else: return HttpResponse('not sent')
