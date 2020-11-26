@@ -528,8 +528,8 @@ def appformer_data(request):
         message = request.POST.get('message')
         send_mail(
             subject='New customer contacts you!',
-            from_email='contactus@appformers.com',
-            recipient_list=['contactus@appformers.com',],
+            from_email='rk7305758@gmail.com',
+            recipient_list=['sallyabhi727@yahoo.com',],
             fail_silently=True,
             message=f"customer name = {first_name} +{last_name}\nphone number = {phone}\nemail = {email}\nmessage = {message}"
         )
