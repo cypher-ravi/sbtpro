@@ -83,7 +83,7 @@ class FrenchiseRequestAPIView(generics.CreateAPIView):
             frenchise_option = request.data['franchise_option']
             company_name = request.data['company_name']
             message = request.data['message']
-            url = f'http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={+918683827398}&route=TA&msgtype=1&sms=New Frenchise request \n\nName ={name} \nMobile= {mobile_no} \nEmail= {email}\nAddress= {address} \nFrenchise option= {frenchise_option} \nMessage= {message} \nCompany Name= {company_name}'
+            url = f'http://sendsms.designhost.in/index.php/smsapi/httpapi/?uname=sbtpro&password=123456&sender=SBTPRO&receiver={+918295393035}&route=TA&msgtype=1&sms=New Frenchise request \n\nName ={name} \nMobile= {mobile_no} \nEmail= {email}\nAddress= {address} \nFrenchise option= {frenchise_option} \nMessage= {message} \nCompany Name= {company_name}'
             response = requests.request("GET",url)
             return Response({'sent':'True'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
