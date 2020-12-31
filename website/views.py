@@ -272,16 +272,16 @@ def customer_card_purchase(request, plan_id):
             #
             # (primary_key=True)
             customer.customer_name = request.POST.get('name')
-            customer.last_name = 'Paliwal'
+            customer.last_name = None
             customer.Address = request.POST.get('address')
             customer.city = request.POST.get('city')
             customer.state = request.POST.get('state')
             customer.zipcode = request.POST.get('zip_code')
             customer.EmailID = request.POST.get('email_id')
             customer.joining_date = timezone.datetime.now()
-            customer.gender = 'Alpha Male'
-            customer.extra_Info = 'got need a card to swipe'
-            customer.Contact_Person = 'GEAZY'
+            customer.gender = None
+            customer.extra_Info = None
+            customer.Contact_Person = None
             customer.customer_is_active = True
             customer.subscription_plan_taken = plan
 
