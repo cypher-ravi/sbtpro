@@ -181,7 +181,7 @@ class FailedPayment(models.Model):
     currency = models.CharField(max_length=8) # INR
 
     def __str__(self):
-        return self.order_id
+        return str(self.order_id)
 
 class Job(models.Model):
     seeker_id = models.AutoField(primary_key=True)
