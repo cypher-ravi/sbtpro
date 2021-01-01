@@ -424,6 +424,7 @@ def req_handler(request):
                 order_payment.bank_txn_id = response_dict["BANKTXNID"]
                 # 2020-09-05 18:51:59.0
                 order_payment.txn_date = response_dict["TXNDATE"]
+                order_payment.bank_name = response_dict["BANKNAME"]
                 # order_payment.refund_amount =  #  0.00
                 order_payment.save()
                 payment_status = Order_Payment.objects.get(
@@ -458,6 +459,7 @@ def req_handler(request):
                 failed_payment.Payment_mode = response_dict["PAYMENTMODE"]
                 failed_payment.gateway_name = response_dict["GATEWAYNAME"]
                 failed_payment.currency = response_dict["CURRENCY"]
+
                 failed_payment.save()
                 Order.objects.filter(
                     order_id=response_dict["ORDERID"]).delete()
