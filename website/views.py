@@ -357,7 +357,7 @@ def req_handler(request):
                     response_check_sum = form[i]
 
             verify = CheckSum.verifySignature(response_dict, parameters['merchant_key'], response_check_sum)
-            verify = False
+          
             if(verify and response_dict["STATUS"] != "TXN_FAILURE") or (verify and response_dict["STATUS"] == "PENDING"):
                 order_payment = Order_Payment()
                 usr = User
