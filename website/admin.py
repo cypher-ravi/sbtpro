@@ -103,16 +103,17 @@ class FaqAdmin(admin.ModelAdmin):
 
 class FrenchiseAdmin(admin.ModelAdmin):
     list_filter = ['submit_time']
-class OrderInline(admin.StackedInline):
-    model = Order
+    
+class OrderPaymentInline(admin.StackedInline):
+    model = Order_Payment
     
 class OrderPaymentAdmin(admin.ModelAdmin):
-    inlines = [OrderInline]
+    inlines = [OrderPaymentInline]
     
 # Register your models here.
 admin.site.register(FreeListing, FreelistingAdmin)
 admin.site.register(Plan)
-admin.site.register(Order)
+admin.site.register(Order,OrderPaymentAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Upload_resume, UploadresumeAdmin)
@@ -130,5 +131,5 @@ admin.site.register(Contactviacategory, ContactviacategoryAdmin)
 admin.site.register(FrenchiseContact, FrenchiseAdmin)
 # admin.site.register(Profile)
 admin.site.register(AddTestimonial)
-admin.site.register(Order_Payment, OrderPaymentAdmin)
+admin.site.register(Order_Payment)
 admin.site.register(FailedPayment)
