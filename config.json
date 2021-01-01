@@ -2,7 +2,7 @@
     "key": "X7NYIolv893DXLunTzeTIQasdfghjkl",
     "from_email": "rk7305758@gmail.com",
     "to_email": "teamofprofessionals2015@gmail.com",
-    "BASE_URL": "https://www.sbtprofessionals.com",
+    "BASE_URL": "http://127.0.0.1:8000",
     "merchant_key": "1xw4WBSD%bD@ODkL",
     "merchant_id": "VdMxPH61970223458566",
     "SECRET_KEY": "io)y8-71d+8-kn7%*k&dk=4ri$=2&8i=!rvczc7c6m00o7tdno",

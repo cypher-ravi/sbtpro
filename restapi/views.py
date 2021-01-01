@@ -19,7 +19,7 @@ from rest_framework.response import Response
 from Vendor.pagination import PaginationForVendor
 # from Vendor.models import Vendor
 from Vendor.serializers import *
-from website.models import Categories, Order, Order_Payment, Plan
+from website.models import Categories, Order, Order_Payment, Plan, FailedPayment
 from website.PayTm import CheckSum
 from website.validations import discount_validation
 
@@ -396,7 +396,7 @@ def req_handler(request):
             verify = CheckSum.verifySignature(
                 response_dict, parameters['merchant_key'], response_check_sum)
             # response_dict["STATUS"] = "PENDING"
-            if verify and response_dict["STATUS"] != "TXN_FAILURE" or response_dict["STATUS"] == "PENDING":
+            if(verify and response_dict["STATUS"] != "TXN_FAILURE") or (verify and response_dict["STATUS"] == "PENDING"):
                 order_payment = Order_Payment()
                 usr = User
                 # id = models.AutoField(primary_key = True)
@@ -446,6 +446,19 @@ def req_handler(request):
 
                 return render(request, 'ordersucess.html', {'payment': payment_status})
             else:
+                failed_payment = FailedPayment() 
+                failed_payment.txn_date = response_dict["TXNDATE"]
+                failed_payment.response_message = response_dict["RESPMSG"]
+                failed_payment.response_code = response_dict["RESPCODE"]
+                failed_payment.bank_txn_id = response_dict["BANKTXNID"]
+                failed_payment.txn_id = response_dict["TXNID"]
+                failed_payment.txn_amount = response_dict["TXNAMOUNT"]
+                failed_payment.order_id = response_dict["ORDERID"] 
+                failed_payment.status = response_dict["STATUS"]
+                failed_payment.Payment_mode = response_dict["PAYMENTMODE"]
+                failed_payment.gateway_name = response_dict["GATEWAYNAME"]
+                failed_payment.currency = response_dict["CURRENCY"]
+                failed_payment.save()
                 Order.objects.filter(
                     order_id=response_dict["ORDERID"]).delete()
 
@@ -454,8 +467,8 @@ def req_handler(request):
             payment_status = Order_Payment.objects.get(
                 order_id=form["ORDERID"])
             # Session should create when order is get successfull
+            return HttpResponse('Order Already Placed')
 
-            return HttpResponse('Your payment  failed')
     return HttpResponse('Invalid Request')
 
 

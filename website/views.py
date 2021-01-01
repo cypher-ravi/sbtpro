@@ -265,24 +265,23 @@ def customer_card_purchase(request, plan_id):
         if request.user.is_authenticated:
             is_vendor = request.POST.get('is_vendor')
             discount = request.POST.get('discount')
-            plan = Plan.objects.get(plan_id = plan_id)
+            try:
+                plan = Plan.objects.get(plan_id=plan_id)
+            except:
+                return HttpResponse('Please enter a valid Plan Id')
+
             customer = Customer()
             customer.user = request.user
-            # customer.customer_id = models.
-            #
-            #
-            #
-            # (primary_key=True)
             customer.customer_name = request.POST.get('name')
-            customer.last_name = None
+            customer.last_name = request.POST.get('l_name')
             customer.Address = request.POST.get('address')
             customer.city = request.POST.get('city')
             customer.state = request.POST.get('state')
             customer.zipcode = request.POST.get('zip_code')
             customer.EmailID = request.POST.get('email_id')
             customer.joining_date = timezone.datetime.now()
-            customer.gender = None
-            customer.extra_Info = None
+            customer.gender = request.POST.get('gender')
+            customer.extra_Info = request.POST.get('extra_info')
             customer.Contact_Person = None
             customer.customer_is_active = True
             customer.subscription_plan_taken = plan
@@ -290,11 +289,7 @@ def customer_card_purchase(request, plan_id):
             customer.save()
             user = User.objects.filter(id=request.user.id).first()
             phone = user.phone
-            try:
-                plan = Plan.objects.get(plan_id=plan_id)
-            except:
-                return HttpResponse('Please enter a valid Plan Id')
-
+            
             try:
                 discount = int(request.POST.get('discount'))
             except ValueError:
@@ -339,14 +334,9 @@ def customer_card_purchase(request, plan_id):
             CheckSum.generateSignature
             param_dict['CHECKSUMHASH'] = CheckSum.generateSignature(
                 detail_dict, parameters['merchant_key'])
-            # print('.................', param_dict)
             return render(request, 'redirect.html', {'detail_dict': param_dict})
-
-        return HttpResponse('Either amount or Discount not Matched')
-    return render(request, 'checkout2.html', {'plan': plan})  # for checkout
-    # except Exception as e:
-    #     print("An Exception occur \n", e)
-    #     return HttpResponse(e)
+        return HttpResponse('Invalid Request')
+    return render(request, 'checkout2.html', {'plan': plan})  
 
 
 @csrf_exempt
@@ -355,49 +345,37 @@ def req_handler(request):
         response_dict = dict()
         form = request.POST
         role = {
-        'customer': 'customer',
-        'vendor': 'vendor',
-            }
-        # another if to handle if user load refresh
+        'customer' : 'customer',
+        'vendor' : 'vendor',
+        }
+
         is_order_exist = Order_Payment.objects.filter(order_id=form["ORDERID"]).exists()
         if is_order_exist == False:
-            # FOR ALL VALUES
             for i in form.keys():
                 response_dict[i] = form[i]
                 if i == "CHECKSUMHASH":
                     response_check_sum = form[i]
 
             verify = CheckSum.verifySignature(response_dict, parameters['merchant_key'], response_check_sum)
-            # response_dict["STATUS"] = "PENDING"
-            if verify and response_dict["STATUS"] != "TXN_FAILURE" or response_dict["STATUS"] == "PENDING":
+            if(verify and response_dict["STATUS"] != "TXN_FAILURE") or (verify and response_dict["STATUS"] == "PENDING"):
                 order_payment = Order_Payment()
                 usr = User
-                # id = models.AutoField(primary_key = True)
-                order = Order.objects.get(order_id=response_dict["ORDERID"])
-
-
+                try:
+                    order = Order.objects.get(order_id=response_dict["ORDERID"])
+                except:
+                    return HttpResponse('Order Not Found')
                 order_payment.order_summary = order
-                # paytm responses
                 order_payment.currency = response_dict["CURRENCY"]
                 order_payment.gateway_name = response_dict["GATEWAYNAME"]
-                # Txn Success
                 order_payment.response_message = response_dict["RESPMSG"]
-                # order_payment.bank_name = response_dict["BANKNAME"] # WALLET
-                # PPI
                 order_payment.Payment_mode = response_dict["PAYMENTMODE"]
-                # MID = models.CharField(max_length=8) # VdMxPH61970223458566
                 order_payment.response_code = response_dict["RESPCODE"]  # 01
-                # 20200905111212800110168406201874634
                 order_payment.txn_id = response_dict["TXNID"]
-                # 2400.00
                 order_payment.txn_amount = response_dict["TXNAMOUNT"]
                 order_payment.order_id = response_dict["ORDERID"]  # 6556
                 order_payment.status = response_dict["STATUS"]  # TXN_SUCCESS
-                # 63209779
                 order_payment.bank_txn_id = response_dict["BANKTXNID"]
-                # 2020-09-05 18:51:59.0
                 order_payment.txn_date = response_dict["TXNDATE"]
-                # order_payment.refund_amount =  #  0.00
                 order_payment.save()
                 payment_status = Order_Payment.objects.get(
                     order_id=response_dict["ORDERID"])
@@ -417,9 +395,22 @@ def req_handler(request):
                     vendor = Vendor.objects.filter(user=user).first()
                     vendor.registration_fee = order_payment.order_summary.plan_id
                     vendor.save()
-
                 return render(request, 'ordersucess.html', {'payment': payment_status})
             else:
+                failed_payment = FailedPayment() 
+                failed_payment.txn_date = response_dict["TXNDATE"]
+                failed_payment.response_message = response_dict["RESPMSG"]
+                failed_payment.response_code = response_dict["RESPCODE"]
+                failed_payment.bank_txn_id = response_dict["BANKTXNID"]
+                failed_payment.txn_id = response_dict["TXNID"]
+                failed_payment.txn_amount = response_dict["TXNAMOUNT"]
+                failed_payment.order_id = response_dict["ORDERID"] 
+                failed_payment.status = response_dict["STATUS"]
+                failed_payment.Payment_mode = response_dict["PAYMENTMODE"]
+                failed_payment.gateway_name = response_dict["GATEWAYNAME"]
+                failed_payment.currency = response_dict["CURRENCY"]
+                failed_payment.save()
+                
                 Order.objects.filter(
                     order_id=response_dict["ORDERID"]).delete()
                 return HttpResponse('Order is not Placed Because of some error. Please <a href="/sbt/">Try Again </a>')
@@ -427,8 +418,8 @@ def req_handler(request):
             payment_status = Order_Payment.objects.get(
                 order_id=form["ORDERID"])
             # Session should create when order is get successfull
+            return HttpResponse('Order Alerady Placed')
 
-            return HttpResponse('Your payment  failed')
     return HttpResponse('Invalid Request')
 
 
@@ -446,7 +437,7 @@ def pricing_multiplier(request):
         # print(response_dict)
         return JsonResponse(response)
 
-
+# Best for Pending
 def order_status(request, slug):
     try:
         obj = Order_Payment.objects.get(order_id=slug)
@@ -488,8 +479,8 @@ def order_status(request, slug):
             return HttpResponse("Please insert correct orderid")
         else:
             return HttpResponse('Please Login <a href="/sbt/login"> Here First</a>')
-    except Exception as e:
-        return HttpResponse(f"Requested Order Not Found - {e}")  # form to type in order id"""
+    except Exception:
+        return HttpResponse(f"Requested Order Not Found")  # form to type in order id"""
 
 
 
@@ -518,7 +509,7 @@ def verify(request):
         # if response.status_code == 408 or response.status_code == 404: # 408 - Request Time Out
         #     messages.error(request, 'Login Failed')
         #     return redirect('website:verify')
-
+        print(response.json())
         if response.json()['verified'] == True:
             user = User.objects.get(phone__iexact=phno)
             if user != None:
@@ -529,10 +520,6 @@ def verify(request):
         messages.success(request, 'Wrong OTP')
         return redirect('website:login')
        
-        
-
-
-
 def logout_view(request):
     logout(request)
     messages.success(request, 'Logged Out!')

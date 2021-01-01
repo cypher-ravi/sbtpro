@@ -167,7 +167,21 @@ class Order_Payment(models.Model):
     def __str__(self):
         return str(self.order_summary)
 
+class FailedPayment(models.Model):
+    txn_date = models.CharField(max_length=23) #  2020-09-05 18:51:59.0
+    response_message = models.TextField() # Txn Success
+    response_code = models.CharField(max_length=3) # 01
+    txn_id = models.TextField() #  20200905111212800110168406201874634
+    txn_amount = models.CharField(max_length=9) #  2400.00
+    order_id = models.IntegerField() #  6556
+    status = models.CharField(max_length=12) # TXN_SUCCESS
+    bank_txn_id = models.CharField(max_length=12) #  63209779
+    Payment_mode = models.CharField(max_length=25)# PPI
+    gateway_name = models.CharField(max_length=25) # WALLET
+    currency = models.CharField(max_length=8) # INR
 
+    def __str__(self):
+        return self.order_id
 
 class Job(models.Model):
     seeker_id = models.AutoField(primary_key=True)
