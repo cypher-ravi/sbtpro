@@ -413,8 +413,8 @@ def req_handler(request):
                 failed_payment.currency = response_dict["CURRENCY"]
                 failed_payment.save()
 
-                Order.objects.filter(
-                    order_id=response_dict["ORDERID"]).delete()
+#                 Order.objects.filter(
+#                     order_id=response_dict["ORDERID"]).delete()
                 return HttpResponse('Order is not Placed Because of some error. Please <a href="/sbt/">Try Again </a>')
         else:
             payment_status = Order_Payment.objects.get(
