@@ -278,7 +278,7 @@ def customer_card_purchase(request, plan_id):
             customer.city = request.POST.get('city')
             customer.state = request.POST.get('state')
             customer.zipcode = request.POST.get('zip_code')
-            customer.EmailID = request.POST.get('email_id')
+            customer.EmailID = request.POST.get('email')
             customer.joining_date = timezone.datetime.now()
             customer.gender = request.POST.get('gender')
             customer.extra_Info = request.POST.get('extra_info')
@@ -305,7 +305,7 @@ def customer_card_purchase(request, plan_id):
                 amount = plan.plan_amount
 
             order_id = random.randint(1, 999999)
-            email_id = request.POST.get('email_id')
+            email_id = request.POST.get('email')
             name = request.POST.get('name')
             address =request.POST.get('address')
             state =  request.POST.get('state')
@@ -314,7 +314,7 @@ def customer_card_purchase(request, plan_id):
             plan_id = plan.plan_id
 
             # Check if user not provide any discount value
-            order = Order(name=name, user=user, phone=phone, address=address, city=city,
+            order = Order(name=name, email_id=email_id, user=user, phone=phone, address=address, city=city,
                             state=state, zip_code=zip_code, amount=amount, discount=discount,order_id=order_id, plan_id=plan, order_completed=False,role='customer')
             order.save()
 
@@ -357,6 +357,7 @@ def req_handler(request):
                     response_check_sum = form[i]
 
             verify = CheckSum.verifySignature(response_dict, parameters['merchant_key'], response_check_sum)
+            verify = False
             if(verify and response_dict["STATUS"] != "TXN_FAILURE") or (verify and response_dict["STATUS"] == "PENDING"):
                 order_payment = Order_Payment()
                 usr = User
@@ -376,6 +377,7 @@ def req_handler(request):
                 order_payment.status = response_dict["STATUS"]  # TXN_SUCCESS
                 order_payment.bank_txn_id = response_dict["BANKTXNID"]
                 order_payment.txn_date = response_dict["TXNDATE"]
+                order_payment.bank_name = response_dict["BANKNAME"]
                 order_payment.save()
                 payment_status = Order_Payment.objects.get(
                     order_id=response_dict["ORDERID"])
@@ -410,7 +412,7 @@ def req_handler(request):
                 failed_payment.gateway_name = response_dict["GATEWAYNAME"]
                 failed_payment.currency = response_dict["CURRENCY"]
                 failed_payment.save()
-                
+
                 Order.objects.filter(
                     order_id=response_dict["ORDERID"]).delete()
                 return HttpResponse('Order is not Placed Because of some error. Please <a href="/sbt/">Try Again </a>')
