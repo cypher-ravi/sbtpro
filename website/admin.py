@@ -103,8 +103,12 @@ class FaqAdmin(admin.ModelAdmin):
 
 class FrenchiseAdmin(admin.ModelAdmin):
     list_filter = ['submit_time']
-
-
+class OrderInline(admin.StackedInline):
+    model = Order
+    
+class OrderPaymentAdmin(admin.ModelAdmin):
+    inlines = [OrderInline]
+    
 # Register your models here.
 admin.site.register(FreeListing, FreelistingAdmin)
 admin.site.register(Plan)
