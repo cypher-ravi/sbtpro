@@ -308,9 +308,9 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
 
             # sending details to paytm gateway in form of dict
             detail_dict = {
-                "MID": parameters['merchant_id'],
-                "WEBSITE": "WEBSTAGING",
-                "INDUSTRY_TYPE_ID": "DEFAULT",
+                "MID":"bPYtDh39113697597251",
+                "WEBSITE": "DEFAULT",
+                "INDUSTRY_TYPE_ID": "Retail",
                 "CUST_ID": str(email_id),
                 "CHANNEL_ID": "WEB",
                 "ORDER_ID": str(order_id),
@@ -352,8 +352,8 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
             order.save()
             # sending details to paytm gateway in form of dict
             detail_dict = {
-                "MID": parameters['merchant_id'],
-                "WEBSITE": "WEBSTAGING",
+                "MID": "bPYtDh39113697597251",
+                "WEBSITE": "DEFAULT",
                 "INDUSTRY_TYPE_ID": "Retail",
                 "CUST_ID": str(email_id),
                 "CHANNEL_ID": "WEB",
