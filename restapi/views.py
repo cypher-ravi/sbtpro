@@ -310,7 +310,7 @@ def customer_card_purchase(request, plan_id, customer_id, user,role):
             detail_dict = {
                 "MID": parameters['merchant_id'],
                 "WEBSITE": "WEBSTAGING",
-                "INDUSTRY_TYPE_ID": "Retail",
+                "INDUSTRY_TYPE_ID": "DEFAULT",
                 "CUST_ID": str(email_id),
                 "CHANNEL_ID": "WEB",
                 "ORDER_ID": str(order_id),
