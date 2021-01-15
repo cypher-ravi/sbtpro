@@ -2,7 +2,7 @@
 {% load static%}
 
 {% block body %}
-	<form method="POST" action="https://securegw-stage.paytm.in/order/status" >
+	<form method="POST" action="https://securegw.paytm.in/order/status" >
 		{% for key, val in paytm_params %}
 			<input type="hidden" name="{{key}}" value="{{val}}">
 		{% endfor %}
