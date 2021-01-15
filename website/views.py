@@ -47,8 +47,8 @@ from .validations import *
 
 
 # ! NEVER SHOW MERCHANT ID AND KEY !
-MID = "VdMxPH61970223458566"  # MERCHANT ID
-MKEY = "1xw4WBSD%bD@ODkL"  # MERCHANT KEY
+MID = "bPYtDh39113697597251"  # MERCHANT ID
+MKEY = "YX24Rc1vgjPCPs5@"  # MERCHANT KEY
 
 fn = pathlib.Path(__file__).parent.parent / 'config.json'
 with open(fn,"r") as params:
@@ -321,7 +321,7 @@ def customer_card_purchase(request, plan_id):
             # sending details to paytm gateway in form of dict
             detail_dict = {
                 "MID": parameters['merchant_id'],
-                "WEBSITE": "WEBSTAGING",
+                "WEBSITE": "DEFAULT",
                 "INDUSTRY_TYPE_ID": "Retail",
                 "CUST_ID": str(email_id),
                 "CHANNEL_ID": "WEB",
