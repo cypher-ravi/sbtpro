@@ -504,10 +504,10 @@ def order_status(request, slug):
             post_data = json.dumps(paytmParams)
 
             # for Staging
-            url = "https://securegw-stage.paytm.in/order/status"
+#             url = "https://securegw-stage.paytm.in/order/status"
 
-            # for Production
-            # url = "https://securegw.paytm.in/order/status"
+#             for Production
+            url = "https://securegw.paytm.in/order/status"
 
             response = requests.post(url, data=post_data, headers={"Content-type": "application/json"}).json()
 
