@@ -23,7 +23,6 @@ class DailyAttendanceAdmin(admin.ModelAdmin):
     list_filter = ['punch_time']
     list_per_page = 20
 
-
 admin.site.register(Employee,EmployeeAdmin)
 admin.site.register(DailyAttendance,DailyAttendanceAdmin)
 

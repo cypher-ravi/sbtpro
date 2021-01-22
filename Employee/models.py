@@ -1,7 +1,7 @@
 from dashboard.models import Branch
 from django.contrib.auth import get_user_model
 from django.db import models
-
+from geopy.geocoders import Nominatim
 User = get_user_model()
 
 GENDER_CHOICES = (
@@ -71,13 +71,31 @@ class DailyAttendance(models.Model):
     employee = models.ForeignKey(Employee,on_delete=models.CASCADE,null=True,blank=True)
 
     punching_in = models.CharField(max_length=20,choices=ATTENDACE_CHOICES,default='False')
+    punch_in_address = models.CharField(max_length=225,default='',blank=True,null=True)
     punch_time = models.DateTimeField(auto_now_add=True)
-    punching_out_time = models.CharField(max_length=50,default='')
+    punching_out_time = models.CharField(max_length=50,default='',blank=True,null=True)
+    punch_out_address = models.CharField(max_length=225,default='',blank=True,null=True)
     vendor = models.CharField(max_length=50,null=True,blank=True)
     work_description = models.TextField(max_length=1000,null=True,blank=True)
     longitude = models.CharField(max_length=100,null=True,blank=True)
     latitude = models.CharField(max_length=100,null=True,blank=True)
     user = models.IntegerField(null=True,blank=True)
+
+    def save(self, *args, **kwargs):
+        
+        if self.longitude and self.latitude and  self.punching_out_time:
+            geolocator = Nominatim(user_agent="Employee")
+            location = geolocator.reverse(f"{self.latitude}, {self.longitude}")
+            self.punch_out_address = location
+            super(DailyAttendance, self).save(*args, **kwargs)
+        elif self.longitude and self.latitude and self.punching_in == 'True':
+            geolocator = Nominatim(user_agent="Employee")
+            location = geolocator.reverse(f"{self.latitude}, {self.longitude}")
+            self.punch_in_address = location
+            super(DailyAttendance, self).save(*args, **kwargs)
+        else:
+            super(DailyAttendance, self).save(*args, **kwargs)
+
 
     def __str__(self):
         return str(self.employee) + ' today punch time is ' + str(self.punch_time)
